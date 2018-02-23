@@ -1,0 +1,7 @@
+ssh-keygen -t rsa -b 4096 -C "mads3009@gmail.com"
+cat key.pub 
+git clone https://github.com/mads3009/uarch_project
+git config --global user.name "Madhuri Gontala"
+git config --global user.email "mads3009@gmail.com"
+git remote set-url origin https://mads3009:password@github.com/mads3009/uarch_project
+git config -l //shows the current configuration
