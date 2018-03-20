@@ -1,0 +1,882 @@
+{
+    "stat": {
+        "ru_self_cgstart": {
+            "ru_minflt": 13270,
+            "ru_utime_sec": 0.19896900000000001,
+            "ru_maxrss_kb": 56924,
+            "ru_stime_sec": 0.035993999999999998,
+            "ru_majflt": 0,
+            "ru_nivcsw": 50,
+            "ru_nvcsw": 302
+        },
+        "nMops": 87,
+        "ru_childs_cgstart": {
+            "ru_minflt": 0,
+            "ru_utime_sec": 0.0,
+            "ru_maxrss_kb": 0,
+            "ru_stime_sec": 0.0,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0,
+            "ru_nvcsw": 0
+        },
+        "nQuads": 68,
+        "totalObjSize": 108068,
+        "ru_self_end": {
+            "ru_minflt": 15132,
+            "ru_utime_sec": 0.20496800000000001,
+            "ru_maxrss_kb": 63084,
+            "ru_stime_sec": 0.041993000000000003,
+            "ru_majflt": 0,
+            "ru_nivcsw": 66,
+            "ru_nvcsw": 373
+        },
+        "ru_childs_end": {
+            "ru_minflt": 0,
+            "ru_utime_sec": 0.0,
+            "ru_maxrss_kb": 0,
+            "ru_stime_sec": 0.0,
+            "ru_majflt": 0,
+            "ru_nivcsw": 0,
+            "ru_nvcsw": 0
+        },
+        "outputSizePerQuad": 1589.0,
+        "Frontend(%)": 97.073201670504673,
+        "CodeGen(%)": 2.9267983294953379
+    },
+    "Misc": {
+        "csrc_abs": "/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/csrc",
+        "cwd": "/home/ecelrc/students/sshaikh1/microarch/koggestoneadder",
+        "default_output_dir": "csrc",
+        "daidir_abs": "/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/simv.daidir",
+        "csrc": "csrc",
+        "daidir": "simv.daidir",
+        "archive_dir": "archive.4"
+    },
+    "MlibObjs": {},
+    "PrevCompiledModules": {
+        "black": {
+            "YQinR_d": {
+                "bytes": 11041,
+                "checksum": 4294967295,
+                "mod": "black",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "YQinR_d.o",
+                "mode": 4
+            }
+        },
+        "tristateL$": {
+            "FnCvq_d": {
+                "bytes": 8649,
+                "checksum": 4294967295,
+                "mod": "tristateL$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "FnCvq_d.o",
+                "mode": 4
+            }
+        },
+        "tristate_bus_driver16$": {
+            "s8L2V_d": {
+                "bytes": 8087,
+                "checksum": 4294967295,
+                "mod": "tristate_bus_driver16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "s8L2V_d.o",
+                "mode": 4
+            }
+        },
+        "dff16b$": {
+            "zTBIE_d": {
+                "bytes": 12178,
+                "checksum": 4294967295,
+                "mod": "dff16b$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "zTBIE_d.o",
+                "mode": 4
+            }
+        },
+        "bufferH64$": {
+            "PViGI_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferH64$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "PViGI_d.o",
+                "mode": 4
+            }
+        },
+        "reg32e$": {
+            "d2Yfq_d": {
+                "bytes": 12490,
+                "checksum": 4294967295,
+                "mod": "reg32e$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "d2Yfq_d.o",
+                "mode": 4
+            }
+        },
+        "bufferHInv256$": {
+            "dDgCy_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferHInv256$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "dDgCy_d.o",
+                "mode": 4
+            }
+        },
+        "FA": {
+            "VDQdt_d": {
+                "bytes": 13206,
+                "checksum": 4294967295,
+                "mod": "FA",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "VDQdt_d.o",
+                "mode": 4
+            }
+        },
+        "tristate16H$": {
+            "PQH7a_d": {
+                "bytes": 8055,
+                "checksum": 4294967295,
+                "mod": "tristate16H$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "PQH7a_d.o",
+                "mode": 4
+            }
+        },
+        "TOP": {
+            "ThQKx_d": {
+                "bytes": 42347,
+                "checksum": 4294967295,
+                "mod": "TOP",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "ThQKx_d.o",
+                "mode": 4
+            }
+        },
+        "or2$": {
+            "HYgzw_d": {
+                "bytes": 7340,
+                "checksum": 4294967295,
+                "mod": "or2$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "HYgzw_d.o",
+                "mode": 4
+            }
+        },
+        "or4$": {
+            "Z8whs_d": {
+                "bytes": 8045,
+                "checksum": 4294967295,
+                "mod": "or4$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "Z8whs_d.o",
+                "mode": 4
+            }
+        },
+        "bufferHInv1024$": {
+            "IgGNx_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferHInv1024$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "IgGNx_d.o",
+                "mode": 4
+            }
+        },
+        "bufferH1024$": {
+            "HE2ZM_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferH1024$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "HE2ZM_d.o",
+                "mode": 4
+            }
+        },
+        "PG": {
+            "h9wM7_d": {
+                "bytes": 8685,
+                "checksum": 4294967295,
+                "mod": "PG",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "h9wM7_d.o",
+                "mode": 4
+            }
+        },
+        "or3$": {
+            "PshGg_d": {
+                "bytes": 7681,
+                "checksum": 4294967295,
+                "mod": "or3$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "PshGg_d.o",
+                "mode": 4
+            }
+        },
+        "dff8$": {
+            "jQsNd_d": {
+                "bytes": 11896,
+                "checksum": 4294967295,
+                "mod": "dff8$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "jQsNd_d.o",
+                "mode": 4
+            }
+        },
+        "ioreg16$": {
+            "nvHk0_d": {
+                "bytes": 12330,
+                "checksum": 4294967295,
+                "mod": "ioreg16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "nvHk0_d.o",
+                "mode": 4
+            }
+        },
+        "nand4$": {
+            "pMIy1_d": {
+                "bytes": 8051,
+                "checksum": 4294967295,
+                "mod": "nand4$",
+                "mode": 4,
+                "out": "pMIy1_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "grey": {
+            "JMu71_d": {
+                "bytes": 9909,
+                "checksum": 4294967295,
+                "mod": "grey",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "JMu71_d.o",
+                "mode": 4
+            }
+        },
+        "nor3$": {
+            "KYk6D_d": {
+                "bytes": 7690,
+                "checksum": 4294967295,
+                "mod": "nor3$",
+                "mode": 4,
+                "out": "KYk6D_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "nor2$": {
+            "qziQy_d": {
+                "bytes": 7341,
+                "checksum": 4294967295,
+                "mod": "nor2$",
+                "mode": 4,
+                "out": "qziQy_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "buffer16$": {
+            "vJF8R_d": {
+                "bytes": 6737,
+                "checksum": 4294967295,
+                "mod": "buffer16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "vJF8R_d.o",
+                "mode": 4
+            }
+        },
+        "xnor2$": {
+            "i48Ip_d": {
+                "bytes": 7342,
+                "checksum": 4294967295,
+                "mod": "xnor2$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "i48Ip_d.o",
+                "mode": 4
+            }
+        },
+        "latch8$": {
+            "nG9Qp_d": {
+                "bytes": 11686,
+                "checksum": 4294967295,
+                "mod": "latch8$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "nG9Qp_d.o",
+                "mode": 4
+            }
+        },
+        "bufferHInv16$": {
+            "hb0rt_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferHInv16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "hb0rt_d.o",
+                "mode": 4
+            }
+        },
+        "nor4$": {
+            "w39hk_d": {
+                "bytes": 8050,
+                "checksum": 4294967295,
+                "mod": "nor4$",
+                "mode": 4,
+                "out": "w39hk_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "ioreg8$": {
+            "KEhV6_d": {
+                "bytes": 12296,
+                "checksum": 4294967295,
+                "mod": "ioreg8$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "KEhV6_d.o",
+                "mode": 4
+            }
+        },
+        "tristate8H$": {
+            "xws7j_d": {
+                "bytes": 8054,
+                "checksum": 4294967295,
+                "mod": "tristate8H$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "xws7j_d.o",
+                "mode": 4
+            }
+        },
+        "timeunit": {
+            "H0Y6L_d": {
+                "bytes": 7607,
+                "checksum": 4294967295,
+                "mod": "timeunit",
+                "mode": 4,
+                "out": "H0Y6L_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "jkff16$": {
+            "pQavA_d": {
+                "bytes": 12910,
+                "checksum": 4294967295,
+                "mod": "jkff16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "pQavA_d.o",
+                "mode": 4
+            }
+        },
+        "reg64e$": {
+            "HLtSR_d": {
+                "bytes": 13300,
+                "checksum": 4294967295,
+                "mod": "reg64e$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "HLtSR_d.o",
+                "mode": 4
+            }
+        },
+        "dff$": {
+            "SD5jH_d": {
+                "bytes": 12507,
+                "checksum": 4294967295,
+                "mod": "dff$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "SD5jH_d.o",
+                "mode": 4
+            }
+        },
+        "dff16$": {
+            "SCu9C_d": {
+                "bytes": 11898,
+                "checksum": 4294967295,
+                "mod": "dff16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "SCu9C_d.o",
+                "mode": 4
+            }
+        },
+        "buffer8$": {
+            "QFH1S_d": {
+                "bytes": 6736,
+                "checksum": 4294967295,
+                "mod": "buffer8$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "QFH1S_d.o",
+                "mode": 4
+            }
+        },
+        "latch$": {
+            "s37Em_d": {
+                "bytes": 13103,
+                "checksum": 4294967295,
+                "mod": "latch$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "s37Em_d.o",
+                "mode": 4
+            }
+        },
+        "tristate_bus_driver1$": {
+            "VZaFA_d": {
+                "bytes": 7077,
+                "checksum": 4294967295,
+                "mod": "tristate_bus_driver1$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "VZaFA_d.o",
+                "mode": 4
+            }
+        },
+        "bufferH16$": {
+            "bxTVL_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferH16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "bxTVL_d.o",
+                "mode": 4
+            }
+        },
+        "tristate16L$": {
+            "dSMzD_d": {
+                "bytes": 8055,
+                "checksum": 4294967295,
+                "mod": "tristate16L$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "dSMzD_d.o",
+                "mode": 4
+            }
+        },
+        "latch_sr": {
+            "latch_sr": {
+                "bytes": 0,
+                "mod": "latch_sr",
+                "mode": 4,
+                "out": "objs/udps/H4YNa.o"
+            }
+        },
+        "table_dffq": {
+            "table_dffq": {
+                "bytes": 0,
+                "mod": "table_dffq",
+                "mode": 4,
+                "out": "objs/udps/abmDd.o"
+            }
+        },
+        "...MASTER...": {
+            "amcQw_d": {
+                "bytes": 18343,
+                "checksum": 4294967295,
+                "mod": "...MASTER...",
+                "out": "objs/amcQw_d.o",
+                "mode": 4
+            }
+        },
+        "latch16$": {
+            "svdej_d": {
+                "bytes": 11720,
+                "checksum": 4294967295,
+                "mod": "latch16$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "svdej_d.o",
+                "mode": 4
+            }
+        },
+        "jkff8$": {
+            "JgZKg_d": {
+                "bytes": 12908,
+                "checksum": 4294967295,
+                "mod": "jkff8$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "JgZKg_d.o",
+                "mode": 4
+            }
+        },
+        "bufferH256$": {
+            "vg2m6_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferH256$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "vg2m6_d.o",
+                "mode": 4
+            }
+        },
+        "tristate8L$": {
+            "F2ANb_d": {
+                "bytes": 8054,
+                "checksum": 4294967295,
+                "mod": "tristate8L$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "F2ANb_d.o",
+                "mode": 4
+            }
+        },
+        "tristate_bus_driver8$": {
+            "qL8KW_d": {
+                "bytes": 8086,
+                "checksum": 4294967295,
+                "mod": "tristate_bus_driver8$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "qL8KW_d.o",
+                "mode": 4
+            }
+        },
+        "and3$": {
+            "Z9uSW_d": {
+                "bytes": 7690,
+                "checksum": 4294967295,
+                "mod": "and3$",
+                "mode": 4,
+                "out": "Z9uSW_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "and4$": {
+            "mm9mm_d": {
+                "bytes": 8046,
+                "checksum": 4294967295,
+                "mod": "and4$",
+                "mode": 4,
+                "out": "mm9mm_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "nand3$": {
+            "icZA4_d": {
+                "bytes": 7683,
+                "checksum": 4294967295,
+                "mod": "nand3$",
+                "mode": 4,
+                "out": "icZA4_d.o",
+                "archive": "archive.4/_prev_archive_1.a"
+            }
+        },
+        "tristateH$": {
+            "N5Ba1_d": {
+                "bytes": 7731,
+                "checksum": 4294967295,
+                "mod": "tristateH$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "N5Ba1_d.o",
+                "mode": 4
+            }
+        },
+        "dff32b$": {
+            "MxKy0_d": {
+                "bytes": 12014,
+                "checksum": 4294967295,
+                "mod": "dff32b$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "MxKy0_d.o",
+                "mode": 4
+            }
+        },
+        "bufferHInv64$": {
+            "YYuYM_d": {
+                "bytes": 6104,
+                "checksum": 4294967295,
+                "mod": "bufferHInv64$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "YYuYM_d.o",
+                "mode": 4
+            }
+        },
+        "buffer$": {
+            "FNzcy_d": {
+                "bytes": 6072,
+                "checksum": 4294967295,
+                "mod": "buffer$",
+                "archive": "archive.4/_prev_archive_1.a",
+                "out": "FNzcy_d.o",
+                "mode": 4
+            }
+        }
+    },
+    "SIMBData": {
+        "out": "amcQwB.o",
+        "bytes": 89725
+    },
+    "NameTable": {
+        "timeunit": [
+            "timeunit",
+            "H0Y6L",
+            "module"
+        ],
+        "jkff16$": [
+            "jkff160x24",
+            "pQavA",
+            "module"
+        ],
+        "nand3$": [
+            "nand30x24",
+            "icZA4",
+            "module"
+        ],
+        "grey": [
+            "grey",
+            "JMu71",
+            "module"
+        ],
+        "nand4$": [
+            "nand40x24",
+            "pMIy1",
+            "module"
+        ],
+        "nor2$": [
+            "nor20x24",
+            "qziQy",
+            "module"
+        ],
+        "nor3$": [
+            "nor30x24",
+            "KYk6D",
+            "module"
+        ],
+        "buffer16$": [
+            "buffer160x24",
+            "vJF8R",
+            "module"
+        ],
+        "and3$": [
+            "and30x24",
+            "Z9uSW",
+            "module"
+        ],
+        "ioreg8$": [
+            "ioreg80x24",
+            "KEhV6",
+            "module"
+        ],
+        "tristate8H$": [
+            "tristate8H0x24",
+            "xws7j",
+            "module"
+        ],
+        "nor4$": [
+            "nor40x24",
+            "w39hk",
+            "module"
+        ],
+        "and4$": [
+            "and40x24",
+            "mm9mm",
+            "module"
+        ],
+        "or4$": [
+            "or40x24",
+            "Z8whs",
+            "module"
+        ],
+        "or2$": [
+            "or20x24",
+            "HYgzw",
+            "module"
+        ],
+        "bufferHInv1024$": [
+            "bufferHInv10240x24",
+            "IgGNx",
+            "module"
+        ],
+        "PG": [
+            "PG",
+            "h9wM7",
+            "module"
+        ],
+        "bufferH1024$": [
+            "bufferH10240x24",
+            "HE2ZM",
+            "module"
+        ],
+        "dff16$": [
+            "dff160x24",
+            "SCu9C",
+            "module"
+        ],
+        "dff$": [
+            "dff0x24",
+            "SD5jH",
+            "module"
+        ],
+        "or3$": [
+            "or30x24",
+            "PshGg",
+            "module"
+        ],
+        "xnor2$": [
+            "xnor20x24",
+            "i48Ip",
+            "module"
+        ],
+        "ioreg16$": [
+            "ioreg160x24",
+            "nvHk0",
+            "module"
+        ],
+        "dff8$": [
+            "dff80x24",
+            "jQsNd",
+            "module"
+        ],
+        "jkff8$": [
+            "jkff80x24",
+            "JgZKg",
+            "module"
+        ],
+        "buffer$": [
+            "buffer0x24",
+            "FNzcy",
+            "module"
+        ],
+        "bufferH256$": [
+            "bufferH2560x24",
+            "vg2m6",
+            "module"
+        ],
+        "buffer8$": [
+            "buffer80x24",
+            "QFH1S",
+            "module"
+        ],
+        "tristate16L$": [
+            "tristate16L0x24",
+            "dSMzD",
+            "module"
+        ],
+        "bufferH16$": [
+            "bufferH160x24",
+            "bxTVL",
+            "module"
+        ],
+        "bufferHInv256$": [
+            "bufferHInv2560x24",
+            "dDgCy",
+            "module"
+        ],
+        "reg32e$": [
+            "reg32e0x24",
+            "d2Yfq",
+            "module"
+        ],
+        "bufferH64$": [
+            "bufferH640x24",
+            "PViGI",
+            "module"
+        ],
+        "bufferHInv16$": [
+            "bufferHInv160x24",
+            "hb0rt",
+            "module"
+        ],
+        "latch8$": [
+            "latch80x24",
+            "nG9Qp",
+            "module"
+        ],
+        "bufferHInv64$": [
+            "bufferHInv640x24",
+            "YYuYM",
+            "module"
+        ],
+        "latch$": [
+            "latch0x24",
+            "s37Em",
+            "module"
+        ],
+        "table_dffq": [
+            "table_dffq",
+            "abmDd",
+            "udp"
+        ],
+        "...MASTER...": [
+            "SIM",
+            "amcQw",
+            "module"
+        ],
+        "latch16$": [
+            "latch160x24",
+            "svdej",
+            "module"
+        ],
+        "black": [
+            "black",
+            "YQinR",
+            "module"
+        ],
+        "tristate_bus_driver16$": [
+            "tristate_bus_driver160x24",
+            "s8L2V",
+            "module"
+        ],
+        "tristateL$": [
+            "tristateL0x24",
+            "FnCvq",
+            "module"
+        ],
+        "tristate8L$": [
+            "tristate8L0x24",
+            "F2ANb",
+            "module"
+        ],
+        "tristateH$": [
+            "tristateH0x24",
+            "N5Ba1",
+            "module"
+        ],
+        "FA": [
+            "FA",
+            "VDQdt",
+            "module"
+        ],
+        "tristate16H$": [
+            "tristate16H0x24",
+            "PQH7a",
+            "module"
+        ],
+        "tristate_bus_driver1$": [
+            "tristate_bus_driver10x24",
+            "VZaFA",
+            "module"
+        ],
+        "tristate_bus_driver8$": [
+            "tristate_bus_driver80x24",
+            "qL8KW",
+            "module"
+        ],
+        "dff16b$": [
+            "dff16b0x24",
+            "zTBIE",
+            "module"
+        ],
+        "dff32b$": [
+            "dff32b0x24",
+            "MxKy0",
+            "module"
+        ],
+        "reg64e$": [
+            "reg64e0x24",
+            "HLtSR",
+            "module"
+        ],
+        "TOP": [
+            "TOP",
+            "ThQKx",
+            "module"
+        ],
+        "latch_sr": [
+            "latch_sr",
+            "H4YNa",
+            "udp"
+        ]
+    },
+    "LVLData": [
+        "SIM"
+    ],
+    "CompileStrategy": "fullobj",
+    "CurCompileModules": [
+        "...MASTER..."
+    ],
+    "CurCompileUdps": {},
+    "PEModules": [],
+    "CompileProcesses": [
+        "cgproc.4619.json"
+    ],
+    "CompileStatus": "Successful"
+}

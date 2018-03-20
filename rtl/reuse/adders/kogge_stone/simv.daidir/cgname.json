@@ -1,0 +1,272 @@
+{
+    "timeunit": [
+        "timeunit",
+        "H0Y6L",
+        "module"
+    ],
+    "jkff16$": [
+        "jkff160x24",
+        "pQavA",
+        "module"
+    ],
+    "nand3$": [
+        "nand30x24",
+        "icZA4",
+        "module"
+    ],
+    "grey": [
+        "grey",
+        "JMu71",
+        "module"
+    ],
+    "nand4$": [
+        "nand40x24",
+        "pMIy1",
+        "module"
+    ],
+    "nor2$": [
+        "nor20x24",
+        "qziQy",
+        "module"
+    ],
+    "nor3$": [
+        "nor30x24",
+        "KYk6D",
+        "module"
+    ],
+    "buffer16$": [
+        "buffer160x24",
+        "vJF8R",
+        "module"
+    ],
+    "and3$": [
+        "and30x24",
+        "Z9uSW",
+        "module"
+    ],
+    "ioreg8$": [
+        "ioreg80x24",
+        "KEhV6",
+        "module"
+    ],
+    "tristate8H$": [
+        "tristate8H0x24",
+        "xws7j",
+        "module"
+    ],
+    "nor4$": [
+        "nor40x24",
+        "w39hk",
+        "module"
+    ],
+    "and4$": [
+        "and40x24",
+        "mm9mm",
+        "module"
+    ],
+    "or4$": [
+        "or40x24",
+        "Z8whs",
+        "module"
+    ],
+    "or2$": [
+        "or20x24",
+        "HYgzw",
+        "module"
+    ],
+    "bufferHInv1024$": [
+        "bufferHInv10240x24",
+        "IgGNx",
+        "module"
+    ],
+    "PG": [
+        "PG",
+        "h9wM7",
+        "module"
+    ],
+    "bufferH1024$": [
+        "bufferH10240x24",
+        "HE2ZM",
+        "module"
+    ],
+    "dff16$": [
+        "dff160x24",
+        "SCu9C",
+        "module"
+    ],
+    "dff$": [
+        "dff0x24",
+        "SD5jH",
+        "module"
+    ],
+    "or3$": [
+        "or30x24",
+        "PshGg",
+        "module"
+    ],
+    "xnor2$": [
+        "xnor20x24",
+        "i48Ip",
+        "module"
+    ],
+    "ioreg16$": [
+        "ioreg160x24",
+        "nvHk0",
+        "module"
+    ],
+    "dff8$": [
+        "dff80x24",
+        "jQsNd",
+        "module"
+    ],
+    "jkff8$": [
+        "jkff80x24",
+        "JgZKg",
+        "module"
+    ],
+    "buffer$": [
+        "buffer0x24",
+        "FNzcy",
+        "module"
+    ],
+    "bufferH256$": [
+        "bufferH2560x24",
+        "vg2m6",
+        "module"
+    ],
+    "buffer8$": [
+        "buffer80x24",
+        "QFH1S",
+        "module"
+    ],
+    "tristate16L$": [
+        "tristate16L0x24",
+        "dSMzD",
+        "module"
+    ],
+    "bufferH16$": [
+        "bufferH160x24",
+        "bxTVL",
+        "module"
+    ],
+    "bufferHInv256$": [
+        "bufferHInv2560x24",
+        "dDgCy",
+        "module"
+    ],
+    "reg32e$": [
+        "reg32e0x24",
+        "d2Yfq",
+        "module"
+    ],
+    "bufferH64$": [
+        "bufferH640x24",
+        "PViGI",
+        "module"
+    ],
+    "bufferHInv16$": [
+        "bufferHInv160x24",
+        "hb0rt",
+        "module"
+    ],
+    "latch8$": [
+        "latch80x24",
+        "nG9Qp",
+        "module"
+    ],
+    "bufferHInv64$": [
+        "bufferHInv640x24",
+        "YYuYM",
+        "module"
+    ],
+    "latch$": [
+        "latch0x24",
+        "s37Em",
+        "module"
+    ],
+    "table_dffq": [
+        "table_dffq",
+        "abmDd",
+        "udp"
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module"
+    ],
+    "latch16$": [
+        "latch160x24",
+        "svdej",
+        "module"
+    ],
+    "black": [
+        "black",
+        "YQinR",
+        "module"
+    ],
+    "tristate_bus_driver16$": [
+        "tristate_bus_driver160x24",
+        "s8L2V",
+        "module"
+    ],
+    "tristateL$": [
+        "tristateL0x24",
+        "FnCvq",
+        "module"
+    ],
+    "tristate8L$": [
+        "tristate8L0x24",
+        "F2ANb",
+        "module"
+    ],
+    "tristateH$": [
+        "tristateH0x24",
+        "N5Ba1",
+        "module"
+    ],
+    "FA": [
+        "FA",
+        "VDQdt",
+        "module"
+    ],
+    "tristate16H$": [
+        "tristate16H0x24",
+        "PQH7a",
+        "module"
+    ],
+    "tristate_bus_driver1$": [
+        "tristate_bus_driver10x24",
+        "VZaFA",
+        "module"
+    ],
+    "tristate_bus_driver8$": [
+        "tristate_bus_driver80x24",
+        "qL8KW",
+        "module"
+    ],
+    "dff16b$": [
+        "dff16b0x24",
+        "zTBIE",
+        "module"
+    ],
+    "dff32b$": [
+        "dff32b0x24",
+        "MxKy0",
+        "module"
+    ],
+    "reg64e$": [
+        "reg64e0x24",
+        "HLtSR",
+        "module"
+    ],
+    "TOP": [
+        "TOP",
+        "ThQKx",
+        "module"
+    ],
+    "latch_sr": [
+        "latch_sr",
+        "H4YNa",
+        "udp"
+    ]
+}

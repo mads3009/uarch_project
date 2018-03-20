@@ -1,0 +1,599 @@
+#----------------------------------------
+# JasperGold Version Info
+# tool      : JasperGold 2015.09
+# platform  : Linux 2.6.32-696.18.7.el6.x86_64
+# version   : 2015.09 FCS 64 bits
+# build date: 2015.09.29 22:07:32 PDT
+#----------------------------------------
+# started Wed Mar 14 20:27:28 CDT 2018
+# hostname  : kamek
+# pid       : 21236
+# arguments : '-label' 'session_0' '-console' 'kamek:44095' '-style' 'windows' '-proj' '/home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/jgproject/sessionLogs/session_0' '-init' '-hidden' '/home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/jgproject/.tmp/.initCmds.tcl'
+
+Any disclosure about the Cadence Design Systems software or its use
+model to any third party violates the written Non-Disclosure Agreement
+between Cadence Design Systems, Inc. and the customer.
+
+THIS SOFTWARE CONTAINS CONFIDENTIAL INFORMATION AND TRADE SECRETS OF
+CADENCE DESIGN SYSTEMS, INC. USE, DISCLOSURE, OR REPRODUCTION IS
+PROHIBITED WITHOUT THE PRIOR EXPRESS WRITTEN PERMISSION OF CADENCE
+DESIGN SYSTEMS, INC.
+
+Copyright (C) 2000-2015 Cadence Design Systems, Inc. All Rights
+Reserved.  Unpublished -- rights reserved under the copyright laws of
+the United States.
+
+This product includes software developed by others and redistributed
+according to license agreement. See doc/third_party_readme.txt for
+further details.
+
+RESTRICTED RIGHTS LEGEND
+
+Use, duplication, or disclosure by the Government is subject to
+restrictions as set forth in subparagraph (c) (1) (ii) of the Rights in
+Technical Data and Computer Software clause at DFARS 252.227-7013 or
+subparagraphs (c) (1) and (2) of Commercial Computer Software -- Restricted
+Rights at 48 CFR 52.227-19, as applicable.
+
+
+                          Cadence Design Systems, Inc. 
+                          2655 Seely Avenue
+                          San Jose, CA 95134
+                          Phone: 408.943.1234
+
+For technical assistance visit http://support.cadence.com.
+
+JasperGold Apps Analysis Session - /home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/jgproject/sessionLogs/session_0
+
+INFO: successfully checked out licenses "jasper_interactive" and "jasper_fpv".
+INFO: reading configuration file "/home/ecelrc/students/sshaikh1/.config/jasper/jaspergold.conf".
+% include /home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/lab4.tcl
+%% #Tcl script which can be used with JasperGold
+%% #Use "source lab4.tcl" in the console to source this script
+%% 
+%% #Reading the files 
+%% analyze -v2k { wallace_abc_adder.v wallace_abc_adder_top.v cond_sum16.v  cond_sum32.v  cond_sum8.v  microarch.v };
+WARNING (WCD032): Passing arguments to "analyze" as lists has been deprecated.
+    For message help, type "help -message wcd032"
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder.v
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder_top.v
+[ERROR (VERI-1125)] wallace_abc_adder_top.v(1): no definition for port C
+[ERROR (VERI-1072)] wallace_abc_adder_top.v(25): module wallace_abc_adder_top ignored due to previous errors
+Summary of errors detected:
+	[ERROR (VERI-1125)] wallace_abc_adder_top.v(1): no definition for port C
+	[ERROR (VERI-1072)] wallace_abc_adder_top.v(25): module wallace_abc_adder_top ignored due to previous errors
+ERROR at line 5 in file /home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/lab4.tcl, more info in Tcl-variable errorInfo
+ERROR (ENL034): 2 errors detected in the design file(s).
+
+% include /home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/lab4.tcl
+%% #Tcl script which can be used with JasperGold
+%% #Use "source lab4.tcl" in the console to source this script
+%% 
+%% #Reading the files 
+%% analyze -v2k { wallace_abc_adder.v wallace_abc_adder_top.v cond_sum16.v  cond_sum32.v  cond_sum8.v  microarch.v };
+WARNING (WCD032): Passing arguments to "analyze" as lists has been deprecated.
+    For message help, type "help -message wcd032"
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder.v
+[WARN (VERI-1206)] wallace_abc_adder.v(18): overwriting previous definition of module wallace_abc_adder
+[INFO (VERI-2142)] wallace_abc_adder.v(18): previous definition of module wallace_abc_adder is here
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder_top.v
+[ERROR (VERI-1125)] wallace_abc_adder_top.v(1): no definition for port C
+[ERROR (VERI-1072)] wallace_abc_adder_top.v(25): module wallace_abc_adder_top ignored due to previous errors
+Summary of errors detected:
+	[ERROR (VERI-1125)] wallace_abc_adder_top.v(1): no definition for port C
+	[ERROR (VERI-1072)] wallace_abc_adder_top.v(25): module wallace_abc_adder_top ignored due to previous errors
+ERROR at line 5 in file /home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/lab4.tcl, more info in Tcl-variable errorInfo
+ERROR (ENL034): 2 errors detected in the design file(s).
+
+% include /home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/lab4.tcl
+%% #Tcl script which can be used with JasperGold
+%% #Use "source lab4.tcl" in the console to source this script
+%% 
+%% #Reading the files 
+%% analyze -v2k { wallace_abc_adder.v wallace_abc_adder_top.v cond_sum16.v  cond_sum32.v  cond_sum8.v  microarch.v };
+WARNING (WCD032): Passing arguments to "analyze" as lists has been deprecated.
+    For message help, type "help -message wcd032"
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder.v
+[WARN (VERI-1206)] wallace_abc_adder.v(18): overwriting previous definition of module wallace_abc_adder
+[INFO (VERI-2142)] wallace_abc_adder.v(18): previous definition of module wallace_abc_adder is here
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder_top.v
+[-- (VERI-1482)] Analyzing Verilog file cond_sum16.v
+[-- (VERI-1482)] Analyzing Verilog file cond_sum32.v
+[-- (VERI-1482)] Analyzing Verilog file cond_sum8.v
+[-- (VERI-1482)] Analyzing Verilog file microarch.v
+%% analyze -sv  { bind_wrapper_wallace_abc_adder.sv };
+[-- (VERI-1482)] Analyzing Verilog file /misc/linuxws/packages/cadence_2016/jasper_2015.09/lib/verilog/packages/std/std.sv into library std
+[-- (VERI-1482)] Analyzing Verilog file bind_wrapper_wallace_abc_adder.sv
+%% 
+%% #Elaborating the design
+%% elaborate -top {wallace_abc_adder_top};
+INFO (ISW003): Top module name is "wallace_abc_adder_top".
+[INFO (VERI-1018)] wallace_abc_adder_top.v(1): compiling module wallace_abc_adder_top
+[INFO (VERI-1018)] wallace_abc_adder.v(1): compiling module wallace_abc_adder
+[INFO (VERI-1018)] cond_sum8.v(104): compiling module fa
+[INFO (VERI-1018)] microarch.v(49): compiling module xor2$
+[INFO (VERI-1018)] microarch.v(1): compiling module nand2$
+[INFO (VERI-1018)] microarch.v(41): compiling module nand3$
+[INFO (VERI-1018)] cond_sum32.v(1): compiling module cond_sum32
+[INFO (VERI-1018)] cond_sum16.v(1): compiling module cond_sum16
+[INFO (VERI-1018)] cond_sum8.v(1): compiling module cond_sum8
+[INFO (VERI-1018)] cond_sum8.v(15): compiling module nibble_low
+[INFO (VERI-1018)] cond_sum8.v(89): compiling module mha
+[INFO (VERI-1018)] microarch.v(9): compiling module or2$
+[INFO (VERI-1018)] microarch.v(58): compiling module inv1$
+[INFO (VERI-1018)] microarch.v(33): compiling module mux2$
+[INFO (VERI-1018)] cond_sum8.v(44): compiling module nibble_high
+[WARN (VERI-1330)] wallace_abc_adder_top.v(11): actual bit length 32 differs from formal bit length 64 for port S
+[INFO (VERI-1018)] bind_wrapper_wallace_abc_adder.sv(8): compiling module adder_props
+[INFO] Beginning multiple driver analysis
+[INFO] Finished multiple driver analysis
+[INFO] Module Name wallace_abc_adder_top
+wallace_abc_adder_top
+%% 
+%% #You will need to add commands below
+%% 
+%% #Set the clock
+%% clock -clear; clock clk
+%% 
+%% #Set Reset
+%% reset -expression {rst};
+INFO (IPM031): Invalidating proof results of all properties in the Property Manager.
+INFO (IRS006): Current reset condition is "rst".
+%% 
+%% #Prove all
+%% prove -bg -all
+INFO (IPF031): Settings used for this proof:
+    time_limit                    = 86400s
+    per_property_time_limit       = 1s * 10 ^ scan
+    engine_mode                   = Hp Ht N B 
+    proofgrid_per_engine_max_jobs = 1
+    proofgrid_mode                = local
+    proofgrid_restarts            = 10
+background
+INFO (IPF036): Starting proof on task: "<embedded>", 1 properties to prove with 0 already proven/unreachable
+%% 
+INFO (IRS029): Starting reset analysis: phase 1 of 4.
+INFO (IRS030): Running reset analysis phase 2 of 4.
+INFO (IRS031): Running reset analysis phase 3 of 4.
+INFO (IRS020): Starting the reset analysis simulation with a limit of 100 iterations (phase 4 of 4).
+INFO (IRS024): Reset iterations 0 to 3 analyzed.
+INFO (IRS018): Reset analysis simulation executed for 2 iterations. Assigned values for 64 of 64 design flops, 0 of 0 design latches, 1 of 1 internal elements.
+Using multistage preprocessing
+Starting reduce
+Finished reduce in 0.002s
+Performing Proof Simplification...
+0.Hp: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Hp: Proof Simplification Iteration 1	[0.00 s]
+0.Hp: Proof Simplification Iteration 2	[0.00 s]
+0.Hp: Proof Simplification Iteration 3	[0.00 s]
+0.Hp: Proof Simplification Iteration 4	[0.00 s]
+0.Hp: Proof Simplification Iteration 5	[0.00 s]
+0.Hp: Proof Simplification Iteration 6	[0.00 s]
+0.Hp: Proof Simplification Iteration 7	[0.00 s]
+0.Hp: Proof Simplification Iteration 8	[0.01 s]
+0.Hp: Proof Simplification Iteration 9	[0.01 s]
+0.Hp: Proof Simplification Iteration 10	[0.01 s]
+0.Hp: Proof Simplification Iteration 11	[0.01 s]
+0.Hp: Proof Simplification Iteration 12	[0.01 s]
+0.Hp: Proof Simplification Iteration 13	[0.01 s]
+0.Hp: Proof Simplification Iteration 14	[0.01 s]
+0.Hp: Proof Simplification Iteration 15	[0.01 s]
+0.Hp: Proof Simplification Iteration 16	[0.01 s]
+0.Hp: Proof Simplification Iteration 17	[0.01 s]
+0.Hp: Proof Simplification Iteration 18	[0.01 s]
+0.Hp: Proof Simplification Iteration 19	[0.01 s]
+0.Hp: Proof Simplification Iteration 20	[0.01 s]
+0.Hp: Proof Simplification Iteration 21	[0.01 s]
+0.Hp: Proof Simplification Iteration 22	[0.01 s]
+0.Hp: Proof Simplification Iteration 23	[0.02 s]
+0.Hp: Proof Simplification Iteration 24	[0.02 s]
+0.Hp: Proof Simplification Iteration 25	[0.02 s]
+0.Hp: Proof Simplification Iteration 26	[0.02 s]
+0.Hp: Proof Simplification Iteration 27	[0.02 s]
+0.Hp: Proof Simplification Iteration 28	[0.02 s]
+0.Hp: Proof Simplification Iteration 29	[0.02 s]
+0.Hp: Proof Simplification Iteration 30	[0.02 s]
+0.Hp: Proof Simplification Iteration 31	[0.02 s]
+0.Hp: Proof Simplification Iteration 32	[0.02 s]
+Proof Simplification completed in 0.03 s
+About to start distributed ProofGrid in its own thread with a limit of 20 pending notifications.
+ProofGrid usable level: 1
+0.Hp: Proofgrid shell started at 1232@kamek(local) jg_21236_kamek_1
+0.Hp: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Ht: Proofgrid shell started at 1234@kamek(local) jg_21236_kamek_1
+0.Ht: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Hp: Starting proof for property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk"	[0.00 s].
+0.Ht: Starting proof for property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk"	[0.00 s].
+0.N: Proofgrid shell started at 1235@kamek(local) jg_21236_kamek_1
+0.N: Cluster is entering permanent allocation mode.
+0.Ht: Trace Attempt  1	[0.00 s]
+0.Ht: Trace Attempt  2	[0.00 s]
+0.N: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.N: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.N: Starting proof for property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk"	[0.00 s].
+0.N: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  2	[0.00 s]
+0.N: Trace Attempt  2	[0.00 s]
+0.B: Proofgrid shell started at 1238@kamek(local) jg_21236_kamek_1
+0.B: Cluster is entering permanent allocation mode.
+0.B: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.B: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.B: Starting proof for property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk"	[0.00 s].
+0.B: Trace Attempt  1	[0.00 s]
+0.B: Trace Attempt  2	[0.01 s]
+0.B: A proof was found: No trace exists. [0.13 s]
+INFO (IPF057): 0.B: The property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk" was proven in 0.13 s.
+0.B: All properties determined. [0.13 s]
+Initiating shutdown of proof (@ 0.14 s)
+0.Hp: Interrupted (multi)
+0.Hp: All properties determined. [0.14 s]
+0.Ht: Interrupted (multi)
+0.Ht: All properties determined. [0.14 s]
+0.Ht: Exited with Success (@ 0.14 s)
+0.B: Exited with Success (@ 0.14 s)
+0.Hp: Exited with Success (@ 0.14 s)
+0.N: All properties determined. [0.14 s]
+0.N: Exited with Success (@ 0.14 s)
+ProofGrid usable level: 0
+ProofGrid usable level: 0
+All pending notifications were processed.
+INFO (IPF059): Completed proof on task: <embedded>
+
+==============================================================
+SUMMARY
+==============================================================
+	Properties Considered : 1
+	      assertions      : 1
+	       - proven       : 1 (100%)
+	       - marked_proven: 0 (0%)
+	       - cex          : 0 (0%)
+	       - ar_cex       : 0 (0%)
+	       - undetermined : 0 (0%)
+	       - unprocessed  : 0 (0%)
+	       - error        : 0 (0%)
+	      covers          : 0
+	       - unreachable  : 0
+	       - covered      : 0
+	       - ar_covered   : 0
+	       - undetermined : 0
+	       - unprocessed  : 0
+	       - error        : 0
+[<embedded>] % include /home/ecelrc/students/sshaikh1/microarch/rtl/cond_sum/lab4.tcl
+%% #Tcl script which can be used with JasperGold
+%% #Use "source lab4.tcl" in the console to source this script
+%% 
+%% #Reading the files 
+%% analyze -v2k { wallace_abc_adder.v wallace_abc_adder_top.v cond_sum16.v  cond_sum32.v  cond_sum8.v  microarch.v };
+WARNING (WCD032): Passing arguments to "analyze" as lists has been deprecated.
+    For message help, type "help -message wcd032"
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder.v
+[WARN (VERI-1206)] wallace_abc_adder.v(18): overwriting previous definition of module wallace_abc_adder
+[INFO (VERI-2142)] wallace_abc_adder.v(18): previous definition of module wallace_abc_adder is here
+[-- (VERI-1482)] Analyzing Verilog file wallace_abc_adder_top.v
+[WARN (VERI-1206)] wallace_abc_adder_top.v(25): overwriting previous definition of module wallace_abc_adder_top
+[INFO (VERI-2142)] wallace_abc_adder_top.v(25): previous definition of module wallace_abc_adder_top is here
+[-- (VERI-1482)] Analyzing Verilog file cond_sum16.v
+[WARN (VERI-1206)] cond_sum16.v(18): overwriting previous definition of module cond_sum16
+[INFO (VERI-2142)] cond_sum16.v(18): previous definition of module cond_sum16 is here
+[-- (VERI-1482)] Analyzing Verilog file cond_sum32.v
+[WARN (VERI-1206)] cond_sum32.v(18): overwriting previous definition of module cond_sum32
+[INFO (VERI-2142)] cond_sum32.v(18): previous definition of module cond_sum32 is here
+[-- (VERI-1482)] Analyzing Verilog file cond_sum8.v
+[WARN (VERI-1206)] cond_sum8.v(13): overwriting previous definition of module cond_sum8
+[INFO (VERI-2142)] cond_sum8.v(13): previous definition of module cond_sum8 is here
+[WARN (VERI-1206)] cond_sum8.v(42): overwriting previous definition of module nibble_low
+[INFO (VERI-2142)] cond_sum8.v(42): previous definition of module nibble_low is here
+[WARN (VERI-1206)] cond_sum8.v(87): overwriting previous definition of module nibble_high
+[INFO (VERI-2142)] cond_sum8.v(87): previous definition of module nibble_high is here
+[WARN (VERI-1206)] cond_sum8.v(102): overwriting previous definition of module mha
+[INFO (VERI-2142)] cond_sum8.v(102): previous definition of module mha is here
+[WARN (VERI-1206)] cond_sum8.v(122): overwriting previous definition of module fa
+[INFO (VERI-2142)] cond_sum8.v(122): previous definition of module fa is here
+[-- (VERI-1482)] Analyzing Verilog file microarch.v
+[WARN (VERI-1206)] microarch.v(7): overwriting previous definition of module nand2$
+[INFO (VERI-2142)] microarch.v(7): previous definition of module nand2$ is here
+[WARN (VERI-1206)] microarch.v(15): overwriting previous definition of module or2$
+[INFO (VERI-2142)] microarch.v(15): previous definition of module or2$ is here
+[WARN (VERI-1206)] microarch.v(23): overwriting previous definition of module or3$
+[INFO (VERI-2142)] microarch.v(23): previous definition of module or3$ is here
+[WARN (VERI-1206)] microarch.v(31): overwriting previous definition of module or4$
+[INFO (VERI-2142)] microarch.v(31): previous definition of module or4$ is here
+[WARN (VERI-1206)] microarch.v(39): overwriting previous definition of module mux2$
+[INFO (VERI-2142)] microarch.v(39): previous definition of module mux2$ is here
+[WARN (VERI-1206)] microarch.v(47): overwriting previous definition of module nand3$
+[INFO (VERI-2142)] microarch.v(47): previous definition of module nand3$ is here
+[WARN (VERI-1206)] microarch.v(55): overwriting previous definition of module xor2$
+[INFO (VERI-2142)] microarch.v(55): previous definition of module xor2$ is here
+[WARN (VERI-1206)] microarch.v(64): overwriting previous definition of module inv1$
+[INFO (VERI-2142)] microarch.v(64): previous definition of module inv1$ is here
+[WARN (VERI-1206)] microarch.v(74): overwriting previous definition of module tristate16H$
+[INFO (VERI-2142)] microarch.v(74): previous definition of module tristate16H$ is here
+[WARN (VERI-1206)] microarch.v(104): overwriting previous definition of module decoder3_8$
+[INFO (VERI-2142)] microarch.v(104): previous definition of module decoder3_8$ is here
+[WARN (VERI-1206)] microarch.v(114): overwriting previous definition of module mux2_16$
+[INFO (VERI-2142)] microarch.v(114): previous definition of module mux2_16$ is here
+[WARN (VERI-1206)] microarch.v(138): overwriting previous definition of module mux4_16$
+[INFO (VERI-2142)] microarch.v(138): previous definition of module mux4_16$ is here
+%% analyze -sv  { bind_wrapper_wallace_abc_adder.sv };
+[-- (VERI-1482)] Analyzing Verilog file bind_wrapper_wallace_abc_adder.sv
+[WARN (VERI-1206)] bind_wrapper_wallace_abc_adder.sv(31): overwriting previous definition of module adder_props
+[INFO (VERI-2142)] bind_wrapper_wallace_abc_adder.sv(31): previous definition of module adder_props is here
+[WARN (VERI-1206)] bind_wrapper_wallace_abc_adder.sv(46): overwriting previous definition of module Wrapper
+[INFO (VERI-2142)] bind_wrapper_wallace_abc_adder.sv(46): previous definition of module Wrapper is here
+%% 
+%% #Elaborating the design
+%% elaborate -top {wallace_abc_adder_top};
+INFO (ISW003): Top module name is "wallace_abc_adder_top".
+[INFO (VERI-1018)] wallace_abc_adder_top.v(1): compiling module wallace_abc_adder_top
+[INFO (VERI-1018)] wallace_abc_adder.v(1): compiling module wallace_abc_adder
+[INFO (VERI-1018)] cond_sum8.v(104): compiling module fa
+[INFO (VERI-1018)] microarch.v(49): compiling module xor2$
+[INFO (VERI-1108)] microarch.v(49): replacing existing cell xor2$
+[INFO (VERI-1018)] microarch.v(1): compiling module nand2$
+[INFO (VERI-1108)] microarch.v(1): replacing existing cell nand2$
+[INFO (VERI-1018)] microarch.v(41): compiling module nand3$
+[INFO (VERI-1108)] microarch.v(41): replacing existing cell nand3$
+[INFO (VERI-1108)] cond_sum8.v(104): replacing existing cell fa
+[INFO (VERI-1018)] cond_sum32.v(1): compiling module cond_sum32
+[INFO (VERI-1018)] cond_sum16.v(1): compiling module cond_sum16
+[INFO (VERI-1018)] cond_sum8.v(1): compiling module cond_sum8
+[INFO (VERI-1018)] cond_sum8.v(15): compiling module nibble_low
+[INFO (VERI-1018)] cond_sum8.v(89): compiling module mha
+[INFO (VERI-1018)] microarch.v(9): compiling module or2$
+[INFO (VERI-1108)] microarch.v(9): replacing existing cell or2$
+[INFO (VERI-1018)] microarch.v(58): compiling module inv1$
+[INFO (VERI-1108)] microarch.v(58): replacing existing cell inv1$
+[INFO (VERI-1108)] cond_sum8.v(89): replacing existing cell mha
+[INFO (VERI-1018)] microarch.v(33): compiling module mux2$
+[INFO (VERI-1108)] microarch.v(33): replacing existing cell mux2$
+[INFO (VERI-1108)] cond_sum8.v(15): replacing existing cell nibble_low
+[INFO (VERI-1018)] cond_sum8.v(44): compiling module nibble_high
+[INFO (VERI-1108)] cond_sum8.v(44): replacing existing cell nibble_high
+[INFO (VERI-1108)] cond_sum8.v(1): replacing existing cell cond_sum8
+[INFO (VERI-1108)] cond_sum16.v(1): replacing existing cell cond_sum16
+[INFO (VERI-1108)] cond_sum32.v(1): replacing existing cell cond_sum32
+[INFO (VERI-1108)] wallace_abc_adder.v(1): replacing existing cell wallace_abc_adder
+[WARN (VERI-1330)] wallace_abc_adder_top.v(11): actual bit length 32 differs from formal bit length 64 for port S
+[INFO (VERI-1018)] bind_wrapper_wallace_abc_adder.sv(8): compiling module adder_props
+[INFO (VERI-1108)] bind_wrapper_wallace_abc_adder.sv(8): replacing existing cell adder_props
+[INFO (VERI-1108)] wallace_abc_adder_top.v(1): replacing existing cell wallace_abc_adder_top
+[INFO] Beginning multiple driver analysis
+[INFO] Finished multiple driver analysis
+[INFO] Module Name wallace_abc_adder_top
+INFO (INL003): Clearing all state information (assumes, stopats, etc.).
+wallace_abc_adder_top
+%% 
+%% #You will need to add commands below
+%% 
+%% #Set the clock
+%% clock -clear; clock clk
+%% 
+%% #Set Reset
+%% reset -expression {rst};
+INFO (IPM031): Invalidating proof results of all properties in the Property Manager.
+INFO (IRS006): Current reset condition is "rst".
+%% 
+%% #Prove all
+%% prove -bg -all
+INFO (IPF031): Settings used for this proof:
+    time_limit                    = 86400s
+    per_property_time_limit       = 1s * 10 ^ scan
+    engine_mode                   = Hp Ht N B 
+    proofgrid_per_engine_max_jobs = 1
+    proofgrid_mode                = local
+    proofgrid_restarts            = 10
+background
+INFO (IPF036): Starting proof on task: "<embedded>", 1 properties to prove with 0 already proven/unreachable
+%% 
+INFO (IRS029): Starting reset analysis: phase 1 of 4.
+INFO (IRS030): Running reset analysis phase 2 of 4.
+INFO (IRS031): Running reset analysis phase 3 of 4.
+INFO (IRS020): Starting the reset analysis simulation with a limit of 100 iterations (phase 4 of 4).
+INFO (IRS024): Reset iterations 0 to 3 analyzed.
+INFO (IRS018): Reset analysis simulation executed for 2 iterations. Assigned values for 64 of 64 design flops, 0 of 0 design latches, 1 of 1 internal elements.
+Using multistage preprocessing
+Starting reduce
+Finished reduce in 0.001s
+Performing Proof Simplification...
+0.Hp: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Hp: Proof Simplification Iteration 1	[0.00 s]
+0.Hp: Proof Simplification Iteration 2	[0.00 s]
+0.Hp: Proof Simplification Iteration 3	[0.00 s]
+0.Hp: Proof Simplification Iteration 4	[0.00 s]
+0.Hp: Proof Simplification Iteration 5	[0.00 s]
+0.Hp: Proof Simplification Iteration 6	[0.00 s]
+0.Hp: Proof Simplification Iteration 7	[0.00 s]
+0.Hp: Proof Simplification Iteration 8	[0.00 s]
+0.Hp: Proof Simplification Iteration 9	[0.01 s]
+0.Hp: Proof Simplification Iteration 10	[0.01 s]
+0.Hp: Proof Simplification Iteration 11	[0.01 s]
+0.Hp: Proof Simplification Iteration 12	[0.01 s]
+0.Hp: Proof Simplification Iteration 13	[0.01 s]
+0.Hp: Proof Simplification Iteration 14	[0.01 s]
+0.Hp: Proof Simplification Iteration 15	[0.01 s]
+0.Hp: Proof Simplification Iteration 16	[0.01 s]
+0.Hp: Proof Simplification Iteration 17	[0.01 s]
+0.Hp: Proof Simplification Iteration 18	[0.01 s]
+0.Hp: Proof Simplification Iteration 19	[0.01 s]
+0.Hp: Proof Simplification Iteration 20	[0.01 s]
+0.Hp: Proof Simplification Iteration 21	[0.01 s]
+0.Hp: Proof Simplification Iteration 22	[0.01 s]
+0.Hp: Proof Simplification Iteration 23	[0.02 s]
+0.Hp: Proof Simplification Iteration 24	[0.02 s]
+0.Hp: Proof Simplification Iteration 25	[0.02 s]
+0.Hp: Proof Simplification Iteration 26	[0.02 s]
+0.Hp: Proof Simplification Iteration 27	[0.02 s]
+0.Hp: Proof Simplification Iteration 28	[0.02 s]
+0.Hp: Proof Simplification Iteration 29	[0.02 s]
+0.Hp: Proof Simplification Iteration 30	[0.02 s]
+0.Hp: Proof Simplification Iteration 31	[0.02 s]
+0.Hp: Proof Simplification Iteration 32	[0.02 s]
+0.Hp: Proof Simplification Iteration 33	[0.02 s]
+Proof Simplification completed in 0.03 s
+About to start distributed ProofGrid in its own thread with a limit of 20 pending notifications.
+ProofGrid usable level: 1
+0.N: Proofgrid shell started at 3963@kamek(local) jg_21236_kamek_2
+0.N: Cluster is entering permanent allocation mode.
+0.N: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.N: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.N: Starting proof for property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk"	[0.00 s].
+0.N: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  2	[0.00 s]
+0.Hp: Proofgrid shell started at 3961@kamek(local) jg_21236_kamek_2
+0.Ht: Proofgrid shell started at 3962@kamek(local) jg_21236_kamek_2
+0.N: Trace Attempt  2	[0.00 s]
+0.Hp: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Ht: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Hp: Starting proof for property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk"	[0.00 s].
+0.N: A trace with 2 cycles was found. [0.00 s]
+INFO (IPF055): 0.N: A counterexample (cex) with 2 cycles was found for the property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk" in 0.01 s.
+0.Ht: Starting proof for property "wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk"	[0.00 s].
+0.N: All properties determined. [0.00 s]
+Initiating shutdown of proof (@ 0.00 s)
+0.N: Exited with Success (@ 0.00 s)
+0.B: Proofgrid shell started at 3964@kamek(local) jg_21236_kamek_2
+0.B: Stopping job (no undetermined properties)
+0.B: Interrupted. [0.00 s]
+0.Hp: Interrupted (multi)
+0.Hp: All properties determined. [0.00 s]
+0.B: Exited with Success (@ 0.01 s)
+0.Hp: Exited with Success (@ 0.01 s)
+0.Ht: Interrupted (multi)
+0.Ht: All properties determined. [0.01 s]
+0.Ht: Exited with Success (@ 0.01 s)
+ProofGrid usable level: 0
+ProofGrid usable level: 0
+All pending notifications were processed.
+INFO (IPF059): Completed proof on task: <embedded>
+
+==============================================================
+SUMMARY
+==============================================================
+	Properties Considered : 1
+	      assertions      : 1
+	       - proven       : 0 (0%)
+	       - marked_proven: 0 (0%)
+	       - cex          : 1 (100%)
+	       - ar_cex       : 0 (0%)
+	       - undetermined : 0 (0%)
+	       - unprocessed  : 0 (0%)
+	       - error        : 0 (0%)
+	      covers          : 0
+	       - unreachable  : 0
+	       - covered      : 0
+	       - ar_covered   : 0
+	       - undetermined : 0
+	       - unprocessed  : 0
+	       - error        : 0
+[<embedded>] % visualize -new_window; visualize -min_length 10 -window {}; visualize -violation -property <embedded>::wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk -bg
+INFO (IVS015): Setting Visualize task to "<embedded>".
+INFO (IPF031): Settings used for this proof:
+    time_limit                    = 86400s
+    per_property_time_limit       = 1s * 10 ^ scan
+    engine_mode                   = Hp Ht N B 
+    proofgrid_per_engine_max_jobs = 1
+    proofgrid_mode                = local
+    proofgrid_restarts            = 10
+INFO (IVS008): Expanding analysis region to enable visualization of "<embedded>::wallace_abc_adder_top.u_adder_props.assert_APB_BYPASS_WR_chk".
+background
+Using multistage preprocessing
+Starting reduce
+Finished reduce in 0.001s
+Performing Proof Simplification...
+0.Hp: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Hp: Proof Simplification Iteration 1	[0.00 s]
+0.Hp: Proof Simplification Iteration 2	[0.00 s]
+0.Hp: Proof Simplification Iteration 3	[0.00 s]
+0.Hp: Proof Simplification Iteration 4	[0.00 s]
+0.Hp: Proof Simplification Iteration 5	[0.00 s]
+0.Hp: Proof Simplification Iteration 6	[0.00 s]
+0.Hp: Proof Simplification Iteration 7	[0.00 s]
+0.Hp: Proof Simplification Iteration 8	[0.00 s]
+0.Hp: Proof Simplification Iteration 9	[0.01 s]
+0.Hp: Proof Simplification Iteration 10	[0.01 s]
+0.Hp: Proof Simplification Iteration 11	[0.01 s]
+0.Hp: Proof Simplification Iteration 12	[0.01 s]
+0.Hp: Proof Simplification Iteration 13	[0.01 s]
+0.Hp: Proof Simplification Iteration 14	[0.01 s]
+0.Hp: Proof Simplification Iteration 15	[0.01 s]
+0.Hp: Proof Simplification Iteration 16	[0.01 s]
+0.Hp: Proof Simplification Iteration 17	[0.01 s]
+0.Hp: Proof Simplification Iteration 18	[0.01 s]
+0.Hp: Proof Simplification Iteration 19	[0.01 s]
+0.Hp: Proof Simplification Iteration 20	[0.01 s]
+0.Hp: Proof Simplification Iteration 21	[0.01 s]
+0.Hp: Proof Simplification Iteration 22	[0.01 s]
+0.Hp: Proof Simplification Iteration 23	[0.01 s]
+0.Hp: Proof Simplification Iteration 24	[0.01 s]
+0.Hp: Proof Simplification Iteration 25	[0.02 s]
+0.Hp: Proof Simplification Iteration 26	[0.02 s]
+0.Hp: Proof Simplification Iteration 27	[0.02 s]
+0.Hp: Proof Simplification Iteration 28	[0.02 s]
+0.Hp: Proof Simplification Iteration 29	[0.02 s]
+0.Hp: Proof Simplification Iteration 30	[0.02 s]
+0.Hp: Proof Simplification Iteration 31	[0.02 s]
+0.Hp: Proof Simplification Iteration 32	[0.02 s]
+0.Hp: Proof Simplification Iteration 33	[0.02 s]
+0.Hp: Proof Simplification Iteration 34	[0.02 s]
+Proof Simplification completed in 0.03 s
+About to start distributed ProofGrid in its own thread with a limit of 20 pending notifications.
+0.Hp: Proofgrid shell started at 5476@kamek(local) jg_21236_kamek_3
+0.Hp: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.Ht: Proofgrid shell started at 5478@kamek(local) jg_21236_kamek_3
+0.Ht: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.N: Proofgrid shell started at 5480@kamek(local) jg_21236_kamek_3
+0.N: Cluster is entering permanent allocation mode.
+0.N: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.N: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.Hp: Trace Attempt  1	[0.01 s]
+0.N: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  2	[0.00 s]
+0.Ht: Trace Attempt  1	[0.00 s]
+0.Ht: Trace Attempt  2	[0.00 s]
+0.Ht: Trace Attempt  3	[0.00 s]
+0.Ht: Trace Attempt  4	[0.00 s]
+0.N: Trace Attempt  2	[0.00 s]
+0.Ht: Trace Attempt  5	[0.00 s]
+0.N: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  2	[0.00 s]
+0.N: Trace Attempt  3	[0.00 s]
+0.B: Proofgrid shell started at 5484@kamek(local) jg_21236_kamek_3
+0.B: Cluster is entering permanent allocation mode.
+0.B: clocks: 1, declared: 1, disabling: 0, posedge: 1, negedge: 0, noedge: 0, bothedge: 0
+0.B: Next scan (0) will use per property time limit: 1s * 10 ^ 0 = 1s
+0.N: Trace Attempt  3	[0.01 s]
+0.B: Trace Attempt  1	[0.00 s]
+0.N: Trace Attempt  3	[0.01 s]
+0.B: Trace Attempt  2	[0.01 s]
+0.N: Trace Attempt  3	[0.01 s]
+0.B: Trace Attempt  3	[0.01 s]
+0.B: Trace Attempt  4	[0.02 s]
+0.N: Trace Attempt  3	[0.02 s]
+0.B: Trace Attempt  5	[0.02 s]
+0.N: Trace Attempt  3	[0.03 s]
+0.Hp: Trace Attempt  2	[0.04 s]
+0.Hp: Trace Attempt  3	[0.04 s]
+0.Hp: Trace Attempt  4	[0.04 s]
+0.Hp: Trace Attempt  5	[0.04 s]
+0.N: Trace Attempt  3	[0.04 s]
+0.Ht: Trace Attempt 10	[0.01 s]
+0.Ht: A trace with 10 cycles was found. [0.05 s]
+0.Ht: All properties determined. [0.05 s]
+Initiating shutdown of proof (@ 0.06 s)
+0.Hp: Interrupted (multi)
+0.Hp: Trace Attempt 10	[0.05 s]
+0.Hp: All properties determined. [0.06 s]
+0.Ht: Exited with Success (@ 0.06 s)
+0.Hp: Exited with Success (@ 0.06 s)
+0.N: Trace Attempt 10	[0.04 s]
+0.N: All properties determined. [0.06 s]
+0.N: Exited with Success (@ 0.06 s)
+0.B: Trace Attempt 10	[0.05 s]
+0.B: All properties determined. [0.05 s]
+0.B: Exited with Success (@ 0.07 s)
+All pending notifications were processed.
+INFO: Waiting for proof threads to stop...
+INFO: Proof threads stopped.

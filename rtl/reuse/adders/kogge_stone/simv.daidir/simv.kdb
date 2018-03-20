@@ -1,0 +1,9 @@
+rc file Version 1.0
+
+[Design]
+COMPILE_PATH=/home/ecelrc/students/sshaikh1/microarch/koggestoneadder
+SystemC=FALSE
+UUM=FALSE
+KDB=FALSE
+USE_NOVAS_HOME=FALSE
+TOP=timeunit nand3$ nand4$ and3$ and4$ nor2$ nor3$ nor4$ or2$ or3$ or4$ xnor2$ dff$ dff8$ dff16$ jkff8$ jkff16$ buffer8$ buffer16$ bufferH16$ bufferH64$ bufferH256$ bufferH1024$ bufferHInv16$ bufferHInv64$ bufferHInv256$ bufferHInv1024$ latch$ latch8$ latch16$ tristateL$ tristate8L$ tristate16L$ tristateH$ tristate8H$ tristate16H$ tristate_bus_driver1$ tristate_bus_driver8$ tristate_bus_driver16$ dff16b$ dff32b$ reg64e$ reg32e$ ioreg8$ ioreg16$ TOP 

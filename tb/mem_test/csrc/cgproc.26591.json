@@ -1,0 +1,40 @@
+{
+    "CompUnits": {
+        "amcQw_d": {
+            "mod": "...MASTER...",
+            "bytes": 7231,
+            "out": "objs/amcQw_d.o",
+            "mode": 4,
+            "checksum": 4294967295
+        },
+        "g7hgQ_d": {
+            "mod": "tb",
+            "bytes": 28157,
+            "out": "g7hgQ_d.o",
+            "mode": 4,
+            "checksum": 4294967295,
+            "archive": "archive.29/_26591_archive_1.a"
+        }
+    },
+    "Modules": {
+        "...MASTER...": {},
+        "timeunit": {},
+        "tb": {
+            "Compiled": "Yes",
+            "Compiled Times": 30
+        }
+    },
+    "reusePaths": {},
+    "ObjArchives": [
+        {
+            "size": 28157,
+            "archive": "archive.29/_26591_archive_1.a",
+            "objects": [
+                [
+                    "g7hgQ_d.o",
+                    28157
+                ]
+            ]
+        }
+    ]
+}

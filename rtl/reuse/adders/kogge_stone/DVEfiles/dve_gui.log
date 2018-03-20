@@ -1,0 +1,627 @@
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  Feb 11 23:32 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+The file '/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/inter.vpd' was opened successfully.
+100000 ps
+200000 ps
+300000 ps
+400000 ps
+500000 ps
+600000 ps
+700000 ps
+800000 ps
+900000 ps
+1000000 ps
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1000000 ps
+CPU Time:      0.140 seconds;       Data structure size:   0.2Mb
+Mon Feb 12 00:18:53 2018
+
+Warning-[LNX_OS_VERUN] Unsupported Linux version
+  Linux version 'CentOS release 6.9 (Final)' is not supported on 'x86_64' 
+  officially, assuming linux compatibility by default. Set VCS_ARCH_OVERRIDE 
+  to linux or suse32 to override.
+  Please refer to release notes for information on supported platforms.
+
+                         Chronologic VCS (TM)
+       Version K-2015.09-SP1_Full64 -- Mon Feb 12 00:18:54 2018
+               Copyright (c) 1991-2015 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/time'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib1'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib2'
+Parsing design file 'TOP.v'
+Parsing design file 'kogge_stone.v'
+Parsing design file 'FA.v'
+
+Warning-[NMIN] No module instance name
+TOP.v, 25
+  No module instance name is specified.
+  Source info: kogge_stone #(32, 5) (a, b, cin, sum, cout);
+
+Top Level Modules:
+       timeunit
+       nand3$
+       nand4$
+       and3$
+       and4$
+       nor2$
+       nor3$
+       nor4$
+       or3$
+       or4$
+       xnor2$
+       inv1$
+       dff$
+       dff8$
+       dff16$
+       jkff8$
+       jkff16$
+       buffer8$
+       buffer16$
+       bufferH16$
+       bufferH64$
+       bufferH256$
+       bufferH1024$
+       bufferHInv16$
+       bufferHInv64$
+       bufferHInv256$
+       bufferHInv1024$
+       latch$
+       latch8$
+       latch16$
+       tristateL$
+       tristate8L$
+       tristate16L$
+       tristateH$
+       tristate8H$
+       tristate16H$
+       tristate_bus_driver1$
+       tristate_bus_driver8$
+       tristate_bus_driver16$
+       dff16b$
+       dff32b$
+       reg64e$
+       reg32e$
+       ioreg8$
+       ioreg16$
+       TOP
+TimeScale is 1 ns / 10 ps
+
+Warning-[TFIPC] Too few instance port connections
+TOP.v, 25
+"kogge_stone #(32, 5) kogge_stone(a, b, cin, sum, cout);"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+Starting vcs inline pass...
+51 modules and 2 UDPs read.
+	However, due to incremental compilation, only 2 modules need to be compiled.
+recompiling module TOP because:
+	This module or some inlined child module(s) has/have been modified.
+recompiling module FA because:
+	This module or some inlined child module(s) has/have been modified.
+Both modules done.
+rm -f _csrc*.so linux64_scvhdl_*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/udps/H4YNa.o objs/udps/abmDd.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic   amcQwB.o objs/amcQw_d.o   _22762_archive_1.so _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so     rmapats_mop.o rmapats.o rmar.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libzerosoft_rt_stubs.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so    /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsnew.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsimprofile.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libuclinative.so   -Wl,-whole-archive /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsucli.so -Wl,-no-whole-archive          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcs_save_restore_new.o -ldl -lm  -lc -lpthread -ldl 
+../simv up to date
+CPU time: .390 seconds to compile + .433 seconds to elab + .180 seconds to link
+Finished rebuilding the design.
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  Feb 12 00:18 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+The file '/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/inter.vpd' was opened successfully.
+$finish called from file "TOP.v", line 21.
+$finish at simulation time 1200.0 ns
+Simulation complete, time is 1200000 ps.
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  Feb 12 00:19 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+The file '/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/inter.vpd' was opened successfully.
+$finish called from file "TOP.v", line 21.
+$finish at simulation time 1200.0 ns
+Simulation complete, time is 1200000 ps.
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1200000 ps
+CPU Time:      0.100 seconds;       Data structure size:   0.2Mb
+Mon Feb 12 00:24:37 2018
+
+Warning-[LNX_OS_VERUN] Unsupported Linux version
+  Linux version 'CentOS release 6.9 (Final)' is not supported on 'x86_64' 
+  officially, assuming linux compatibility by default. Set VCS_ARCH_OVERRIDE 
+  to linux or suse32 to override.
+  Please refer to release notes for information on supported platforms.
+
+                         Chronologic VCS (TM)
+       Version K-2015.09-SP1_Full64 -- Mon Feb 12 00:24:37 2018
+               Copyright (c) 1991-2015 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/time'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib1'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib2'
+Parsing design file 'TOP.v'
+Parsing design file 'kogge_stone.v'
+Parsing design file 'FA.v'
+
+Warning-[NMIN] No module instance name
+TOP.v, 25
+  No module instance name is specified.
+  Source info: kogge_stone #(32, 5) (a, b, cin, sum, cout);
+
+Top Level Modules:
+       timeunit
+       nand3$
+       nand4$
+       and3$
+       and4$
+       nor2$
+       nor3$
+       nor4$
+       or3$
+       or4$
+       xnor2$
+       dff$
+       dff8$
+       dff16$
+       jkff8$
+       jkff16$
+       buffer8$
+       buffer16$
+       bufferH16$
+       bufferH64$
+       bufferH256$
+       bufferH1024$
+       bufferHInv16$
+       bufferHInv64$
+       bufferHInv256$
+       bufferHInv1024$
+       latch$
+       latch8$
+       latch16$
+       tristateL$
+       tristate8L$
+       tristate16L$
+       tristateH$
+       tristate8H$
+       tristate16H$
+       tristate_bus_driver1$
+       tristate_bus_driver8$
+       tristate_bus_driver16$
+       dff16b$
+       dff32b$
+       reg64e$
+       reg32e$
+       ioreg8$
+       ioreg16$
+       TOP
+TimeScale is 1 ns / 10 ps
+
+Warning-[TFIPC] Too few instance port connections
+TOP.v, 25
+"kogge_stone #(32, 5) kogge_stone(a, b, cin, sum, cout);"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+Starting vcs inline pass...
+50 modules and 2 UDPs read.
+	However, due to incremental compilation, only 39 modules need to be compiled.
+recompiling module dff$ because:
+	Signal dependencies have changed
+recompiling module dff8$ because:
+	Signal dependencies have changed
+recompiling module dff16$ because:
+	Signal dependencies have changed
+recompiling module jkff8$ because:
+	Signal dependencies have changed
+recompiling module jkff16$ because:
+	Signal dependencies have changed
+recompiling module buffer$ because:
+	Signal dependencies have changed
+recompiling module buffer8$ because:
+	Signal dependencies have changed
+recompiling module buffer16$ because:
+	Signal dependencies have changed
+recompiling module bufferH16$ because:
+	Signal dependencies have changed
+recompiling module bufferH64$ because:
+	Signal dependencies have changed
+recompiling module bufferH256$ because:
+	Signal dependencies have changed
+recompiling module bufferH1024$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv16$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv64$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv256$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv1024$ because:
+	Signal dependencies have changed
+recompiling module latch$ because:
+	Signal dependencies have changed
+recompiling module latch8$ because:
+	Signal dependencies have changed
+recompiling module latch16$ because:
+	Signal dependencies have changed
+recompiling module tristateL$ because:
+	Signal dependencies have changed
+recompiling module tristate8L$ because:
+	Signal dependencies have changed
+recompiling module tristate16L$ because:
+	Signal dependencies have changed
+recompiling module tristateH$ because:
+	Signal dependencies have changed
+recompiling module tristate8H$ because:
+	Signal dependencies have changed
+recompiling module tristate16H$ because:
+	Signal dependencies have changed
+recompiling module tristate_bus_driver1$ because:
+	Signal dependencies have changed
+recompiling module tristate_bus_driver8$ because:
+	Signal dependencies have changed
+recompiling module tristate_bus_driver16$ because:
+	Signal dependencies have changed
+recompiling module dff16b$ because:
+	Signal dependencies have changed
+recompiling module dff32b$ because:
+	Signal dependencies have changed
+recompiling module reg64e$ because:
+	Signal dependencies have changed
+recompiling module reg32e$ because:
+	Signal dependencies have changed
+recompiling module ioreg8$ because:
+	Signal dependencies have changed
+recompiling module ioreg16$ because:
+	Signal dependencies have changed
+recompiling module TOP because:
+	Signal dependencies have changed
+recompiling module black because:
+	Signal dependencies have changed
+recompiling module grey because:
+	This module or some inlined child module(s) has/have been modified.
+recompiling module PG because:
+	Signal dependencies have changed
+recompiling module FA because:
+	Signal dependencies have changed
+All of 39 modules done
+rm -f _csrc*.so linux64_scvhdl_*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/udps/H4YNa.o objs/udps/abmDd.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic   amcQwB.o objs/amcQw_d.o   _16100_archive_1.so _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so     rmapats_mop.o rmapats.o rmar.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libzerosoft_rt_stubs.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so    /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsnew.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsimprofile.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libuclinative.so   -Wl,-whole-archive /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsucli.so -Wl,-no-whole-archive          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcs_save_restore_new.o -ldl -lm  -lc -lpthread -ldl 
+../simv up to date
+CPU time: .420 seconds to compile + .364 seconds to elab + .137 seconds to link
+Finished rebuilding the design.
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  Feb 12 00:24 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+The file '/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/inter.vpd' was opened successfully.
+$finish called from file "TOP.v", line 21.
+$finish at simulation time 1200.0 ns
+Simulation complete, time is 1200000 ps.
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1200000 ps
+CPU Time:      0.080 seconds;       Data structure size:   0.2Mb
+Mon Feb 12 00:26:00 2018
+
+Warning-[LNX_OS_VERUN] Unsupported Linux version
+  Linux version 'CentOS release 6.9 (Final)' is not supported on 'x86_64' 
+  officially, assuming linux compatibility by default. Set VCS_ARCH_OVERRIDE 
+  to linux or suse32 to override.
+  Please refer to release notes for information on supported platforms.
+
+                         Chronologic VCS (TM)
+       Version K-2015.09-SP1_Full64 -- Mon Feb 12 00:26:00 2018
+               Copyright (c) 1991-2015 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/time'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib1'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib2'
+Parsing design file 'TOP.v'
+Parsing design file 'kogge_stone.v'
+Parsing design file 'FA.v'
+
+Warning-[NMIN] No module instance name
+TOP.v, 25
+  No module instance name is specified.
+  Source info: kogge_stone #(32, 5) (a, b, cin, sum, cout);
+
+Top Level Modules:
+       timeunit
+       nand3$
+       nand4$
+       and3$
+       and4$
+       nor2$
+       nor3$
+       nor4$
+       or2$
+       or3$
+       or4$
+       xnor2$
+       dff$
+       dff8$
+       dff16$
+       jkff8$
+       jkff16$
+       buffer8$
+       buffer16$
+       bufferH16$
+       bufferH64$
+       bufferH256$
+       bufferH1024$
+       bufferHInv16$
+       bufferHInv64$
+       bufferHInv256$
+       bufferHInv1024$
+       latch$
+       latch8$
+       latch16$
+       tristateL$
+       tristate8L$
+       tristate16L$
+       tristateH$
+       tristate8H$
+       tristate16H$
+       tristate_bus_driver1$
+       tristate_bus_driver8$
+       tristate_bus_driver16$
+       dff16b$
+       dff32b$
+       reg64e$
+       reg32e$
+       ioreg8$
+       ioreg16$
+       TOP
+TimeScale is 1 ns / 10 ps
+
+Warning-[TFIPC] Too few instance port connections
+TOP.v, 25
+"kogge_stone #(32, 5) kogge_stone(a, b, cin, sum, cout);"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+Starting vcs inline pass...
+51 modules and 2 UDPs read.
+	However, due to incremental compilation, only 43 modules need to be compiled.
+recompiling module or2$ because:
+	Generated file (HYgzw) not found, or not incremental.
+recompiling module or3$ because:
+	Signal dependencies have changed
+recompiling module or4$ because:
+	Signal dependencies have changed
+recompiling module xnor2$ because:
+	Signal dependencies have changed
+recompiling module dff$ because:
+	Signal dependencies have changed
+recompiling module dff8$ because:
+	Signal dependencies have changed
+recompiling module dff16$ because:
+	Signal dependencies have changed
+recompiling module jkff8$ because:
+	Signal dependencies have changed
+recompiling module jkff16$ because:
+	Signal dependencies have changed
+recompiling module buffer$ because:
+	Signal dependencies have changed
+recompiling module buffer8$ because:
+	Signal dependencies have changed
+recompiling module buffer16$ because:
+	Signal dependencies have changed
+recompiling module bufferH16$ because:
+	Signal dependencies have changed
+recompiling module bufferH64$ because:
+	Signal dependencies have changed
+recompiling module bufferH256$ because:
+	Signal dependencies have changed
+recompiling module bufferH1024$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv16$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv64$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv256$ because:
+	Signal dependencies have changed
+recompiling module bufferHInv1024$ because:
+	Signal dependencies have changed
+recompiling module latch$ because:
+	Signal dependencies have changed
+recompiling module latch8$ because:
+	Signal dependencies have changed
+recompiling module latch16$ because:
+	Signal dependencies have changed
+recompiling module tristateL$ because:
+	Signal dependencies have changed
+recompiling module tristate8L$ because:
+	Signal dependencies have changed
+recompiling module tristate16L$ because:
+	Signal dependencies have changed
+recompiling module tristateH$ because:
+	Signal dependencies have changed
+recompiling module tristate8H$ because:
+	Signal dependencies have changed
+recompiling module tristate16H$ because:
+	Signal dependencies have changed
+recompiling module tristate_bus_driver1$ because:
+	Signal dependencies have changed
+recompiling module tristate_bus_driver8$ because:
+	Signal dependencies have changed
+recompiling module tristate_bus_driver16$ because:
+	Signal dependencies have changed
+recompiling module dff16b$ because:
+	Signal dependencies have changed
+recompiling module dff32b$ because:
+	Signal dependencies have changed
+recompiling module reg64e$ because:
+	Signal dependencies have changed
+recompiling module reg32e$ because:
+	Signal dependencies have changed
+recompiling module ioreg8$ because:
+	Signal dependencies have changed
+recompiling module ioreg16$ because:
+	Signal dependencies have changed
+recompiling module TOP because:
+	Signal dependencies have changed
+recompiling module black because:
+	This module or some inlined child module(s) has/have been modified.
+recompiling module grey because:
+	Signal dependencies have changed
+recompiling module PG because:
+	Signal dependencies have changed
+recompiling module FA because:
+	Signal dependencies have changed
+All of 43 modules done
+rm -f _csrc*.so linux64_scvhdl_*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/udps/H4YNa.o objs/udps/abmDd.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic   amcQwB.o objs/amcQw_d.o   _21889_archive_1.so _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so     rmapats_mop.o rmapats.o rmar.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libzerosoft_rt_stubs.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so    /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsnew.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsimprofile.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libuclinative.so   -Wl,-whole-archive /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsucli.so -Wl,-no-whole-archive          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcs_save_restore_new.o -ldl -lm  -lc -lpthread -ldl 
+../simv up to date
+CPU time: .431 seconds to compile + .364 seconds to elab + .141 seconds to link
+Finished rebuilding the design.
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  Feb 12 00:26 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+The file '/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/inter.vpd' was opened successfully.
+$finish called from file "TOP.v", line 21.
+$finish at simulation time 1200.0 ns
+Simulation complete, time is 1200000 ps.
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1200000 ps
+CPU Time:      0.080 seconds;       Data structure size:   0.2Mb
+Mon Feb 12 00:29:37 2018
+
+Warning-[LNX_OS_VERUN] Unsupported Linux version
+  Linux version 'CentOS release 6.9 (Final)' is not supported on 'x86_64' 
+  officially, assuming linux compatibility by default. Set VCS_ARCH_OVERRIDE 
+  to linux or suse32 to override.
+  Please refer to release notes for information on supported platforms.
+
+                         Chronologic VCS (TM)
+       Version K-2015.09-SP1_Full64 -- Mon Feb 12 00:29:38 2018
+               Copyright (c) 1991-2015 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/time'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib1'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib2'
+Parsing design file 'TOP.v'
+Parsing design file 'kogge_stone.v'
+Parsing design file 'FA.v'
+
+Warning-[NMIN] No module instance name
+TOP.v, 25
+  No module instance name is specified.
+  Source info: kogge_stone #(32) (a, b, cin, sum, cout);
+
+Top Level Modules:
+       timeunit
+       nand3$
+       nand4$
+       and3$
+       and4$
+       nor2$
+       nor3$
+       nor4$
+       or2$
+       or3$
+       or4$
+       xnor2$
+       dff$
+       dff8$
+       dff16$
+       jkff8$
+       jkff16$
+       buffer8$
+       buffer16$
+       bufferH16$
+       bufferH64$
+       bufferH256$
+       bufferH1024$
+       bufferHInv16$
+       bufferHInv64$
+       bufferHInv256$
+       bufferHInv1024$
+       latch$
+       latch8$
+       latch16$
+       tristateL$
+       tristate8L$
+       tristate16L$
+       tristateH$
+       tristate8H$
+       tristate16H$
+       tristate_bus_driver1$
+       tristate_bus_driver8$
+       tristate_bus_driver16$
+       dff16b$
+       dff32b$
+       reg64e$
+       reg32e$
+       ioreg8$
+       ioreg16$
+       TOP
+TimeScale is 1 ns / 10 ps
+
+Warning-[TFIPC] Too few instance port connections
+TOP.v, 25
+"kogge_stone #(32) kogge_stone(a, b, cin, sum, cout);"
+  The above instance has fewer port connections than the module definition.
+  Please use '+lint=TFIPC-L' to print out detailed information of unconnected 
+  ports.
+
+Starting vcs inline pass...
+51 modules and 2 UDPs read.
+	However, due to incremental compilation, no re-compilation is necessary.
+rm -f _csrc*.so linux64_scvhdl_*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/udps/H4YNa.o objs/udps/abmDd.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic   amcQwB.o objs/amcQw_d.o   _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so     rmapats_mop.o rmapats.o rmar.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libzerosoft_rt_stubs.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so    /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsnew.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsimprofile.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libuclinative.so   -Wl,-whole-archive /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsucli.so -Wl,-no-whole-archive          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcs_save_restore_new.o -ldl -lm  -lc -lpthread -ldl 
+../simv up to date
+CPU time: .281 seconds to compile + .394 seconds to elab + .151 seconds to link
+Finished rebuilding the design.
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  Feb 12 00:29 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+The file '/home/ecelrc/students/sshaikh1/microarch/koggestoneadder/inter.vpd' was opened successfully.
+$finish called from file "TOP.v", line 21.
+$finish at simulation time 1200.0 ns
+Simulation complete, time is 1200000 ps.
+ok
+
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 1200000 ps
+CPU Time:      0.090 seconds;       Data structure size:   0.2Mb
+Mon Feb 12 00:33:17 2018

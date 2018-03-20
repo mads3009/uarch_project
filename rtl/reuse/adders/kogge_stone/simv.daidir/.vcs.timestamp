@@ -1,0 +1,119 @@
+0 
+30
++cli+4
++itf+/usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcsd.tab
++memcbk
++vcsd
++vpi
++vpi
+-Mamsrun=
+-Masflags=
+-Mcc=gcc
+-Mcfl= -pipe -fPIC -O -I/usr/local/packages/synopsys_2015/vcs-mx/include
+-Mcplusplus=g++
+-Mcrt0=
+-Mcrtn=
+-Mcsrc=
+-Mexternalobj=
+-Mldflags= -rdynamic
+-Mobjects= /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so
+-Mout=simv
+-Msaverestoreobj=/usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcs_save_restore_new.o
+-Msyslibs=-ldl -lm
+-Mvcsaceobjs=
+-Mxcflags= -pipe -fPIC -I/usr/local/packages/synopsys_2015/vcs-mx/include
+-Xcbug=0x1
+-debug=3
+-f filelist.f
+-full64
+-gen_obj
+-picarchive
+-v2005
+/usr/local/packages/synopsys_2015/vcs-mx/linux64/bin/vcs1
+70
+sysc_uni_pwd=/home/ecelrc/students/sshaikh1/microarch/koggestoneadder
+binpath=/usr/local/packages/synopsys_2015/vcs-mx//gui/dve/linux64/bin
+XSESSION_EXEC=xfce4-session
+XDG_SESSION_COOKIE=c1e22219e2fcc400a75df0a700000028-1515794273.853025-44069071
+XAUTHORITY=/home/ecelrc/students/sshaikh1//.Xauthority
+X2GO_SESSION=sshaikh1-50-1515794259_stDXFCE_dp32
+X2GO_AGENT_PID=5070
+VMR_MODE_FLAG=64
+VCS_PATHMAP_PRELOAD_DONE=1
+VCS_MX_HOME_INTERNAL=1
+VCS_MODE_FLAG=64
+VCS_HOME_modshare=/usr/local/packages/synopsys_2015/vcs-mx/:1
+VCS_HOME=/usr/local/packages/synopsys_2015/vcs-mx/
+VCS_DEPTH=0
+VCS_ARG_ADDED_FOR_TMP=1
+VCS_ARCH=linux64
+UNAME=/bin/uname
+TOOL_HOME=/usr/local/packages/synopsys_2015/vcs-mx/linux64
+TCLSH=/usr/bin/tclsh
+TCLLIBPATH=/usr/local/packages/synopsys_2015/vcs-mx//gui/dve/auxx/tcllib/lib/tcl8.4 /usr/local/packages/synopsys_2015/vcs-mx//gui/dve/auxx/tcllib/snps_tcl
+STARTUP=/usr/bin/env LD_LIBRARY_PATH=/usr/lib64/nx/X11/Xinerama:/usr/lib64/nx/X11:/usr/local/lib xfce4-session
+SSH_CONNECTION=172.29.252.74 63085 146.6.221.70 22
+SSH_CLIENT=172.29.252.74 63085 22
+SSH_AUTH_SOCK=/tmp/ssh-PmmKzR5582/agent.5582
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SSH_AGENT_PID=5583
+SPECMAN_OUTPUT_TO_TTY=1
+SNPSLMD_LICENSE_FILE_modshare=/usr/local/packages/synopsys_2015/key:1
+SNPSLMD_LICENSE_FILE=/usr/local/packages/synopsys_2015/key
+SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/5582,unix/unix:/tmp/.ICE-unix/5582
+SELINUX_USE_CURRENT_RANGE=
+SELINUX_ROLE_REQUESTED=
+SELINUX_LEVEL_REQUESTED=
+SCRNAME=vcs
+SCRIPT_NAME=vcs
+QT_GRAPHICSSYSTEM=native
+QTLIB=/usr/lib64/qt-3.3/lib
+QTINC=/usr/lib64/qt-3.3/include
+QTDIR=/usr/lib64/qt-3.3
+PULSE_CLIENTCONFIG=/home/ecelrc/students/sshaikh1//.x2go/C-sshaikh1-50-1515794259_stDXFCE_dp32/.pulse-client.conf
+PATH_modshare=/usr/local/packages/synopsys_2015/vcs-mx/bin:1:/usr/sbin:1:/bin:1:/usr/bin:1:/usr/local/etc:1:/usr/X11R6/bin:1:/usr/local/packages/synopsys_2015/vcs-mx/amd64/bin:1:/sbin:1:/usr/local/packages/validation/bin:1:/usr/local/bin:1
+OVA_UUM=0
+NX_XINERAMA_CONF=/home/ecelrc/students/sshaikh1//.x2go/C-sshaikh1-50-1515794259_stDXFCE_dp32/xinerama.conf
+MODULESHOME=/home/projects/Modules
+MODULEPATH_modshare=/home/projects/Modules/tools:5:/home/projects/Modules/projects:5:/home/projects/Modules/base:5
+MODULEPATH=/home/projects/Modules/projects:/home/projects/Modules/tools:/home/projects/Modules/base
+MDB_SIM_ARGS=-simwarn
+MAVEN_HOME=/usr/share/apache-maven
+MARCH=linux64
+MANPATH_modshare=/usr/man:10:/home/projects/Modules/man:5:/usr/X11R6/man:5:/usr/local/man:5:/usr/share/man:10
+MAILPATH=/var/spool/mail/sshaikh1
+M2_HOME=/usr/share/apache-maven
+LOADEDMODULES_modshare=openwin:5:admin:5:system:5:modules:5:synopsys/vcs/2015:1:ece-defaults:5:aliases:5:local:5
+LOADEDMODULES=modules:system:openwin:aliases:local:admin:ece-defaults:synopsys/vcs/2015
+LM_LICENSE_FILE_modshare=/usr/local/packages/synopsys_2015/key:1
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+LD_LIBRARY_PATH_modshare=/usr/lib64:1:/usr/local/packages/synopsys_2015/vcs-mx/amd64/lib:1:/usr/local/lib:2:/usr/lib64/nx/X11:999999999:/usr/lib64/nx/X11/Xinerama:999999999
+LC_ALL=C
+KDEDIRS=/usr
+HISTCONTROL=ignoredups
+G_BROKEN_FILENAMES=1
+DVE_SIM_SELECT_LOOP=on
+DVE_PSTACK=/usr/bin/gstack
+DVE_AUXX_GUI=/usr/local/packages/synopsys_2015/vcs-mx//gui/dve/auxx/gui
+DVE=/usr/local/packages/synopsys_2015/vcs-mx//gui/dve
+DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-5cu0OajhGu,guid=8d52bbec22d6a1b138bd09e500016bbe
+CVS_RSH=ssh
+COLORTERM=Terminal
+CMD=/usr/local/packages/synopsys_2015/vcs-mx//gui/dve/linux64/bin/dve.exe
+CCACHE_HASHDIR=
+0
+8
+1518416308 FA.v
+1518416970 kogge_stone.v
+1518416958 TOP.v
+1515018753 /home/projects/courses/spring_18/ee382n-16120/lib/lib2
+1515018753 /home/projects/courses/spring_18/ee382n-16120/lib/lib1
+1515018753 /home/projects/courses/spring_18/ee382n-16120/lib/time
+1518412404 filelist.f
+1448424285 /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcsd.tab
+4
+0 
+1448427877 /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so
+1448427558 /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so
+1448427538 /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so
+1518416979 simv.daidir
