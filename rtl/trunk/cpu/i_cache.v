@@ -49,7 +49,7 @@ module i_cache(clk, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, 
     );
     
     wire [5:0] tag_in_cache;
-    wire valid;
+    wire tag_match, tag_valid;
     
     tag_store ts(
         .clk    (clk),
@@ -62,8 +62,7 @@ module i_cache(clk, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, 
         .v_init(v_init)
     );
     
-    wire tag_match, tag_valid;
-    eq_checker #6 (tag_in_cache, phy_tag, tag_match);
+    eq_checker #6 check_tag (tag_in_cache, phy_tag, tag_match);
     
     and2$ u_hit (hit, tag_match, tag_valid);
 
@@ -97,7 +96,7 @@ module tag_store(
     );
 
     wire w_wr;
-    and2$ (w_wr,clk,wr);
+    and2$ u_w_wr(w_wr,clk,wr);
 
     wire wr_upper, wr_lower;
     wire   [5:0] tag_upper;
@@ -149,7 +148,7 @@ module data_store(
     );
     
     wire w_wr;
-    and2$ (w_wr,clk,wr);
+    and2$ u_w_wr (w_wr,clk,wr);
 
     wire wr_upper, wr_lower;
     wire   [255:0] dout_upper;
@@ -164,7 +163,7 @@ module data_store(
     ram_nB_8w lower_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(wr_lower), .DOUT(dout_lower));
     
     //FIXME : Huge fanout for sel;
-    mux_nbit_2x1 #256 (dout_lower, dout_upper, index[3], r_data);
+    mux_nbit_2x1 #256 u_r_data (dout_lower, dout_upper, index[3], r_data);
 
 endmodule
 
