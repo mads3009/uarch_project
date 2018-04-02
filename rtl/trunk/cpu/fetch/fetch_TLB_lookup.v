@@ -4,8 +4,8 @@ module fetch_TLB_lookup(
   input f_ren,
   input [31:0] f_address,  
   output reg [2:0] f_PFN,
-  output f_prot_exp,
-  output f_pg_fault
+  output ic_prot_exp,
+  output ic_page_fault
 );
 
 //Logic that checks TLB entries and gives the PFN, exceptions
@@ -19,8 +19,8 @@ end
 end
 endgenerate
 
-assign f_prot_exp = f_ren && ({f_address[31:5],5'b0} > CS_limit);
-assign f_pg_fault = f_ren && (~(|(f_TLB_hits)));
+assign ic_prot_exp = f_ren && ({f_address[31:5],5'b0} > CS_limit);
+assign ic_page_fault = f_ren && (~(|(f_TLB_hits)));
 
 always @(*) begin
   case (f_TLB_hits)
@@ -32,6 +32,7 @@ always @(*) begin
     8'h20 : f_PFN = TLB[5*27+6:5*27+4];
     8'h40 : f_PFN = TLB[6*27+6:6*27+4];
     8'h80 : f_PFN = TLB[7*27+6:7*27+4];
+    default : f_PFN = 3'h0;
   endcase
 end
 

@@ -2,14 +2,12 @@
 /*************** Microarchiture Project******************/
 /********************************************************/
 /* Module: i_cache                                      */
-/* Description: CPU register file with 4 read ports and */
-/* 2 write ports. The write ports write to the register */
-/* only if their register addresses are different else  */
-/* the register file will retain its state.             */
+/* Description: 512 B direct mapped icache              */
+/*  of line size 32 bytes                               */
 /* Author: Madhuri Gontala                              */
 /********************************************************/
 
-module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, r_data, ic_hit, ic_miss, ic_addr);
+module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, ic_exp, r_data, ic_hit, ic_miss, ic_miss_addr);
     input         clk;
     input         rst_n;
     input         ren;
@@ -18,57 +16,58 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     input  [2:0]  tag_11_9; 
     input  [255:0]ic_fill_data;
     input         ic_miss_ack;
+    input         ic_exp;
     
     output [255:0]r_data;
     output        ic_hit;
     output        ic_miss;
-    output        ic_addr;
+    output        ic_miss_addr;
             	
+    wire [5:0] phy_tag;
+    assign phy_tag = {tag_14_12,tag_11_9};
+  
     //Internal
     wire hit;
-    wire [5:0] phy_tag;
-   
-    //FIXME : remove
-    wire v_init;
-    assign v_init=1'b0; 
-
-    assign phy_tag = {tag_14_12,tag_11_9};
-   
     wire nothit;
-    NOT u_not_hit (hit, not_hit); 
-    //assign ic_miss = ~hit && ren;
-    and2$ u_ic_miss(ic_miss, not_hit, ren);
+    wire not_ic_exp; 
+    wire not_ic_miss_ack; 
 
-    assign ic_addr = {phy_tag,index,5'b0};
+    inv1$ u_not_ic_exp (.in(ic_exp), .out(not_ic_exp)); 
+    inv1$ u_not_ic_miss_ack (.in(ic_miss_ack), .out(not_ic_miss_ack)); 
+
+    wire [5:0] tag_in_cache;
+    wire tag_match, tag_valid;
     
-    and2$ u_ic_hit (ic_hit, hit, ren);
+    //FIXME - Change to structural 
+    eq_checker #6 check_tag (.in1(tag_in_cache), .in2(phy_tag), .eq_out(tag_match));
+
+    and2$ u_hit(.out(hit), .in0(tag_match), .in1(tag_valid));
+    inv1$ u_not_hit (.in(hit), .out(not_hit)); 
     
+    //Outputs
+    and3$ u_ic_hit (.out(ic_hit), .in0(hit), .in1(not_ic_miss_ack), .in2(ren));
+    and3$ u_ic_miss(.out(ic_miss), .in0(not_hit), .in1(ren), .in2(not_ic_exp));
+    assign ic_miss_addr = {phy_tag,index,5'b0};
+
     data_store ds(
         .clk    (clk),
         .index  (index),
         .oe     (1'b1),
         .fill_data  (ic_fill_data),
-        .wr   (ic_miss_ack),
+        .wr   (not_ic_miss_ack),
         .r_data     (r_data)
     );
-    
-    wire [5:0] tag_in_cache;
-    wire tag_match, tag_valid;
-    
+
     tag_store ts(
         .clk    (clk),
         .index (index),
-        .oe(1'b1),
+        .oe   (1'b1),
         .tag (tag_in_cache),
         .tag_valid (tag_valid),
-        .wr (ic_miss_ack),
-        .wr_tag(phy_tag),
-        .v_init(v_init)
+        .wr (not_ic_miss_ack),
+        .wr_tag(phy_tag)
     );
-    
-    eq_checker #6 check_tag (tag_in_cache, phy_tag, tag_match);
-    
-    and2$ u_hit (hit, tag_match, tag_valid);
+
 
 endmodule
  
@@ -94,31 +93,37 @@ module tag_store(
     input       oe,
     input [5:0] wr_tag,
     input       wr,
-    input       v_init,
     output [5:0] tag,
     output       tag_valid
     );
 
-    wire w_wr;
-    and2$ u_w_wr(w_wr,clk,wr);
+    wire wr_neg_cycle;
+    and2$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(wr));
 
     wire wr_upper, wr_lower;
     wire   [5:0] tag_upper;
     wire   [5:0] tag_lower;
+    wire    valid_upper;
+    wire    valid_lower;
     
-    wire   [3:0] blah;
+    wire   [1:0] blah;
     
-    wire index_lower;
-    NOT u_indexlower (index[3], index_lower);
-    and2$ u_wr_upper (w_wr, index[3], wr_upper);
-    and2$ u_wr_lower (w_wr, index_lower, wr_lower);
+    wire index3; 
+    wire not_index3;
+    assign index3 = index[3];
+    inv1$ u_indexlower (.in(index3), .out(not_index3));
 
-    ram8b8w$ ts_lower (.A(index[2:0]), .DIN({2'b0,wr_tag}), .OE(oe), .WR(wr_lower), .DOUT({blah[1:0],tag_lower}));
-    ram8b8w$ ts_upper (.A(index[2:0]), .DIN({2'b0,wr_tag}), .OE(oe), .WR(wr_upper), .DOUT({blah[3:2],tag_upper}));
+    or2$ u_wr_upper (.in0(wr_neg_cycle), .in1(not_index3), .out(wr_upper));
+    or2$ u_wr_lower (.in0(wr_neg_cycle), .in1(index3), .out(wr_lower));
+    
+    ram8b8w$ ts_lower (.A(index[2:0]), .DIN({2'b0,wr_tag}), .OE(oe), .WR(wr_lower), .DOUT({blah[0],valid_lower,tag_lower}));
+    ram8b8w$ ts_upper (.A(index[2:0]), .DIN({2'b0,wr_tag}), .OE(oe), .WR(wr_upper), .DOUT({blah[1],valid_upper,tag_upper}));
     
     //FIXME : fanout 6;
-    mux_nbit_2x1 #6 u_tag (tag_lower, tag_upper, index[3], tag);
+    mux_nbit_2x1 #6 u_tag (.a0(tag_lower), .a1(tag_upper), .sel(index[3]), .out(tag));
+    mux_nbit_2x1 #1 u_tag_valid (.a0(valid_lower), .a1(valid_upper), .sel(index[3]), .out(tag_valid));
 
+/*
     //dffs for valid;
     wire [15:0] enables;
     wire [15:0] tag_v_in;
@@ -139,6 +144,7 @@ module tag_store(
         .QBAR ()
     );
     mux_16x1 u_valid (tag_vs, index, tag_valid);
+*/
 
 endmodule
 
@@ -151,23 +157,26 @@ module data_store(
     output  [255:0] r_data
     );
     
-    wire w_wr;
-    and2$ u_w_wr (w_wr,clk,wr);
+    wire wr_neg_cycle;
+    or2$ u_wr_neg_cycle (.out(wr_neg_cycle), .in0(clk), .in1(wr));
 
     wire wr_upper, wr_lower;
     wire   [255:0] dout_upper;
     wire   [255:0] dout_lower;
-    
-    wire index_lower;
-    NOT u_indexlower (index[3], index_lower);
-    and2$ u_wr_upper (w_wr, index[3], wr_upper);
-    and2$ u_wr_lower (w_wr, index_lower, wr_lower);
+   
+    wire index3; 
+    wire not_index3;
+    assign index3 = index[3];
+    inv1$ u_indexlower (.in(index3), .out(not_index3));
+
+    or2$ u_wr_upper (.in0(wr_neg_cycle), .in1(not_index3), .out(wr_upper));
+    or2$ u_wr_lower (.in0(wr_neg_cycle), .in1(index3), .out(wr_lower));
     
     ram_nB_8w upper_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(wr_upper), .DOUT(dout_upper));
     ram_nB_8w lower_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(wr_lower), .DOUT(dout_lower));
     
     //FIXME : Huge fanout for sel;
-    mux_nbit_2x1 #256 u_r_data (dout_lower, dout_upper, index[3], r_data);
+    mux_nbit_2x1 #256 u_r_data (.a0(dout_lower), .a1(dout_upper), .sel(index[3]), .out(r_data));
 
 endmodule
 
