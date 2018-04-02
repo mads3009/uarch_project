@@ -9,25 +9,29 @@
 /* Author: Madhuri Gontala                              */
 /********************************************************/
 
-module i_cache(clk, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, v_init, r_data, r_ready, ic_miss, ic_addr);
+module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, r_data, ic_hit, ic_miss, ic_addr);
     input         clk;
+    input         rst_n;
     input         ren;
     input  [3:0]  index;
     input  [2:0]  tag_14_12; 
     input  [2:0]  tag_11_9; 
     input  [255:0]ic_fill_data;
     input         ic_miss_ack;
-    input         v_init;
     
     output [255:0]r_data;
-    output        r_ready;
+    output        ic_hit;
     output        ic_miss;
     output        ic_addr;
             	
     //Internal
     wire hit;
     wire [5:0] phy_tag;
-    
+   
+    //FIXME : remove
+    wire v_init;
+    assign v_init=1'b0; 
+
     assign phy_tag = {tag_14_12,tag_11_9};
    
     wire nothit;
@@ -37,7 +41,7 @@ module i_cache(clk, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, 
 
     assign ic_addr = {phy_tag,index,5'b0};
     
-    and2$ u_r_ready (r_ready, hit, ren);
+    and2$ u_ic_hit (ic_hit, hit, ren);
     
     data_store ds(
         .clk    (clk),
