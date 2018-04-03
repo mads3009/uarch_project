@@ -4,8 +4,9 @@ import sys
 linecount=0
 f1 = open("rom_dump1.txt","w")
 f2 = open("rom_dump2.txt","w")
+f3 = open("localparams.txt","w")
 
-cols=97
+cols=97+15
 rows=118
 
 start=4
@@ -103,20 +104,19 @@ for i in reversed(words):
 			b=a.split(":")
 			diff = int(b[0]) - int(b[1]) +1
 			i=i.split("[")
-			cmd = "localparam " + i[0] + "_BL = 4'd" + str(index) 
-			print(cmd);
-			cmd = "localparam " + i[0] + "_BH = 4'd" + str(index+ diff - 1) 
-			print(cmd);
+			cmd = "localparam " + i[0] + "_BL = 8'd" + str(index) 
+			f3.write(cmd+"\n");
+			cmd = "localparam " + i[0] + "_BH = 8'd" + str(index+ diff - 1) 
+			f3.write(cmd+"\n");
 			cmd = "localparam " + i[0] + "_W = 4'd" + str(diff) 
-			print(cmd);
+			f3.write(cmd+"\n");
 			index=index+diff;
 			
 		elif(i is not ''):
-			cmd = "localparam " + i + " = 4'd" + str(index)
-			print(cmd);
+			cmd = "localparam " + i + " = 8'd" + str(index)
+			f3.write(cmd+"\n");
 			cmd = "localparam " + i + "_W = 4'd1" 
-			print(cmd);
-			index=index+diff;
+			f3.write(cmd+"\n");
 			index=index+1	
 
 	elif(flag==1):		
@@ -126,23 +126,22 @@ for i in reversed(words):
 			b=a.split(":")
 			diff = int(b[0]) - int(b[1]) +1
 			i=i.split("[")
-			cmd = "localparam " + i[0] + "_BL = 4'd" + str(index) 
-			print(cmd);
-			cmd = "localparam " + i[0] + "_BH = 4'd" + str(index+ diff - 1) 
-			print(cmd);
+			cmd = "localparam " + i[0] + "_BL = 8'd" + str(index) 
+			f3.write(cmd+"\n");
+			cmd = "localparam " + i[0] + "_BH = 8'd" + str(index+ diff - 1) 
+			f3.write(cmd+"\n");
 			cmd = "localparam " + i[0] + "_W = 4'd" + str(diff) 
-			print(cmd);
+			f3.write(cmd+"\n");
 			index=index+diff;
 			
 		elif(i is not ''):
-			cmd = "localparam " + i + " = 4'd" + str(index)
-			print(cmd);
+			cmd = "localparam " + i + " = 8'd" + str(index)
+			f3.write(cmd+"\n");
 			cmd = "localparam " + i + "_W = 4'd1"
-			print(cmd);
-			index=index+diff;
+			f3.write(cmd+"\n");
 			index=index+1
 			
 		#if(i is "sub_rom_sel"):
-		#	print("mad")
+		#	f3.write("mad")
 		#	sys.exit();
 		#	break;
