@@ -6,7 +6,7 @@ f1 = open("rom_dump1.txt","w")
 f2 = open("rom_dump2.txt","w")
 
 cols=97
-rows=134
+rows=118
 
 start=4
 index=2
