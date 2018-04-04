@@ -79,36 +79,26 @@ wire [31:0] w_de_EIP_next;
 wire [31:0] r_wb_alu_res1;
 wire [31:0] r_wb_alu_res3;
 wire r_wb_wr_eip_alu_res_sel;
-wire r_wb_prefix_size_over;
+wire r_wb_prefix_op_size_pr;
 
 //EIP register
 wire [31:0] r_EIP;
-wire [1:0]  w_EIP_sel;
-
-wire w_wb_CF_as_expected;
-wire w_wb_ZF_as_expected;
-nor2$ u_w_wb_CF_as_expected (.out(w_wb_CF_as_expected), .in0(r_wb_CF_expected), .in1(w_wb_flag_CF));
-nor2$ u_w_wb_ZF_as_expected (.out(w_wb_ZF_as_expected), .in0(r_wb_ZF_expected), .in1(w_wb_flag_ZF));
-
-wire w_not_cond_wr_CF;
-wire w_not_cond_wr_ZF;
-inv1$  u_w_not_cond_wr_CF (.out(w_not_cond_wr_CF), .in(r_wb_cond_wr_CF));
-inv1$  u_w_not_cond_wr_ZF (.out(w_not_cond_wr_ZF), .in(r_wb_cond_wr_ZF));
-
-wire w_wb_CF_met;
-wire w_wb_ZF_met;
-or2$ u_w_wb_CF_met (.out(w_wb_CF_met), .in0(w_wb_CF_as_expected), .in1(w_not_cond_wr_CF));
-or2$ u_w_wb_ZF_met (.out(w_wb_ZF_met), .in0(w_wb_ZF_as_expected), .in1(w_not_cond_wr_ZF));
-
-and4$ u_w_EIP_sel0 (.out(w_EIP_sel[0]), .in0(r_V_wb), .in1(r_wb_eip_change), .in2(w_wb_CF_met), .in3(w_wb_ZF_met));
-and2$ u_w_EIP_sel1 (.out(w_EIP_sel[1]), .in0(r_V_de), .in1(w_not_stall_fe));
-
-wire [31:0] w_eip_alu_res;
-mux_nbit_2x1 u_eip_alu_res(.out(w_eip_alu_res), .a0(r_wb_alu_res1), .a1(r_wb_alu_res3), .sel(r_wb_wr_eip_alu_res_sel));
-wire [31:0] w_eip_alu_res_with_pr_over;
-mux_nbit_2x1 u_eip_alu_res_with_pr_over(.out(w_eip_alu_res_with_pr_over), .a0(w_eip_alu_res), .a1({16'h0,w_eip_alu_res[15:0]}), .sel(r_wb_prefix_size_over));
-register_ld2bit u_r_EIP(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld({w_EIP_sel[1],w_EIP_sel[0]}), 
-                        .data_i1(w_de_EIP_next), .data_i2(w_eip_alu_res_with_pr_over), .data_i3(/*Unused*/), .data_o(r_EIP));
+EIP_reg u_EIP_reg (
+  .clk                       (clk),
+  .rst_n                     (rst_n),
+  .r_wb_alu_res1             (r_wb_alu_res1),
+  .r_wb_alu_res3             (r_wb_alu_res3),
+  .r_wb_wr_eip_alu_res_sel   (r_wb_wr_eip_alu_res_sel),
+  .w_de_EIP_next             (w_de_EIP_next),
+  .r_V_wb                    (r_V_wb),
+  .r_wb_eip_change           (r_wb_eip_change),
+  .r_wb_cond_wr_CF           (r_wb_cond_wr_CF),
+  .r_wb_cond_wr_ZF           (r_wb_cond_wr_ZF),
+  .r_wb_expected_CF          (r_wb_expected_CF),
+  .r_wb_expected_ZF          (r_wb_expected_ZF),
+  .r_V_de                    (r_V_de),
+  .w_not_stall_fe            (w_not_stall_fe)
+);
 
 // ***************** FETCH STAGE ******************
 
@@ -147,7 +137,7 @@ wire [255:0]  w_ic_data_shifted_10;
 wire [255:0]  w_ic_data_shifted_11;
 
 wire [31:0] w_EIP_plus_32;
-kogge_stone #32 u_EIP_reg ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
+kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
 
 //fetch_address
 mux_nbit_2x1 #32 u_f_address( .a0(w_EIP_plus_32), .a1(r_EIP), .sel(w_f_address_sel), .out(w_f_address));
