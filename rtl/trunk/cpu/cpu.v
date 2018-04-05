@@ -424,9 +424,9 @@ wire       w_de_ld_flag_DF;
 wire       w_de_ld_flag_OF;
 
 decode u_decode ( 
-      .r_de_ic_data_shifted                       (w_r_de_ic_data_shifted), 
-      .r_de_EIP_curr                              (w_r_de_EIP_curr), 
-      .r_de_CS_curr                               (w_r_de_CS_curr), 
+      .r_de_ic_data_shifted                       (r_de_ic_data_shifted), 
+      .r_de_EIP_curr                              (r_de_EIP_curr), 
+      .r_de_CS_curr                               (r_de_CS_curr), 
       .de_EIP_curr                                (w_de_EIP_curr),
       .de_CS_curr                                 (w_de_CS_curr),
       .de_base_sel                                (w_de_base_sel),
