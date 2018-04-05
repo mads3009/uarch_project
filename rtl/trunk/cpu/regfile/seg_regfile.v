@@ -15,8 +15,10 @@ input  [2:0]  wr_reg,
 input  [15:0] wr_data,
 input  [2:0]  seg1,
 input  [2:0]  seg2,
+input  [2:0]  seg3,
 output [15:0] r_seg_data1,
-output [15:0] r_seg_data2
+output [15:0] r_seg_data2,
+output [15:0] r_seg_data3
 );
 
 wire [15:0] seg_regs[7:0];
@@ -24,6 +26,7 @@ wire [15:0] seg_regs[7:0];
 //Read ports
 mux_nbit_8x1 #16 u_rdata1 (.a0(seg_regs[0]), .a1(seg_regs[1]), .a2(seg_regs[2]), .a3(seg_regs[3]), .a4(seg_regs[4]), .a5(seg_regs[5]), .a6(seg_regs[6]), .a7(seg_regs[7]), .sel(seg1), .out(r_seg_data1));
 mux_nbit_8x1 #16 u_rdata2 (.a0(seg_regs[0]), .a1(seg_regs[1]), .a2(seg_regs[2]), .a3(seg_regs[3]), .a4(seg_regs[4]), .a5(seg_regs[5]), .a6(seg_regs[6]), .a7(seg_regs[7]), .sel(seg2), .out(r_seg_data2));
+mux_nbit_8x1 #16 u_rdata3 (.a0(seg_regs[0]), .a1(seg_regs[1]), .a2(seg_regs[2]), .a3(seg_regs[3]), .a4(seg_regs[4]), .a5(seg_regs[5]), .a6(seg_regs[6]), .a7(seg_regs[7]), .sel(seg3), .out(r_seg_data3));
 
 //Write
 

@@ -1,6 +1,6 @@
 module fetch_TLB_lookup(
   input [27*8-1:0] TLB,
-  input [31:0] CS_limit,
+  input [19:0] CS_limit,
   input f_ren,
   input [31:0] f_address,  
   output reg [2:0] f_PFN,

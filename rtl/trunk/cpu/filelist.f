@@ -40,11 +40,12 @@
 ../../reuse/sub_designs/mux_nbit_8x1_mulsel.v
 ../../reuse/sub_designs/ram_nB_8w.v
 ../../reuse/shifters/shift_right_rotate.v
+../../reuse/sub_designs/pencoder_3_2_netlist.v
+../../reuse/sub_designs/AND1_nbit.v
 fetch/i_cache.v
 fetch/fetch_TLB_lookup.v
 fetch/fetch_fsm.v
 EIP_reg.v
-cpu.v
 decode/register_addr_dependency.v
 decode/segment_addr_dependency.v
 decode/mmx_addr_dependency.v
@@ -53,4 +54,7 @@ decode/dep_ld_mmx_netlist.v
 decode/dependency_seg_netlist.v
 decode/rom_value_select.v
 decode/decode.v
-
+regfile/regfile.v
+regfile/mmx_regfile.v
+regfile/seg_regfile.v
+cpu.v
