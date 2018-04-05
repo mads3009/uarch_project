@@ -8,186 +8,186 @@
 module decode (r_de_ic_data_shifted,
                r_de_EIP_curr, 
                r_de_CS_curr, 
-               w_de_EIP_curr,
-               w_de_CS_curr,
-               w_de_base_sel,
-               w_de_disp_sel,
-               w_de_SIB_pr,
-               w_de_scale,
-               w_de_imm_rel_ptr32,
-               w_de_disp32,
-               w_de_in1_needed,
-               w_de_in2_needed,
-               w_de_in3_needed,
-               w_de_in4_needed,
-               w_de_esp_needed,
-               w_de_eax_needed,
-               w_de_ecx_needed,
-               w_de_in1,
-               w_de_in2,
-               w_de_in3,
-               w_de_in4,
-               w_de_dreg1,
-               w_de_dreg2,
-               w_de_dreg3, 
-               w_de_ld_reg1, 
-               w_de_ld_reg2, 
-               w_de_ld_reg3, 
-               w_de_ld_reg1_strb, 
-               w_de_ld_reg2_strb, 
-               w_de_ld_reg3_strb, 
-               w_de_reg8_sr1_HL_sel, 
-               w_de_reg8_sr2_HL_sel, 
-               w_de_mm1_needed, 
-               w_de_mm2_needed, 
-               w_de_mm1, 
-               w_de_mm2, 
-               w_de_ld_mm, 
-               w_de_dmm, 
-               w_de_mm_sr1_sel_H, 
-               w_de_mm_sr1_sel_L, 
-               w_de_mm_sr2_sel, 
-               w_de_seg1_needed, 
-               w_de_seg2_needed, 
-               w_de_seg3_needed, 
-               w_de_seg1, 
-               w_de_seg2, 
-               w_de_seg3, 
-               w_de_ld_seg, 
-               w_de_dseg, 
-               w_de_ld_mem, 
-               w_de_mem_read, 
-               w_de_mem_rd_size, 
-               w_de_mem_wr_size, 
-               w_de_mem_rd_addr_sel, 
-               w_de_eip_change, 
-               w_de_cmps_op, 
-               w_de_cxchg_op, 
-               w_de_CF_needed, 
-               w_de_DF_needed, 
-               w_de_AF_needed, 
-               w_de_pr_size_over, 
-               w_de_EIP_next, 
-               w_de_stack_off_sel, 
-               w_de_imm_sel, 
-               w_de_EIP_EFLAGS_sel, 
-               w_de_sr1_sel, 
-               w_de_sr2_sel, 
-               w_de_alu1_op, 
-               w_de_alu2_op, 
-               w_de_alu3_op, 
-               w_de_alu1_op_size, 
-               w_de_df_val, 
-               w_de_CF_expected, 
-               w_de_ZF_expected, 
-               w_de_cond_wr_CF, 
-               w_de_cond_wr_ZF, 
-               w_de_wr_reg1_data_sel, 
-               w_de_wr_reg2_data_sel, 
-               w_de_wr_seg_data_sel, 
-               w_de_wr_eip_alu_res_sel, 
-               w_de_wr_mem_data_sel[1:0], 
-               w_de_wr_mem_addr_sel, 
-               w_de_ld_flag_CF, 
-               w_de_ld_flag_PF, 
-               w_de_ld_flag_AF, 
-               w_de_ld_flag_ZF, 
-               w_de_ld_flag_SF, 
-               w_de_ld_flag_DF, 
-               w_de_ld_flag_OF);
+               de_EIP_curr,
+               de_CS_curr,
+               de_base_sel,
+               de_disp_sel,
+               de_SIB_pr,
+               de_scale,
+               de_imm_rel_ptr32,
+               de_disp32,
+               de_in1_needed,
+               de_in2_needed,
+               de_in3_needed,
+               de_in4_needed,
+               de_esp_needed,
+               de_eax_needed,
+               de_ecx_needed,
+               de_in1,
+               de_in2,
+               de_in3,
+               de_in4,
+               de_dreg1,
+               de_dreg2,
+               de_dreg3, 
+               de_ld_reg1, 
+               de_ld_reg2, 
+               de_ld_reg3, 
+               de_ld_reg1_strb, 
+               de_ld_reg2_strb, 
+               de_ld_reg3_strb, 
+               de_reg8_sr1_HL_sel, 
+               de_reg8_sr2_HL_sel, 
+               de_mm1_needed, 
+               de_mm2_needed, 
+               de_mm1, 
+               de_mm2, 
+               de_ld_mm, 
+               de_dmm, 
+               de_mm_sr1_sel_H, 
+               de_mm_sr1_sel_L, 
+               de_mm_sr2_sel, 
+               de_seg1_needed, 
+               de_seg2_needed, 
+               de_seg3_needed, 
+               de_seg1, 
+               de_seg2, 
+               de_seg3, 
+               de_ld_seg, 
+               de_dseg, 
+               de_ld_mem, 
+               de_mem_read, 
+               de_mem_rd_size, 
+               de_mem_wr_size, 
+               de_mem_rd_addr_sel, 
+               de_eip_change, 
+               de_cmps_op, 
+               de_cxchg_op, 
+               de_CF_needed, 
+               de_DF_needed, 
+               de_AF_needed, 
+               de_pr_size_over, 
+               de_EIP_next, 
+               de_stack_off_sel, 
+               de_imm_sel, 
+               de_EIP_EFLAGS_sel, 
+               de_sr1_sel, 
+               de_sr2_sel, 
+               de_alu1_op, 
+               de_alu2_op, 
+               de_alu3_op, 
+               de_alu1_op_size, 
+               de_df_val, 
+               de_CF_expected, 
+               de_ZF_expected, 
+               de_cond_wr_CF, 
+               de_cond_wr_ZF, 
+               de_wr_reg1_data_sel, 
+               de_wr_reg2_data_sel, 
+               de_wr_seg_data_sel, 
+               de_wr_eip_alu_res_sel, 
+               de_wr_mem_data_sel, 
+               de_wr_mem_addr_sel, 
+               de_ld_flag_CF, 
+               de_ld_flag_PF, 
+               de_ld_flag_AF, 
+               de_ld_flag_ZF, 
+               de_ld_flag_SF, 
+               de_ld_flag_DF, 
+               de_ld_flag_OF);
 
 input [255:0]r_de_ic_data_shifted;
 input [31:0] r_de_EIP_curr;
 input [15:0] r_de_CS_curr;
 
 
-output [31:0]w_de_EIP_curr;
-output [15:0]w_de_CS_curr;
-output       w_de_base_sel;
-output [1:0] w_de_disp_sel;
-output       w_de_SIB_pr;
-output [1:0] w_de_scale;
-output [31:0]w_de_imm_rel_ptr32;
-output [31:0]w_de_disp32;
-output       w_de_in1_needed;
-output       w_de_in2_needed;
-output       w_de_in3_needed;
-output       w_de_in4_needed;
-output       w_de_esp_needed;
-output       w_de_eax_needed;
-output       w_de_ecx_needed;
-output [2:0] w_de_in1;
-output [2:0] w_de_in2;
-output [2:0] w_de_in3;
-output [2:0] w_de_in4;
-output [2:0] w_de_dreg1;
-output [2:0] w_de_dreg2;
-output [2:0] w_de_dreg3;
-output       w_de_ld_reg1;
-output       w_de_ld_reg2;
-output       w_de_ld_reg3;
-output [3:0] w_de_ld_reg1_strb;
-output [3:0] w_de_ld_reg2_strb;
-output [3:0] w_de_ld_reg3_strb;
-output       w_de_reg8_sr1_HL_sel;
-output       w_de_reg8_sr2_HL_sel;
-output       w_de_mm1_needed;
-output       w_de_mm2_needed;
-output [2:0] w_de_mm1;
-output [2:0] w_de_mm2;
-output       w_de_ld_mm;
-output [2:0] w_de_dmm;
-output       w_de_mm_sr1_sel_H;
-output       w_de_mm_sr1_sel_L;
-output       w_de_mm_sr2_sel;
-output       w_de_seg1_needed;
-output       w_de_seg2_needed;
-output       w_de_seg3_needed;
-output [2:0] w_de_seg1;
-output [2:0] w_de_seg2;
-output [2:0] w_de_seg3;
-output       w_de_ld_seg;
-output [2:0] w_de_dseg;
-output       w_de_ld_mem;
-output       w_de_mem_read;
-output [1:0] w_de_mem_rd_size;
-output [1:0] w_de_mem_wr_size;
-output       w_de_mem_rd_addr_sel;
-output       w_de_eip_change;
-output       w_de_cmps_op;
-output       w_de_cxchg_op;
-output       w_de_CF_needed;
-output       w_de_DF_needed;
-output       w_de_AF_needed;
-output       w_de_pr_size_over;
-output [31:0]w_de_EIP_next;
-output [1:0] w_de_stack_off_sel;
-output [1:0] w_de_imm_sel;
-output [1:0] w_de_EIP_EFLAGS_sel;
-output [1:0] w_de_sr1_sel;
-output [1:0] w_de_sr2_sel;
-output [3:0] w_de_alu1_op;
-output       w_de_alu2_op;
-output       w_de_alu3_op;
-output [1:0] w_de_alu1_op_size;
-output       w_de_df_val;
-output       w_de_CF_expected;
-output       w_de_ZF_expected;
-output       w_de_cond_wr_CF;
-output       w_de_cond_wr_ZF;
-output       w_de_wr_reg1_data_sel;
-output       w_de_wr_reg2_data_sel;
-output [1:0] w_de_wr_seg_data_sel;
-output       w_de_wr_eip_alu_res_sel;
-output [1:0] w_de_wr_mem_data_sel;
-output       w_de_wr_mem_addr_sel;
-output       w_de_ld_flag_CF;
-output       w_de_ld_flag_PF;
-output       w_de_ld_flag_AF;
-output       w_de_ld_flag_ZF;
-output       w_de_ld_flag_SF;
-output       w_de_ld_flag_DF;
-output       w_de_ld_flag_OF;
+output [31:0]de_EIP_curr;
+output [15:0]de_CS_curr;
+output       de_base_sel;
+output [1:0] de_disp_sel;
+output       de_SIB_pr;
+output [1:0] de_scale;
+output [31:0]de_imm_rel_ptr32;
+output [31:0]de_disp32;
+output       de_in1_needed;
+output       de_in2_needed;
+output       de_in3_needed;
+output       de_in4_needed;
+output       de_esp_needed;
+output       de_eax_needed;
+output       de_ecx_needed;
+output [2:0] de_in1;
+output [2:0] de_in2;
+output [2:0] de_in3;
+output [2:0] de_in4;
+output [2:0] de_dreg1;
+output [2:0] de_dreg2;
+output [2:0] de_dreg3;
+output       de_ld_reg1;
+output       de_ld_reg2;
+output       de_ld_reg3;
+output [3:0] de_ld_reg1_strb;
+output [3:0] de_ld_reg2_strb;
+output [3:0] de_ld_reg3_strb;
+output       de_reg8_sr1_HL_sel;
+output       de_reg8_sr2_HL_sel;
+output       de_mm1_needed;
+output       de_mm2_needed;
+output [2:0] de_mm1;
+output [2:0] de_mm2;
+output       de_ld_mm;
+output [2:0] de_dmm;
+output       de_mm_sr1_sel_H;
+output       de_mm_sr1_sel_L;
+output       de_mm_sr2_sel;
+output       de_seg1_needed;
+output       de_seg2_needed;
+output       de_seg3_needed;
+output [2:0] de_seg1;
+output [2:0] de_seg2;
+output [2:0] de_seg3;
+output       de_ld_seg;
+output [2:0] de_dseg;
+output       de_ld_mem;
+output       de_mem_read;
+output [1:0] de_mem_rd_size;
+output [1:0] de_mem_wr_size;
+output       de_mem_rd_addr_sel;
+output       de_eip_change;
+output       de_cmps_op;
+output       de_cxchg_op;
+output       de_CF_needed;
+output       de_DF_needed;
+output       de_AF_needed;
+output       de_pr_size_over;
+output [31:0]de_EIP_next;
+output [1:0] de_stack_off_sel;
+output [1:0] de_imm_sel;
+output [1:0] de_EIP_EFLAGS_sel;
+output [1:0] de_sr1_sel;
+output [1:0] de_sr2_sel;
+output [3:0] de_alu1_op;
+output       de_alu2_op;
+output       de_alu3_op;
+output [1:0] de_alu1_op_size;
+output       de_df_val;
+output       de_CF_expected;
+output       de_ZF_expected;
+output       de_cond_wr_CF;
+output       de_cond_wr_ZF;
+output       de_wr_reg1_data_sel;
+output       de_wr_reg2_data_sel;
+output [1:0] de_wr_seg_data_sel;
+output       de_wr_eip_alu_res_sel;
+output [1:0] de_wr_mem_data_sel;
+output       de_wr_mem_addr_sel;
+output       de_ld_flag_CF;
+output       de_ld_flag_PF;
+output       de_ld_flag_AF;
+output       de_ld_flag_ZF;
+output       de_ld_flag_SF;
+output       de_ld_flag_DF;
+output       de_ld_flag_OF;
 
 
 wire [127:0] de_lower_16bytes;
@@ -550,14 +550,14 @@ mux8bit_8x1 mux_sib   (.IN0(de_lower_16bytes[23:16]), .IN1(de_lower_16bytes[31:2
 
 mux32bit_8x1 mux_disp (.IN0(de_lower_16bytes[47:16]), .IN1(de_lower_16bytes[55:24]), .IN2(de_lower_16bytes[63:32]), .IN3(de_lower_16bytes[71:40]),
                        .IN4(de_lower_16bytes[79:48]), .IN5(de_lower_16bytes[87:56]), .IN6(32'd0), .IN7(32'd0), .S0(disp_sel[0]), .S1(disp_sel[1]),
-                       .S2(disp_sel[2]), .Y(w_de_disp32));
+                       .S2(disp_sel[2]), .Y(de_disp32));
 
 mux32bit_16x1 mux_imm (.IN0(de_lower_16bytes[39:8]), .IN1(de_lower_16bytes[47:16]), .IN2(de_lower_16bytes[55:24]), .IN3(de_lower_16bytes[63:32]),
                        .IN4(de_lower_16bytes[71:40]), .IN5(de_lower_16bytes[79:48]), .IN6(de_lower_16bytes[87:56]), .IN7(de_lower_16bytes[95:64]), 
                        .IN8(de_lower_16bytes[103:72]), .IN9(de_lower_16bytes[111:80]), .IN10(de_lower_16bytes[119:88]), .IN11(32'd0), .IN12(32'd0),
                        .IN13(32'd0), .IN14(32'd0), .IN15(32'd0), .S0(imm_sel[0]), .S1(imm_sel[1]),
                        .S2(imm_sel[2]), .S3(imm_sel[3]), .Y(imm));
-assign w_de_imm_rel_ptr32 = imm;
+assign de_imm_rel_ptr32 = imm;
 
 mux16bit_8x1 mux_ptr1 (.IN0(de_lower_16bytes[55:40]), .IN1(de_lower_16bytes[63:48]), .IN2(de_lower_16bytes[71:56]), .IN3(de_lower_16bytes[79:64]),
                        .IN4(de_lower_16bytes[87:72]), .IN5(16'd0), .IN6(16'd0), .IN7(16'd0), .S0(w_mux_sel[0]), .S1(w_mux_sel[1]),
@@ -572,7 +572,7 @@ assign reg_op_mod = w_modrm[5:3];
 wire [2:0] index;
 wire [2:0] base;
 
-assign w_de_scale = SIB[7:6];
+assign de_scale = SIB[7:6];
 assign index = SIB[5:3];
 assign base = SIB[2:0];
 
@@ -664,25 +664,25 @@ register_addr_dependency reg_vals(.sr1_needed(control_signals[SR1_NEEDED]),
                                   .ld_sr2(control_signals[LD_SR2]),
                                   .stack_read(control_signals[STACK_READ]),
                                   .stack_write(control_signals[STACK_WRITE]),
-                                  .in1_needed(w_de_in1_needed),
-                                  .in2_needed(w_de_in2_needed),
-                                  .in3_needed(w_de_in3_needed),
-                                  .in4_needed(w_de_in4_needed),
-                                  .in1(w_de_in1),
-                                  .in2(w_de_in2),
-                                  .in3(w_de_in3),
-                                  .in4(w_de_in4),
-                                  .reg8_sr1_HL_sel(w_de_reg8_sr1_HL_sel),
-                                  .reg8_sr2_HL_sel(w_de_reg8_sr2_HL_sel),
-                                  .dreg1(w_de_dreg1),
-                                  .dreg2(w_de_dreg2),
-                                  .dreg3(w_de_dreg3),
-                                  .ld_reg1_strb(w_de_ld_reg1_strb),
-                                  .ld_reg2_strb(w_de_ld_reg2_strb),
-                                  .ld_reg3_strb(w_de_ld_reg3_strb),
-                                  .ld_reg1(w_de_ld_reg1),
-                                  .ld_reg2(w_de_ld_reg2),
-                                  .ld_reg3(w_de_ld_reg3));
+                                  .in1_needed(de_in1_needed),
+                                  .in2_needed(de_in2_needed),
+                                  .in3_needed(de_in3_needed),
+                                  .in4_needed(de_in4_needed),
+                                  .in1(de_in1),
+                                  .in2(de_in2),
+                                  .in3(de_in3),
+                                  .in4(de_in4),
+                                  .reg8_sr1_HL_sel(de_reg8_sr1_HL_sel),
+                                  .reg8_sr2_HL_sel(de_reg8_sr2_HL_sel),
+                                  .dreg1(de_dreg1),
+                                  .dreg2(de_dreg2),
+                                  .dreg3(de_dreg3),
+                                  .ld_reg1_strb(de_ld_reg1_strb),
+                                  .ld_reg2_strb(de_ld_reg2_strb),
+                                  .ld_reg3_strb(de_ld_reg3_strb),
+                                  .ld_reg1(de_ld_reg1),
+                                  .ld_reg2(de_ld_reg2),
+                                  .ld_reg3(de_ld_reg3));
 
 mmx_addr_dependency mmx_vals (.mm1_needed_in(control_signals[MM1_NEEDED]),
                               .mm2_needed_in(control_signals[MM2_NEEDED]),
@@ -694,14 +694,14 @@ mmx_addr_dependency mmx_vals (.mm1_needed_in(control_signals[MM1_NEEDED]),
                               .reg_op(reg_op),
                               .ld_mm_in(control_signals[LD_MMX]),
                               .ret_op(control_signals[RET_OP]),
-                              .ld_mm(w_de_ld_mm),
-                              .mm1_needed(w_de_mm1_needed),
-                              .mm2_needed(w_de_mm2_needed),
-                              .mm1(w_de_mm1),
-                              .mm2(w_de_mm2),
-                              .mm_sr1_sel_L(w_de_mm_sr1_sel_L),
-                              .mm_sr2_sel(w_de_mm_sr2_sel),
-                              .dmm(w_de_dmm));
+                              .ld_mm(de_ld_mm),
+                              .mm1_needed(de_mm1_needed),
+                              .mm2_needed(de_mm2_needed),
+                              .mm1(de_mm1),
+                              .mm2(de_mm2),
+                              .mm_sr1_sel_L(de_mm_sr1_sel_L),
+                              .mm_sr2_sel(de_mm_sr2_sel),
+                              .dmm(de_dmm));
 
 segment_addr_dependency seg_vals (.cmps_op(control_signals[CMPS_OP]),
                                   .mod(mod),
@@ -717,14 +717,14 @@ segment_addr_dependency seg_vals (.cmps_op(control_signals[CMPS_OP]),
                                   .seg2_sel(control_signals[SEG2_SEL]),
                                   .dseg_in(control_signals[DSEG_BH:DSEG_BL]),
                                   .ld_seg_in(control_signals[LD_SEG]),
-                                  .seg1_needed(w_de_seg1_needed),
-                                  .seg2_needed(w_de_seg2_needed),
-                                  .seg3_needed(w_de_seg3_needed),
-                                  .seg1(w_de_seg1),
-                                  .seg2(w_de_seg2),
-                                  .seg3(w_de_seg3),
-                                  .dseg(w_de_dseg),
-                                  .ld_seg(w_de_ld_seg)
+                                  .seg1_needed(de_seg1_needed),
+                                  .seg2_needed(de_seg2_needed),
+                                  .seg3_needed(de_seg3_needed),
+                                  .seg1(de_seg1),
+                                  .seg2(de_seg2),
+                                  .seg3(de_seg3),
+                                  .dseg(de_dseg),
+                                  .ld_seg(de_ld_seg)
                                );
 
 rom_value_select rom_vals ( .sr1_sel_reg(control_signals[SR1_SEL_REG_BH:SR1_SEL_REG_BL]),
@@ -755,18 +755,18 @@ rom_value_select rom_vals ( .sr1_sel_reg(control_signals[SR1_SEL_REG_BH:SR1_SEL_
                             .alu1_op_size_no_over(control_signals[ALU_OP_SIZE_NO_OVER]),
 		            .ret_op(control_signals[RET_OP]),
                             .ld_seg(control_signals[LD_SEG]),
-                            .sr1_sel(w_de_sr1_sel),
-                            .sr2_sel(w_de_sr2_sel),
-                            .imm_sel(w_de_imm_sel),
-                            .stack_off_sel(w_de_stack_off_sel),
+                            .sr1_sel(de_sr1_sel),
+                            .sr2_sel(de_sr2_sel),
+                            .imm_sel(de_imm_sel),
+                            .stack_off_sel(de_stack_off_sel),
                             .reg_rw_size(reg_rw_size),
-                            .mem_rd_size(w_de_mem_rd_size),
-                            .mem_wr_size(w_de_mem_wr_size),
-                            .alu1_op_size(w_de_alu1_op_size),
-                            .alu1_op(w_de_alu1_op),
-                            .base_sel(w_de_base_sel),
-                            .disp_sel(w_de_disp_sel),
-                            .SIB_pr(w_de_SIB_pr));
+                            .mem_rd_size(de_mem_rd_size),
+                            .mem_wr_size(de_mem_wr_size),
+                            .alu1_op_size(de_alu1_op_size),
+                            .alu1_op(de_alu1_op),
+                            .base_sel(de_base_sel),
+                            .disp_sel(de_disp_sel),
+                            .SIB_pr(de_SIB_pr));
 
 //Read mem and Load Mem generation
 
@@ -774,13 +774,13 @@ nand2$ mem_nand0( .in0(mod[0]), .in1(mod[1]), .out(mod_not_11));
 nand2$ mem_nand1( .in0(mod_not_11), .in1(control_signals[SR1_RM]), .out(mem_nand1_out));
 nor2$  mem_nor0 ( .in0(control_signals[LD_SR1]), .in1(control_signals[LD_MMX]), .out(mem_nor0_out));
 nor2$  mem_nor1 ( .in0(mem_nor0_out), .in1(mem_nand1_out), .out(mem_nor1_out));
-or2$   mem_or0  ( .in0(mem_nor1_out), .in1(control_signals[STACK_WRITE]), .out(w_de_ld_mem));
+or2$   mem_or0  ( .in0(mem_nor1_out), .in1(control_signals[STACK_WRITE]), .out(de_ld_mem));
 
 
 or2$   mem_or1  ( .in0(control_signals[SR1_RM]), .in1(control_signals[SR2_RM]), .out(w_mem_or1_out));
 and2$  mem_and0 ( .in0(w_mem_or1_out), .in1(mod_not_11), .out(w_mem_and0_out));
 or2$   mem_or2  ( .in0(control_signals[CMPS_OP]), .in1(control_signals[STACK_READ]), .out(w_mem_or2_out));
-or2$   mem_or3  ( .in0(w_mem_or2_out), .in1(w_mem_and0_out), .out(w_de_mem_read));
+or2$   mem_or3  ( .in0(w_mem_or2_out), .in1(w_mem_and0_out), .out(de_mem_read));
 
 
 
@@ -818,7 +818,7 @@ cond_sum32 add13 ( .A(de_eip), .B(32'd14), .CIN(1'd0), .S(nxt_eip13), .COUT(/*un
 cond_sum32 add14 ( .A(de_eip), .B(32'd15), .CIN(1'd0), .S(nxt_eip14), .COUT(/*unused*/)); 
 cond_sum32 add15 ( .A(de_eip), .B(32'd16), .CIN(1'd0), .S(nxt_eip15), .COUT(/*unused*/));
 
-mux32bit_16x1 mux_eip(.Y(w_de_EIP_next), .IN0(de_eip), .IN1(nxt_eip0), .IN2(nxt_eip1), .IN3(nxt_eip2), .IN4(nxt_eip3), .IN5(nxt_eip4)
+mux32bit_16x1 mux_eip(.Y(de_EIP_next), .IN0(de_eip), .IN1(nxt_eip0), .IN2(nxt_eip1), .IN3(nxt_eip2), .IN4(nxt_eip3), .IN5(nxt_eip4)
                       , .IN6(nxt_eip5), .IN7(nxt_eip6), .IN8(nxt_eip7), .IN9(nxt_eip8), .IN10(nxt_eip9), .IN11(nxt_eip10)
                       , .IN12(nxt_eip11), .IN13(nxt_eip12), .IN14(nxt_eip13), .IN15(nxt_eip14)
                       , .S0(de_eip_len[0]), .S1(de_eip_len[1]), .S2(de_eip_len[2]), .S3(de_eip_len[3]));
@@ -826,41 +826,41 @@ mux32bit_16x1 mux_eip(.Y(w_de_EIP_next), .IN0(de_eip), .IN1(nxt_eip0), .IN2(nxt_
 
 //output direct assignments
 
-assign w_de_EIP_curr =  r_de_EIP_curr;
-assign w_de_CS_curr =  w_de_CS_curr;
-assign w_de_esp_needed = control_signals[SR3_ESP];
-assign w_de_eax_needed = control_signals[SR3_EAX];
-assign w_de_ecx_needed = prefix_repne_pr;
-assign w_de_mm_sr1_sel_H = control_signals[MM_SR1_SEL_H];
-assign w_de_mem_rd_addr_sel = control_signals[MEM_RD_ADDR_SEL];
-assign w_de_eip_change = control_signals[EIP_CHANGE];
-assign w_de_cmps_op = control_signals[CMPS_OP];
-assign w_de_cxchg_op = control_signals[CXCHG_OP];
-assign w_de_CF_needed = control_signals[CF_NEEDED];
-assign w_de_DF_needed = control_signals[DF_NEEDED];
-assign w_de_AF_needed = control_signals[AF_NEEDED];
-assign w_de_pr_size_over = prefix_op_size_pr;
-assign w_de_EIP_EFLAGS_sel = control_signals[EIP_EFLAGS_SEL];
-assign w_de_alu2_op = control_signals[ALU2_OP_BH:ALU2_OP_BL];
-assign w_de_alu2_op = control_signals[ALU2_OP_BH:ALU2_OP_BL];
-assign w_de_df_val = control_signals[DF_VAL];
-assign w_de_CF_expected = control_signals[CF_EXPECTED];
-assign w_de_ZF_expected = control_signals[ZF_EXPECTED];
-assign w_de_cond_wr_CF = control_signals[COND_WR_CF];
-assign w_de_cond_wr_ZF = control_signals[COND_WR_ZF];
-assign w_de_wr_reg1_data_sel = control_signals[WR_REG1_DATA_SEL];
-assign w_de_wr_reg2_data_sel = control_signals[WR_REG2_DATA_SEL];
-assign w_de_wr_seg_data_sel = control_signals[WR_SEG_DATA_SEL_BH:WR_SEG_DATA_SEL_BL];
-assign w_de_wr_eip_alu_res_sel = control_signals[WR_EIP_ALU_RES_SEL];
-assign w_de_wr_mem_data_sel = control_signals[WR_MEM_DATA_SEL_BH:WR_MEM_DATA_SEL_BL];
-assign w_de_wr_mem_addr_sel = control_signals[WR_MEM_ADDR_SEL];
-assign w_de_ld_flag_CF = control_signals[LD_FLAG_CF];
-assign w_de_ld_flag_PF = control_signals[LD_FLAG_PF];
-assign w_de_ld_flag_AF = control_signals[LD_FLAG_AF];
-assign w_de_ld_flag_ZF = control_signals[LD_FLAG_ZF];
-assign w_de_ld_flag_SF = control_signals[LD_FLAG_SF];
-assign w_de_ld_flag_DF = control_signals[LD_FLAG_DF];
-assign w_de_ld_flag_OF = control_signals[LD_FLAG_OF];
+assign de_EIP_curr =  r_de_EIP_curr;
+assign de_CS_curr =  de_CS_curr;
+assign de_esp_needed = control_signals[SR3_ESP];
+assign de_eax_needed = control_signals[SR3_EAX];
+assign de_ecx_needed = prefix_repne_pr;
+assign de_mm_sr1_sel_H = control_signals[MM_SR1_SEL_H];
+assign de_mem_rd_addr_sel = control_signals[MEM_RD_ADDR_SEL];
+assign de_eip_change = control_signals[EIP_CHANGE];
+assign de_cmps_op = control_signals[CMPS_OP];
+assign de_cxchg_op = control_signals[CXCHG_OP];
+assign de_CF_needed = control_signals[CF_NEEDED];
+assign de_DF_needed = control_signals[DF_NEEDED];
+assign de_AF_needed = control_signals[AF_NEEDED];
+assign de_pr_size_over = prefix_op_size_pr;
+assign de_EIP_EFLAGS_sel = control_signals[EIP_EFLAGS_SEL];
+assign de_alu2_op = control_signals[ALU2_OP_BH:ALU2_OP_BL];
+assign de_alu2_op = control_signals[ALU2_OP_BH:ALU2_OP_BL];
+assign de_df_val = control_signals[DF_VAL];
+assign de_CF_expected = control_signals[CF_EXPECTED];
+assign de_ZF_expected = control_signals[ZF_EXPECTED];
+assign de_cond_wr_CF = control_signals[COND_WR_CF];
+assign de_cond_wr_ZF = control_signals[COND_WR_ZF];
+assign de_wr_reg1_data_sel = control_signals[WR_REG1_DATA_SEL];
+assign de_wr_reg2_data_sel = control_signals[WR_REG2_DATA_SEL];
+assign de_wr_seg_data_sel = control_signals[WR_SEG_DATA_SEL_BH:WR_SEG_DATA_SEL_BL];
+assign de_wr_eip_alu_res_sel = control_signals[WR_EIP_ALU_RES_SEL];
+assign de_wr_mem_data_sel = control_signals[WR_MEM_DATA_SEL_BH:WR_MEM_DATA_SEL_BL];
+assign de_wr_mem_addr_sel = control_signals[WR_MEM_ADDR_SEL];
+assign de_ld_flag_CF = control_signals[LD_FLAG_CF];
+assign de_ld_flag_PF = control_signals[LD_FLAG_PF];
+assign de_ld_flag_AF = control_signals[LD_FLAG_AF];
+assign de_ld_flag_ZF = control_signals[LD_FLAG_ZF];
+assign de_ld_flag_SF = control_signals[LD_FLAG_SF];
+assign de_ld_flag_DF = control_signals[LD_FLAG_DF];
+assign de_ld_flag_OF = control_signals[LD_FLAG_OF];
 
 
 

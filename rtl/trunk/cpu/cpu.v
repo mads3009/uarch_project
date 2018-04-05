@@ -73,6 +73,95 @@ wire [255:0] r_de_ic_data_shifted;
 wire [31:0]  r_de_EIP_curr;
 wire [15:0]  r_de_CS_curr;
 
+//Output latches Decode -> AG
+wire [31:0]r_ag_EIP_curr;
+wire [15:0]r_ag_CS_curr;
+wire       r_ag_base_sel;
+wire [1:0] r_ag_disp_sel;
+wire       r_ag_SIB_pr;
+wire [1:0] r_ag_scale;
+wire [31:0]r_ag_imm_rel_ptr32;
+wire [31:0]r_ag_disp32;
+wire       r_ag_in1_needed;
+wire       r_ag_in2_needed;
+wire       r_ag_in3_needed;
+wire       r_ag_in4_needed;
+wire       r_ag_esp_needed;
+wire       r_ag_eax_needed;
+wire       r_ag_ecx_needed;
+wire [2:0] r_ag_in1;
+wire [2:0] r_ag_in2;
+wire [2:0] r_ag_in3;
+wire [2:0] r_ag_in4;
+wire [2:0] r_ag_dreg1;
+wire [2:0] r_ag_dreg2;
+wire [2:0] r_ag_dreg3;
+wire       r_ag_ld_reg1;
+wire       r_ag_ld_reg2;
+wire       r_ag_ld_reg3;
+wire [3:0] r_ag_ld_reg1_strb;
+wire [3:0] r_ag_ld_reg2_strb;
+wire [3:0] r_ag_ld_reg3_strb;
+wire       r_ag_reg8_sr1_HL_sel;
+wire       r_ag_reg8_sr2_HL_sel;
+wire       r_ag_mm1_needed;
+wire       r_ag_mm2_needed;
+wire [2:0] r_ag_mm1;
+wire [2:0] r_ag_mm2;
+wire       r_ag_ld_mm;
+wire [2:0] r_ag_dmm;
+wire       r_ag_mm_sr1_sel_H;
+wire       r_ag_mm_sr1_sel_L;
+wire       r_ag_mm_sr2_sel;
+wire       r_ag_seg1_needed;
+wire       r_ag_seg2_needed;
+wire       r_ag_seg3_needed;
+wire [2:0] r_ag_seg1;
+wire [2:0] r_ag_seg2;
+wire [2:0] r_ag_seg3;
+wire       r_ag_ld_seg;
+wire [2:0] r_ag_dseg;
+wire       r_ag_ld_mem;
+wire       r_ag_mem_read;
+wire [1:0] r_ag_mem_rd_size;
+wire [1:0] r_ag_mem_wr_size;
+wire       r_ag_mem_rd_addr_sel;
+wire       r_ag_eip_change;
+wire       r_ag_cmps_op;
+wire       r_ag_cxchg_op;
+wire       r_ag_CF_needed;
+wire       r_ag_DF_needed;
+wire       r_ag_AF_needed;
+wire       r_ag_pr_size_over;
+wire [31:0]r_ag_EIP_next;
+wire [1:0] r_ag_stack_off_sel;
+wire [1:0] r_ag_imm_sel;
+wire [1:0] r_ag_EIP_EFLAGS_sel;
+wire [1:0] r_ag_sr1_sel;
+wire [1:0] r_ag_sr2_sel;
+wire [3:0] r_ag_alu1_op;
+wire       r_ag_alu2_op;
+wire       r_ag_alu3_op;
+wire [1:0] r_ag_alu1_op_size;
+wire       r_ag_df_val;
+wire       r_ag_CF_expected;
+wire       r_ag_ZF_expected;
+wire       r_ag_cond_wr_CF;
+wire       r_ag_cond_wr_ZF;
+wire       r_ag_wr_reg1_data_sel;
+wire       r_ag_wr_reg2_data_sel;
+wire [1:0] r_ag_wr_seg_data_sel;
+wire       r_ag_wr_eip_alu_res_sel;
+wire [1:0] r_ag_wr_mem_data_sel;
+wire       r_ag_wr_mem_addr_sel;
+wire       r_ag_ld_flag_CF;
+wire       r_ag_ld_flag_PF;
+wire       r_ag_ld_flag_AF;
+wire       r_ag_ld_flag_ZF;
+wire       r_ag_ld_flag_SF;
+wire       r_ag_ld_flag_DF;
+wire       r_ag_ld_flag_OF;
+
 //Input to fetch //Change to relavant places later 
 wire        w_de_p;
 wire [31:0] w_de_EIP_next;
@@ -245,6 +334,191 @@ register  #16 u_de_CS_curr         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(
 register   #1 u_V_de               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_V_de              ), .data_o(r_V_de              ));
 
 // ***************** DECODE STAGE ******************
+//Output of Decode
+wire [31:0]w_de_EIP_curr;
+wire [15:0]w_de_CS_curr;
+wire       w_de_base_sel;
+wire [1:0] w_de_disp_sel;
+wire       w_de_SIB_pr;
+wire [1:0] w_de_scale;
+wire [31:0]w_de_imm_rel_ptr32;
+wire [31:0]w_de_disp32;
+wire       w_de_in1_needed;
+wire       w_de_in2_needed;
+wire       w_de_in3_needed;
+wire       w_de_in4_needed;
+wire       w_de_esp_needed;
+wire       w_de_eax_needed;
+wire       w_de_ecx_needed;
+wire [2:0] w_de_in1;
+wire [2:0] w_de_in2;
+wire [2:0] w_de_in3;
+wire [2:0] w_de_in4;
+wire [2:0] w_de_dreg1;
+wire [2:0] w_de_dreg2;
+wire [2:0] w_de_dreg3;
+wire       w_de_ld_reg1;
+wire       w_de_ld_reg2;
+wire       w_de_ld_reg3;
+wire [3:0] w_de_ld_reg1_strb;
+wire [3:0] w_de_ld_reg2_strb;
+wire [3:0] w_de_ld_reg3_strb;
+wire       w_de_reg8_sr1_HL_sel;
+wire       w_de_reg8_sr2_HL_sel;
+wire       w_de_mm1_needed;
+wire       w_de_mm2_needed;
+wire [2:0] w_de_mm1;
+wire [2:0] w_de_mm2;
+wire       w_de_ld_mm;
+wire [2:0] w_de_dmm;
+wire       w_de_mm_sr1_sel_H;
+wire       w_de_mm_sr1_sel_L;
+wire       w_de_mm_sr2_sel;
+wire       w_de_seg1_needed;
+wire       w_de_seg2_needed;
+wire       w_de_seg3_needed;
+wire [2:0] w_de_seg1;
+wire [2:0] w_de_seg2;
+wire [2:0] w_de_seg3;
+wire       w_de_ld_seg;
+wire [2:0] w_de_dseg;
+wire       w_de_ld_mem;
+wire       w_de_mem_read;
+wire [1:0] w_de_mem_rd_size;
+wire [1:0] w_de_mem_wr_size;
+wire       w_de_mem_rd_addr_sel;
+wire       w_de_eip_change;
+wire       w_de_cmps_op;
+wire       w_de_cxchg_op;
+wire       w_de_CF_needed;
+wire       w_de_DF_needed;
+wire       w_de_AF_needed;
+wire       w_de_pr_size_over;
+wire [31:0]w_de_EIP_next;
+wire [1:0] w_de_stack_off_sel;
+wire [1:0] w_de_imm_sel;
+wire [1:0] w_de_EIP_EFLAGS_sel;
+wire [1:0] w_de_sr1_sel;
+wire [1:0] w_de_sr2_sel;
+wire [3:0] w_de_alu1_op;
+wire       w_de_alu2_op;
+wire       w_de_alu3_op;
+wire [1:0] w_de_alu1_op_size;
+wire       w_de_df_val;
+wire       w_de_CF_expected;
+wire       w_de_ZF_expected;
+wire       w_de_cond_wr_CF;
+wire       w_de_cond_wr_ZF;
+wire       w_de_wr_reg1_data_sel;
+wire       w_de_wr_reg2_data_sel;
+wire [1:0] w_de_wr_seg_data_sel;
+wire       w_de_wr_eip_alu_res_sel;
+wire [1:0] w_de_wr_mem_data_sel;
+wire       w_de_wr_mem_addr_sel;
+wire       w_de_ld_flag_CF;
+wire       w_de_ld_flag_PF;
+wire       w_de_ld_flag_AF;
+wire       w_de_ld_flag_ZF;
+wire       w_de_ld_flag_SF;
+wire       w_de_ld_flag_DF;
+wire       w_de_ld_flag_OF;
+
+decode u_decode ( 
+      .r_de_ic_data_shifted                       (w_r_de_ic_data_shifted), 
+      .r_de_EIP_curr                              (w_r_de_EIP_curr), 
+      .r_de_CS_curr                               (w_r_de_CS_curr), 
+      .de_EIP_curr                                (w_de_EIP_curr),
+      .de_CS_curr                                 (w_de_CS_curr),
+      .de_base_sel                                (w_de_base_sel),
+      .de_disp_sel                                (w_de_disp_sel),
+      .de_SIB_pr                                  (w_de_SIB_pr),
+      .de_scale                                   (w_de_scale),
+      .de_imm_rel_ptr32                           (w_de_imm_rel_ptr32),
+      .de_disp32                                  (w_de_disp32),
+      .de_in1_needed                              (w_de_in1_needed),
+      .de_in2_needed                              (w_de_in2_needed),
+      .de_in3_needed                              (w_de_in3_needed),
+      .de_in4_needed                              (w_de_in4_needed),
+      .de_esp_needed                              (w_de_esp_needed),
+      .de_eax_needed                              (w_de_eax_needed),
+      .de_ecx_needed                              (w_de_ecx_needed),
+      .de_in1                                     (w_de_in1),
+      .de_in2                                     (w_de_in2),
+      .de_in3                                     (w_de_in3),
+      .de_in4                                     (w_de_in4),
+      .de_dreg1                                   (w_de_dreg1),
+      .de_dreg2                                   (w_de_dreg2),
+      .de_dreg3                                   (w_de_dreg3), 
+      .de_ld_reg1                                 (w_de_ld_reg1), 
+      .de_ld_reg2                                 (w_de_ld_reg2), 
+      .de_ld_reg3                                 (w_de_ld_reg3), 
+      .de_ld_reg1_strb                            (w_de_ld_reg1_strb), 
+      .de_ld_reg2_strb                            (w_de_ld_reg2_strb), 
+      .de_ld_reg3_strb                            (w_de_ld_reg3_strb), 
+      .de_reg8_sr1_HL_sel                         (w_de_reg8_sr1_HL_sel), 
+      .de_reg8_sr2_HL_sel                         (w_de_reg8_sr2_HL_sel), 
+      .de_mm1_needed                              (w_de_mm1_needed), 
+      .de_mm2_needed                              (w_de_mm2_needed), 
+      .de_mm1                                     (w_de_mm1), 
+      .de_mm2                                     (w_de_mm2), 
+      .de_ld_mm                                   (w_de_ld_mm), 
+      .de_dmm                                     (w_de_dmm), 
+      .de_mm_sr1_sel_H                            (w_de_mm_sr1_sel_H), 
+      .de_mm_sr1_sel_L                            (w_de_mm_sr1_sel_L), 
+      .de_mm_sr2_sel                              (w_de_mm_sr2_sel), 
+      .de_seg1_needed                             (w_de_seg1_needed), 
+      .de_seg2_needed                             (w_de_seg2_needed), 
+      .de_seg3_needed                             (w_de_seg3_needed), 
+      .de_seg1                                    (w_de_seg1), 
+      .de_seg2                                    (w_de_seg2), 
+      .de_seg3                                    (w_de_seg3), 
+      .de_ld_seg                                  (w_de_ld_seg), 
+      .de_dseg                                    (w_de_dseg), 
+      .de_ld_mem                                  (w_de_ld_mem), 
+      .de_mem_read                                (w_de_mem_read), 
+      .de_mem_rd_size                             (w_de_mem_rd_size), 
+      .de_mem_wr_size                             (w_de_mem_wr_size), 
+      .de_mem_rd_addr_sel                         (w_de_mem_rd_addr_sel), 
+      .de_eip_change                              (w_de_eip_change), 
+      .de_cmps_op                                 (w_de_cmps_op), 
+      .de_cxchg_op                                (w_de_cxchg_op), 
+      .de_CF_needed                               (w_de_CF_needed), 
+      .de_DF_needed                               (w_de_DF_needed), 
+      .de_AF_needed                               (w_de_AF_needed), 
+      .de_pr_size_over                            (w_de_pr_size_over), 
+      .de_EIP_next                                (w_de_EIP_next), 
+      .de_stack_off_sel                           (w_de_stack_off_sel), 
+      .de_imm_sel                                 (w_de_imm_sel), 
+      .de_EIP_EFLAGS_sel                          (w_de_EIP_EFLAGS_sel), 
+      .de_sr1_sel                                 (w_de_sr1_sel), 
+      .de_sr2_sel                                 (w_de_sr2_sel), 
+      .de_alu1_op                                 (w_de_alu1_op), 
+      .de_alu2_op                                 (w_de_alu2_op), 
+      .de_alu3_op                                 (w_de_alu3_op), 
+      .de_alu1_op_size                            (w_de_alu1_op_size), 
+      .de_df_val                                  (w_de_df_val), 
+      .de_CF_expected                             (w_de_CF_expected), 
+      .de_ZF_expected                             (w_de_ZF_expected), 
+      .de_cond_wr_CF                              (w_de_cond_wr_CF), 
+      .de_cond_wr_ZF                              (w_de_cond_wr_ZF), 
+      .de_wr_reg1_data_sel                        (w_de_wr_reg1_data_sel), 
+      .de_wr_reg2_data_sel                        (w_de_wr_reg2_data_sel), 
+      .de_wr_seg_data_sel                         (w_de_wr_seg_data_sel), 
+      .de_wr_eip_alu_res_sel                      (w_de_wr_eip_alu_res_sel), 
+      .de_wr_mem_data_sel                         (w_de_wr_mem_data_sel), 
+      .de_wr_mem_addr_sel                         (w_de_wr_mem_addr_sel), 
+      .de_ld_flag_CF                              (w_de_ld_flag_CF), 
+      .de_ld_flag_PF                              (w_de_ld_flag_PF), 
+      .de_ld_flag_AF                              (w_de_ld_flag_AF), 
+      .de_ld_flag_ZF                              (w_de_ld_flag_ZF), 
+      .de_ld_flag_SF                              (w_de_ld_flag_SF), 
+      .de_ld_flag_DF                              (w_de_ld_flag_DF), 
+      .de_ld_flag_OF                              (w_de_ld_flag_OF));
+
+
+
+
+
 
 endmodule
 
