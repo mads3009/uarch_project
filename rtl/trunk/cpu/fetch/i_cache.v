@@ -45,7 +45,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     inv1$ u_not_hit (.in(hit), .out(not_hit)); 
     
     //Outputs
-    and3$ u_ic_hit (.out(ic_hit), .in0(hit), .in1(not_ic_miss_ack), .in2(ren));
+    and4$ u_ic_hit (.out(ic_hit), .in0(hit), .in1(not_ic_miss_ack), .in2(ren), .in3(not_ic_exp));
     and3$ u_ic_miss(.out(ic_miss), .in0(not_hit), .in1(ren), .in2(not_ic_exp));
     assign ic_miss_addr = {phy_tag,index,5'b0};
 
