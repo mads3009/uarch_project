@@ -163,7 +163,7 @@ output       de_pr_size_over;
 output [31:0]de_EIP_next;
 output [1:0] de_stack_off_sel;
 output [1:0] de_imm_sel;
-output [1:0] de_EIP_EFLAGS_sel;
+output       de_EIP_EFLAGS_sel;
 output [1:0] de_sr1_sel;
 output [1:0] de_sr2_sel;
 output [3:0] de_alu1_op;
