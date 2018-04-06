@@ -75,11 +75,17 @@ wire w_block_ren;
 wire [31:0] IOT_address;
 wire IOT_address_sel;
 
-//Explicit reg file outputs
+//Register files related
 wire [31:0] w_ag_ESP;
 wire [31:0] w_ro_ECX;
 wire [31:0] w_ro_EAX;
+wire [15:0] r_ag_seg_data1;
+wire [15:0] r_ag_seg_data2;
+wire [15:0] r_ro_seg_data3;
 
+//SELECT between DE latches and SPECIAL ROM:
+wire       ROM_SEQ;
+ 
 //Output latches FE -> DE
 wire [255:0] r_de_ic_data_shifted;
 wire [31:0]  r_de_EIP_curr;
@@ -174,9 +180,6 @@ wire       r_ag_ld_flag_SF;
 wire       r_ag_ld_flag_DF;
 wire       r_ag_ld_flag_OF;
 
-//SELECT between DE latches and SPECIAL ROM:
-wire       ROM_SEQ;
- 
 //OUTPUTS of SPECIAL ROM
 wire       w_rseq_base_sel;
 wire [1:0] w_rseq_disp_sel;
@@ -526,7 +529,7 @@ kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP
 
 //fetch_address
 mux_nbit_2x1 #32 u_fe_address_off( .a0(w_EIP_plus_32), .a1(r_EIP), .sel(w_fe_address_sel), .out(w_fe_address_off));
-cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({16'h0,w_fe_CS}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
+cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({w_fe_CS,16'h0}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
 
 //Logic for fe_ren
 //fe_ren = !(stall_de || xx_br_stall || repne_stall || hlt_stall || dc_exp || INT || de_iret_op || block_ren)
@@ -1195,10 +1198,6 @@ mmx_regfile u_mmx_regfile (
 );
 
 //SEG register file
-wire [15:0] r_ag_seg_data1;
-wire [15:0] r_ag_seg_data2;
-wire [15:0] r_ag_seg_data3;
-
 seg_regfile u_seg_regfile(
   .clk            (clk),
   .rst_n          (rst_n),
@@ -1210,7 +1209,7 @@ seg_regfile u_seg_regfile(
   .seg3           (r_ro_seg3),
   .r_seg_data1    (r_ag_seg_data1),
   .r_seg_data2    (r_ag_seg_data2),
-  .r_seg_data3    (r_ag_seg_data3),
+  .r_seg_data3    (r_ro_seg_data3),
   .CS             (w_fe_CS)
 );
 
@@ -1233,7 +1232,7 @@ mux_nbit_4x1 #32 u_w_ag_disp_out (
 
 //add disp and seg
 wire [31:0] w_ag_disp_add_seg;
-cond_sum32 u_w_ag_disp_add_seg ( .A(w_ag_disp_out), .B({16'h0,r_ag_seg_data1}), .CIN(1'b0), .S(w_ag_disp_add_seg), .COUT(/*Unused*/) );
+cond_sum32 u_w_ag_disp_add_seg ( .A(w_ag_disp_out), .B({r_ag_seg_data1,16'h0}), .CIN(1'b0), .S(w_ag_disp_add_seg), .COUT(/*Unused*/) );
 
 //scaled index (and muxed)
 wire [31:0] w_ag_scaled_index;
@@ -1271,7 +1270,7 @@ assign w_ag_ISR = ROM_SEQ;
 //addr2
 wire [31:0] w_ag_addr2_temp;
 wire [31:0] w_ag_addr2;
-wallace_abc_adder u_w_ag_addr2_temp ( .A(w_ag_reg2_ESP_muxed), .B({16'h0,r_ag_seg_data2}), .C(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_temp) ); 
+wallace_abc_adder u_w_ag_addr2_temp ( .A(w_ag_reg2_ESP_muxed), .B({r_ag_seg_data2,16'h0}), .C(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_temp) ); 
 
 wire IOT_and_ISR;
 and2$ u_IOT_and_ISR (.in0(w_ag_ISR), .in1(IOT_address_sel), .out(IOT_and_ISR));
