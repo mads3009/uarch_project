@@ -9,8 +9,6 @@ module EIP_reg (
   input r_wb_eip_change,
   input r_wb_cond_wr_CF,
   input r_wb_cond_wr_ZF,
-  input r_wb_expected_CF,
-  input r_wb_expected_ZF,
   input r_V_de,
   input w_not_stall_fe,
   input r_wb_pr_size_over,

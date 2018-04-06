@@ -55,6 +55,7 @@ decode/dep_ld_mmx_netlist.v
 decode/dependency_seg_netlist.v
 decode/rom_value_select.v
 decode/decode.v
+synth/writeback_loads_gen_netlist.v
 regfile/regfile.v
 regfile/mmx_regfile.v
 regfile/seg_regfile.v
