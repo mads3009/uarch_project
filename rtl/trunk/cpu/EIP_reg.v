@@ -13,6 +13,11 @@ module EIP_reg (
   input r_wb_expected_ZF,
   input r_V_de,
   input w_not_stall_fe,
+  input r_wb_pr_size_over,
+  input w_wb_flag_ZF,
+  input w_wb_flag_CF,
+  input r_wb_ZF_expected,
+  input r_wb_CF_expected,
   
   output [31:0] r_EIP
 );
@@ -40,7 +45,7 @@ and2$ u_w_EIP_sel1 (.out(w_EIP_sel[1]), .in0(r_V_de), .in1(w_not_stall_fe));
 wire [31:0] w_eip_alu_res;
 mux_nbit_2x1 u_eip_alu_res(.out(w_eip_alu_res), .a0(r_wb_alu_res1), .a1(r_wb_alu_res3), .sel(r_wb_wr_eip_alu_res_sel));
 wire [31:0] w_eip_alu_res_with_pr_over;
-mux_nbit_2x1 u_eip_alu_res_with_pr_over(.out(w_eip_alu_res_with_pr_over), .a0(w_eip_alu_res), .a1({16'h0,w_eip_alu_res[15:0]}), .sel(r_wb_prefix_op_size_pr));
+mux_nbit_2x1 u_eip_alu_res_with_pr_over(.out(w_eip_alu_res_with_pr_over), .a0(w_eip_alu_res), .a1({16'h0,w_eip_alu_res[15:0]}), .sel(r_wb_pr_size_over));
 register_ld2bit u_r_EIP(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld({w_EIP_sel[1],w_EIP_sel[0]}), 
                         .data_i1(w_de_EIP_next), .data_i2(w_eip_alu_res_with_pr_over), .data_i3(/*Unused*/), .data_o(r_EIP));
 

@@ -30,10 +30,17 @@ input  [2:0]  in4,
 output [31:0] r_reg_data1,
 output [31:0] r_reg_data2,
 output [31:0] r_reg_data3,
-output [31:0] r_reg_data4
+output [31:0] r_reg_data4,
+output [31:0] ESP,
+output [31:0] ECX,
+output [31:0] EAX
 );
 
 wire [31:0] regs[7:0];
+
+assign ESP = regs[4];
+assign ECX = regs[1];
+assign EAX = regs[0];
 
 //Read ports
 mux_nbit_8x1 u_rdata1 (.a0(regs[0]), .a1(regs[1]), .a2(regs[2]), .a3(regs[3]), .a4(regs[4]), .a5(regs[5]), .a6(regs[6]), .a7(regs[7]), .sel(in1), .out(r_reg_data1));

@@ -18,10 +18,13 @@ input  [2:0]  seg2,
 input  [2:0]  seg3,
 output [15:0] r_seg_data1,
 output [15:0] r_seg_data2,
-output [15:0] r_seg_data3
+output [15:0] r_seg_data3,
+output [15:0] CS
 );
 
 wire [15:0] seg_regs[7:0];
+
+assign CS = seg_regs[1];
 
 //Read ports
 mux_nbit_8x1 #16 u_rdata1 (.a0(seg_regs[0]), .a1(seg_regs[1]), .a2(seg_regs[2]), .a3(seg_regs[3]), .a4(seg_regs[4]), .a5(seg_regs[5]), .a6(seg_regs[6]), .a7(seg_regs[7]), .sel(seg1), .out(r_seg_data1));

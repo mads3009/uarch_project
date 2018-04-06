@@ -10,6 +10,7 @@
 ../../reuse/sub_designs/mux4bit_3x1.v
 ../../reuse/sub_designs/mux2bit_2x1.v
 ../../reuse/sub_designs/eq_checker8_netlist.v
+../../reuse/adders/cond_sum/wallace_abc_adder.v
 ../../reuse/adders/cond_sum/cond_sum32.v
 ../../reuse/adders/cond_sum/cond_sum16.v
 ../../reuse/adders/cond_sum/cond_sum8.v

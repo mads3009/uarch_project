@@ -6,21 +6,13 @@ module cpu (clk, rst_n);
 //TLB entries
 reg [26:0] TLB[7:0]; 
 
-//Segment_limit_Regs
-reg [19:0] CS_limit;
-reg [19:0] DS_limit;
-reg [19:0] SS_limit;
+//Segment_limit_Regs (In their order)
 reg [19:0] ES_limit;
+reg [19:0] CS_limit;
+reg [19:0] SS_limit;
+reg [19:0] DS_limit;
 reg [19:0] FS_limit;
 reg [19:0] GS_limit;
-
-//Segment_Regs
-reg [15:0] r_CS;
-reg [15:0] r_DS;
-reg [15:0] r_SS;
-reg [15:0] r_ES;
-reg [15:0] r_FS;
-reg [15:0] r_GS;
 
 initial begin
   TLB[0] = 30'h0000;
@@ -33,7 +25,6 @@ initial begin
   TLB[7] = 30'h0000;
   
   CS_limit = 20'h3ff;
-  r_CS = 16'h000;
 end
 
 //Loads and Valids of pipeline latches
@@ -81,6 +72,13 @@ wire w_ic_exp;
 wire w_ic_prot_exp;
 wire w_ic_page_fault;
 wire w_block_ren;
+wire [31:0] IOT_address;
+wire IOT_address_sel;
+
+//Explicit reg file outputs
+wire [31:0] w_ag_ESP;
+wire [31:0] w_ro_ECX;
+wire [31:0] w_ro_EAX;
 
 //Output latches FE -> DE
 wire [255:0] r_de_ic_data_shifted;
@@ -175,6 +173,93 @@ wire       r_ag_ld_flag_ZF;
 wire       r_ag_ld_flag_SF;
 wire       r_ag_ld_flag_DF;
 wire       r_ag_ld_flag_OF;
+
+//SELECT between DE latches and SPECIAL ROM:
+wire       ROM_SEQ;
+ 
+//OUTPUTS of SPECIAL ROM
+wire       w_rseq_base_sel;
+wire [1:0] w_rseq_disp_sel;
+wire       w_rseq_SIB_pr;
+wire [1:0] w_rseq_scale;
+wire       w_rseq_in1_needed;
+wire       w_rseq_in2_needed;
+wire       w_rseq_in3_needed;
+wire       w_rseq_in4_needed;
+wire       w_rseq_esp_needed;
+wire       w_rseq_eax_needed;
+wire       w_rseq_ecx_needed;
+wire [2:0] w_rseq_in1;
+wire [2:0] w_rseq_in2;
+wire [2:0] w_rseq_in3;
+wire [2:0] w_rseq_in4;
+wire [2:0] w_rseq_dreg1;
+wire [2:0] w_rseq_dreg2;
+wire [2:0] w_rseq_dreg3;
+wire       w_rseq_ld_reg1;
+wire       w_rseq_ld_reg2;
+wire       w_rseq_ld_reg3;
+wire [3:0] w_rseq_ld_reg1_strb;
+wire [3:0] w_rseq_ld_reg2_strb;
+wire [3:0] w_rseq_ld_reg3_strb;
+wire       w_rseq_reg8_sr1_HL_sel;
+wire       w_rseq_reg8_sr2_HL_sel;
+wire       w_rseq_mm1_needed;
+wire       w_rseq_mm2_needed;
+wire [2:0] w_rseq_mm1;
+wire [2:0] w_rseq_mm2;
+wire       w_rseq_ld_mm;
+wire [2:0] w_rseq_dmm;
+wire       w_rseq_mm_sr1_sel_H;
+wire       w_rseq_mm_sr1_sel_L;
+wire       w_rseq_mm_sr2_sel;
+wire       w_rseq_seg1_needed;
+wire       w_rseq_seg2_needed;
+wire       w_rseq_seg3_needed;
+wire [2:0] w_rseq_seg1;
+wire [2:0] w_rseq_seg2;
+wire [2:0] w_rseq_seg3;
+wire       w_rseq_ld_seg;
+wire [2:0] w_rseq_dseg;
+wire       w_rseq_ld_mem;
+wire       w_rseq_mem_read;
+wire [1:0] w_rseq_mem_rd_size;
+wire [1:0] w_rseq_mem_wr_size;
+wire       w_rseq_mem_rd_addr_sel;
+wire       w_rseq_eip_change;
+wire       w_rseq_cmps_op;
+wire       w_rseq_cxchg_op;
+wire       w_rseq_CF_needed;
+wire       w_rseq_DF_needed;
+wire       w_rseq_AF_needed;
+wire       w_rseq_pr_size_over;
+wire [1:0] w_rseq_stack_off_sel;
+wire [1:0] w_rseq_imm_sel;
+wire [1:0] w_rseq_EIP_EFLAGS_sel;
+wire [1:0] w_rseq_sr1_sel;
+wire [1:0] w_rseq_sr2_sel;
+wire [3:0] w_rseq_alu1_op;
+wire       w_rseq_alu2_op;
+wire       w_rseq_alu3_op;
+wire [1:0] w_rseq_alu1_op_size;
+wire       w_rseq_df_val;
+wire       w_rseq_CF_expected;
+wire       w_rseq_ZF_expected;
+wire       w_rseq_cond_wr_CF;
+wire       w_rseq_cond_wr_ZF;
+wire       w_rseq_wr_reg1_data_sel;
+wire       w_rseq_wr_reg2_data_sel;
+wire [1:0] w_rseq_wr_seg_data_sel;
+wire       w_rseq_wr_eip_alu_res_sel;
+wire [1:0] w_rseq_wr_mem_data_sel;
+wire       w_rseq_wr_mem_addr_sel;
+wire       w_rseq_ld_flag_CF;
+wire       w_rseq_ld_flag_PF;
+wire       w_rseq_ld_flag_AF;
+wire       w_rseq_ld_flag_ZF;
+wire       w_rseq_ld_flag_SF;
+wire       w_rseq_ld_flag_DF;
+wire       w_rseq_ld_flag_OF;
 
 //Output latches AG -> RO
 wire [31:0]  r_ro_EIP_curr;
@@ -367,12 +452,11 @@ wire         r_wb_df_val_ex;
 //Input to fetch //Change to relavant places later 
 wire        w_de_p;
 wire [31:0] w_de_EIP_next;
-wire [31:0] r_wb_alu_res1;
-wire [31:0] r_wb_alu_res3;
-wire r_wb_wr_eip_alu_res_sel;
-wire r_wb_prefix_op_size_pr;
 
 // ***************** FETCH STAGE ******************
+
+wire w_hlt_or_repne;
+wire w_not_stall_fe;
 
 //EIP register
 wire [31:0] r_EIP;
@@ -391,6 +475,12 @@ EIP_reg u_EIP_reg (
   .r_wb_expected_ZF          (r_wb_expected_ZF),
   .r_V_de                    (r_V_de),
   .w_not_stall_fe            (w_not_stall_fe),
+  .r_wb_pr_size_over         (r_wb_pr_size_over),
+  .w_wb_flag_ZF              (w_wb_flag_ZF),
+  .w_wb_flag_CF              (w_wb_flag_CF),
+  .r_wb_ZF_expected          (r_wb_ZF_expected),
+  .r_wb_CF_expected          (r_wb_CF_expected),
+
   .r_EIP                     (r_EIP)
 );
 
@@ -399,9 +489,6 @@ wire [255:0] w_fe_ic_data_shifted;
 wire [31:0]  w_fe_EIP_curr;
 wire [15:0]  w_fe_CS_curr;
 wire         w_V_de_next;
-
-assign w_fe_EIP_curr = r_EIP;
-assign w_fe_CS_curr = r_CS;
 
 //ICACHE to/from MMU
 wire          w_ic_miss;
@@ -415,6 +502,7 @@ wire [1:0]    r_fe_curr_state;
 wire [1:0]    w_fe_next_state;
 wire          w_fe_address_sel; 
 wire [31:0]   w_fe_address;
+wire [31:0]   w_fe_address_off;
 wire [2:0]    w_fe_PFN;
 wire [1:0]    w_fe_ld_buf;
 wire          w_fe_ren;
@@ -427,12 +515,18 @@ wire [255:0]  w_ic_data_shifted_00;
 wire [255:0]  w_ic_data_shifted_01;
 wire [255:0]  w_ic_data_shifted_10;
 wire [255:0]  w_ic_data_shifted_11;
+wire [15:0]   w_fe_CS;
+
+//Passing outputs
+assign w_fe_EIP_curr = r_EIP;
+assign w_fe_CS_curr = w_fe_CS;
 
 wire [31:0] w_EIP_plus_32;
 kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
 
 //fetch_address
-mux_nbit_2x1 #32 u_fe_address( .a0(w_EIP_plus_32), .a1(r_EIP), .sel(w_fe_address_sel), .out(w_fe_address));
+mux_nbit_2x1 #32 u_fe_address_off( .a0(w_EIP_plus_32), .a1(r_EIP), .sel(w_fe_address_sel), .out(w_fe_address_off));
+cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({16'h0,w_fe_CS}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
 
 //Logic for fe_ren
 //fe_ren = !(stall_de || xx_br_stall || repne_stall || hlt_stall || dc_exp || INT || de_iret_op || block_ren)
@@ -450,9 +544,7 @@ nor2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state
 and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
 
 //Logic for ld_de;
-wire w_hlt_or_repne;
 or2$ u_hlt_or_repne (.out(w_hlt_or_repne), .in0(w_hlt_stall), .in1(w_repne_stall));
-wire w_not_stall_fe;
 nor2$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de));
 or2$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp));
 
@@ -597,7 +689,6 @@ wire       w_de_CF_needed;
 wire       w_de_DF_needed;
 wire       w_de_AF_needed;
 wire       w_de_pr_size_over;
-wire [31:0]w_de_EIP_next;
 wire [1:0] w_de_stack_off_sel;
 wire [1:0] w_de_imm_sel;
 wire [1:0] w_de_EIP_EFLAGS_sel;
@@ -810,79 +901,248 @@ register #1       u_r_ag_ld_flag_OF            (.clk(clk), .rst_n(rst_n), .set_n
 
 // ***************** ADDRESS GEN STAGE ******************
 
+//MUX out of decode out and special rom
+wire       w_mux_ag_base_sel;
+wire [1:0] w_mux_ag_disp_sel;
+wire       w_mux_ag_SIB_pr;
+wire [1:0] w_mux_ag_scale;
+wire       w_mux_ag_in1_needed;
+wire       w_mux_ag_in2_needed;
+wire       w_mux_ag_in3_needed;
+wire       w_mux_ag_in4_needed;
+wire       w_mux_ag_esp_needed;
+wire       w_mux_ag_eax_needed;
+wire       w_mux_ag_ecx_needed;
+wire [2:0] w_mux_ag_in1;
+wire [2:0] w_mux_ag_in2;
+wire [2:0] w_mux_ag_in3;
+wire [2:0] w_mux_ag_in4;
+wire [2:0] w_mux_ag_dreg1;
+wire [2:0] w_mux_ag_dreg2;
+wire [2:0] w_mux_ag_dreg3;
+wire       w_mux_ag_ld_reg1;
+wire       w_mux_ag_ld_reg2;
+wire       w_mux_ag_ld_reg3;
+wire [3:0] w_mux_ag_ld_reg1_strb;
+wire [3:0] w_mux_ag_ld_reg2_strb;
+wire [3:0] w_mux_ag_ld_reg3_strb;
+wire       w_mux_ag_reg8_sr1_HL_sel;
+wire       w_mux_ag_reg8_sr2_HL_sel;
+wire       w_mux_ag_mm1_needed;
+wire       w_mux_ag_mm2_needed;
+wire [2:0] w_mux_ag_mm1;
+wire [2:0] w_mux_ag_mm2;
+wire       w_mux_ag_ld_mm;
+wire [2:0] w_mux_ag_dmm;
+wire       w_mux_ag_mm_sr1_sel_H;
+wire       w_mux_ag_mm_sr1_sel_L;
+wire       w_mux_ag_mm_sr2_sel;
+wire       w_mux_ag_seg1_needed;
+wire       w_mux_ag_seg2_needed;
+wire       w_mux_ag_seg3_needed;
+wire [2:0] w_mux_ag_seg1;
+wire [2:0] w_mux_ag_seg2;
+wire [2:0] w_mux_ag_seg3;
+wire       w_mux_ag_ld_seg;
+wire [2:0] w_mux_ag_dseg;
+wire       w_mux_ag_ld_mem;
+wire       w_mux_ag_mem_read;
+wire [1:0] w_mux_ag_mem_rd_size;
+wire [1:0] w_mux_ag_mem_wr_size;
+wire       w_mux_ag_mem_rd_addr_sel;
+wire       w_mux_ag_eip_change;
+wire       w_mux_ag_cmps_op;
+wire       w_mux_ag_cxchg_op;
+wire       w_mux_ag_CF_needed;
+wire       w_mux_ag_DF_needed;
+wire       w_mux_ag_AF_needed;
+wire       w_mux_ag_pr_size_over;
+wire [1:0] w_mux_ag_stack_off_sel;
+wire [1:0] w_mux_ag_imm_sel;
+wire [1:0] w_mux_ag_EIP_EFLAGS_sel;
+wire [1:0] w_mux_ag_sr1_sel;
+wire [1:0] w_mux_ag_sr2_sel;
+wire [3:0] w_mux_ag_alu1_op;
+wire       w_mux_ag_alu2_op;
+wire       w_mux_ag_alu3_op;
+wire [1:0] w_mux_ag_alu1_op_size;
+wire       w_mux_ag_df_val;
+wire       w_mux_ag_CF_expected;
+wire       w_mux_ag_ZF_expected;
+wire       w_mux_ag_cond_wr_CF;
+wire       w_mux_ag_cond_wr_ZF;
+wire       w_mux_ag_wr_reg1_data_sel;
+wire       w_mux_ag_wr_reg2_data_sel;
+wire [1:0] w_mux_ag_wr_seg_data_sel;
+wire       w_mux_ag_wr_eip_alu_res_sel;
+wire [1:0] w_mux_ag_wr_mem_data_sel;
+wire       w_mux_ag_wr_mem_addr_sel;
+wire       w_mux_ag_ld_flag_CF;
+wire       w_mux_ag_ld_flag_PF;
+wire       w_mux_ag_ld_flag_AF;
+wire       w_mux_ag_ld_flag_ZF;
+wire       w_mux_ag_ld_flag_SF;
+wire       w_mux_ag_ld_flag_DF;
+wire       w_mux_ag_ld_flag_OF;
+
+//MUXES between DE to AG latches and SPECIAL ROM
+mux_nbit_2x1 #1       u_w_mux_ag_base_sel                (.a0(r_ag_base_sel        ),     .a1(w_rseq_base_sel),           .sel(ROM_SEQ), .out(w_mux_ag_base_sel));           
+mux_nbit_2x1 #2       u_w_mux_ag_disp_sel                (.a0(r_ag_disp_sel        ),     .a1(w_rseq_disp_sel),           .sel(ROM_SEQ), .out(w_mux_ag_disp_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_SIB_pr                  (.a0(r_ag_SIB_pr          ),     .a1(w_rseq_SIB_pr),             .sel(ROM_SEQ), .out(w_mux_ag_SIB_pr));
+mux_nbit_2x1 #2       u_w_mux_ag_scale                   (.a0(r_ag_scale           ),     .a1(w_rseq_scale),              .sel(ROM_SEQ), .out(w_mux_ag_scale));
+mux_nbit_2x1 #1       u_w_mux_ag_in1_needed              (.a0(r_ag_in1_needed      ),     .a1(w_rseq_in1_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in1_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_in2_needed              (.a0(r_ag_in2_needed      ),     .a1(w_rseq_in2_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in2_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_in3_needed              (.a0(r_ag_in3_needed      ),     .a1(w_rseq_in3_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in3_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_in4_needed              (.a0(r_ag_in4_needed      ),     .a1(w_rseq_in4_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in4_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_esp_needed              (.a0(r_ag_esp_needed      ),     .a1(w_rseq_esp_needed),         .sel(ROM_SEQ), .out(w_mux_ag_esp_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_eax_needed              (.a0(r_ag_eax_needed      ),     .a1(w_rseq_eax_needed),         .sel(ROM_SEQ), .out(w_mux_ag_eax_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_ecx_needed              (.a0(r_ag_ecx_needed      ),     .a1(w_rseq_ecx_needed),         .sel(ROM_SEQ), .out(w_mux_ag_ecx_needed));
+mux_nbit_2x1 #3       u_w_mux_ag_in1                     (.a0(r_ag_in1             ),     .a1(w_rseq_in1),                .sel(ROM_SEQ), .out(w_mux_ag_in1));
+mux_nbit_2x1 #3       u_w_mux_ag_in2                     (.a0(r_ag_in2             ),     .a1(w_rseq_in2),                .sel(ROM_SEQ), .out(w_mux_ag_in2));
+mux_nbit_2x1 #3       u_w_mux_ag_in3                     (.a0(r_ag_in3             ),     .a1(w_rseq_in3),                .sel(ROM_SEQ), .out(w_mux_ag_in3));
+mux_nbit_2x1 #3       u_w_mux_ag_in4                     (.a0(r_ag_in4             ),     .a1(w_rseq_in4),                .sel(ROM_SEQ), .out(w_mux_ag_in4));
+mux_nbit_2x1 #3       u_w_mux_ag_dreg1                   (.a0(r_ag_dreg1           ),     .a1(w_rseq_dreg1),              .sel(ROM_SEQ), .out(w_mux_ag_dreg1));
+mux_nbit_2x1 #3       u_w_mux_ag_dreg2                   (.a0(r_ag_dreg2           ),     .a1(w_rseq_dreg2),              .sel(ROM_SEQ), .out(w_mux_ag_dreg2));
+mux_nbit_2x1 #3       u_w_mux_ag_dreg3                   (.a0(r_ag_dreg3           ),     .a1(w_rseq_dreg3),              .sel(ROM_SEQ), .out(w_mux_ag_dreg3));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_reg1                 (.a0(r_ag_ld_reg1         ),     .a1(w_rseq_ld_reg1),            .sel(ROM_SEQ), .out(w_mux_ag_ld_reg1));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_reg2                 (.a0(r_ag_ld_reg2         ),     .a1(w_rseq_ld_reg2),            .sel(ROM_SEQ), .out(w_mux_ag_ld_reg2));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_reg3                 (.a0(r_ag_ld_reg3         ),     .a1(w_rseq_ld_reg3),            .sel(ROM_SEQ), .out(w_mux_ag_ld_reg3));
+mux_nbit_2x1 #4       u_w_mux_ag_ld_reg1_strb            (.a0(r_ag_ld_reg1_strb    ),     .a1(w_rseq_ld_reg1_strb),       .sel(ROM_SEQ), .out(w_mux_ag_ld_reg1_strb));
+mux_nbit_2x1 #4       u_w_mux_ag_ld_reg2_strb            (.a0(r_ag_ld_reg2_strb    ),     .a1(w_rseq_ld_reg2_strb),       .sel(ROM_SEQ), .out(w_mux_ag_ld_reg2_strb));
+mux_nbit_2x1 #4       u_w_mux_ag_ld_reg3_strb            (.a0(r_ag_ld_reg3_strb    ),     .a1(w_rseq_ld_reg3_strb),       .sel(ROM_SEQ), .out(w_mux_ag_ld_reg3_strb));
+mux_nbit_2x1 #1       u_w_mux_ag_reg8_sr1_HL_sel         (.a0(r_ag_reg8_sr1_HL_sel ),     .a1(w_rseq_reg8_sr1_HL_sel),    .sel(ROM_SEQ), .out(w_mux_ag_reg8_sr1_HL_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_reg8_sr2_HL_sel         (.a0(r_ag_reg8_sr2_HL_sel ),     .a1(w_rseq_reg8_sr2_HL_sel),    .sel(ROM_SEQ), .out(w_mux_ag_reg8_sr2_HL_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_mm1_needed              (.a0(r_ag_mm1_needed      ),     .a1(w_rseq_mm1_needed),         .sel(ROM_SEQ), .out(w_mux_ag_mm1_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_mm2_needed              (.a0(r_ag_mm2_needed      ),     .a1(w_rseq_mm2_needed),         .sel(ROM_SEQ), .out(w_mux_ag_mm2_needed));
+mux_nbit_2x1 #3       u_w_mux_ag_mm1                     (.a0(r_ag_mm1             ),     .a1(w_rseq_mm1),                .sel(ROM_SEQ), .out(w_mux_ag_mm1));
+mux_nbit_2x1 #3       u_w_mux_ag_mm2                     (.a0(r_ag_mm2             ),     .a1(w_rseq_mm2),                .sel(ROM_SEQ), .out(w_mux_ag_mm2));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_mm                   (.a0(r_ag_ld_mm           ),     .a1(w_rseq_ld_mm),              .sel(ROM_SEQ), .out(w_mux_ag_ld_mm));
+mux_nbit_2x1 #3       u_w_mux_ag_dmm                     (.a0(r_ag_dmm             ),     .a1(w_rseq_dmm),                .sel(ROM_SEQ), .out(w_mux_ag_dmm));
+mux_nbit_2x1 #1       u_w_mux_ag_mm_sr1_sel_H            (.a0(r_ag_mm_sr1_sel_H    ),     .a1(w_rseq_mm_sr1_sel_H),       .sel(ROM_SEQ), .out(w_mux_ag_mm_sr1_sel_H));
+mux_nbit_2x1 #1       u_w_mux_ag_mm_sr1_sel_L            (.a0(r_ag_mm_sr1_sel_L    ),     .a1(w_rseq_mm_sr1_sel_L),       .sel(ROM_SEQ), .out(w_mux_ag_mm_sr1_sel_L));
+mux_nbit_2x1 #1       u_w_mux_ag_mm_sr2_sel              (.a0(r_ag_mm_sr2_sel      ),     .a1(w_rseq_mm_sr2_sel),         .sel(ROM_SEQ), .out(w_mux_ag_mm_sr2_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_seg1_needed             (.a0(r_ag_seg1_needed     ),     .a1(w_rseq_seg1_needed),        .sel(ROM_SEQ), .out(w_mux_ag_seg1_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_seg2_needed             (.a0(r_ag_seg2_needed     ),     .a1(w_rseq_seg2_needed),        .sel(ROM_SEQ), .out(w_mux_ag_seg2_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_seg3_needed             (.a0(r_ag_seg3_needed     ),     .a1(w_rseq_seg3_needed),        .sel(ROM_SEQ), .out(w_mux_ag_seg3_needed));
+mux_nbit_2x1 #3       u_w_mux_ag_seg1                    (.a0(r_ag_seg1            ),     .a1(w_rseq_seg1),               .sel(ROM_SEQ), .out(w_mux_ag_seg1));
+mux_nbit_2x1 #3       u_w_mux_ag_seg2                    (.a0(r_ag_seg2            ),     .a1(w_rseq_seg2),               .sel(ROM_SEQ), .out(w_mux_ag_seg2));
+mux_nbit_2x1 #3       u_w_mux_ag_seg3                    (.a0(r_ag_seg3            ),     .a1(w_rseq_seg3),               .sel(ROM_SEQ), .out(w_mux_ag_seg3));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_seg                  (.a0(r_ag_ld_seg          ),     .a1(w_rseq_ld_seg),             .sel(ROM_SEQ), .out(w_mux_ag_ld_seg));
+mux_nbit_2x1 #3       u_w_mux_ag_dseg                    (.a0(r_ag_dseg            ),     .a1(w_rseq_dseg),               .sel(ROM_SEQ), .out(w_mux_ag_dseg));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_mem                  (.a0(r_ag_ld_mem          ),     .a1(w_rseq_ld_mem),             .sel(ROM_SEQ), .out(w_mux_ag_ld_mem));
+mux_nbit_2x1 #1       u_w_mux_ag_mem_read                (.a0(r_ag_mem_read        ),     .a1(w_rseq_mem_read),           .sel(ROM_SEQ), .out(w_mux_ag_mem_read));
+mux_nbit_2x1 #2       u_w_mux_ag_mem_rd_size             (.a0(r_ag_mem_rd_size     ),     .a1(w_rseq_mem_rd_size),        .sel(ROM_SEQ), .out(w_mux_ag_mem_rd_size));
+mux_nbit_2x1 #2       u_w_mux_ag_mem_wr_size             (.a0(r_ag_mem_wr_size     ),     .a1(w_rseq_mem_wr_size),        .sel(ROM_SEQ), .out(w_mux_ag_mem_wr_size));
+mux_nbit_2x1 #1       u_w_mux_ag_mem_rd_addr_sel         (.a0(r_ag_mem_rd_addr_sel ),     .a1(w_rseq_mem_rd_addr_sel),    .sel(ROM_SEQ), .out(w_mux_ag_mem_rd_addr_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_eip_change              (.a0(r_ag_eip_change      ),     .a1(w_rseq_eip_change),         .sel(ROM_SEQ), .out(w_mux_ag_eip_change));
+mux_nbit_2x1 #1       u_w_mux_ag_cmps_op                 (.a0(r_ag_cmps_op         ),     .a1(w_rseq_cmps_op),            .sel(ROM_SEQ), .out(w_mux_ag_cmps_op));
+mux_nbit_2x1 #1       u_w_mux_ag_cxchg_op                (.a0(r_ag_cxchg_op        ),     .a1(w_rseq_cxchg_op),           .sel(ROM_SEQ), .out(w_mux_ag_cxchg_op));
+mux_nbit_2x1 #1       u_w_mux_ag_CF_needed               (.a0(r_ag_CF_needed       ),     .a1(w_rseq_CF_needed),          .sel(ROM_SEQ), .out(w_mux_ag_CF_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_DF_needed               (.a0(r_ag_DF_needed       ),     .a1(w_rseq_DF_needed),          .sel(ROM_SEQ), .out(w_mux_ag_DF_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_AF_needed               (.a0(r_ag_AF_needed       ),     .a1(w_rseq_AF_needed),          .sel(ROM_SEQ), .out(w_mux_ag_AF_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_pr_size_over            (.a0(r_ag_pr_size_over    ),     .a1(w_rseq_pr_size_over),       .sel(ROM_SEQ), .out(w_mux_ag_pr_size_over));
+mux_nbit_2x1 #2       u_w_mux_ag_stack_off_sel           (.a0(r_ag_stack_off_sel   ),     .a1(w_rseq_stack_off_sel),      .sel(ROM_SEQ), .out(w_mux_ag_stack_off_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_imm_sel                 (.a0(r_ag_imm_sel         ),     .a1(w_rseq_imm_sel),            .sel(ROM_SEQ), .out(w_mux_ag_imm_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_EIP_EFLAGS_sel          (.a0(r_ag_EIP_EFLAGS_sel  ),     .a1(w_rseq_EIP_EFLAGS_sel),     .sel(ROM_SEQ), .out(w_mux_ag_EIP_EFLAGS_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_sr1_sel                 (.a0(r_ag_sr1_sel         ),     .a1(w_rseq_sr1_sel),            .sel(ROM_SEQ), .out(w_mux_ag_sr1_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_sr2_sel                 (.a0(r_ag_sr2_sel         ),     .a1(w_rseq_sr2_sel),            .sel(ROM_SEQ), .out(w_mux_ag_sr2_sel));
+mux_nbit_2x1 #4       u_w_mux_ag_alu1_op                 (.a0(r_ag_alu1_op         ),     .a1(w_rseq_alu1_op),            .sel(ROM_SEQ), .out(w_mux_ag_alu1_op));
+mux_nbit_2x1 #1       u_w_mux_ag_alu2_op                 (.a0(r_ag_alu2_op         ),     .a1(w_rseq_alu2_op),            .sel(ROM_SEQ), .out(w_mux_ag_alu2_op));
+mux_nbit_2x1 #1       u_w_mux_ag_alu3_op                 (.a0(r_ag_alu3_op         ),     .a1(w_rseq_alu3_op),            .sel(ROM_SEQ), .out(w_mux_ag_alu3_op));
+mux_nbit_2x1 #2       u_w_mux_ag_alu1_op_size            (.a0(r_ag_alu1_op_size    ),     .a1(w_rseq_alu1_op_size),       .sel(ROM_SEQ), .out(w_mux_ag_alu1_op_size));
+mux_nbit_2x1 #1       u_w_mux_ag_df_val                  (.a0(r_ag_df_val          ),     .a1(w_rseq_df_val),             .sel(ROM_SEQ), .out(w_mux_ag_df_val));
+mux_nbit_2x1 #1       u_w_mux_ag_CF_expected             (.a0(r_ag_CF_expected     ),     .a1(w_rseq_CF_expected),        .sel(ROM_SEQ), .out(w_mux_ag_CF_expected));
+mux_nbit_2x1 #1       u_w_mux_ag_ZF_expected             (.a0(r_ag_ZF_expected     ),     .a1(w_rseq_ZF_expected),        .sel(ROM_SEQ), .out(w_mux_ag_ZF_expected));
+mux_nbit_2x1 #1       u_w_mux_ag_cond_wr_CF              (.a0(r_ag_cond_wr_CF      ),     .a1(w_rseq_cond_wr_CF),         .sel(ROM_SEQ), .out(w_mux_ag_cond_wr_CF));
+mux_nbit_2x1 #1       u_w_mux_ag_cond_wr_ZF              (.a0(r_ag_cond_wr_ZF      ),     .a1(w_rseq_cond_wr_ZF),         .sel(ROM_SEQ), .out(w_mux_ag_cond_wr_ZF));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_reg1_data_sel        (.a0(r_ag_wr_reg1_data_sel),     .a1(w_rseq_wr_reg1_data_sel),   .sel(ROM_SEQ), .out(w_mux_ag_wr_reg1_data_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_reg2_data_sel        (.a0(r_ag_wr_reg2_data_sel),     .a1(w_rseq_wr_reg2_data_sel),   .sel(ROM_SEQ), .out(w_mux_ag_wr_reg2_data_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_wr_seg_data_sel         (.a0(r_ag_wr_seg_data_sel ),     .a1(w_rseq_wr_seg_data_sel),    .sel(ROM_SEQ), .out(w_mux_ag_wr_seg_data_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_eip_alu_res_sel      (.a0(r_ag_wr_eip_alu_res_sel),   .a1(w_rseq_wr_eip_alu_res_sel), .sel(ROM_SEQ), .out(w_mux_ag_wr_eip_alu_res_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_wr_mem_data_sel         (.a0(r_ag_wr_mem_data_sel ),     .a1(w_rseq_wr_mem_data_sel),    .sel(ROM_SEQ), .out(w_mux_ag_wr_mem_data_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_mem_addr_sel         (.a0(r_ag_wr_mem_addr_sel ),     .a1(w_rseq_wr_mem_addr_sel),    .sel(ROM_SEQ), .out(w_mux_ag_wr_mem_addr_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_CF              (.a0(r_ag_ld_flag_CF      ),     .a1(w_rseq_ld_flag_CF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_CF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_PF              (.a0(r_ag_ld_flag_PF      ),     .a1(w_rseq_ld_flag_PF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_PF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_AF              (.a0(r_ag_ld_flag_AF      ),     .a1(w_rseq_ld_flag_AF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_AF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_ZF              (.a0(r_ag_ld_flag_ZF      ),     .a1(w_rseq_ld_flag_ZF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_ZF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_SF              (.a0(r_ag_ld_flag_SF      ),     .a1(w_rseq_ld_flag_SF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_SF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_DF              (.a0(r_ag_ld_flag_DF      ),     .a1(w_rseq_ld_flag_DF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_DF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_OF              (.a0(r_ag_ld_flag_OF      ),     .a1(w_rseq_ld_flag_OF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_OF));
+
 //Just getting passed to RO:
 register #32        u_r_ro_EIP_curr            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_EIP_curr),              .data_o(r_ro_EIP_curr));
 register #16        u_r_ro_CS_curr             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_CS_curr),               .data_o(r_ro_CS_curr));
-register #1         u_r_ro_in3_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_in3_needed),            .data_o(r_ro_in3_needed));
-register #1         u_r_ro_in4_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_in4_needed),            .data_o(r_ro_in4_needed));
-register #1         u_r_ro_eax_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_eax_needed),            .data_o(r_ro_eax_needed));
-register #1         u_r_ro_ecx_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ecx_needed),            .data_o(r_ro_ecx_needed));
-register #3         u_r_ro_in3                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_in3),                   .data_o(r_ro_in3));
-register #3         u_r_ro_in4                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_in4),                   .data_o(r_ro_in4));
-register #3         u_r_ro_dreg1               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_dreg1),                 .data_o(r_ro_dreg1));
-register #3         u_r_ro_dreg2               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_dreg2),                 .data_o(r_ro_dreg2));
-register #3         u_r_ro_dreg3               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_dreg3),                 .data_o(r_ro_dreg3));
-register #1         u_r_ro_ld_reg1             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_reg1),               .data_o(r_ro_ld_reg1));
-register #1         u_r_ro_ld_reg2             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_reg2),               .data_o(r_ro_ld_reg2));
-register #1         u_r_ro_ld_reg3             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_reg3),               .data_o(r_ro_ld_reg3));
-register #4         u_r_ro_ld_reg1_strb        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_reg1_strb),          .data_o(r_ro_ld_reg1_strb));
-register #4         u_r_ro_ld_reg2_strb        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_reg2_strb),          .data_o(r_ro_ld_reg2_strb));
-register #4         u_r_ro_ld_reg3_strb        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_reg3_strb),          .data_o(r_ro_ld_reg3_strb));
-register #1         u_r_ro_reg8_sr1_HL_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_reg8_sr1_HL_sel),       .data_o(r_ro_reg8_sr1_HL_sel));
-register #1         u_r_ro_reg8_sr2_HL_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_reg8_sr2_HL_sel),       .data_o(r_ro_reg8_sr2_HL_sel));
-register #1         u_r_ro_mm1_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mm1_needed),            .data_o(r_ro_mm1_needed));
-register #1         u_r_ro_mm2_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mm2_needed),            .data_o(r_ro_mm2_needed));
-register #3         u_r_ro_mm1                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mm1),                   .data_o(r_ro_mm1));
-register #3         u_r_ro_mm2                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mm2),                   .data_o(r_ro_mm2));
-register #1         u_r_ro_ld_mm               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_mm),                 .data_o(r_ro_ld_mm));
-register #3         u_r_ro_dmm                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_dmm),                   .data_o(r_ro_dmm));
-register #1         u_r_ro_mm_sr1_sel_H        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mm_sr1_sel_H),          .data_o(r_ro_mm_sr1_sel_H));
-register #1         u_r_ro_mm_sr1_sel_L        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mm_sr1_sel_L),          .data_o(r_ro_mm_sr1_sel_L));
-register #1         u_r_ro_mm_sr2_sel          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mm_sr2_sel),            .data_o(r_ro_mm_sr2_sel));
-register #1         u_r_ro_seg3_needed         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_seg3_needed),           .data_o(r_ro_seg3_needed));
-register #3         u_r_ro_seg3                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_seg3),                  .data_o(r_ro_seg3));
-register #1         u_r_ro_ld_seg              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_seg),                .data_o(r_ro_ld_seg));
-register #3         u_r_ro_dseg                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_dseg),                  .data_o(r_ro_dseg));
-register #1         u_r_ro_ld_mem              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_mem),                .data_o(r_ro_ld_mem));
-register #1         u_r_ro_mem_read            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mem_read),              .data_o(r_ro_mem_read));
-register #2         u_r_ro_mem_rd_size         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mem_rd_size),           .data_o(r_ro_mem_rd_size));
-register #2         u_r_ro_mem_wr_size         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mem_wr_size),           .data_o(r_ro_mem_wr_size));
-register #1         u_r_ro_mem_rd_addr_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_mem_rd_addr_sel),       .data_o(r_ro_mem_rd_addr_sel));
-register #1         u_r_ro_eip_change          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_eip_change),            .data_o(r_ro_eip_change));
-register #1         u_r_ro_cmps_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_cmps_op),               .data_o(r_ro_cmps_op));
-register #1         u_r_ro_cxchg_op            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_cxchg_op),              .data_o(r_ro_cxchg_op));
-register #1         u_r_ro_CF_needed           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_CF_needed),             .data_o(r_ro_CF_needed));
-register #1         u_r_ro_DF_needed           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_DF_needed),             .data_o(r_ro_DF_needed));
-register #1         u_r_ro_AF_needed           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_AF_needed),             .data_o(r_ro_AF_needed));
-register #1         u_r_ro_pr_size_over        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_pr_size_over),          .data_o(r_ro_pr_size_over));
 register #32        u_r_ro_EIP_next            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_EIP_next),              .data_o(r_ro_EIP_next));
-register #2         u_r_ro_imm_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_imm_sel),               .data_o(r_ro_imm_sel));
-register #2         u_r_ro_EIP_EFLAGS_sel      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_EIP_EFLAGS_sel),        .data_o(r_ro_EIP_EFLAGS_sel));
-register #2         u_r_ro_sr1_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_sr1_sel),               .data_o(r_ro_sr1_sel));
-register #2         u_r_ro_sr2_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_sr2_sel),               .data_o(r_ro_sr2_sel));
-register #4         u_r_ro_alu1_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_alu1_op),               .data_o(r_ro_alu1_op));
-register #1         u_r_ro_alu2_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_alu2_op),               .data_o(r_ro_alu2_op));
-register #1         u_r_ro_alu3_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_alu3_op),               .data_o(r_ro_alu3_op));
-register #2         u_r_ro_alu1_op_size        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_alu1_op_size),          .data_o(r_ro_alu1_op_size));
-register #1         u_r_ro_df_val              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_df_val),                .data_o(r_ro_df_val));
-register #1         u_r_ro_CF_expected         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_CF_expected),           .data_o(r_ro_CF_expected));
-register #1         u_r_ro_ZF_expected         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ZF_expected),           .data_o(r_ro_ZF_expected));
-register #1         u_r_ro_cond_wr_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_cond_wr_CF),            .data_o(r_ro_cond_wr_CF));
-register #1         u_r_ro_cond_wr_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_cond_wr_ZF),            .data_o(r_ro_cond_wr_ZF));
-register #1         u_r_ro_wr_reg1_data_sel    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_wr_reg1_data_sel),      .data_o(r_ro_wr_reg1_data_sel));
-register #1         u_r_ro_wr_reg2_data_sel    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_wr_reg2_data_sel),      .data_o(r_ro_wr_reg2_data_sel));
-register #2         u_r_ro_wr_seg_data_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_wr_seg_data_sel),       .data_o(r_ro_wr_seg_data_sel));
-register #1         u_r_ro_wr_eip_alu_res_sel  (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_wr_eip_alu_res_sel),    .data_o(r_ro_wr_eip_alu_res_sel));
-register #2         u_r_ro_wr_mem_data_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_wr_mem_data_sel),       .data_o(r_ro_wr_mem_data_sel));
-register #1         u_r_ro_wr_mem_addr_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_wr_mem_addr_sel),       .data_o(r_ro_wr_mem_addr_sel));
-register #1         u_r_ro_ld_flag_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_flag_CF),            .data_o(r_ro_ld_flag_CF));
-register #1         u_r_ro_ld_flag_PF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_flag_PF),            .data_o(r_ro_ld_flag_PF));
-register #1         u_r_ro_ld_flag_AF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_flag_AF),            .data_o(r_ro_ld_flag_AF));
-register #1         u_r_ro_ld_flag_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_flag_ZF),            .data_o(r_ro_ld_flag_ZF));
-register #1         u_r_ro_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_flag_SF),            .data_o(r_ro_ld_flag_SF));
-register #1         u_r_ro_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_flag_DF),            .data_o(r_ro_ld_flag_DF));
-register #1         u_r_ro_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_ld_flag_OF),            .data_o(r_ro_ld_flag_OF));
+register #32        u_r_ro_imm_rel_ptr32       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(r_ag_imm_rel_ptr32),         .data_o(r_ag_imm_rel_ptr32));
 
+register #1         u_r_ro_in3_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_in3_needed),            .data_o(r_ro_in3_needed));
+register #1         u_r_ro_in4_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_in4_needed),            .data_o(r_ro_in4_needed));
+register #1         u_r_ro_eax_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_eax_needed),            .data_o(r_ro_eax_needed));
+register #1         u_r_ro_ecx_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ecx_needed),            .data_o(r_ro_ecx_needed));
+register #3         u_r_ro_in3                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_in3),                   .data_o(r_ro_in3));
+register #3         u_r_ro_in4                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_in4),                   .data_o(r_ro_in4));
+register #3         u_r_ro_dreg1               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_dreg1),                 .data_o(r_ro_dreg1));
+register #3         u_r_ro_dreg2               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_dreg2),                 .data_o(r_ro_dreg2));
+register #3         u_r_ro_dreg3               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_dreg3),                 .data_o(r_ro_dreg3));
+register #1         u_r_ro_ld_reg1             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_reg1),               .data_o(r_ro_ld_reg1));
+register #1         u_r_ro_ld_reg2             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_reg2),               .data_o(r_ro_ld_reg2));
+register #1         u_r_ro_ld_reg3             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_reg3),               .data_o(r_ro_ld_reg3));
+register #4         u_r_ro_ld_reg1_strb        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_reg1_strb),          .data_o(r_ro_ld_reg1_strb));
+register #4         u_r_ro_ld_reg2_strb        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_reg2_strb),          .data_o(r_ro_ld_reg2_strb));
+register #4         u_r_ro_ld_reg3_strb        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_reg3_strb),          .data_o(r_ro_ld_reg3_strb));
+register #1         u_r_ro_reg8_sr1_HL_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_reg8_sr1_HL_sel),       .data_o(r_ro_reg8_sr1_HL_sel));
+register #1         u_r_ro_reg8_sr2_HL_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_reg8_sr2_HL_sel),       .data_o(r_ro_reg8_sr2_HL_sel));
+register #1         u_r_ro_mm1_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mm1_needed),            .data_o(r_ro_mm1_needed));
+register #1         u_r_ro_mm2_needed          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mm2_needed),            .data_o(r_ro_mm2_needed));
+register #3         u_r_ro_mm1                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mm1),                   .data_o(r_ro_mm1));
+register #3         u_r_ro_mm2                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mm2),                   .data_o(r_ro_mm2));
+register #1         u_r_ro_ld_mm               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_mm),                 .data_o(r_ro_ld_mm));
+register #3         u_r_ro_dmm                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_dmm),                   .data_o(r_ro_dmm));
+register #1         u_r_ro_mm_sr1_sel_H        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mm_sr1_sel_H),          .data_o(r_ro_mm_sr1_sel_H));
+register #1         u_r_ro_mm_sr1_sel_L        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mm_sr1_sel_L),          .data_o(r_ro_mm_sr1_sel_L));
+register #1         u_r_ro_mm_sr2_sel          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mm_sr2_sel),            .data_o(r_ro_mm_sr2_sel));
+register #1         u_r_ro_seg3_needed         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_seg3_needed),           .data_o(r_ro_seg3_needed));
+register #3         u_r_ro_seg3                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_seg3),                  .data_o(r_ro_seg3));
+register #1         u_r_ro_ld_seg              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_seg),                .data_o(r_ro_ld_seg));
+register #3         u_r_ro_dseg                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_dseg),                  .data_o(r_ro_dseg));
+register #1         u_r_ro_ld_mem              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_mem),                .data_o(r_ro_ld_mem));
+register #1         u_r_ro_mem_read            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mem_read),              .data_o(r_ro_mem_read));
+register #2         u_r_ro_mem_rd_size         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mem_rd_size),           .data_o(r_ro_mem_rd_size));
+register #2         u_r_ro_mem_wr_size         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mem_wr_size),           .data_o(r_ro_mem_wr_size));
+register #1         u_r_ro_mem_rd_addr_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_mem_rd_addr_sel),       .data_o(r_ro_mem_rd_addr_sel));
+register #1         u_r_ro_eip_change          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_eip_change),            .data_o(r_ro_eip_change));
+register #1         u_r_ro_cmps_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_cmps_op),               .data_o(r_ro_cmps_op));
+register #1         u_r_ro_cxchg_op            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_cxchg_op),              .data_o(r_ro_cxchg_op));
+register #1         u_r_ro_CF_needed           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_CF_needed),             .data_o(r_ro_CF_needed));
+register #1         u_r_ro_DF_needed           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_DF_needed),             .data_o(r_ro_DF_needed));
+register #1         u_r_ro_AF_needed           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_AF_needed),             .data_o(r_ro_AF_needed));
+register #1         u_r_ro_pr_size_over        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_pr_size_over),          .data_o(r_ro_pr_size_over));
+register #2         u_r_ro_imm_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_imm_sel),               .data_o(r_ro_imm_sel));
+register #2         u_r_ro_EIP_EFLAGS_sel      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_EIP_EFLAGS_sel),        .data_o(r_ro_EIP_EFLAGS_sel));
+register #2         u_r_ro_sr1_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_sr1_sel),               .data_o(r_ro_sr1_sel));
+register #2         u_r_ro_sr2_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_sr2_sel),               .data_o(r_ro_sr2_sel));
+register #4         u_r_ro_alu1_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_alu1_op),               .data_o(r_ro_alu1_op));
+register #1         u_r_ro_alu2_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_alu2_op),               .data_o(r_ro_alu2_op));
+register #1         u_r_ro_alu3_op             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_alu3_op),               .data_o(r_ro_alu3_op));
+register #2         u_r_ro_alu1_op_size        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_alu1_op_size),          .data_o(r_ro_alu1_op_size));
+register #1         u_r_ro_df_val              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_df_val),                .data_o(r_ro_df_val));
+register #1         u_r_ro_CF_expected         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_CF_expected),           .data_o(r_ro_CF_expected));
+register #1         u_r_ro_ZF_expected         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ZF_expected),           .data_o(r_ro_ZF_expected));
+register #1         u_r_ro_cond_wr_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_cond_wr_CF),            .data_o(r_ro_cond_wr_CF));
+register #1         u_r_ro_cond_wr_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_cond_wr_ZF),            .data_o(r_ro_cond_wr_ZF));
+register #1         u_r_ro_wr_reg1_data_sel    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_wr_reg1_data_sel),      .data_o(r_ro_wr_reg1_data_sel));
+register #1         u_r_ro_wr_reg2_data_sel    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_wr_reg2_data_sel),      .data_o(r_ro_wr_reg2_data_sel));
+register #2         u_r_ro_wr_seg_data_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_wr_seg_data_sel),       .data_o(r_ro_wr_seg_data_sel));
+register #1         u_r_ro_wr_eip_alu_res_sel  (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_wr_eip_alu_res_sel),    .data_o(r_ro_wr_eip_alu_res_sel));
+register #2         u_r_ro_wr_mem_data_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_wr_mem_data_sel),       .data_o(r_ro_wr_mem_data_sel));
+register #1         u_r_ro_wr_mem_addr_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_wr_mem_addr_sel),       .data_o(r_ro_wr_mem_addr_sel));
+register #1         u_r_ro_ld_flag_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_flag_CF),            .data_o(r_ro_ld_flag_CF));
+register #1         u_r_ro_ld_flag_PF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_flag_PF),            .data_o(r_ro_ld_flag_PF));
+register #1         u_r_ro_ld_flag_AF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_flag_AF),            .data_o(r_ro_ld_flag_AF));
+register #1         u_r_ro_ld_flag_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_flag_ZF),            .data_o(r_ro_ld_flag_ZF));
+register #1         u_r_ro_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_flag_SF),            .data_o(r_ro_ld_flag_SF));
+register #1         u_r_ro_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_flag_DF),            .data_o(r_ro_ld_flag_DF));
+register #1         u_r_ro_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_mux_ag_ld_flag_OF),            .data_o(r_ro_ld_flag_OF));
 
 //Register file
 wire [31:0] r_ag_reg_out1;
@@ -912,7 +1172,10 @@ regfile u_regfile (
   .r_reg_data1     (r_ag_reg_out1),
   .r_reg_data2     (r_ag_reg_out2),
   .r_reg_data3     (r_ro_reg_out3),
-  .r_reg_data4     (r_ro_reg_out4)
+  .r_reg_data4     (r_ro_reg_out4),
+  .ESP             (w_ag_ESP),
+  .ECX             (w_ro_ECX),
+  .EAX             (w_ro_EAX)
 );
 
 //MMX regfile
@@ -947,10 +1210,119 @@ seg_regfile u_seg_regfile(
   .seg3           (r_ro_seg3),
   .r_seg_data1    (r_ag_seg_data1),
   .r_seg_data2    (r_ag_seg_data2),
-  .r_seg_data3    (r_ag_seg_data3)
+  .r_seg_data3    (r_ag_seg_data3),
+  .CS             (w_fe_CS)
 );
 
+//Displacement select
+wire [31:0] w_ag_disp_out;
+wire t_disp;
+assign t_disp = r_ag_disp32[7];
+mux_nbit_4x1 #32 u_w_ag_disp_out (
+  .a0(32'h0), 
+  .a1({t_disp,t_disp,t_disp,t_disp,t_disp,
+      t_disp,t_disp,t_disp,t_disp,t_disp,
+      t_disp,t_disp,t_disp,t_disp,t_disp,
+      t_disp,t_disp,t_disp,t_disp,t_disp,
+      t_disp,t_disp,t_disp,t_disp,r_ag_disp32[7:0]}), 
+  .a2(r_ag_disp32), 
+  .a3(32'h0), 
+  .sel(w_mux_ag_disp_sel), 
+  .out(w_ag_disp_out)
+);
 
+//add disp and seg
+wire [31:0] w_ag_disp_add_seg;
+cond_sum32 u_w_ag_disp_add_seg ( .A(w_ag_disp_out), .B({16'h0,r_ag_seg_data1}), .CIN(1'b0), .S(w_ag_disp_add_seg), .COUT(/*Unused*/) );
+
+//scaled index (and muxed)
+wire [31:0] w_ag_scaled_index;
+mux_nbit_4x1 #32 u_w_ag_scaled_index (
+  .a0(r_ag_reg_out2), 
+  .a1({r_ag_reg_out2[30:0],1'h0}),
+  .a2({r_ag_reg_out2[29:0],2'h0}),
+  .a3({r_ag_reg_out2[28:0],3'h0}),
+  .sel(w_mux_ag_scale), 
+  .out(w_ag_scaled_index)
+);
+wire [31:0] w_ag_scaled_index_muxed;
+mux_nbit_2x1 u_w_ag_scaled_index_muxed (.a0(32'h0), .a1(w_ag_scaled_index), .sel(w_mux_ag_SIB_pr), .out(w_ag_scaled_index_muxed));
+
+//addr_base
+wire [31:0] w_ag_addr_base;
+mux_nbit_2x1 u_w_ag_addr_base (.a0(32'h0), .a1(r_ag_reg_out1), .sel(w_mux_ag_base_sel), .out(w_ag_addr_base));
+
+//addr1
+wire [31:0] w_ag_addr1;
+wallace_abc_adder u_w_ag_addr1 ( .A(w_ag_disp_add_seg), .B(w_ag_addr_base), .C(w_ag_scaled_index_muxed), .CIN(1'b0), .S(w_ag_addr1) ); 
+
+//reg2 and ESP muxed
+wire [31:0] w_ag_reg2_ESP_muxed;
+mux_nbit_2x1 u_w_ag_reg2_ESP_muxed(.a0(w_ag_ESP), .a1(r_ag_reg_out2), .sel(w_mux_ag_cmps_op), .out(w_ag_reg2_ESP_muxed));
+
+//stack offset
+wire [31:0] w_ag_stack_off;
+mux_nbit_4x1 u_w_ag_stack_off (.a0(32'h0), .a1(32'hfffe), .a2(32'hfffc), .a3(32'hfff8), .sel(w_mux_ag_stack_off_sel), .out(w_ag_stack_off));
+
+//ISR
+wire w_ag_ISR;
+assign w_ag_ISR = ROM_SEQ;
+
+//addr2
+wire [31:0] w_ag_addr2_temp;
+wire [31:0] w_ag_addr2;
+wallace_abc_adder u_w_ag_addr2_temp ( .A(w_ag_reg2_ESP_muxed), .B({16'h0,r_ag_seg_data2}), .C(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_temp) ); 
+
+wire IOT_and_ISR;
+and2$ u_IOT_and_ISR (.in0(w_ag_ISR), .in1(IOT_address_sel), .out(IOT_and_ISR));
+mux_nbit_2x1 u_w_ag_addr2 (.a0(w_ag_addr2_temp), .a1(IOT_address), .sel(IOT_and_ISR), .out(w_ag_addr2));
+
+//seg1_limit
+wire [19:0] w_ag_seg1_limit;
+mux_nbit_8x1 #20 u_w_ag_seg1_limit (
+  .a0(ES_limit),
+  .a1(CS_limit),
+  .a2(SS_limit),
+  .a3(DS_limit),
+  .a4(FS_limit),
+  .a5(GS_limit),
+  .a6(/*Unused*/),
+  .a7(/*Unused*/),
+  .sel(w_mux_ag_seg1),
+  .out(w_ag_seg1_limit)
+);
+
+//seg2_limit
+wire [19:0] w_ag_seg2_limit;
+mux_nbit_8x1 #20 u_w_ag_seg2_limit (
+  .a0(ES_limit),
+  .a1(CS_limit),
+  .a2(SS_limit),
+  .a3(DS_limit),
+  .a4(FS_limit),
+  .a5(GS_limit),
+  .a6(/*Unused*/),
+  .a7(/*Unused*/),
+  .sel(w_mux_ag_seg2),
+  .out(w_ag_seg2_limit)
+);
+
+//addr1_offset
+wire [31:0] w_ag_addr1_offset;
+wallace_abc_adder u_w_ag_addr1_offset ( .A(w_ag_disp_out), .B(w_ag_addr_base), .C(w_ag_scaled_index_muxed), .CIN(1'b0), .S(w_ag_addr1_offset) ); 
+
+//addr2_offset
+wire [31:0] w_ag_addr2_offset;
+cond_sum32 u_w_ag_addr2_offset ( .A(w_ag_reg2_ESP_muxed), .B(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_offset), .COUT(/*Unused*/) );
+
+//Newly generated AG to RO signals latching
+register #32         u_r_ro_ESP                   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_ESP         ),            .data_o(r_ro_ESP         ));
+register #32         u_r_ro_addr1                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_addr1       ),            .data_o(r_ro_addr1       ));
+register #32         u_r_ro_addr2                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_addr2       ),            .data_o(r_ro_addr2       ));
+register #20         u_r_ro_seg1_limit            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_seg1_limit  ),            .data_o(r_ro_seg1_limit  ));
+register #20         u_r_ro_seg2_limit            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_seg2_limit  ),            .data_o(r_ro_seg2_limit  ));
+register #32         u_r_ro_addr1_offset          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_addr1_offset),            .data_o(r_ro_addr1_offset));
+register #32         u_r_ro_addr2_offset          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_addr2_offset),            .data_o(r_ro_addr2_offset));
+register #1          u_r_ro_ISR                   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_lo_ro), .data_i(w_ag_ISR         ),            .data_o(r_ro_ISR         ));
 
 endmodule
-
