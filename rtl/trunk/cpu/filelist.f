@@ -48,7 +48,6 @@
 ../../trunk/cpu/fetch/i_cache.v
 ../../trunk/cpu/fetch/fetch_TLB_lookup.v
 ../../trunk/cpu/fetch/fetch_fsm.v
-../../trunk/cpu/EIP_reg.v
 
 ../../trunk/cpu/decode/register_addr_dependency.v
 ../../trunk/cpu/decode/segment_addr_dependency.v
@@ -99,5 +98,6 @@
 
 ../../trunk/cpu/writeback/writeback_loads_gen_netlist.v
 ../../trunk/cpu/writeback/wr_fifo.v
+../../trunk/cpu/writeback/EIP_reg.v
 
 ../../trunk/cpu.v
