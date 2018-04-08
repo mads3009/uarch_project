@@ -15,7 +15,7 @@ input rst_n;
 
 // Internal variables
 wire        int_clear;
-wire        interrupt;
+wire        int;
 
 // MMU master port
 wire        m_mmu_cyc;
@@ -157,7 +157,7 @@ keyboard u_keyboard(
 disk_top u_disk_top(
   .clk(clk), 
   .rst_n(rst_n),
-  .interrupt(interrupt), 
+  .interrupt(int), 
   .int_clear(int_clear),
   // DMA slave port
   .s_cyc(s_dma_cyc), 
@@ -184,6 +184,8 @@ disk_top u_disk_top(
 cpu u_cpu(
   .clk(clk),
   .rst_n(rst_n),
+  .int(int),
+  .int_clear(int_clear),
   // MMU master port
   .m_cyc(m_mmu_cyc), 
   .m_we(m_mmu_we), 
