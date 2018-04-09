@@ -1588,7 +1588,7 @@ dcache u_dcache (
   .dc_evict(w_dc_evict), 
   .dc_evict_addr(w_dc_evict_addr), 
   .dc_evict_data(w_dc_evict_data), 
-  .dc_exp(w_dc_exp), 
+  .dc_rd_exp(w_dc_rd_exp), 
   .ld_ro(w_ld_ro)
   );
 
