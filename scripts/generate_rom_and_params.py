@@ -104,18 +104,18 @@ for i in reversed(words):
 			b=a.split(":")
 			diff = int(b[0]) - int(b[1]) +1
 			i=i.split("[")
-			cmd = "localparam " + i[0] + "_BL = 8'd" + str(index) 
+			cmd = "localparam " + i[0] + "_BL = 8'd" + str(index) + ";" 
 			f3.write(cmd+"\n");
-			cmd = "localparam " + i[0] + "_BH = 8'd" + str(index+ diff - 1) 
+			cmd = "localparam " + i[0] + "_BH = 8'd" + str(index+ diff - 1) + ";" 
 			f3.write(cmd+"\n");
-			cmd = "localparam " + i[0] + "_W = 4'd" + str(diff) 
+			cmd = "localparam " + i[0] + "_W = 4'd" + str(diff) + ";" 
 			f3.write(cmd+"\n");
 			index=index+diff;
 			
 		elif(i is not ''):
-			cmd = "localparam " + i + " = 8'd" + str(index)
+			cmd = "localparam " + i + " = 8'd" + str(index) + ";"
 			f3.write(cmd+"\n");
-			cmd = "localparam " + i + "_W = 4'd1" 
+			cmd = "localparam " + i + "_W = 4'd1" + ";" 
 			f3.write(cmd+"\n");
 			index=index+1	
 
@@ -126,18 +126,18 @@ for i in reversed(words):
 			b=a.split(":")
 			diff = int(b[0]) - int(b[1]) +1
 			i=i.split("[")
-			cmd = "localparam " + i[0] + "_BL = 8'd" + str(index) 
+			cmd = "localparam " + i[0] + "_BL = 8'd" + str(index)  + ";"
 			f3.write(cmd+"\n");
-			cmd = "localparam " + i[0] + "_BH = 8'd" + str(index+ diff - 1) 
+			cmd = "localparam " + i[0] + "_BH = 8'd" + str(index+ diff - 1)  + ";"
 			f3.write(cmd+"\n");
-			cmd = "localparam " + i[0] + "_W = 4'd" + str(diff) 
+			cmd = "localparam " + i[0] + "_W = 4'd" + str(diff)  + ";"
 			f3.write(cmd+"\n");
 			index=index+diff;
 			
 		elif(i is not ''):
-			cmd = "localparam " + i + " = 8'd" + str(index)
+			cmd = "localparam " + i + " = 8'd" + str(index)  + ";"
 			f3.write(cmd+"\n");
-			cmd = "localparam " + i + "_W = 4'd1"
+			cmd = "localparam " + i + "_W = 4'd1"  + ";"
 			f3.write(cmd+"\n");
 			index=index+1
 			

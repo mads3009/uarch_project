@@ -170,12 +170,12 @@ register #(.N(32)) u_temp_addr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data
 mux32bit_2x1 u_mux32bit_2x1_3(.Y(m_addr), .IN0(r_temp_addr), .IN1(io_addr), .S0(w_curr_st_eq_IO_SEL));
 
 // ld_temp_addr generation
-nor3$ u_nor3_1(.out(n_301), .in0(w_curr_st_eq_DC_MEM_WR), .in1(w_curr_st_eq_DC_MEM_RD), .in2(w_curr_st_eq_IC_MEM_RW));
+nor3$ u_nor3_1(.out(n_301), .in0(w_curr_st_eq_DC_MEM_WR), .in1(w_curr_st_eq_DC_MEM_RD), .in2(w_curr_st_eq_IC_MEM_RD));
 or2$ u_or2_1(.out(w_ld_temp_addr), .in0(n_301), .in1(m_ack));
 
 // mux_sel0 & mux_sel1 generation
 
-or3$ u_or3_1(.out(w_count_mux_sel), .in0(w_curr_st_eq_DC_MEM_WR), .in1(w_curr_st_eq_DC_MEM_RD), .in2(w_curr_st_eq_IC_MEM_RW));
+or3$ u_or3_1(.out(w_count_mux_sel), .in0(w_curr_st_eq_DC_MEM_WR), .in1(w_curr_st_eq_DC_MEM_RD), .in2(w_curr_st_eq_IC_MEM_RD));
 
 and2$ u_and2_1(.out(w_temp2), .in0(w_next_st_eq_DC_MEM_RD), .in1(w_curr_st_eq_DC_MEM_RD_bar));
 and2$ u_and2_2(.out(w_temp3), .in0(w_next_st_eq_IC_MEM_RD), .in1(w_curr_st_eq_IC_MEM_RD_bar));

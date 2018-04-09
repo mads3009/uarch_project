@@ -21,7 +21,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     output [255:0]r_data;
     output        ic_hit;
     output        ic_miss;
-    output        ic_miss_addr;
+    output [31:0] ic_miss_addr;
             	
     wire [5:0] phy_tag;
     assign phy_tag = {tag_14_12,tag_11_9};
