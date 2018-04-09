@@ -135,7 +135,7 @@ dc_data_store u_dc_data_store(
   .index(w_mem_rw_addr[8:4]),
   .dc_wr_mask(w_dc_wr_mask),
   .dc_write_data(w_dc_wr_data),
-  .dc_rd_data(w_dc_rd_data)
+  .dc_read_data(w_dc_rd_data)
   );
 
 // D-cache tag store

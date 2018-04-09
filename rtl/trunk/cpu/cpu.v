@@ -1777,7 +1777,7 @@ wire w_fifo_full_bar;
 wire w_fifo_empty_bar;
 wire w_fifo_full;
 wire w_fifo_empty;
-wire [2:0] w_fifo_cnt
+wire [2:0] w_fifo_cnt;
 wire w_fifo_to_be_full;
 
 wr_fifo u_wr_fifo(
