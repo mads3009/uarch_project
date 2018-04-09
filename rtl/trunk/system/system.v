@@ -181,7 +181,7 @@ disk_top u_disk_top(
 /////////////////////////////////////
 // CPU instantiation
 /////////////////////////////////////
-/*
+
 cpu u_cpu(
   .clk(clk),
   .rst_n(rst_n),
@@ -195,8 +195,7 @@ cpu u_cpu(
   .m_data_o(m_mmu_data_o),
   .m_ack(m_mmu_ack), 
   .m_data_i(m_mmu_data_i)
-  .);
-*/
+  );
 
 /////////////////////////////////////
 // State variables

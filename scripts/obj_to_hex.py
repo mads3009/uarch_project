@@ -1,9 +1,12 @@
 import re
 import sys
+
 inFile = sys.argv[1]
+
 f_addr = open("hex_addr.txt", "w")
 f_data = open("hex_data.txt", "w")
 f_num = open("num_lines.txt", "w")
+
 def zero_extend(value):
     zeros = '0' * (8-len(value))
     new_value = zeros + value

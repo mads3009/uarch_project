@@ -1525,6 +1525,7 @@ wire [19:0] w_ro_seg_wr_limit;
 wire [31:0] w_ro_wr_addr_offset;
 wire [19:0] w_ro_seg_rd_limit;
 wire [31:0] w_ro_rd_addr_offset;
+wire w_dc_rd_exp;
 
 //To out
 wire [31:0]  w_ro_sr1;
