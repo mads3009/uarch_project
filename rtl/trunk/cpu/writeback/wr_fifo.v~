@@ -44,7 +44,7 @@ and2$ u_and2_1(.out(w_ld_rd_ptr), .in0(rd), .in1(fifo_empty_bar));
 // wr_ptr update
 register #(.N(2)) u_wr_ptr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wr_ptr_inc), .data_o(r_wr_ptr), .ld(w_ld_wr_ptr));
 
-adder2bit u_wr_ptr_adder(.a(r_wr_ptr), .b(2'd1), .sum(w_wr_ptr_inc));
+adder2bit u_rd_ptr_adder(.a(r_wr_ptr), .b(2'd1), .sum(w_wr_ptr_inc));
 
 and2$ u_and2_2(.out(w_ld_wr_ptr), .in0(wr), .in1(fifo_full_bar));
 

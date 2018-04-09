@@ -29,7 +29,7 @@ eq_checker20 u_eq_checker20_5(.in1(tlb_pn5), .in2(mem_rw_addr_vpn), .eq_out(w_eq
 eq_checker20 u_eq_checker20_6(.in1(tlb_pn6), .in2(mem_rw_addr_vpn), .eq_out(w_eq_pg[6]));
 eq_checker20 u_eq_checker20_7(.in1(tlb_pn7), .in2(mem_rw_addr_vpn), .eq_out(w_eq_pg[7]));
 
-pencoder8_3v$(.enbar(1'b0), .X(w_eq_pg), .Y(tlb_addr), .valid(/*Unused*/));
+pencoder8_3v$ u_pencoder8_3v(.enbar(1'b0), .X(w_eq_pg), .Y(tlb_addr), .valid(/*Unused*/));
 
 endmodule
 

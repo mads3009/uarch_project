@@ -100,4 +100,5 @@
 ../../trunk/cpu/writeback/wr_fifo.v
 ../../trunk/cpu/writeback/EIP_reg.v
 
-../../trunk/cpu.v
+./cpu.v
+

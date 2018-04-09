@@ -45,7 +45,7 @@ register #(.N(64)) u_mdr (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_data
 
 // Compute addr_offset_com = 16-addr_offset
 
-inv1$ u_inv1_1[3:0] (.in(addr_offset[3:0]), .out(w_addr_offset_bar[3:0]));
+inv1$ u_inv1_2[3:0] (.in(addr_offset[3:0]), .out(w_addr_offset_bar[3:0]));
 nibble_low u_nibble_low(.a(w_addr_offset_bar), .b(4'd0), .cin(1'b1), .s(w_addr_offset_com), .cout(/*Unused*/) );
 
 bit_shift_left #(.WIDTH(8)) u_mask_sll(.amt(w_addr_offset_com), .sin(1'b0), .in(8'hFF), .out(w_sel_mask));

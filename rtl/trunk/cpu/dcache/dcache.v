@@ -94,18 +94,14 @@ assign dc_miss_addr = {17'd0, w_phy_tag,w_mem_rw_addr[8:4],4'd0};
 assign dc_evict_addr = {17'd0, w_ts_tag,w_mem_rw_addr[8:4],4'd0};
 assign dc_evict_data = w_dc_rd_data;
 
-// io_access = w_tlb_pcd & (ren | wen)
-and2$ u_and3(.out(io_access), .in0(w_tlb_pcd), .in1(n_3));
-or2$ u_or1(.out(n_3), .in0(ren), .in1(wen));
+// io_access = w_tlb_pcd & (ren | wen) & !dc_exp
+inv1$ u_inv1_1(.out(w_dc_exp_bar), .in(dc_exp));
+and3$ u_and3_1(.out(io_access), .in0(w_tlb_pcd), .in1(n_3), .in2(w_dc_exp_bar));
+or2$ u_or2_1(.out(n_3), .in0(ren), .in1(wen));
 
 assign io_rw = wen;
 assign io_addr = {w_mem_rw_addr[31:2],2'd0};
 assign io_wr_data = mem_wr_data[31:0];
-
-output                io_access;
-output                io_rw;
-output [31:0]         io_addr;
-output [31:0]         io_wr_data;
 
 // Generate dc_wr_data and dc_wr_mask
 dc_wr_data_gen u_dc_wr_data_gen(
@@ -152,7 +148,7 @@ dc_tag_store u_dc_tag_store(
   .index(w_mem_rw_addr[8:4]),
   .wr(w_ts_wr_enb),
   .data_in(w_ts_data_in),
-  .data_out({w_ts_tag, w_ts_valid, w_ts_dirty}),
+  .data_out({w_ts_tag, w_ts_valid, w_ts_dirty})
   );
 
 // TLB instantiation and dcache hit/miss checking
@@ -203,7 +199,7 @@ tlb_addr_gen u_tlb_addr_gen_wr(
   .tlb_pn5(w_tlb_pn5),
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
-  .tlb_addr(w_tlb_addr1),
+  .tlb_addr(w_tlb_addr1)
   );
 
 tlb_addr_gen u_tlb_addr_gen_rd(
@@ -216,7 +212,7 @@ tlb_addr_gen u_tlb_addr_gen_rd(
   .tlb_pn5(w_tlb_pn5),
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
-  .tlb_addr(w_tlb_addr2),
+  .tlb_addr(w_tlb_addr2)
   );
 
 tlb_addr_gen u_tlb_addr_gen_rw(
@@ -229,7 +225,7 @@ tlb_addr_gen u_tlb_addr_gen_rw(
   .tlb_pn5(w_tlb_pn5),
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
-  .tlb_addr(w_tlb_addr3),
+  .tlb_addr(w_tlb_addr3)
   );
 
 
@@ -282,10 +278,10 @@ muxNbit_2x1 u_muxNbit_2x1_3(.IN0(w_mem_rw_addr_curr), .IN1(w_mem_rw_addr_next), 
 // Generate access2 signals for memory accesses which take 2 cycles to complete the access
 dff$ u_access2 (.r(rst_n), .s(1'b1), .clk(clk), .d(w_access2_muxout), .q (r_access2), .qbar (/*Unused*/));
 
-and2$ u_and2(.out(n_2), .in0(w_dc_rd_hit), .in1(ld_ro));
-and2$ u_and1(.out(n_0), .in0(w_dc_hit), .in1(w_access2));
-nor2$ u_nor1(.out(n_1), .in0(mem_wr_done), .in1(in_2));
-mux2$ u_mux2(.outb(w_access2_muxout), .in0(n_0), .in1(n_1), .s0(r_access2));
+and2$ u_and2_2(.out(n_2), .in0(w_dc_rd_hit), .in1(ld_ro));
+and2$ u_and2_3(.out(n_0), .in0(w_dc_hit), .in1(w_access2));
+nor2$ u_nor2_1(.out(n_1), .in0(mem_wr_done), .in1(in_2));
+mux2$ u_mux2_1(.outb(w_access2_muxout), .in0(n_0), .in1(n_1), .s0(r_access2));
 
 access2_combo_gen u_access2_combo_gen(.access2_combo(w_access2), .offset(w_mem_rw_addr[3:0]), .size(w_mem_rw_size));
 
