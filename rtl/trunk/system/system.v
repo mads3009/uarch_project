@@ -181,6 +181,7 @@ disk_top u_disk_top(
 /////////////////////////////////////
 // CPU instantiation
 /////////////////////////////////////
+/*
 cpu u_cpu(
   .clk(clk),
   .rst_n(rst_n),
@@ -195,6 +196,7 @@ cpu u_cpu(
   .m_ack(m_mmu_ack), 
   .m_data_i(m_mmu_data_i)
   .);
+*/
 
 /////////////////////////////////////
 // State variables
@@ -213,97 +215,89 @@ wire [31:0] main_mem_page7[1023:0];
 
 genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
+  for (k=0; k < 128; k=k+1) begin : line_gen0
+    for (j=0; j < 8; j=j+1) begin : col_gen0
       assign main_mem_page0[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_1.mem[k];
       assign main_mem_page0[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_2.mem[k];
       assign main_mem_page0[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_3.mem[k];
       assign main_mem_page0[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
-end
 endgenerate
 
-genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
-      assign main_mem_page1[1024+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_1.mem[k];
-      assign main_mem_page1[1024+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_2.mem[k];
-      assign main_mem_page1[1024+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_3.mem[k];
-      assign main_mem_page1[1024+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_4.mem[k];
+  for (k=0; k < 128; k=k+1) begin : line_gen1
+    for (j=0; j < 8; j=j+1) begin : col_gen1
+      assign main_mem_page1[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page1[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page1[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page1[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
 
-genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
-      assign main_mem_page2[1024*2+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_1.mem[k];
-      assign main_mem_page2[1024*2+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_2.mem[k];
-      assign main_mem_page2[1024*2+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_3.mem[k];
-      assign main_mem_page2[1024*2+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_4.mem[k];
+  for (k=0; k < 128; k=k+1) begin : line_gen2
+    for (j=0; j < 8; j=j+1) begin : col_gen2
+      assign main_mem_page2[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page2[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page2[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page2[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
 
-genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
-      assign main_mem_page3[1024*3+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_1.mem[k];
-      assign main_mem_page3[1024*3+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_2.mem[k];
-      assign main_mem_page3[1024*3+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_3.mem[k];
-      assign main_mem_page3[1024*3+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_4.mem[k];
+  for (k=0; k < 128; k=k+1) begin : line_gen3
+    for (j=0; j < 8; j=j+1) begin : col_gen3
+      assign main_mem_page3[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page3[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page3[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page3[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
 
-genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
-      assign main_mem_page4[1024*4+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_1.mem[k];
-      assign main_mem_page4[1024*4+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_2.mem[k];
-      assign main_mem_page4[1024*4+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_3.mem[k];
-      assign main_mem_page4[1024*4+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_4.mem[k];
+  for (k=0; k < 128; k=k+1) begin : line_gen4
+    for (j=0; j < 8; j=j+1) begin : col_gen4
+      assign main_mem_page4[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page4[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page4[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page4[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
 
-genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
-      assign main_mem_page5[1024*5+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_1.mem[k];
-      assign main_mem_page5[1024*5+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_2.mem[k];
-      assign main_mem_page5[1024*5+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_3.mem[k];
-      assign main_mem_page5[1024*5+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_4.mem[k];
+  for (k=0; k < 128; k=k+1) begin : line_gen5
+    for (j=0; j < 8; j=j+1) begin : col_gen5
+      assign main_mem_page5[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page5[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page5[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page5[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
 
-genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
-      assign main_mem_page6[1024*6+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_1.mem[k];
-      assign main_mem_page6[1024*6+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_2.mem[k];
-      assign main_mem_page6[1024*6+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_3.mem[k];
-      assign main_mem_page6[1024*6+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_4.mem[k];
+  for (k=0; k < 128; k=k+1) begin : line_gen6
+    for (j=0; j < 8; j=j+1) begin : col_gen6
+      assign main_mem_page6[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page6[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page6[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page6[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
 
-genvar j,k;
 generate
-  for (k=0; k < 128; k=k+1) begin : line_gen
-    for (j=0; j < 8; j=j+1) begin : col_gen
-      assign main_mem_page7[1024*7+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_1.mem[k];
-      assign main_mem_page7[1024*7+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_2.mem[k];
-      assign main_mem_page7[1024*7+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_3.mem[k];
-      assign main_mem_page7[1024*7+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_4.mem[k];
+  for (k=0; k < 128; k=k+1) begin : line_gen7
+    for (j=0; j < 8; j=j+1) begin : col_gen7
+      assign main_mem_page7[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page7[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page7[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page7[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
@@ -335,6 +329,7 @@ wire  [7:0] DH;
 wire  [7:0] BL; 
 wire  [7:0] BH; 
 
+/*
 assign AL  = u_cpu.u_regfile.loop2[0].u_reg0.data_o;
 assign AH  = u_cpu.u_regfile.loop2[0].u_reg1.data_o;
 assign AX  = {AH,AL};
@@ -402,6 +397,7 @@ assign SS = u_cpu.u_seg_regfile.loop2[2].data_o;
 assign DS = u_cpu.u_seg_regfile.loop2[3].data_o;
 assign FS = u_cpu.u_seg_regfile.loop2[4].data_o;
 assign GS = u_cpu.u_seg_regfile.loop2[5].data_o;
+*/
 
 endmodule
 

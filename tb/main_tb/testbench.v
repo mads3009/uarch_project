@@ -6,7 +6,7 @@
 /* Author: Sharukh S. Shaikh                            */
 /********************************************************/
 
-module testbench();
+module testbench;
 
 // Parameters
 
@@ -45,9 +45,52 @@ system u_system(
   .rst_n  (rst_n)
 );
 
+initial
+   begin
+      $vcdplusfile("tb.vpd");
+      $vcdpluson(0, testbench); 
+   end 
+
+
 //Initialize memory
+reg [(2**15)-1:0] lines[1:0];
+reg [15:0] addrs[(2**15)-1:0];
+reg [7:0] datas[(2**15)-1:0];
+reg [2:0] r;
+reg [2:0] c;
+reg [1:0] b;
+reg [6:0] l;
+reg [15:0] addr;
+
+integer k;
 initial begin
-  $readmemh("scripts/num_lines.txt",,,u_system_u_main_mem.u_mem_array.row_gen[i].col_gen[j].u_sram128x8_1.mem[k])
+    $readmemh("../../scripts/num_lines.txt",lines);
+    $readmemh("../../scripts/hex_data.txt",datas);
+    $readmemh("../../scripts/hex_addr.txt",addrs);
+
+    
+        $display("lines=%d",lines[0]);
+
+    for (k=0; k < 10; k=k+1) begin : line_gen
+        addr = addrs[k];
+        $display("addr=%b",addr);
+ 
+        r = addr[14:12];
+        b = addr[1:0];
+        c = addr[4:2];
+        l = addr[11:5];
+    
+        if(b == 2'b0) 
+          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_1.mem[0] =  datas[k]; 
+        else if(b == 2'b1) 
+          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_2.mem[0] =  datas[k]; 
+        else if(b == 2'b10) 
+          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_3.mem[0] =  datas[k]; 
+        else 
+          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_4.mem[0] =  datas[k]; 
+        
+    end
+
 end
 
 endmodule
