@@ -200,22 +200,208 @@ cpu u_cpu(
 // State variables
 /////////////////////////////////////
 
+//Main Memory 
 
-wire [31:0] main_mem[4095:0];
+wire [31:0] main_mem_page0[1023:0];
+wire [31:0] main_mem_page1[1023:0];
+wire [31:0] main_mem_page2[1023:0];
+wire [31:0] main_mem_page3[1023:0];
+wire [31:0] main_mem_page4[1023:0];
+wire [31:0] main_mem_page5[1023:0];
+wire [31:0] main_mem_page6[1023:0];
+wire [31:0] main_mem_page7[1023:0];
 
-genvar i,j,k;
+genvar j,k;
 generate
-  for (i=0; i < 4; i=i+1) begin : row_gen
-    for (k=0; k < 128; k=k+1) begin : line_gen
-      for (j=0; j < 8; j=j+1) begin : col_gen
-        assign main_mem[1024*i+k*8+j][7:0] = u_main_mem.u_mem_array.row_gen[i].col_gen[j].u_sram128x8_1.mem[k];
-        assign main_mem[1024*i+k*8+j][15:8] = u_main_mem.u_mem_array.row_gen[i].col_gen[j].u_sram128x8_2.mem[k];
-        assign main_mem[1024*i+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[i].col_gen[j].u_sram128x8_3.mem[k];
-        assign main_mem[1024*i+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[i].col_gen[j].u_sram128x8_4.mem[k];
-      end
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page0[k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page0[k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page0[k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page0[k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[0].col_gen[j].u_sram128x8_4.mem[k];
+    end
+  end
+end
+endgenerate
+
+genvar j,k;
+generate
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page1[1024+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page1[1024+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page1[1024+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page1[1024+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[1].col_gen[j].u_sram128x8_4.mem[k];
     end
   end
 endgenerate
+
+genvar j,k;
+generate
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page2[1024*2+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page2[1024*2+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page2[1024*2+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page2[1024*2+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[2].col_gen[j].u_sram128x8_4.mem[k];
+    end
+  end
+endgenerate
+
+genvar j,k;
+generate
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page3[1024*3+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page3[1024*3+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page3[1024*3+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page3[1024*3+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[3].col_gen[j].u_sram128x8_4.mem[k];
+    end
+  end
+endgenerate
+
+genvar j,k;
+generate
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page4[1024*4+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page4[1024*4+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page4[1024*4+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page4[1024*4+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[4].col_gen[j].u_sram128x8_4.mem[k];
+    end
+  end
+endgenerate
+
+genvar j,k;
+generate
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page5[1024*5+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page5[1024*5+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page5[1024*5+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page5[1024*5+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[5].col_gen[j].u_sram128x8_4.mem[k];
+    end
+  end
+endgenerate
+
+genvar j,k;
+generate
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page6[1024*6+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page6[1024*6+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page6[1024*6+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page6[1024*6+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[6].col_gen[j].u_sram128x8_4.mem[k];
+    end
+  end
+endgenerate
+
+genvar j,k;
+generate
+  for (k=0; k < 128; k=k+1) begin : line_gen
+    for (j=0; j < 8; j=j+1) begin : col_gen
+      assign main_mem_page7[1024*7+k*8+j][7:0] =   u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_1.mem[k];
+      assign main_mem_page7[1024*7+k*8+j][15:8] =  u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_2.mem[k];
+      assign main_mem_page7[1024*7+k*8+j][23:16] = u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_3.mem[k];
+      assign main_mem_page7[1024*7+k*8+j][31:24] = u_main_mem.u_mem_array.row_gen[7].col_gen[j].u_sram128x8_4.mem[k];
+    end
+  end
+endgenerate
+
+//Registers
+
+wire [31:0] EAX;
+wire [31:0] ECX;
+wire [31:0] EDX;
+wire [31:0] EBX;
+wire [31:0] ESP;
+wire [31:0] EBP;
+wire [31:0] ESI;
+wire [31:0] EDI;
+wire [15:0] AX;
+wire [15:0] CX;
+wire [15:0] DX;
+wire [15:0] BX;
+wire [15:0] SP;
+wire [15:0] BP;
+wire [15:0] SI;
+wire [15:0] DI;
+wire  [7:0] AL; 
+wire  [7:0] AH; 
+wire  [7:0] CL; 
+wire  [7:0] CH; 
+wire  [7:0] DL; 
+wire  [7:0] DH; 
+wire  [7:0] BL; 
+wire  [7:0] BH; 
+
+assign AL  = u_cpu.u_regfile.loop2[0].u_reg0.data_o;
+assign AH  = u_cpu.u_regfile.loop2[0].u_reg1.data_o;
+assign AX  = {AH,AL};
+assign EAX = {u_cpu.u_regfile.loop2[0].u_reg3.data_o, u_cpu.u_regfile.loop2[0].u_reg2.data_o, AH, AL};
+
+assign CL  = u_cpu.u_regfile.loop2[1].u_reg0.data_o;
+assign CH  = u_cpu.u_regfile.loop2[1].u_reg1.data_o;
+assign CX  = {CH,CL};
+assign ECX = {u_cpu.u_regfile.loop2[1].u_reg3.data_o, u_cpu.u_regfile.loop2[1].u_reg2.data_o, CH, CL};
+
+assign DL  = u_cpu.u_regfile.loop2[2].u_reg0.data_o;
+assign DH  = u_cpu.u_regfile.loop2[2].u_reg1.data_o;
+assign DX  = {DH,DL};
+assign EDX = {u_cpu.u_regfile.loop2[2].u_reg3.data_o, u_cpu.u_regfile.loop2[2].u_reg2.data_o, DH, DL};
+
+assign BL  = u_cpu.u_regfile.loop2[3].u_reg0.data_o;
+assign BH  = u_cpu.u_regfile.loop2[3].u_reg1.data_o;
+assign BX  = {BH,BL};
+assign EBX = {u_cpu.u_regfile.loop2[3].u_reg3.data_o, u_cpu.u_regfile.loop2[3].u_reg3.data_o, BH, BL};
+
+assign SP  = {u_cpu.u_regfile.loop2[4].u_reg1.data_o, u_cpu.u_regfile.loop2[4].u_reg0.data_o};
+assign ESP = {u_cpu.u_regfile.loop2[4].u_reg3.data_o, u_cpu.u_regfile.loop2[4].u_reg2.data_o, SP};
+
+assign BP  = {u_cpu.u_regfile.loop2[5].u_reg1.data_o, u_cpu.u_regfile.loop2[5].u_reg0.data_o};
+assign EBP = {u_cpu.u_regfile.loop2[5].u_reg3.data_o, u_cpu.u_regfile.loop2[5].u_reg2.data_o, BP};
+
+assign SI  = {u_cpu.u_regfile.loop2[6].u_reg1.data_o, u_cpu.u_regfile.loop2[6].u_reg0.data_o};
+assign ESI = {u_cpu.u_regfile.loop2[6].u_reg3.data_o, u_cpu.u_regfile.loop2[6].u_reg2.data_o, SI};
+
+assign DI  = {u_cpu.u_regfile.loop2[7].u_reg1.data_o, u_cpu.u_regfile.loop2[7].u_reg0.data_o};
+assign EDI = {u_cpu.u_regfile.loop2[7].u_reg3.data_o, u_cpu.u_regfile.loop2[7].u_reg2.data_o, DI};
+
+//MMX Registers
+
+wire [63:0] MM0;
+wire [63:0] MM1;
+wire [63:0] MM2;
+wire [63:0] MM3;
+wire [63:0] MM4;
+wire [63:0] MM5;
+wire [63:0] MM6;
+wire [63:0] MM7;
+
+assign MM0 = u_cpu.u_mmx_regfile.loop2[0].data_o;
+assign MM1 = u_cpu.u_mmx_regfile.loop2[1].data_o;
+assign MM2 = u_cpu.u_mmx_regfile.loop2[2].data_o;
+assign MM3 = u_cpu.u_mmx_regfile.loop2[3].data_o;
+assign MM4 = u_cpu.u_mmx_regfile.loop2[4].data_o;
+assign MM5 = u_cpu.u_mmx_regfile.loop2[5].data_o;
+assign MM6 = u_cpu.u_mmx_regfile.loop2[6].data_o;
+assign MM7 = u_cpu.u_mmx_regfile.loop2[7].data_o;
+
+//Segment Registers
+
+wire [15:0] ES;
+wire [15:0] CS;
+wire [15:0] SS;
+wire [15:0] DS;
+wire [15:0] FS;
+wire [15:0] GS;
+
+assign ES = u_cpu.u_seg_regfile.loop2[0].data_o;
+assign CS = u_cpu.u_seg_regfile.loop2[1].data_o;
+assign SS = u_cpu.u_seg_regfile.loop2[2].data_o;
+assign DS = u_cpu.u_seg_regfile.loop2[3].data_o;
+assign FS = u_cpu.u_seg_regfile.loop2[4].data_o;
+assign GS = u_cpu.u_seg_regfile.loop2[5].data_o;
 
 endmodule
 
