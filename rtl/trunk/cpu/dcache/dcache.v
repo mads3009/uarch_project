@@ -66,7 +66,7 @@ wire [C_LINE_W-1:0] w_dc_rd_data;
 wire [31:0]         w_mem_rw_addr_curr, w_mem_rw_addr_next, w_mem_rw_addr;
 wire [1:0]          w_mem_rw_size;
 
-wire                w_dc_read_hit, w_dc_write_hit;
+wire                w_dc_rd_hit, w_dc_wr_hit;
 wire                r_access2, w_access2, w_access2_muxout;
 wire [5:0]          w_phy_tag;
 wire [5:0]          w_ts_tag;
@@ -76,16 +76,16 @@ wire                w_ts_wr_enb;
 
 wire [19:0]         w_tlb_pn0,w_tlb_pn1,w_tlb_pn2,w_tlb_pn3,w_tlb_pn4,w_tlb_pn5,w_tlb_pn6,w_tlb_pn7;
 wire [2:0]          w_tlb_addr;
-wire [20:0]         w_tlb_phy_pn;
+wire [19:0]         w_tlb_phy_pn;
 wire                w_tlb_pcd;
 wire [2:0]          w_tlb_addr1;
-wire [20:0]         w_tlb_phy_pn1;
+wire [19:0]         w_tlb_phy_pn1;
 wire                w_tlb_pcd1;
 wire [2:0]          w_tlb_addr2;
-wire [20:0]         w_tlb_phy_pn2;
+wire [19:0]         w_tlb_phy_pn2;
 wire                w_tlb_pcd2;
 wire [2:0]          w_tlb_addr3;
-wire [20:0]         w_tlb_phy_pn3;
+wire [19:0]         w_tlb_phy_pn3;
 wire                w_tlb_pcd3;
 
 // Assign statements
@@ -109,7 +109,7 @@ dc_wr_data_gen u_dc_wr_data_gen(
   .mem_wr_data(mem_wr_data),
   .addr_offset(mem_wr_addr[3:0]),
   .access2_reg(r_access2),
-  .dc_write_hit(w_dc_write_hit),
+  .dc_wr_hit(w_dc_wr_hit),
   .dc_miss_ack(dc_miss_ack),
   .dc_data_fill(dc_data_fill),
   .dc_wr_data(w_dc_wr_data),
@@ -123,7 +123,7 @@ mem_rd_data_gen u_mem_rd_data_gen(
   .dc_rd_data(w_dc_rd_data),
   .addr_offset(mem_rd_addr[3:0]),
   .access2_reg(r_access2),
-  .dc_read_hit(w_dc_read_hit),
+  .dc_read_hit(w_dc_rd_hit),
   .io_rd_data(io_rd_data),
   .io_ack(io_ack),
   .mem_rd_data(mem_rd_data)
@@ -272,7 +272,7 @@ dc_arbiter u_dc_arbiter(
 muxNbit_2x1 #(.N(2)) u_muxNbit_2x1_1(.IN0(mem_wr_size), .IN1(mem_rd_size), .S0(ren), .Y(w_mem_rw_size));
 muxNbit_2x1 #(.N(32)) u_muxNbit_2x1_2(.IN0(mem_wr_addr), .IN1(mem_rd_addr), .S0(ren), .Y(w_mem_rw_addr_curr));
 
-cond_sum32 u_cond_sum32(.A(mem_rw_addr), .B(32'd16), .CIN(1'b0), .S(w_mem_rw_addr_next), .COUT(/*unused*/));
+cond_sum32 u_cond_sum32(.A(w_mem_rw_addr_curr), .B(32'd16), .CIN(1'b0), .S(w_mem_rw_addr_next), .COUT(/*unused*/));
 muxNbit_2x1 u_muxNbit_2x1_3(.IN0(w_mem_rw_addr_curr), .IN1(w_mem_rw_addr_next), .S0(r_access2), .Y(w_mem_rw_addr));
 
 // Generate access2 signals for memory accesses which take 2 cycles to complete the access
@@ -280,7 +280,7 @@ dff$ u_access2 (.r(rst_n), .s(1'b1), .clk(clk), .d(w_access2_muxout), .q (r_acce
 
 and2$ u_and2_2(.out(n_2), .in0(w_dc_rd_hit), .in1(ld_ro));
 and2$ u_and2_3(.out(n_0), .in0(w_dc_hit), .in1(w_access2));
-nor2$ u_nor2_1(.out(n_1), .in0(mem_wr_done), .in1(in_2));
+nor2$ u_nor2_1(.out(n_1), .in0(mem_wr_done), .in1(n_2));
 mux2$ u_mux2_1(.outb(w_access2_muxout), .in0(n_0), .in1(n_1), .s0(r_access2));
 
 access2_combo_gen u_access2_combo_gen(.access2_combo(w_access2), .offset(w_mem_rw_addr[3:0]), .size(w_mem_rw_size));

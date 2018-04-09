@@ -59,7 +59,9 @@ wire [2:0]           w_count, w_count_inc, r_count;
 wire [31:0]          w_data_temp;
 wire [DC_LINE_W-1:0] r_dc_evict_data;
 wire [31:0]          r_dc_evict_addr;
-
+wire [2:0]           w_curr_st, w_next_st;
+wire [7:0]           w_count_eq;
+wire [7:0]           w_ld_buff;
 // State equality checker
 st_eq_checker u_st_eq_checker(
   .curr_st(w_curr_st),

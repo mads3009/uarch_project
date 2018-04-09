@@ -59,7 +59,7 @@ or2$ u_or2_1(.in0(dc_rd_hit), .in1(dc_wr_hit), .out(dc_hit));
 // dc_miss = !tlb_pcd & !dc_exp & (ren | wen) & !(w_tag_eq & ts_valid)
 or2$ u_or2_2(.in0(ren), .in1(wen), .out(n_005));
 and3$ u_and3_5(.in0(w_tlb_pcd_bar), .in1(w_dc_exp_bar), .in2(n_005), .out(n_006));
-nand2$ u_nand2_1(.in0(w_tag_eq), .in1(ts_valid), .out(n007));
+nand2$ u_nand2_1(.in0(w_tag_eq), .in1(ts_valid), .out(n_007));
 and2$ u_and2_3(.in0(n_006), .in1(n_007), .out(dc_miss));
 
 // dc_evict = dc_miss & ts_valid & ts_dirty
