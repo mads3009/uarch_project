@@ -5,7 +5,7 @@
 /*********************************************************/
 
 module dc_wr_data_gen( mem_wr_size, addr_offset, mem_wr_data, access2_reg,
-                       dc_data_fill, dc_miss_ack, dc_write_hit, dc_wr_data, dc_wr_mask);
+                       dc_data_fill, dc_miss_ack, dc_wr_hit, dc_wr_data, dc_wr_mask);
 
 localparam C_LINE_W = 16*8; // 16 Bytes
 
@@ -15,7 +15,7 @@ input  [3:0]          addr_offset;
 input                 access2_reg;
 input  [C_LINE_W-1:0] dc_data_fill;
 input                 dc_miss_ack;
-input                 dc_write_hit;
+input                 dc_wr_hit;
 
 output [C_LINE_W-1:0] dc_wr_data;
 output [15:0]         dc_wr_mask;
@@ -23,7 +23,7 @@ output [15:0]         dc_wr_mask;
 // Internal variables
 wire [3:0]          w_addr_offset_bar;
 wire [3:0]          w_addr_offset_com;
-wire [15:0]         w_temp1, w_temp2, w_temp3, w_temp4;
+wire [15:0]         w_temp1, w_temp2, w_temp3, w_temp4, w_temp5;
 wire [C_LINE_W-1:0] w_data_temp;
 wire                w_dc_wr_hit_bar;
 

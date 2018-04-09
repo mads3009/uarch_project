@@ -32,7 +32,7 @@ nand2$ u_nand2_1(.in0(r_ren), .in1(r_ld_ro_bar), .out(n_001));
 nand2$ u_nand2_2(.in0(r_wen), .in1(r_mem_wr_done_bar), .out(n_002));
 nand2$ u_nand2_3(.in0(n_001), .in1(n_002), .out(w_retain_arb));
 
-muxNbit_2x1 #(.N(2)) (.IN0({w_mux_in_ren, w_mux_in_wen}), .IN1({r_ren, r_wen}), .S0(w_retain_arb), .Y({ren, wen}));
+muxNbit_2x1 #(.N(2)) u_muxNbit_2x1_1(.IN0({w_mux_in_ren, w_mux_in_wen}), .IN1({r_ren, r_wen}), .S0(w_retain_arb), .Y({ren, wen}));
 
 dff$ u_ren_reg (.r(rst_n), .s(1'b1), .clk(clk), .d(ren), .q (r_ren), .qbar (/*Unused*/));
 dff$ u_wen_reg (.r(rst_n), .s(1'b1), .clk(clk), .d(wen), .q (r_wen), .qbar (/*Unused*/));
