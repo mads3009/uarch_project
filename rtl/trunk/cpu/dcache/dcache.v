@@ -10,7 +10,7 @@ module dcache( clk, rst_n, v_mem_read,  mem_conflict, wr_fifo_empty, wr_fifo_to_
                mem_rd_size, mem_wr_size, mem_rd_addr, mem_wr_addr, mem_wr_data, mem_rd_data,
                mem_rd_ready, mem_wr_done,mem_rd_busy, mem_wr_busy, dc_miss, dc_miss_addr, 
                dc_data_fill, dc_miss_ack, io_access, io_rw, io_addr, io_wr_data, io_rd_data, 
-               io_ack, dc_evict, dc_evict_addr, dc_evict_data, dc_exp, ld_ro);
+               io_ack, dc_evict, dc_evict_addr, dc_evict_data, dc_rd_exp, ld_ro);
 
 localparam C_LINE_W = 16*8; // 16 Bytes
 
@@ -36,7 +36,7 @@ output                mem_rd_busy; // must be used to stall pipeline
 output                mem_wr_busy; // must not be used to stall pipeline
 
 // Pipeline dependencies
-input                 dc_exp;
+input                 dc_rd_exp;
 input                 ld_ro;
 input                 mem_conflict;
 
@@ -94,9 +94,9 @@ assign dc_miss_addr = {17'd0, w_phy_tag,w_mem_rw_addr[8:4],4'd0};
 assign dc_evict_addr = {17'd0, w_ts_tag,w_mem_rw_addr[8:4],4'd0};
 assign dc_evict_data = w_dc_rd_data;
 
-// io_access = w_tlb_pcd & (ren | wen) & !dc_exp
-inv1$ u_inv1_1(.out(w_dc_exp_bar), .in(dc_exp));
-and3$ u_and3_1(.out(io_access), .in0(w_tlb_pcd), .in1(n_3), .in2(w_dc_exp_bar));
+// io_access = w_tlb_pcd & (ren | wen) & !(dc_rd_exp & ren)
+nand2$ u_nand2_1(.out(n_801), .in0(dc_rd_exp), .in1(ren));
+and3$ u_and3_1(.out(io_access), .in0(w_tlb_pcd), .in1(n_3), .in2(n_801));
 or2$ u_or2_1(.out(n_3), .in0(ren), .in1(wen));
 
 assign io_rw = wen;
@@ -242,7 +242,7 @@ dc_hit_checker u_dc_hit_checker(
   .access2_reg(r_access2),
   .access2_combo(w_access2),
   .io_ack(io_ack),
-  .dc_exp(dc_exp),
+  .dc_rd_exp(dc_rd_exp),
   .io_access(io_access),
   .mem_rd_ready(mem_rd_ready),
   .mem_wr_done(mem_wr_done),
