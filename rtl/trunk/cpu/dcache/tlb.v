@@ -53,20 +53,20 @@ muxNbit_2x1 #(.N(44)) u_muxNbit_2x1_1(.IN0(w_temp0), .IN1(w_temp1), .S0(tlb_addr
 // Read port 2
 wire [43:0] w_temp2, w_temp3;
 
-mux4$ u_mux4_1[43:0] (.outb(w_temp2[43:0]), .in0(r_tlb_mem[0][43:0]), .in1(r_tlb_mem[1][43:0]), .in2(r_tlb_mem[2][43:0]), .in3(r_tlb_mem[3][43:0]), .s0(tlb_addr2[0]), .s1(tlb_addr2[1]));
+mux4$ u_mux4_3[43:0] (.outb(w_temp2[43:0]), .in0(r_tlb_mem[0][43:0]), .in1(r_tlb_mem[1][43:0]), .in2(r_tlb_mem[2][43:0]), .in3(r_tlb_mem[3][43:0]), .s0(tlb_addr2[0]), .s1(tlb_addr2[1]));
 
-mux4$ u_mux4_2[43:0] (.outb(w_temp3[43:0]), .in0(r_tlb_mem[4][43:0]), .in1(r_tlb_mem[5][43:0]), .in2(r_tlb_mem[6][43:0]), .in3(r_tlb_mem[7][43:0]), .s0(tlb_addr2[0]), .s1(tlb_addr2[1]));
+mux4$ u_mux4_4[43:0] (.outb(w_temp3[43:0]), .in0(r_tlb_mem[4][43:0]), .in1(r_tlb_mem[5][43:0]), .in2(r_tlb_mem[6][43:0]), .in3(r_tlb_mem[7][43:0]), .s0(tlb_addr2[0]), .s1(tlb_addr2[1]));
 
-muxNbit_2x1 #(.N(44)) u_muxNbit_2x1_1(.IN0(w_temp2), .IN1(w_temp3), .S0(tlb_addr2[2]), .Y({tlb_vpn2, tlb_phy_pn2, tlb_valid2, tlb_pr2, tlb_rw2, tlb_pcd2}));
+muxNbit_2x1 #(.N(44)) u_muxNbit_2x1_2(.IN0(w_temp2), .IN1(w_temp3), .S0(tlb_addr2[2]), .Y({tlb_vpn2, tlb_phy_pn2, tlb_valid2, tlb_pr2, tlb_rw2, tlb_pcd2}));
 
 // Read port 3
 wire [43:0] w_temp4, w_temp5;
 
-mux4$ u_mux4_1[43:0] (.outb(w_temp4[43:0]), .in0(r_tlb_mem[0][43:0]), .in1(r_tlb_mem[1][43:0]), .in2(r_tlb_mem[2][43:0]), .in3(r_tlb_mem[3][43:0]), .s0(tlb_addr3[0]), .s1(tlb_addr3[1]));
+mux4$ u_mux4_5[43:0] (.outb(w_temp4[43:0]), .in0(r_tlb_mem[0][43:0]), .in1(r_tlb_mem[1][43:0]), .in2(r_tlb_mem[2][43:0]), .in3(r_tlb_mem[3][43:0]), .s0(tlb_addr3[0]), .s1(tlb_addr3[1]));
 
-mux4$ u_mux4_2[43:0] (.outb(w_temp5[43:0]), .in0(r_tlb_mem[4][43:0]), .in1(r_tlb_mem[5][43:0]), .in2(r_tlb_mem[6][43:0]), .in3(r_tlb_mem[7][43:0]), .s0(tlb_addr3[0]), .s1(tlb_addr3[1]));
+mux4$ u_mux4_6[43:0] (.outb(w_temp5[43:0]), .in0(r_tlb_mem[4][43:0]), .in1(r_tlb_mem[5][43:0]), .in2(r_tlb_mem[6][43:0]), .in3(r_tlb_mem[7][43:0]), .s0(tlb_addr3[0]), .s1(tlb_addr3[1]));
 
-muxNbit_2x1 #(.N(44)) u_muxNbit_2x1_1(.IN0(w_temp4), .IN1(w_temp5), .S0(tlb_addr3[2]), .Y({tlb_vpn3, tlb_phy_pn3, tlb_valid3, tlb_pr3, tlb_rw3, tlb_pcd3}));
+muxNbit_2x1 #(.N(44)) u_muxNbit_2x1_3(.IN0(w_temp4), .IN1(w_temp5), .S0(tlb_addr3[2]), .Y({tlb_vpn3, tlb_phy_pn3, tlb_valid3, tlb_pr3, tlb_rw3, tlb_pcd3}));
 
 endmodule
 

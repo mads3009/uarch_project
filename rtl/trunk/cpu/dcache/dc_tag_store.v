@@ -5,7 +5,7 @@
 /*              cache block.                            */
 /********************************************************/
 
-module dc_tag_store u_dc_tag_store(
+module dc_tag_store (
   clk,
   index,
   wr,

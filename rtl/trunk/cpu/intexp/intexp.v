@@ -71,7 +71,7 @@ assign rseq_addr = {w_curr_st[0],r_rseq_addr};
 and2$ u_and2_1(.out(w_curr_st_eq_rseq), .in0(w_curr_st[2]), .in1(w_curr_st[1]));
 and2$ u_and2_2(.out(w_ld_rseq_addr), .in0(ld_ro), .in1(w_curr_st_eq_rseq));
 
-register #(.N(2)) u_cs_eip_saved_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_rseq_addr_inc), .data_o(r_rseq_addr), .ld(w_ld_rseq_addr));
+register #(.N(2)) u_rseq_addr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_rseq_addr_inc), .data_o(r_rseq_addr), .ld(w_ld_rseq_addr));
 
 adder2bit u_rseq_addr_adder(.a(r_rseq_addr), .b(2'd1), .sum(w_rseq_addr_inc));
 
