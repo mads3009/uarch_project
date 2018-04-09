@@ -1525,6 +1525,7 @@ wire [19:0] w_ro_seg_wr_limit;
 wire [31:0] w_ro_wr_addr_offset;
 wire [19:0] w_ro_seg_rd_limit;
 wire [31:0] w_ro_rd_addr_offset;
+wire w_dc_rd_exp;
 
 //To out
 wire [31:0]  w_ro_sr1;
@@ -1588,7 +1589,7 @@ dcache u_dcache (
   .dc_evict(w_dc_evict), 
   .dc_evict_addr(w_dc_evict_addr), 
   .dc_evict_data(w_dc_evict_data), 
-  .dc_exp(w_dc_exp), 
+  .dc_rd_exp(w_dc_rd_exp), 
   .ld_ro(w_ld_ro)
   );
 

@@ -25,6 +25,9 @@ content = list(line for line in content if line)
 
 page='0';
 lines=0;
+
+print("size=%d bytes"%(size*16))
+
 for cnt in range(0,len(content)):
     if(cnt>=1):
         line = content[cnt]
@@ -35,33 +38,35 @@ for cnt in range(0,len(content)):
         if((cnt % size) == 1): #next page
           mem_addr_no_x = zero_extend(mem_addr.split('x')[1])
 
-          #if(mem_addr_no_x[:5]=='00000'):
-          #    page = '0'
-          #elif (mem_addr_no_x[:5]=='02000'):
-          #    page = '2' 
-          #elif (mem_addr_no_x[:5]=='04000'):
-          #    page = '5' 
-          #elif (mem_addr_no_x[:5]=='0b000'):
-          #    page = '4' 
-          #elif (mem_addr_no_x[:5]=='0c000'):
-          #    page = '7' 
-          #elif (mem_addr_no_x[:5]=='0a000'):
-          #    page = '5' 
+          if(size==256):
+            if(mem_addr_no_x[:5]=='00000'):
+                page = '0'
+            elif (mem_addr_no_x[:5]=='02000'):
+                page = '2' 
+            elif (mem_addr_no_x[:5]=='04000'):
+                page = '5' 
+            elif (mem_addr_no_x[:5]=='0b000'):
+                page = '4' 
+            elif (mem_addr_no_x[:5]=='0c000'):
+                page = '7' 
+            elif (mem_addr_no_x[:5]=='0a000'):
+                page = '5' 
 
-          if(mem_addr_no_x[5:7]=='00'):
-              page = '0'
-          elif (mem_addr_no_x[5:7]=='08'):
-              page = '2' 
-          elif (mem_addr_no_x[5:7]=='10'):
-              page = '5' 
-          elif (mem_addr_no_x[5:7]=='18'):
-              page = '4' 
-          elif (mem_addr_no_x[5:7]=='20'):
-              page = '7' 
-          elif (mem_addr_no_x[5:7]=='28'):
-              page = '5' 
-          elif (mem_addr_no_x[5:7]=='30'):
-              page = '6' 
+          else:
+            if(mem_addr_no_x[5:7]=='00'):
+                page = '0'
+            elif (mem_addr_no_x[5:7]=='08'):
+                page = '2' 
+            elif (mem_addr_no_x[5:7]=='10'):
+                page = '5' 
+            elif (mem_addr_no_x[5:7]=='18'):
+                page = '4' 
+            elif (mem_addr_no_x[5:7]=='20'):
+                page = '7' 
+            elif (mem_addr_no_x[5:7]=='28'):
+                page = '5' 
+            elif (mem_addr_no_x[5:7]=='30'):
+                page = '6' 
 
           f_data.close();
           f_data = open("hex_data"+page+".txt", "w")
