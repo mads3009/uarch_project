@@ -73,6 +73,8 @@ wire w_ro_br_stall;
 wire w_ex_br_stall;
 wire w_wb_br_stall;
 
+wire w_v_ex_ld_mem;
+
 //Writeback's internal signals for writeback
 wire [31:0] w_wb_wr_reg_data1;
 wire [31:0] w_wb_wr_reg_data2;
@@ -89,6 +91,14 @@ wire w_v_wb_ld_reg3;
 wire w_v_wb_ld_mm;
 wire w_v_wb_ld_seg;
 wire w_v_wb_ld_mem;
+
+//Write FIFO
+wire w_fifo_full_bar;
+wire w_fifo_empty_bar;
+wire w_fifo_full;
+wire w_fifo_empty;
+wire [2:0] w_fifo_cnt;
+wire w_fifo_to_be_full;
 
 //Interrupts and Exceptions
 wire w_dc_exp;
@@ -1506,7 +1516,6 @@ register #32        u_r_ex_ESP                 (.clk(clk), .rst_n(rst_n), .set_n
 register #1         u_r_ex_ISR                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ISR         ),          .data_o(r_ex_ISR         ));
 
 //Internal signals:
-wire w_fifo_to_be_full;
 wire [31:0] w_ro_mem_rd_addr;
 wire [63:0] w_ro_mem_rd_data; 
 wire w_dc_prot_exp;
@@ -1613,6 +1622,15 @@ mmu u_mmu(
   .m_ack(m_ack), 
   .m_data_i(m_data_i)
   );
+
+//w_fifo_to_be_full
+wire [1:0] w_ro_add_ldmem_exwb;
+xor2$  u_w_ro_add_ldmem_exwb0 (.out(w_ro_add_ldmem_exwb[0]), .in0(w_v_ex_ld_mem), .in1(w_v_wb_ld_mem));
+and2$  u_w_ro_add_ldmem_exwb1 (.out(w_ro_add_ldmem_exwb[1]), .in0(w_v_ex_ld_mem), .in1(w_v_wb_ld_mem));
+wire [2:0] w_ro_add_ldmem_exwbfifo;
+adder3bit u_ (.a({1'b0,w_ro_add_ldmem_exwb}), .b(w_fifo_cnt), .sum(w_ro_add_ldmem_exwbfifo));
+
+assign w_fifo_to_be_full = w_ro_add_ldmem_exwbfifo[2];
 
 //imm_out
 wire [31:0] w_ro_imm_out;
@@ -1800,6 +1818,9 @@ alu3 u_alu_3(
   .alu_res3  (w_ex_alu_res3)  
 );
 
+//Valid loads etc
+assign w_v_ex_ld_mem = r_V_ex & r_ex_ld_mem;
+
 //Newly generated EX to WB signals latching
 register #32         u_r_wb_alu_res1            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res1  ),            .data_o(r_wb_alu_res1  ));
 register #32         u_r_wb_alu_res2            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res2  ),            .data_o(r_wb_alu_res2  ));
@@ -1874,14 +1895,7 @@ writeback_loads_gen u_writeback_loads_gen (
   
 );
 
-//Write FIFO
-wire w_fifo_full_bar;
-wire w_fifo_empty_bar;
-wire w_fifo_full;
-wire w_fifo_empty;
-wire [2:0] w_fifo_cnt;
-wire w_fifo_to_be_full;
-
+//Wr FIFO
 wr_fifo u_wr_fifo(
   .clk                (clk),
   .rst_n              (rst_n),
