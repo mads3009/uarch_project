@@ -6,7 +6,7 @@ f1 = open("rom_dump1.txt","w")
 f2 = open("rom_dump2.txt","w")
 f3 = open("localparams.txt","w")
 
-cols=97+15
+cols=97+15+1
 rows=118
 
 start=4
@@ -30,10 +30,10 @@ for i in range(1,rows-1):
 		#f1.write(content[i])
 		#f1.write("\n");
 		words=content[i].split(',')
-		for j in range(start,start+64):
+		for j in range(start,start+49):
 			f1.write(words[j]);
 		f1.write("\n")
-		for j in range(start+64,len(words)):
+		for j in range(start+49,len(words)):
 			f2.write(words[j]);
 		f2.write("\n")
 	else:
@@ -41,18 +41,18 @@ for i in range(1,rows-1):
 		#f1.write(content[i])
 		#f1.write("\n");
 		words=content[i].split(',')
-		for j in range(start,start+64):
+		for j in range(start,start+49):
 			f1.write(words[j]);
 		f1.write("\n")
-		for j in range(start+64,len(words)):
+		for j in range(start+49,len(words)):
 			f2.write(words[j]);
 		f2.write("\n")
 
 		for loop in range(0,diff-1):
-			for loop2 in range(0,64):
+			for loop2 in range(0,49):
 				f1.write("x")
 			f1.write("\n");
-			for loop2 in range(64,cols):
+			for loop2 in range(49,cols):
 				f2.write("x")
 			f2.write("\n");
 				
@@ -64,18 +64,18 @@ print("index=%s diff=%d"%(line1[index],diff))
 #f1.write(content[i])
 #f1.write("\n");
 words=content[i+1].split(',')
-for j in range(start,start+64):
+for j in range(start,start+49):
 	f1.write(words[j]);
 f1.write("\n")
-for j in range(start+64,len(words)):
+for j in range(start+49,len(words)):
 	f2.write(words[j]);
 f2.write("\n")
 
 for loop in range(0,diff-1):
-	for loop2 in range(0,64):
+	for loop2 in range(0,49):
 		f1.write("x")
 	f1.write("\n");
-	for loop2 in range(64,cols):
+	for loop2 in range(49,cols):
 		f2.write("x")
 	f2.write("\n");
 
