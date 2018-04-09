@@ -1,6 +1,18 @@
-module cpu (clk, rst_n);
-  input clk;
-  input rst_n;
+module cpu (
+  input         clk,
+  input         rst_n,
+  //int
+  input         int,
+  output        int_clear,
+  //MMU in/out ports
+  output        m_cyc,
+  output        m_we,
+  output [3:0]  m_strb,
+  output [31:0] m_addr,
+  output [31:0] m_data_o,
+  input         m_ack,
+  input  [31:0] m_data_i
+);
 
 // ********** Hardcoded entries ***********
 //TLB entries
@@ -79,14 +91,14 @@ wire w_v_wb_ld_seg;
 wire w_v_wb_ld_mem;
 
 //Interrupts and Exceptions
-wire INT;
+wire int;
+wire int_clear;
 wire w_dc_exp;
 wire w_ic_exp;
 wire w_ic_prot_exp;
 wire w_ic_page_fault;
-wire w_block_ren;
-wire [31:0] IOT_address;
-wire IOT_address_sel;
+wire w_block_ic_ren;
+wire [31:0] w_IDT_address;
 
 //Register files related
 wire [31:0] w_ag_ESP;
@@ -96,9 +108,6 @@ wire [15:0] r_ag_seg_data1;
 wire [15:0] r_ag_seg_data2;
 wire [15:0] r_ro_seg_data3;
 
-//SELECT between DE latches and SPECIAL ROM:
-wire       ROM_SEQ;
- 
 //Output latches FE -> DE
 wire [255:0] r_de_ic_data_shifted;
 wire [31:0]  r_de_EIP_curr;
@@ -194,7 +203,17 @@ wire       r_ag_ld_flag_DF;
 wire       r_ag_ld_flag_OF;
 wire [15:0]r_ag_ptr_CS;
 
+//Special ROM signals
+wire        w_rseq_mux_sel;
+wire [31:0] w_EIP_saved;
+wire [15:0] w_CS_saved;
+wire [2:0]  w_rseq_addr; 
+wire [127:0]w_rseq_data; 
+
 //OUTPUTS of SPECIAL ROM
+wire       w_rseq_end_bit;
+wire       w_rseq_V;
+wire       w_rseq_IDT_address_sel;
 wire       w_rseq_base_sel;
 wire [1:0] w_rseq_disp_sel;
 wire       w_rseq_SIB_pr;
@@ -511,10 +530,9 @@ wire         w_V_de_next;
 
 //ICACHE to/from MMU
 wire          w_ic_miss;
-wire [31:0]   w_ic_miss_address;
+wire [31:0]   w_ic_miss_addr;
 wire          w_ic_miss_ack;
-wire [31:0]   w_ic_miss_ack_address;
-wire [255:0]  w_ic_fill_data;
+wire [255:0]  w_ic_data_fill;
 
 //Internal to fetch
 wire [1:0]    r_fe_curr_state;
@@ -534,25 +552,25 @@ wire [255:0]  w_ic_data_shifted_00;
 wire [255:0]  w_ic_data_shifted_01;
 wire [255:0]  w_ic_data_shifted_10;
 wire [255:0]  w_ic_data_shifted_11;
-wire [15:0]   w_fe_CS;
+wire [15:0]   r_CS;
 
 //Passing outputs
 assign w_fe_EIP_curr = r_EIP;
-assign w_fe_CS_curr = w_fe_CS;
+assign w_fe_CS_curr = r_CS;
 
 wire [31:0] w_EIP_plus_32;
 kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
 
 //fetch_address
 mux_nbit_2x1 #32 u_fe_address_off( .a0(w_EIP_plus_32), .a1(r_EIP), .sel(w_fe_address_sel), .out(w_fe_address_off));
-cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({w_fe_CS,16'h0}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
+cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({r_CS,16'h0}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
 
 //Logic for fe_ren
-//fe_ren = !(stall_de || xx_br_stall || repne_stall || hlt_stall || dc_exp || INT || de_iret_op || block_ren)
+//fe_ren = !(stall_de || xx_br_stall || repne_stall || hlt_stall || dc_exp || int || de_iret_op || block_ren)
 wire [2:0] w_fe_ren_temp;
 or4$ u_fe_ren_or0 (.in0(w_ro_br_stall), .in1(w_de_br_stall), .in2(w_ag_br_stall), .in3(w_ex_br_stall), .out(w_fe_ren_temp[0])); 
 or4$ u_fe_ren_or1 (.in0(w_wb_br_stall), .in1(w_repne_stall), .in2(w_hlt_stall), .in3(w_de_iret_op), .out(w_fe_ren_temp[1])); 
-or4$ u_fe_ren_or2 (.in0(w_block_ren), .in1(INT), .in2(w_fe_ren_temp[0]), .in3(w_fe_ren_temp[1]), .out(w_fe_ren_temp[2])); 
+or4$ u_fe_ren_or2 (.in0(w_block_ic_ren), .in1(int), .in2(w_fe_ren_temp[0]), .in3(w_fe_ren_temp[1]), .out(w_fe_ren_temp[2])); 
 nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .out(w_fe_ren)); 
 
 //Logic for w_V_de_next
@@ -602,7 +620,7 @@ i_cache u_i_cache (
   .index        (w_fe_address[8:5]),
   .tag_14_12    (w_fe_PFN),
   .tag_11_9     (w_fe_address[11:9]),
-  .ic_fill_data (w_ic_fill_data),
+  .ic_fill_data (w_ic_data_fill),
   .ic_miss_ack  (w_ic_miss_ack),
   .ic_exp       (w_ic_exp),
   .r_data       ({w_icache_upper_data,w_icache_lower_data}),
@@ -922,6 +940,99 @@ register #16      u_r_ag_ptr_CS                (.clk(clk), .rst_n(rst_n), .set_n
 
 // ***************** ADDRESS GEN STAGE ******************
 
+//SPECIAL ROM instantiation
+rseq_rom u_rseq_rom(
+  .oe         (1'b0),
+  .rseq_addr  (w_rseq_addr),
+  .rseq_data  ({
+      w_rseq_end_bit,
+      w_rseq_V,
+      w_rseq_IDT_address_sel,
+      w_rseq_base_sel,
+      w_rseq_disp_sel,
+      w_rseq_SIB_pr,
+      w_rseq_scale,
+      w_rseq_in1_needed,
+      w_rseq_in2_needed,
+      w_rseq_in3_needed,
+      w_rseq_in4_needed,
+      w_rseq_esp_needed,
+      w_rseq_eax_needed,
+      w_rseq_ecx_needed,
+      w_rseq_in1,
+      w_rseq_in2,
+      w_rseq_in3,
+      w_rseq_in4,
+      w_rseq_dreg1,
+      w_rseq_dreg2,
+      w_rseq_dreg3,
+      w_rseq_ld_reg1,
+      w_rseq_ld_reg2,
+      w_rseq_ld_reg3,
+      w_rseq_ld_reg1_strb,
+      w_rseq_ld_reg2_strb,
+      w_rseq_ld_reg3_strb,
+      w_rseq_reg8_sr1_HL_sel,
+      w_rseq_reg8_sr2_HL_sel,
+      w_rseq_mm1_needed,
+      w_rseq_mm2_needed,
+      w_rseq_mm1,
+      w_rseq_mm2,
+      w_rseq_ld_mm,
+      w_rseq_dmm,
+      w_rseq_mm_sr1_sel_H,
+      w_rseq_mm_sr1_sel_L,
+      w_rseq_mm_sr2_sel,
+      w_rseq_seg1_needed,
+      w_rseq_seg2_needed,
+      w_rseq_seg3_needed,
+      w_rseq_seg1,
+      w_rseq_seg2,
+      w_rseq_seg3,
+      w_rseq_ld_seg,
+      w_rseq_dseg,
+      w_rseq_ld_mem,
+      w_rseq_mem_read,
+      w_rseq_mem_rd_size,
+      w_rseq_mem_wr_size,
+      w_rseq_mem_rd_addr_sel,
+      w_rseq_eip_change,
+      w_rseq_cmps_op,
+      w_rseq_cxchg_op,
+      w_rseq_CF_needed,
+      w_rseq_DF_needed,
+      w_rseq_AF_needed,
+      w_rseq_pr_size_over,
+      w_rseq_stack_off_sel,
+      w_rseq_imm_sel,
+      w_rseq_EIP_EFLAGS_sel,
+      w_rseq_sr1_sel,
+      w_rseq_sr2_sel,
+      w_rseq_alu1_op,
+      w_rseq_alu2_op,
+      w_rseq_alu3_op,
+      w_rseq_alu1_op_size,
+      w_rseq_df_val,
+      w_rseq_CF_expected,
+      w_rseq_ZF_expected,
+      w_rseq_cond_wr_CF,
+      w_rseq_cond_wr_ZF,
+      w_rseq_wr_reg1_data_sel,
+      w_rseq_wr_reg2_data_sel,
+      w_rseq_wr_seg_data_sel,
+      w_rseq_wr_eip_alu_res_sel,
+      w_rseq_wr_mem_data_sel,
+      w_rseq_wr_mem_addr_sel,
+      w_rseq_ld_flag_CF,
+      w_rseq_ld_flag_PF,
+      w_rseq_ld_flag_AF,
+      w_rseq_ld_flag_ZF,
+      w_rseq_ld_flag_SF,
+      w_rseq_ld_flag_DF,
+      w_rseq_ld_flag_OF
+    })
+);
+
 //MUX out of decode out and special rom
 wire       w_mux_ag_base_sel;
 wire [1:0] w_mux_ag_disp_sel;
@@ -1007,88 +1118,88 @@ wire       w_mux_ag_ld_flag_DF;
 wire       w_mux_ag_ld_flag_OF;
 
 //MUXES between DE to AG latches and SPECIAL ROM
-mux_nbit_2x1 #1       u_w_mux_ag_base_sel                (.a0(r_ag_base_sel        ),     .a1(w_rseq_base_sel),           .sel(ROM_SEQ), .out(w_mux_ag_base_sel));           
-mux_nbit_2x1 #2       u_w_mux_ag_disp_sel                (.a0(r_ag_disp_sel        ),     .a1(w_rseq_disp_sel),           .sel(ROM_SEQ), .out(w_mux_ag_disp_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_SIB_pr                  (.a0(r_ag_SIB_pr          ),     .a1(w_rseq_SIB_pr),             .sel(ROM_SEQ), .out(w_mux_ag_SIB_pr));
-mux_nbit_2x1 #2       u_w_mux_ag_scale                   (.a0(r_ag_scale           ),     .a1(w_rseq_scale),              .sel(ROM_SEQ), .out(w_mux_ag_scale));
-mux_nbit_2x1 #1       u_w_mux_ag_in1_needed              (.a0(r_ag_in1_needed      ),     .a1(w_rseq_in1_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in1_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_in2_needed              (.a0(r_ag_in2_needed      ),     .a1(w_rseq_in2_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in2_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_in3_needed              (.a0(r_ag_in3_needed      ),     .a1(w_rseq_in3_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in3_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_in4_needed              (.a0(r_ag_in4_needed      ),     .a1(w_rseq_in4_needed),         .sel(ROM_SEQ), .out(w_mux_ag_in4_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_esp_needed              (.a0(r_ag_esp_needed      ),     .a1(w_rseq_esp_needed),         .sel(ROM_SEQ), .out(w_mux_ag_esp_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_eax_needed              (.a0(r_ag_eax_needed      ),     .a1(w_rseq_eax_needed),         .sel(ROM_SEQ), .out(w_mux_ag_eax_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_ecx_needed              (.a0(r_ag_ecx_needed      ),     .a1(w_rseq_ecx_needed),         .sel(ROM_SEQ), .out(w_mux_ag_ecx_needed));
-mux_nbit_2x1 #3       u_w_mux_ag_in1                     (.a0(r_ag_in1             ),     .a1(w_rseq_in1),                .sel(ROM_SEQ), .out(w_mux_ag_in1));
-mux_nbit_2x1 #3       u_w_mux_ag_in2                     (.a0(r_ag_in2             ),     .a1(w_rseq_in2),                .sel(ROM_SEQ), .out(w_mux_ag_in2));
-mux_nbit_2x1 #3       u_w_mux_ag_in3                     (.a0(r_ag_in3             ),     .a1(w_rseq_in3),                .sel(ROM_SEQ), .out(w_mux_ag_in3));
-mux_nbit_2x1 #3       u_w_mux_ag_in4                     (.a0(r_ag_in4             ),     .a1(w_rseq_in4),                .sel(ROM_SEQ), .out(w_mux_ag_in4));
-mux_nbit_2x1 #3       u_w_mux_ag_dreg1                   (.a0(r_ag_dreg1           ),     .a1(w_rseq_dreg1),              .sel(ROM_SEQ), .out(w_mux_ag_dreg1));
-mux_nbit_2x1 #3       u_w_mux_ag_dreg2                   (.a0(r_ag_dreg2           ),     .a1(w_rseq_dreg2),              .sel(ROM_SEQ), .out(w_mux_ag_dreg2));
-mux_nbit_2x1 #3       u_w_mux_ag_dreg3                   (.a0(r_ag_dreg3           ),     .a1(w_rseq_dreg3),              .sel(ROM_SEQ), .out(w_mux_ag_dreg3));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_reg1                 (.a0(r_ag_ld_reg1         ),     .a1(w_rseq_ld_reg1),            .sel(ROM_SEQ), .out(w_mux_ag_ld_reg1));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_reg2                 (.a0(r_ag_ld_reg2         ),     .a1(w_rseq_ld_reg2),            .sel(ROM_SEQ), .out(w_mux_ag_ld_reg2));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_reg3                 (.a0(r_ag_ld_reg3         ),     .a1(w_rseq_ld_reg3),            .sel(ROM_SEQ), .out(w_mux_ag_ld_reg3));
-mux_nbit_2x1 #4       u_w_mux_ag_ld_reg1_strb            (.a0(r_ag_ld_reg1_strb    ),     .a1(w_rseq_ld_reg1_strb),       .sel(ROM_SEQ), .out(w_mux_ag_ld_reg1_strb));
-mux_nbit_2x1 #4       u_w_mux_ag_ld_reg2_strb            (.a0(r_ag_ld_reg2_strb    ),     .a1(w_rseq_ld_reg2_strb),       .sel(ROM_SEQ), .out(w_mux_ag_ld_reg2_strb));
-mux_nbit_2x1 #4       u_w_mux_ag_ld_reg3_strb            (.a0(r_ag_ld_reg3_strb    ),     .a1(w_rseq_ld_reg3_strb),       .sel(ROM_SEQ), .out(w_mux_ag_ld_reg3_strb));
-mux_nbit_2x1 #1       u_w_mux_ag_reg8_sr1_HL_sel         (.a0(r_ag_reg8_sr1_HL_sel ),     .a1(w_rseq_reg8_sr1_HL_sel),    .sel(ROM_SEQ), .out(w_mux_ag_reg8_sr1_HL_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_reg8_sr2_HL_sel         (.a0(r_ag_reg8_sr2_HL_sel ),     .a1(w_rseq_reg8_sr2_HL_sel),    .sel(ROM_SEQ), .out(w_mux_ag_reg8_sr2_HL_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_mm1_needed              (.a0(r_ag_mm1_needed      ),     .a1(w_rseq_mm1_needed),         .sel(ROM_SEQ), .out(w_mux_ag_mm1_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_mm2_needed              (.a0(r_ag_mm2_needed      ),     .a1(w_rseq_mm2_needed),         .sel(ROM_SEQ), .out(w_mux_ag_mm2_needed));
-mux_nbit_2x1 #3       u_w_mux_ag_mm1                     (.a0(r_ag_mm1             ),     .a1(w_rseq_mm1),                .sel(ROM_SEQ), .out(w_mux_ag_mm1));
-mux_nbit_2x1 #3       u_w_mux_ag_mm2                     (.a0(r_ag_mm2             ),     .a1(w_rseq_mm2),                .sel(ROM_SEQ), .out(w_mux_ag_mm2));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_mm                   (.a0(r_ag_ld_mm           ),     .a1(w_rseq_ld_mm),              .sel(ROM_SEQ), .out(w_mux_ag_ld_mm));
-mux_nbit_2x1 #3       u_w_mux_ag_dmm                     (.a0(r_ag_dmm             ),     .a1(w_rseq_dmm),                .sel(ROM_SEQ), .out(w_mux_ag_dmm));
-mux_nbit_2x1 #1       u_w_mux_ag_mm_sr1_sel_H            (.a0(r_ag_mm_sr1_sel_H    ),     .a1(w_rseq_mm_sr1_sel_H),       .sel(ROM_SEQ), .out(w_mux_ag_mm_sr1_sel_H));
-mux_nbit_2x1 #1       u_w_mux_ag_mm_sr1_sel_L            (.a0(r_ag_mm_sr1_sel_L    ),     .a1(w_rseq_mm_sr1_sel_L),       .sel(ROM_SEQ), .out(w_mux_ag_mm_sr1_sel_L));
-mux_nbit_2x1 #1       u_w_mux_ag_mm_sr2_sel              (.a0(r_ag_mm_sr2_sel      ),     .a1(w_rseq_mm_sr2_sel),         .sel(ROM_SEQ), .out(w_mux_ag_mm_sr2_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_seg1_needed             (.a0(r_ag_seg1_needed     ),     .a1(w_rseq_seg1_needed),        .sel(ROM_SEQ), .out(w_mux_ag_seg1_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_seg2_needed             (.a0(r_ag_seg2_needed     ),     .a1(w_rseq_seg2_needed),        .sel(ROM_SEQ), .out(w_mux_ag_seg2_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_seg3_needed             (.a0(r_ag_seg3_needed     ),     .a1(w_rseq_seg3_needed),        .sel(ROM_SEQ), .out(w_mux_ag_seg3_needed));
-mux_nbit_2x1 #3       u_w_mux_ag_seg1                    (.a0(r_ag_seg1            ),     .a1(w_rseq_seg1),               .sel(ROM_SEQ), .out(w_mux_ag_seg1));
-mux_nbit_2x1 #3       u_w_mux_ag_seg2                    (.a0(r_ag_seg2            ),     .a1(w_rseq_seg2),               .sel(ROM_SEQ), .out(w_mux_ag_seg2));
-mux_nbit_2x1 #3       u_w_mux_ag_seg3                    (.a0(r_ag_seg3            ),     .a1(w_rseq_seg3),               .sel(ROM_SEQ), .out(w_mux_ag_seg3));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_seg                  (.a0(r_ag_ld_seg          ),     .a1(w_rseq_ld_seg),             .sel(ROM_SEQ), .out(w_mux_ag_ld_seg));
-mux_nbit_2x1 #3       u_w_mux_ag_dseg                    (.a0(r_ag_dseg            ),     .a1(w_rseq_dseg),               .sel(ROM_SEQ), .out(w_mux_ag_dseg));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_mem                  (.a0(r_ag_ld_mem          ),     .a1(w_rseq_ld_mem),             .sel(ROM_SEQ), .out(w_mux_ag_ld_mem));
-mux_nbit_2x1 #1       u_w_mux_ag_mem_read                (.a0(r_ag_mem_read        ),     .a1(w_rseq_mem_read),           .sel(ROM_SEQ), .out(w_mux_ag_mem_read));
-mux_nbit_2x1 #2       u_w_mux_ag_mem_rd_size             (.a0(r_ag_mem_rd_size     ),     .a1(w_rseq_mem_rd_size),        .sel(ROM_SEQ), .out(w_mux_ag_mem_rd_size));
-mux_nbit_2x1 #2       u_w_mux_ag_mem_wr_size             (.a0(r_ag_mem_wr_size     ),     .a1(w_rseq_mem_wr_size),        .sel(ROM_SEQ), .out(w_mux_ag_mem_wr_size));
-mux_nbit_2x1 #1       u_w_mux_ag_mem_rd_addr_sel         (.a0(r_ag_mem_rd_addr_sel ),     .a1(w_rseq_mem_rd_addr_sel),    .sel(ROM_SEQ), .out(w_mux_ag_mem_rd_addr_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_eip_change              (.a0(r_ag_eip_change      ),     .a1(w_rseq_eip_change),         .sel(ROM_SEQ), .out(w_mux_ag_eip_change));
-mux_nbit_2x1 #1       u_w_mux_ag_cmps_op                 (.a0(r_ag_cmps_op         ),     .a1(w_rseq_cmps_op),            .sel(ROM_SEQ), .out(w_mux_ag_cmps_op));
-mux_nbit_2x1 #1       u_w_mux_ag_cxchg_op                (.a0(r_ag_cxchg_op        ),     .a1(w_rseq_cxchg_op),           .sel(ROM_SEQ), .out(w_mux_ag_cxchg_op));
-mux_nbit_2x1 #1       u_w_mux_ag_CF_needed               (.a0(r_ag_CF_needed       ),     .a1(w_rseq_CF_needed),          .sel(ROM_SEQ), .out(w_mux_ag_CF_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_DF_needed               (.a0(r_ag_DF_needed       ),     .a1(w_rseq_DF_needed),          .sel(ROM_SEQ), .out(w_mux_ag_DF_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_AF_needed               (.a0(r_ag_AF_needed       ),     .a1(w_rseq_AF_needed),          .sel(ROM_SEQ), .out(w_mux_ag_AF_needed));
-mux_nbit_2x1 #1       u_w_mux_ag_pr_size_over            (.a0(r_ag_pr_size_over    ),     .a1(w_rseq_pr_size_over),       .sel(ROM_SEQ), .out(w_mux_ag_pr_size_over));
-mux_nbit_2x1 #2       u_w_mux_ag_stack_off_sel           (.a0(r_ag_stack_off_sel   ),     .a1(w_rseq_stack_off_sel),      .sel(ROM_SEQ), .out(w_mux_ag_stack_off_sel));
-mux_nbit_2x1 #2       u_w_mux_ag_imm_sel                 (.a0(r_ag_imm_sel         ),     .a1(w_rseq_imm_sel),            .sel(ROM_SEQ), .out(w_mux_ag_imm_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_EIP_EFLAGS_sel          (.a0(r_ag_EIP_EFLAGS_sel  ),     .a1(w_rseq_EIP_EFLAGS_sel),     .sel(ROM_SEQ), .out(w_mux_ag_EIP_EFLAGS_sel));
-mux_nbit_2x1 #2       u_w_mux_ag_sr1_sel                 (.a0(r_ag_sr1_sel         ),     .a1(w_rseq_sr1_sel),            .sel(ROM_SEQ), .out(w_mux_ag_sr1_sel));
-mux_nbit_2x1 #2       u_w_mux_ag_sr2_sel                 (.a0(r_ag_sr2_sel         ),     .a1(w_rseq_sr2_sel),            .sel(ROM_SEQ), .out(w_mux_ag_sr2_sel));
-mux_nbit_2x1 #4       u_w_mux_ag_alu1_op                 (.a0(r_ag_alu1_op         ),     .a1(w_rseq_alu1_op),            .sel(ROM_SEQ), .out(w_mux_ag_alu1_op));
-mux_nbit_2x1 #1       u_w_mux_ag_alu2_op                 (.a0(r_ag_alu2_op         ),     .a1(w_rseq_alu2_op),            .sel(ROM_SEQ), .out(w_mux_ag_alu2_op));
-mux_nbit_2x1 #1       u_w_mux_ag_alu3_op                 (.a0(r_ag_alu3_op         ),     .a1(w_rseq_alu3_op),            .sel(ROM_SEQ), .out(w_mux_ag_alu3_op));
-mux_nbit_2x1 #2       u_w_mux_ag_alu1_op_size            (.a0(r_ag_alu1_op_size    ),     .a1(w_rseq_alu1_op_size),       .sel(ROM_SEQ), .out(w_mux_ag_alu1_op_size));
-mux_nbit_2x1 #1       u_w_mux_ag_df_val                  (.a0(r_ag_df_val          ),     .a1(w_rseq_df_val),             .sel(ROM_SEQ), .out(w_mux_ag_df_val));
-mux_nbit_2x1 #1       u_w_mux_ag_CF_expected             (.a0(r_ag_CF_expected     ),     .a1(w_rseq_CF_expected),        .sel(ROM_SEQ), .out(w_mux_ag_CF_expected));
-mux_nbit_2x1 #1       u_w_mux_ag_ZF_expected             (.a0(r_ag_ZF_expected     ),     .a1(w_rseq_ZF_expected),        .sel(ROM_SEQ), .out(w_mux_ag_ZF_expected));
-mux_nbit_2x1 #1       u_w_mux_ag_cond_wr_CF              (.a0(r_ag_cond_wr_CF      ),     .a1(w_rseq_cond_wr_CF),         .sel(ROM_SEQ), .out(w_mux_ag_cond_wr_CF));
-mux_nbit_2x1 #1       u_w_mux_ag_cond_wr_ZF              (.a0(r_ag_cond_wr_ZF      ),     .a1(w_rseq_cond_wr_ZF),         .sel(ROM_SEQ), .out(w_mux_ag_cond_wr_ZF));
-mux_nbit_2x1 #1       u_w_mux_ag_wr_reg1_data_sel        (.a0(r_ag_wr_reg1_data_sel),     .a1(w_rseq_wr_reg1_data_sel),   .sel(ROM_SEQ), .out(w_mux_ag_wr_reg1_data_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_wr_reg2_data_sel        (.a0(r_ag_wr_reg2_data_sel),     .a1(w_rseq_wr_reg2_data_sel),   .sel(ROM_SEQ), .out(w_mux_ag_wr_reg2_data_sel));
-mux_nbit_2x1 #2       u_w_mux_ag_wr_seg_data_sel         (.a0(r_ag_wr_seg_data_sel ),     .a1(w_rseq_wr_seg_data_sel),    .sel(ROM_SEQ), .out(w_mux_ag_wr_seg_data_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_wr_eip_alu_res_sel      (.a0(r_ag_wr_eip_alu_res_sel),   .a1(w_rseq_wr_eip_alu_res_sel), .sel(ROM_SEQ), .out(w_mux_ag_wr_eip_alu_res_sel));
-mux_nbit_2x1 #2       u_w_mux_ag_wr_mem_data_sel         (.a0(r_ag_wr_mem_data_sel ),     .a1(w_rseq_wr_mem_data_sel),    .sel(ROM_SEQ), .out(w_mux_ag_wr_mem_data_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_wr_mem_addr_sel         (.a0(r_ag_wr_mem_addr_sel ),     .a1(w_rseq_wr_mem_addr_sel),    .sel(ROM_SEQ), .out(w_mux_ag_wr_mem_addr_sel));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_CF              (.a0(r_ag_ld_flag_CF      ),     .a1(w_rseq_ld_flag_CF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_CF));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_PF              (.a0(r_ag_ld_flag_PF      ),     .a1(w_rseq_ld_flag_PF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_PF));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_AF              (.a0(r_ag_ld_flag_AF      ),     .a1(w_rseq_ld_flag_AF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_AF));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_ZF              (.a0(r_ag_ld_flag_ZF      ),     .a1(w_rseq_ld_flag_ZF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_ZF));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_SF              (.a0(r_ag_ld_flag_SF      ),     .a1(w_rseq_ld_flag_SF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_SF));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_DF              (.a0(r_ag_ld_flag_DF      ),     .a1(w_rseq_ld_flag_DF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_DF));
-mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_OF              (.a0(r_ag_ld_flag_OF      ),     .a1(w_rseq_ld_flag_OF),         .sel(ROM_SEQ), .out(w_mux_ag_ld_flag_OF));
+mux_nbit_2x1 #1       u_w_mux_ag_base_sel                (.a0(r_ag_base_sel        ),     .a1(w_rseq_base_sel),           .sel(w_rseq_mux_sel), .out(w_mux_ag_base_sel));           
+mux_nbit_2x1 #2       u_w_mux_ag_disp_sel                (.a0(r_ag_disp_sel        ),     .a1(w_rseq_disp_sel),           .sel(w_rseq_mux_sel), .out(w_mux_ag_disp_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_SIB_pr                  (.a0(r_ag_SIB_pr          ),     .a1(w_rseq_SIB_pr),             .sel(w_rseq_mux_sel), .out(w_mux_ag_SIB_pr));
+mux_nbit_2x1 #2       u_w_mux_ag_scale                   (.a0(r_ag_scale           ),     .a1(w_rseq_scale),              .sel(w_rseq_mux_sel), .out(w_mux_ag_scale));
+mux_nbit_2x1 #1       u_w_mux_ag_in1_needed              (.a0(r_ag_in1_needed      ),     .a1(w_rseq_in1_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_in1_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_in2_needed              (.a0(r_ag_in2_needed      ),     .a1(w_rseq_in2_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_in2_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_in3_needed              (.a0(r_ag_in3_needed      ),     .a1(w_rseq_in3_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_in3_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_in4_needed              (.a0(r_ag_in4_needed      ),     .a1(w_rseq_in4_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_in4_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_esp_needed              (.a0(r_ag_esp_needed      ),     .a1(w_rseq_esp_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_esp_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_eax_needed              (.a0(r_ag_eax_needed      ),     .a1(w_rseq_eax_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_eax_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_ecx_needed              (.a0(r_ag_ecx_needed      ),     .a1(w_rseq_ecx_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ecx_needed));
+mux_nbit_2x1 #3       u_w_mux_ag_in1                     (.a0(r_ag_in1             ),     .a1(w_rseq_in1),                .sel(w_rseq_mux_sel), .out(w_mux_ag_in1));
+mux_nbit_2x1 #3       u_w_mux_ag_in2                     (.a0(r_ag_in2             ),     .a1(w_rseq_in2),                .sel(w_rseq_mux_sel), .out(w_mux_ag_in2));
+mux_nbit_2x1 #3       u_w_mux_ag_in3                     (.a0(r_ag_in3             ),     .a1(w_rseq_in3),                .sel(w_rseq_mux_sel), .out(w_mux_ag_in3));
+mux_nbit_2x1 #3       u_w_mux_ag_in4                     (.a0(r_ag_in4             ),     .a1(w_rseq_in4),                .sel(w_rseq_mux_sel), .out(w_mux_ag_in4));
+mux_nbit_2x1 #3       u_w_mux_ag_dreg1                   (.a0(r_ag_dreg1           ),     .a1(w_rseq_dreg1),              .sel(w_rseq_mux_sel), .out(w_mux_ag_dreg1));
+mux_nbit_2x1 #3       u_w_mux_ag_dreg2                   (.a0(r_ag_dreg2           ),     .a1(w_rseq_dreg2),              .sel(w_rseq_mux_sel), .out(w_mux_ag_dreg2));
+mux_nbit_2x1 #3       u_w_mux_ag_dreg3                   (.a0(r_ag_dreg3           ),     .a1(w_rseq_dreg3),              .sel(w_rseq_mux_sel), .out(w_mux_ag_dreg3));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_reg1                 (.a0(r_ag_ld_reg1         ),     .a1(w_rseq_ld_reg1),            .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_reg1));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_reg2                 (.a0(r_ag_ld_reg2         ),     .a1(w_rseq_ld_reg2),            .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_reg2));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_reg3                 (.a0(r_ag_ld_reg3         ),     .a1(w_rseq_ld_reg3),            .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_reg3));
+mux_nbit_2x1 #4       u_w_mux_ag_ld_reg1_strb            (.a0(r_ag_ld_reg1_strb    ),     .a1(w_rseq_ld_reg1_strb),       .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_reg1_strb));
+mux_nbit_2x1 #4       u_w_mux_ag_ld_reg2_strb            (.a0(r_ag_ld_reg2_strb    ),     .a1(w_rseq_ld_reg2_strb),       .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_reg2_strb));
+mux_nbit_2x1 #4       u_w_mux_ag_ld_reg3_strb            (.a0(r_ag_ld_reg3_strb    ),     .a1(w_rseq_ld_reg3_strb),       .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_reg3_strb));
+mux_nbit_2x1 #1       u_w_mux_ag_reg8_sr1_HL_sel         (.a0(r_ag_reg8_sr1_HL_sel ),     .a1(w_rseq_reg8_sr1_HL_sel),    .sel(w_rseq_mux_sel), .out(w_mux_ag_reg8_sr1_HL_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_reg8_sr2_HL_sel         (.a0(r_ag_reg8_sr2_HL_sel ),     .a1(w_rseq_reg8_sr2_HL_sel),    .sel(w_rseq_mux_sel), .out(w_mux_ag_reg8_sr2_HL_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_mm1_needed              (.a0(r_ag_mm1_needed      ),     .a1(w_rseq_mm1_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_mm1_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_mm2_needed              (.a0(r_ag_mm2_needed      ),     .a1(w_rseq_mm2_needed),         .sel(w_rseq_mux_sel), .out(w_mux_ag_mm2_needed));
+mux_nbit_2x1 #3       u_w_mux_ag_mm1                     (.a0(r_ag_mm1             ),     .a1(w_rseq_mm1),                .sel(w_rseq_mux_sel), .out(w_mux_ag_mm1));
+mux_nbit_2x1 #3       u_w_mux_ag_mm2                     (.a0(r_ag_mm2             ),     .a1(w_rseq_mm2),                .sel(w_rseq_mux_sel), .out(w_mux_ag_mm2));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_mm                   (.a0(r_ag_ld_mm           ),     .a1(w_rseq_ld_mm),              .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_mm));
+mux_nbit_2x1 #3       u_w_mux_ag_dmm                     (.a0(r_ag_dmm             ),     .a1(w_rseq_dmm),                .sel(w_rseq_mux_sel), .out(w_mux_ag_dmm));
+mux_nbit_2x1 #1       u_w_mux_ag_mm_sr1_sel_H            (.a0(r_ag_mm_sr1_sel_H    ),     .a1(w_rseq_mm_sr1_sel_H),       .sel(w_rseq_mux_sel), .out(w_mux_ag_mm_sr1_sel_H));
+mux_nbit_2x1 #1       u_w_mux_ag_mm_sr1_sel_L            (.a0(r_ag_mm_sr1_sel_L    ),     .a1(w_rseq_mm_sr1_sel_L),       .sel(w_rseq_mux_sel), .out(w_mux_ag_mm_sr1_sel_L));
+mux_nbit_2x1 #1       u_w_mux_ag_mm_sr2_sel              (.a0(r_ag_mm_sr2_sel      ),     .a1(w_rseq_mm_sr2_sel),         .sel(w_rseq_mux_sel), .out(w_mux_ag_mm_sr2_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_seg1_needed             (.a0(r_ag_seg1_needed     ),     .a1(w_rseq_seg1_needed),        .sel(w_rseq_mux_sel), .out(w_mux_ag_seg1_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_seg2_needed             (.a0(r_ag_seg2_needed     ),     .a1(w_rseq_seg2_needed),        .sel(w_rseq_mux_sel), .out(w_mux_ag_seg2_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_seg3_needed             (.a0(r_ag_seg3_needed     ),     .a1(w_rseq_seg3_needed),        .sel(w_rseq_mux_sel), .out(w_mux_ag_seg3_needed));
+mux_nbit_2x1 #3       u_w_mux_ag_seg1                    (.a0(r_ag_seg1            ),     .a1(w_rseq_seg1),               .sel(w_rseq_mux_sel), .out(w_mux_ag_seg1));
+mux_nbit_2x1 #3       u_w_mux_ag_seg2                    (.a0(r_ag_seg2            ),     .a1(w_rseq_seg2),               .sel(w_rseq_mux_sel), .out(w_mux_ag_seg2));
+mux_nbit_2x1 #3       u_w_mux_ag_seg3                    (.a0(r_ag_seg3            ),     .a1(w_rseq_seg3),               .sel(w_rseq_mux_sel), .out(w_mux_ag_seg3));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_seg                  (.a0(r_ag_ld_seg          ),     .a1(w_rseq_ld_seg),             .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_seg));
+mux_nbit_2x1 #3       u_w_mux_ag_dseg                    (.a0(r_ag_dseg            ),     .a1(w_rseq_dseg),               .sel(w_rseq_mux_sel), .out(w_mux_ag_dseg));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_mem                  (.a0(r_ag_ld_mem          ),     .a1(w_rseq_ld_mem),             .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_mem));
+mux_nbit_2x1 #1       u_w_mux_ag_mem_read                (.a0(r_ag_mem_read        ),     .a1(w_rseq_mem_read),           .sel(w_rseq_mux_sel), .out(w_mux_ag_mem_read));
+mux_nbit_2x1 #2       u_w_mux_ag_mem_rd_size             (.a0(r_ag_mem_rd_size     ),     .a1(w_rseq_mem_rd_size),        .sel(w_rseq_mux_sel), .out(w_mux_ag_mem_rd_size));
+mux_nbit_2x1 #2       u_w_mux_ag_mem_wr_size             (.a0(r_ag_mem_wr_size     ),     .a1(w_rseq_mem_wr_size),        .sel(w_rseq_mux_sel), .out(w_mux_ag_mem_wr_size));
+mux_nbit_2x1 #1       u_w_mux_ag_mem_rd_addr_sel         (.a0(r_ag_mem_rd_addr_sel ),     .a1(w_rseq_mem_rd_addr_sel),    .sel(w_rseq_mux_sel), .out(w_mux_ag_mem_rd_addr_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_eip_change              (.a0(r_ag_eip_change      ),     .a1(w_rseq_eip_change),         .sel(w_rseq_mux_sel), .out(w_mux_ag_eip_change));
+mux_nbit_2x1 #1       u_w_mux_ag_cmps_op                 (.a0(r_ag_cmps_op         ),     .a1(w_rseq_cmps_op),            .sel(w_rseq_mux_sel), .out(w_mux_ag_cmps_op));
+mux_nbit_2x1 #1       u_w_mux_ag_cxchg_op                (.a0(r_ag_cxchg_op        ),     .a1(w_rseq_cxchg_op),           .sel(w_rseq_mux_sel), .out(w_mux_ag_cxchg_op));
+mux_nbit_2x1 #1       u_w_mux_ag_CF_needed               (.a0(r_ag_CF_needed       ),     .a1(w_rseq_CF_needed),          .sel(w_rseq_mux_sel), .out(w_mux_ag_CF_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_DF_needed               (.a0(r_ag_DF_needed       ),     .a1(w_rseq_DF_needed),          .sel(w_rseq_mux_sel), .out(w_mux_ag_DF_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_AF_needed               (.a0(r_ag_AF_needed       ),     .a1(w_rseq_AF_needed),          .sel(w_rseq_mux_sel), .out(w_mux_ag_AF_needed));
+mux_nbit_2x1 #1       u_w_mux_ag_pr_size_over            (.a0(r_ag_pr_size_over    ),     .a1(w_rseq_pr_size_over),       .sel(w_rseq_mux_sel), .out(w_mux_ag_pr_size_over));
+mux_nbit_2x1 #2       u_w_mux_ag_stack_off_sel           (.a0(r_ag_stack_off_sel   ),     .a1(w_rseq_stack_off_sel),      .sel(w_rseq_mux_sel), .out(w_mux_ag_stack_off_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_imm_sel                 (.a0(r_ag_imm_sel         ),     .a1(w_rseq_imm_sel),            .sel(w_rseq_mux_sel), .out(w_mux_ag_imm_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_EIP_EFLAGS_sel          (.a0(r_ag_EIP_EFLAGS_sel  ),     .a1(w_rseq_EIP_EFLAGS_sel),     .sel(w_rseq_mux_sel), .out(w_mux_ag_EIP_EFLAGS_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_sr1_sel                 (.a0(r_ag_sr1_sel         ),     .a1(w_rseq_sr1_sel),            .sel(w_rseq_mux_sel), .out(w_mux_ag_sr1_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_sr2_sel                 (.a0(r_ag_sr2_sel         ),     .a1(w_rseq_sr2_sel),            .sel(w_rseq_mux_sel), .out(w_mux_ag_sr2_sel));
+mux_nbit_2x1 #4       u_w_mux_ag_alu1_op                 (.a0(r_ag_alu1_op         ),     .a1(w_rseq_alu1_op),            .sel(w_rseq_mux_sel), .out(w_mux_ag_alu1_op));
+mux_nbit_2x1 #1       u_w_mux_ag_alu2_op                 (.a0(r_ag_alu2_op         ),     .a1(w_rseq_alu2_op),            .sel(w_rseq_mux_sel), .out(w_mux_ag_alu2_op));
+mux_nbit_2x1 #1       u_w_mux_ag_alu3_op                 (.a0(r_ag_alu3_op         ),     .a1(w_rseq_alu3_op),            .sel(w_rseq_mux_sel), .out(w_mux_ag_alu3_op));
+mux_nbit_2x1 #2       u_w_mux_ag_alu1_op_size            (.a0(r_ag_alu1_op_size    ),     .a1(w_rseq_alu1_op_size),       .sel(w_rseq_mux_sel), .out(w_mux_ag_alu1_op_size));
+mux_nbit_2x1 #1       u_w_mux_ag_df_val                  (.a0(r_ag_df_val          ),     .a1(w_rseq_df_val),             .sel(w_rseq_mux_sel), .out(w_mux_ag_df_val));
+mux_nbit_2x1 #1       u_w_mux_ag_CF_expected             (.a0(r_ag_CF_expected     ),     .a1(w_rseq_CF_expected),        .sel(w_rseq_mux_sel), .out(w_mux_ag_CF_expected));
+mux_nbit_2x1 #1       u_w_mux_ag_ZF_expected             (.a0(r_ag_ZF_expected     ),     .a1(w_rseq_ZF_expected),        .sel(w_rseq_mux_sel), .out(w_mux_ag_ZF_expected));
+mux_nbit_2x1 #1       u_w_mux_ag_cond_wr_CF              (.a0(r_ag_cond_wr_CF      ),     .a1(w_rseq_cond_wr_CF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_cond_wr_CF));
+mux_nbit_2x1 #1       u_w_mux_ag_cond_wr_ZF              (.a0(r_ag_cond_wr_ZF      ),     .a1(w_rseq_cond_wr_ZF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_cond_wr_ZF));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_reg1_data_sel        (.a0(r_ag_wr_reg1_data_sel),     .a1(w_rseq_wr_reg1_data_sel),   .sel(w_rseq_mux_sel), .out(w_mux_ag_wr_reg1_data_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_reg2_data_sel        (.a0(r_ag_wr_reg2_data_sel),     .a1(w_rseq_wr_reg2_data_sel),   .sel(w_rseq_mux_sel), .out(w_mux_ag_wr_reg2_data_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_wr_seg_data_sel         (.a0(r_ag_wr_seg_data_sel ),     .a1(w_rseq_wr_seg_data_sel),    .sel(w_rseq_mux_sel), .out(w_mux_ag_wr_seg_data_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_eip_alu_res_sel      (.a0(r_ag_wr_eip_alu_res_sel),   .a1(w_rseq_wr_eip_alu_res_sel), .sel(w_rseq_mux_sel), .out(w_mux_ag_wr_eip_alu_res_sel));
+mux_nbit_2x1 #2       u_w_mux_ag_wr_mem_data_sel         (.a0(r_ag_wr_mem_data_sel ),     .a1(w_rseq_wr_mem_data_sel),    .sel(w_rseq_mux_sel), .out(w_mux_ag_wr_mem_data_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_wr_mem_addr_sel         (.a0(r_ag_wr_mem_addr_sel ),     .a1(w_rseq_wr_mem_addr_sel),    .sel(w_rseq_mux_sel), .out(w_mux_ag_wr_mem_addr_sel));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_CF              (.a0(r_ag_ld_flag_CF      ),     .a1(w_rseq_ld_flag_CF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_CF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_PF              (.a0(r_ag_ld_flag_PF      ),     .a1(w_rseq_ld_flag_PF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_PF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_AF              (.a0(r_ag_ld_flag_AF      ),     .a1(w_rseq_ld_flag_AF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_AF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_ZF              (.a0(r_ag_ld_flag_ZF      ),     .a1(w_rseq_ld_flag_ZF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_ZF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_SF              (.a0(r_ag_ld_flag_SF      ),     .a1(w_rseq_ld_flag_SF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_SF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_DF              (.a0(r_ag_ld_flag_DF      ),     .a1(w_rseq_ld_flag_DF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_DF));
+mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_OF              (.a0(r_ag_ld_flag_OF      ),     .a1(w_rseq_ld_flag_OF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_OF));
 
 //Just getting passed to RO:
 register #32        u_r_ro_EIP_curr            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_EIP_curr),              .data_o(r_ro_EIP_curr));
@@ -1225,7 +1336,7 @@ seg_regfile u_seg_regfile(
   .r_seg_data1    (r_ag_seg_data1),
   .r_seg_data2    (r_ag_seg_data2),
   .r_seg_data3    (r_ro_seg_data3),
-  .CS             (w_fe_CS)
+  .CS             (r_CS)
 );
 
 //Displacement select
@@ -1280,16 +1391,16 @@ mux_nbit_4x1 u_w_ag_stack_off (.a0(32'h0), .a1(32'hfffe), .a2(32'hfffc), .a3(32'
 
 //ISR
 wire w_ag_ISR;
-assign w_ag_ISR = ROM_SEQ;
+assign w_ag_ISR = w_rseq_mux_sel;
 
 //addr2
 wire [31:0] w_ag_addr2_temp;
 wire [31:0] w_ag_addr2;
 wallace_abc_adder u_w_ag_addr2_temp ( .A(w_ag_reg2_ESP_muxed), .B({r_ag_seg_data2,16'h0}), .C(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_temp) ); 
 
-wire IOT_and_ISR;
-and2$ u_IOT_and_ISR (.in0(w_ag_ISR), .in1(IOT_address_sel), .out(IOT_and_ISR));
-mux_nbit_2x1 u_w_ag_addr2 (.a0(w_ag_addr2_temp), .a1(IOT_address), .sel(IOT_and_ISR), .out(w_ag_addr2));
+wire IDT_and_ISR;
+and2$ u_IDT_and_ISR (.in0(w_ag_ISR), .in1(w_rseq_IDT_address_sel), .out(IDT_and_ISR));
+mux_nbit_2x1 u_w_ag_addr2 (.a0(w_ag_addr2_temp), .a1(w_IDT_address), .sel(IDT_and_ISR), .out(w_ag_addr2));
 
 //seg1_limit
 wire [19:0] w_ag_seg1_limit;
@@ -1395,6 +1506,94 @@ register #1         u_r_ex_ISR                 (.clk(clk), .rst_n(rst_n), .set_n
 
 mux_nbit_2x1 u_w_wb_mem_wr_addr (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(r_ro_wr_mem_addr_sel), .out(r_ex_mem_wr_addr));
 
+//DCACHE
+wire [31:0] w_fifo_mem_wr_addr;
+wire [1:0] w_fifo_mem_wr_size;
+wire [63:0] w_fifo_mem_wr_data;
+wire w_ro_v_mem_read;
+wire w_ro_mem_conflict;
+wire w_ro_mem_rd_ready;
+wire w_mem_rd_busy;
+wire w_mem_wr_busy;
+wire w_dc_miss;
+wire [31:0] w_dc_miss_addr;
+wire [127:0] w_dc_data_fill;
+wire w_dc_miss_ack;
+wire w_io_access;
+wire w_io_rw;
+wire [31:0] w_io_addr;
+wire [31:0] w_io_wr_data;
+wire [31:0] w_io_rd_data;
+wire w_io_ack;
+wire w_dc_evict;
+wire [31:0] w_dc_evict_addr;
+wire [127:0] w_dc_evict_data;
+
+dcache u_dcache (
+  .clk(clk), 
+  .rst_n(rst_n), 
+  .v_mem_read(w_ro_v_mem_read),
+  .mem_conflict(w_ro_mem_conflict), 
+  .wr_fifo_empty(w_fifo_empty), 
+  .wr_fifo_to_be_full(w_fifo_to_be_full),
+  .mem_rd_size(r_ro_mem_rd_size), 
+  .mem_wr_size(w_fifo_mem_wr_size), 
+  .mem_rd_addr(w_ro_mem_rd_addr), 
+  .mem_wr_addr(w_fifo_mem_wr_addr), 
+  .mem_rd_data(w_ro_mem_rd_data),
+  .mem_wr_data(w_fifo_mem_wr_data), 
+  .mem_rd_ready(w_ro_mem_rd_ready), 
+  .mem_wr_done(w_mem_wr_done),
+  .mem_rd_busy(w_mem_rd_busy), 
+  .mem_wr_busy(w_mem_wr_busy), 
+  .dc_miss(w_dc_miss), 
+  .dc_miss_addr(w_dc_miss_addr), 
+  .dc_data_fill(w_dc_data_fill), 
+  .dc_miss_ack(w_dc_miss_ack), 
+  .io_access(w_io_access), 
+  .io_rw(w_io_rw), 
+  .io_addr(w_io_addr), 
+  .io_wr_data(w_io_wr_data), 
+  .io_rd_data(w_io_rd_data), 
+  .io_ack(w_io_ack), 
+  .dc_evict(w_dc_evict), 
+  .dc_evict_addr(w_dc_evict_addr), 
+  .dc_evict_data(w_dc_evict_data), 
+  .dc_exp(w_dc_exp), 
+  .ld_ro(w_ld_ro)
+  );
+
+//MMU
+mmu u_mmu( 
+  .clk(clk), 
+  .rst_n(rst_n), 
+  .ic_miss(w_ic_miss), 
+  .ic_miss_addr(w_ic_miss_addr), 
+  .ic_data_fill(w_ic_data_fill), 
+  .ic_miss_ack(w_ic_miss_ack), 
+  .dc_miss(w_dc_miss), 
+  .dc_miss_addr(w_dc_miss_addr), 
+  .dc_data_fill(w_dc_data_fill), 
+  .dc_miss_ack(w_dc_miss_ack), 
+  .io_access(w_io_access), 
+  .io_rw(w_io_rw), 
+  .io_addr(w_io_addr), 
+  .io_wr_data(w_io_wr_data), 
+  .io_rd_data(w_io_rd_data), 
+  .io_ack(w_io_ack), 
+  .dc_evict(w_dc_evict), 
+  .dc_evict_addr(w_dc_evict_addr), 
+  .dc_evict_data(w_dc_evict_data), 
+  .ld_ro(w_ld_ro), 
+  .m_cyc(m_cyc), 
+  .m_we(m_we), 
+  .m_strb(m_strb), 
+  .m_addr(m_addr), 
+  .m_data_o(m_data_o), 
+  .m_ack(m_ack), 
+  .m_data_i(m_data_i)
+  );
+
 // ***************** EXECUTE STAGE ******************
 
 //Just getting passed to WB:
@@ -1447,6 +1646,57 @@ wire [63:0] w_ex_alu_res3;
 wire  [5:0] w_ex_alu1_flags;
 wire  [5:0] w_ex_cmps_flags;
 wire        w_ex_df_val_ex;
+
+wire [31:0]  r_ex_ECX;
+wire [31:0]  r_ex_EAX;
+wire [31:0]  r_ex_sr1;
+wire [31:0]  r_ex_sr2;
+wire [63:0]  r_ex_mm_sr1;
+wire [63:0]  r_ex_mm_sr2;
+wire [31:0]  r_ex_mem_out;
+wire [31:0]  r_ex_mem_out_latched;
+wire [31:0]  r_ex_mem_wr_addr;
+
+alu1 u_alu1(
+  .sr1                 (r_ex_sr1), 
+  .sr2                 (r_ex_sr2), 
+  .mem_out             (r_ex_mem_out), 
+  .mem_out_latched     (r_ex_mem_out_latched), 
+  .eax                 (r_ex_EAX), 
+  .alu1_op             (r_ex_alu1_op),
+  .alu1_op_size        (r_ex_alu1_op_size),
+  .mem_rd_size         (r_ex_mem_rd_size),
+  .CF_in               (r_EFLAGS[CF]),
+  .AF_in               (r_EFLAGS[AF]),
+  .DF_in               (r_EFLAGS[DF]),
+  .df_val              (r_ex_df_val),
+  .ISR                 (r_ex_ISR),
+  .alu_res1            (w_ex_alu_res1), 
+  .alu1_flags          (w_ex_alu1_flags),
+  .cmps_flags          (w_ex_cmps_flags),
+  .df_val_ex           (w_ex_df_val_ex)
+);
+
+alu2 u_alu2(
+  .EIP_next     (r_ex_EIP_next),
+  .sr1          (r_ex_sr1),
+  .sr2          (r_ex_sr2),
+  .esp          (r_ex_ESP),
+  .mem_rd_size  (r_ex_mem_rd_size),
+  .mem_wr_size  (r_ex_mem_wr_size),
+  .alu2_op      (r_ex_alu2_op),
+  .DF_in        (r_ex_DF_in),
+  .alu_res2     (w_ex_alu_res2)
+);
+
+alu3 u_alu_3(
+  .mm1       (r_ex_mm1),
+  .mm2       (r_ex_mm2),
+  .sr2       (r_ex_sr2),
+  .ecx       (r_ex_ECX),
+  .alu3_op   (r_ex_alu3_op),
+  .alu_res3  (w_ex_alu_res3)  
+);
 
 //Newly generated EX to WB signals latching
 register #32         u_r_wb_alu_res1            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res1  ),            .data_o(r_wb_alu_res1  ));
@@ -1520,6 +1770,61 @@ writeback_loads_gen u_writeback_loads_gen (
   .v_wb_ld_seg           (w_v_wb_ld_seg),
   .v_wb_ld_mem           (w_v_wb_ld_mem)
   
+);
+
+//Write FIFO
+wire w_fifo_full_bar;
+wire w_fifo_empty_bar;
+wire w_fifo_full;
+wire w_fifo_empty;
+wire [2:0] w_fifo_cnt
+wire w_fifo_to_be_full;
+
+wr_fifo u_wr_fifo(
+  .clk                (clk),
+  .rst_n              (rst_n),
+  .wr                 (w_v_wb_ld_mem),
+  .rd                 (w_mem_wr_done),
+  .wr_data            ({w_wb_mem_wr_addr, r_wb_mem_wr_size, w_wb_mem_wr_data}),
+  .rd_data            ({w_fifo_mem_wr_addr, w_fifo_mem_wr_size, w_fifo_mem_wr_data}),
+  .fifo_empty         (w_fifo_empty),
+  .fifo_full          (w_fifo_full),
+  .fifo_empty_bar     (w_fifo_empty_bar),
+  .fifo_full_bar      (w_fifo_full_bar),
+  .fifo_cnt           (w_fifo_cnt)
+);
+
+//Interrupt exception fsm
+intexp u_int_exp (
+  .clk               (clk),
+  .rst_n             (rst_n),
+  .iret_op           (w_de_iret_op),
+  .int               (int),
+  .ic_exp            (w_ic_exp),
+  .dc_exp            (w_dc_exp),
+  .end_bit           (w_rseq_end_bit),
+  .v_de              (w_V_de),
+  .v_ag              (w_V_ag),
+  .v_ro              (w_V_ro),
+  .v_ex              (w_V_ex),
+  .v_wb              (w_V_wb),
+  .fifo_empty_bar    (w_fifo_empty_bar),
+  .ld_ro             (w_ld_ro),
+  .dc_prot_exp       (w_dc_prot_exp),
+  .dc_page_fault     (w_dc_page_fault),
+  .ic_prot_exp       (w_ic_prot_exp),
+  .ic_page_fault     (w_ic_page_fault),
+  .eip_reg           (r_EIP),
+  .cs_reg            (r_CS),
+  .eip_ro_reg        (r_ro_EIP_curr),
+  .cs_ro_reg         (r_ro_CS_curr),
+  .idt_addr          (w_IDT_address),
+  .int_clear         (int_clear),
+  .rseq_addr         (w_rseq_addr),
+  .eip_saved         (w_EIP_saved),
+  .cs_saved          (w_CS_saved),
+  .block_ic_ren      (w_block_ic_ren),
+  .rseq_mux_sel      (w_rseq_mux_sel)
 );
 
 endmodule

@@ -119,7 +119,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(!in)";
     timing() {
       related_pin : "in";
@@ -188,7 +187,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(!(in0 in1))";
     timing() {
       related_pin : "in0";
@@ -319,7 +317,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(!(in0 in1 in2))";
     timing() {
       related_pin : "in0";
@@ -504,7 +501,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(!(in0 in1 in2 in3))";
     timing() {
       related_pin : "in0";
@@ -701,6 +697,539 @@ area : 1;
   }
 }
 
+/* ---------------- *
+ * Design : nor2$ *
+ * ---------------- */
+
+cell (nor2$) {
+area : 1;
+  cell_leakage_power : 1;
+  pin(in0)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(in1)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(out)  {
+    direction : output;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+    function : "(!(in0 + in1))";
+    timing() {
+      related_pin : "in0";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+    timing() {
+      related_pin : "in1";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2", \
+          "0.2, 0.2, 0.2, 0.2, 0.2, 0.2");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+  }
+}
+
+/* ---------------- *
+ * Design : nor3$ *
+ * ---------------- */
+
+cell (nor3$) {
+area : 1;
+  cell_leakage_power : 1;
+  pin(in0)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(in1)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(in2)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(out)  {
+    direction : output;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+    function : "(!(in0 + in1 + in2))";
+    timing() {
+      related_pin : "in0";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+    timing() {
+      related_pin : "in1";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+    timing() {
+      related_pin : "in2";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25", \
+          "0.25, 0.25, 0.25, 0.25, 0.25, 0.25");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+  }
+}
+
+/* ---------------- *
+ * Design : nor4$ *
+ * ---------------- */
+
+cell (nor4$) {
+area : 1;
+  cell_leakage_power : 1;
+  pin(in0)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(in1)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(in2)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(in3)  {
+    direction : input;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+  }
+  pin(out)  {
+    direction : output;
+    capacitance : 0;
+    rise_capacitance : 0;
+    fall_capacitance : 0;
+    function : "(!(in0 + in1 + in2 + in3))";
+    timing() {
+      related_pin : "in0";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+    timing() {
+      related_pin : "in1";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+    timing() {
+      related_pin : "in2";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+    timing() {
+      related_pin : "in3";
+      timing_sense : negative_unate;
+      cell_rise(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      rise_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+      cell_fall(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35", \
+          "0.35, 0.35, 0.35, 0.35, 0.35, 0.35");
+      }
+      fall_transition(delay_template_6x6) {
+        index_1 ("0.1, 0.5, 1.2, 3, 4, 5");
+        index_2 ("0.06, 0.24, 0.48, 0.9, 1.2, 1.8");
+        values ( \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0", \
+          "0, 0, 0, 0, 0, 0");
+      }
+    }
+  }
+}
 
 /* ---------------- *
  * Design : and2$ *
@@ -726,7 +1255,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(in0 in1)";
     timing() {
       related_pin : "in0";
@@ -857,7 +1385,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(in0 in1 in2)";
     timing() {
       related_pin : "in0";
@@ -1042,7 +1569,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(in0 in1 in2 in3)";
     timing() {
       related_pin : "in0";
@@ -1263,7 +1789,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(in0+in1)";
     timing() {
       related_pin : "in0";
@@ -1394,7 +1919,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(in0+in1+in2)";
     timing() {
       related_pin : "in0";
@@ -1579,7 +2103,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(in0+in1+in2+in3)";
     timing() {
       related_pin : "in0";
@@ -1800,7 +2323,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(in0^in1)";
     timing() {
       related_pin : "in0";
@@ -1925,7 +2447,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "(!(in0^in1))";
     timing() {
       related_pin : "in0";
@@ -2056,7 +2577,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "((!s0 in0) + (s0 in1))";
     timing() {
       related_pin : "s0";
@@ -2247,7 +2767,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "((!s1 !s0 in0) + (!s1 s0 in1) + (s1 in2))";
     timing() {
       related_pin : "s1";
@@ -2540,7 +3059,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_fanout : 4;
     function : "((!s1 !s0 in0) + (!s1 s0 in1) + (s1 !s0 in2) + (s1 s0 in3))";
     timing() {
       related_pin : "s1";
@@ -2911,7 +3429,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_capacitance : 0;
     function : "P0002";
     timing() {
       related_pin : "clk";
@@ -3066,7 +3583,6 @@ area : 1;
     capacitance : 0;
     rise_capacitance : 0;
     fall_capacitance : 0;
-    max_capacitance : 0;
     function : "!P0002";
     timing() {
       related_pin : "clk";

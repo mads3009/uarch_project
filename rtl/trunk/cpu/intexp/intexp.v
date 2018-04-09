@@ -32,7 +32,7 @@ input  [31:0] eip_reg;
 input  [15:0] cs_reg;
 input  [31:0] eip_ro_reg;
 input  [15:0] cs_ro_reg;
-output 31:0]  idt_addr;
+output [31:0]  idt_addr;
 output        int_clear;
 output [2:0]  rseq_addr;
 output [31:0] eip_saved;
