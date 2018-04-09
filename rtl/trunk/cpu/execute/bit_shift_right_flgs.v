@@ -33,10 +33,12 @@ end
 
 for (j=1; j <= AMT_W; j=j+1) begin : gen_row
   for (i=0; i < WIDTH+1; i=i+1) begin : gen_col
-    if( i < (WIDTH - WIDTH/(2**j)) )
+    if( i < (WIDTH - WIDTH/(2**j)) ) begin : lower
       mux2$ u_mux_1bit(.outb(inter[j][i]), .in0(inter[j-1][i]), .in1(inter[j-1][(WIDTH/(2**j))+i]), .s0(amt[AMT_W-j]));
-    else
+    end
+    else begin: upper
       mux2$ u_mux_1bit(.outb(inter[j][i]), .in0(inter[j-1][i]), .in1(sin), .s0(amt[AMT_W-j]));
+    end
   end
 end
 

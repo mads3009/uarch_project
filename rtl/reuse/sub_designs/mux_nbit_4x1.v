@@ -11,7 +11,7 @@ module mux_nbit_4x1 (a0,a1,a2,a3,sel,out);
 
     genvar i;
     generate begin : loop
-    for (i=0; i<N; i=i+1) begin
+    for (i=0; i<N; i=i+1) begin : mux_gen
         mux4$ u_mux_4x1 (.in0(a0[i]), .in1(a1[i]), .in2(a2[i]), .in3(a3[i]), .s0(sel[0]), .s1(sel[1]), .outb(out[i]));
     end
     end

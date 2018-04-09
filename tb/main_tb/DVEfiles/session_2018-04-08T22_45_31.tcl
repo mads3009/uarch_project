@@ -1,6 +1,6 @@
 # Begin_DVE_Session_Save_Info
 # DVE full session
-# Saved on Sun Apr 8 22:45:35 2018
+# Saved on Sun Apr 8 22:45:31 2018
 # Designs open: 1
 #   Sim: /home/ecelrc/students/sshaikh1/microarch/repo/uarch_project/tb/main_tb/simv
 # Toplevel windows open: 1
@@ -112,12 +112,12 @@ gui_show_toolbar -toolbar {Testbench}
 # End ToolBar settings
 
 # Docked window settings
-set HSPane.1 [gui_create_window -type HSPane -parent ${TopLevel.1} -dock_state left -dock_on_new_line true -dock_extent 377]
+set HSPane.1 [gui_create_window -type HSPane -parent ${TopLevel.1} -dock_state left -dock_on_new_line true -dock_extent 274]
 catch { set Hier.1 [gui_share_window -id ${HSPane.1} -type Hier] }
-gui_set_window_pref_key -window ${HSPane.1} -key dock_width -value_type integer -value 377
+gui_set_window_pref_key -window ${HSPane.1} -key dock_width -value_type integer -value 274
 gui_set_window_pref_key -window ${HSPane.1} -key dock_height -value_type integer -value -1
 gui_set_window_pref_key -window ${HSPane.1} -key dock_offset -value_type integer -value 0
-gui_update_layout -id ${HSPane.1} {{left 0} {top 0} {width 376} {height 283} {dock_state left} {dock_on_new_line true} {child_hier_colhier 473} {child_hier_coltype 100} {child_hier_colpd 0} {child_hier_col1 0} {child_hier_col2 1} {child_hier_col3 -1}}
+gui_update_layout -id ${HSPane.1} {{left 0} {top 0} {width 273} {height 283} {dock_state left} {dock_on_new_line true} {child_hier_colhier 244} {child_hier_coltype 100} {child_hier_colpd 0} {child_hier_col1 0} {child_hier_col2 1} {child_hier_col3 -1}}
 set DLPane.1 [gui_create_window -type DLPane -parent ${TopLevel.1} -dock_state left -dock_on_new_line true -dock_extent 143]
 catch { set Data.1 [gui_share_window -id ${DLPane.1} -type Data] }
 gui_set_window_pref_key -window ${DLPane.1} -key dock_width -value_type integer -value 143
@@ -234,8 +234,8 @@ gui_list_set_filter -id ${Hier.1} -text {*}
 gui_hier_list_init -id ${Hier.1}
 gui_change_design -id ${Hier.1} -design Sim
 catch {gui_list_select -id ${Hier.1} {timeunit}}
-gui_view_scroll -id ${Hier.1} -vertical -set 2460
-gui_view_scroll -id ${Hier.1} -horizontal -set 128
+gui_view_scroll -id ${Hier.1} -vertical -set 1191
+gui_view_scroll -id ${Hier.1} -horizontal -set 0
 
 # Data 'Data.1'
 gui_list_set_filter -id ${Data.1} -list { {Buffer 1} {Input 1} {Others 1} {Linkage 1} {Output 1} {LowPower 1} {Parameter 1} {All 1} {Aggregate 1} {LibBaseMember 1} {Event 1} {Assertion 1} {Constant 1} {Interface 1} {BaseMembers 1} {Signal 1} {$unit 1} {Inout 1} {Variable 1} }
@@ -243,8 +243,8 @@ gui_list_set_filter -id ${Data.1} -text {*}
 gui_list_show_data -id ${Data.1} {timeunit}
 gui_view_scroll -id ${Data.1} -vertical -set 0
 gui_view_scroll -id ${Data.1} -horizontal -set 0
-gui_view_scroll -id ${Hier.1} -vertical -set 2460
-gui_view_scroll -id ${Hier.1} -horizontal -set 128
+gui_view_scroll -id ${Hier.1} -vertical -set 1191
+gui_view_scroll -id ${Hier.1} -horizontal -set 0
 
 # Source 'Source.1'
 gui_src_value_annotate -id ${Source.1} -switch false
@@ -257,7 +257,6 @@ gui_src_set_reusable -id ${Source.1}
 if {[gui_exist_window -window ${TopLevel.1}]} {
 	gui_set_active_window -window ${TopLevel.1}
 	gui_set_active_window -window ${Source.1}
-	gui_set_active_window -window ${HSPane.1}
 }
 #</Session>
 

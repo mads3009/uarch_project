@@ -18,7 +18,7 @@ module kogge_stone #(parameter WIDTH = 16) (a, b, cin, out, cout, vout);
 
   genvar i;
   generate begin : loop_pg 
-  for (i=0; i<WIDTH-1; i=i+1) begin
+  for (i=0; i<WIDTH-1; i=i+1) begin : PG_gen
        PG u_pg (a[i], b[i], p[0][i+1], g[0][i+1]);
   end
   end
@@ -26,7 +26,7 @@ module kogge_stone #(parameter WIDTH = 16) (a, b, cin, out, cout, vout);
 
   genvar j,k,m; 
   generate begin : stage
-  for (i=0; i<STAGES; i=i+1) begin
+  for (i=0; i<STAGES; i=i+1) begin : row_gen
 
     //greys
     for(j=0; j< 2**i; j=j+1) begin : l1
@@ -49,7 +49,7 @@ module kogge_stone #(parameter WIDTH = 16) (a, b, cin, out, cout, vout);
 
   wire [WIDTH-1:0] cou;
   generate begin : sum
-  for (i=0; i< WIDTH; i=i+1) begin
+  for (i=0; i< WIDTH; i=i+1) begin : FA_gen
     FA u_fa (a[i],b[i],g[STAGES][i],out[i], cou[i]);
   end
   end

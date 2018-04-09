@@ -24,7 +24,7 @@ module mux_nbit_8x1_mulsel (a0,a1,a2,a3,a4,a5,a6,a7, s0, s1, s2, s3, s4, s5, s6,
 
     genvar i;
     generate begin : loop
-    for (i=0; i<N; i=i+1) begin
+    for (i=0; i<N; i=i+1) begin : mux_sel_gen
         nand2$ u_andwithsel0 (a0[i], s0, w0[i]);
         nand2$ u_andwithsel1 (a1[i], s1, w1[i]);
         nand2$ u_andwithsel2 (a2[i], s2, w2[i]);

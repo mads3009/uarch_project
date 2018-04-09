@@ -1,9 +1,7 @@
 /********************************************************/
 /*************** Microarchiture Project******************/
 /********************************************************/
-/* Module: disk top level modeule                       */
-/* Description: System level testbench to verify bus.   */
-/* Author: Sharukh S. Shaikh                            */
+/* Module: Top level testbench for SoC                  */
 /********************************************************/
 
 module testbench;
@@ -46,49 +44,49 @@ system u_system(
 );
 
 initial
-   begin
-      $vcdplusfile("tb.vpd");
-      $vcdpluson(0, testbench); 
-   end 
+begin
+  $vcdplusfile("tb.vpd");
+  $vcdpluson(0, testbench); 
+end 
 
 
 //Initialize memory
-reg [(2**15)-1:0] lines[1:0];
-reg [15:0] addrs[(2**15)-1:0];
-reg [7:0] datas[(2**15)-1:0];
-reg [2:0] r;
-reg [2:0] c;
-reg [1:0] b;
-reg [6:0] l;
-reg [15:0] addr;
+reg [15:0] init_num_lines[1:0];
+reg [15:0] init_mem_addr[(2**15)-1:0];
+reg [7:0]  init_mem_data[(2**15)-1:0];
+reg [2:0]  chip_arr_row;
+reg [2:0]  chip_arr_col;
+reg [1:0]  chip_byte_idx;
+reg [6:0]  chip_line_addr;
+reg [15:0] chip_addr;
 
 integer k;
 initial begin
-    $readmemh("../../scripts/num_lines.txt",lines);
-    $readmemh("../../scripts/hex_data.txt",datas);
-    $readmemh("../../scripts/hex_addr.txt",addrs);
-
+    $readmemh("../../scripts/num_lines.txt",init_num_lines);
+    $readmemh("../../scripts/hex_data.txt",init_mem_data);
+    $readmemh("../../scripts/hex_addr.txt",init_mem_addr);
     
-        $display("lines=%d",lines[0]);
+    $display("lines=%d",init_num_lines[0]);
 
-    for (k=0; k < 10; k=k+1) begin : line_gen
-        addr = addrs[k];
-        $display("addr=%b",addr);
+    for (k=0; k < init_num_lines[0]; k=k+1) begin : line_gen
+        chip_addr = init_mem_addr[k];
+        $display("addr=%b",chip_addr);
  
-        r = addr[14:12];
-        b = addr[1:0];
-        c = addr[4:2];
-        l = addr[11:5];
-    
-        if(b == 2'b0) 
-          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_1.mem[0] =  datas[k]; 
-        else if(b == 2'b1) 
-          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_2.mem[0] =  datas[k]; 
-        else if(b == 2'b10) 
-          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_3.mem[0] =  datas[k]; 
+        chip_arr_row = chip_addr[14:12];
+        chip_byte_idx = chip_addr[1:0];
+        chip_arr_col = chip_addr[4:2];
+        chip_line_addr = chip_addr[11:5];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[init_mem_addr[k][14:12]].col_gen[init_mem_addr[k][4:2]].u_sram128x8_1.mem[init_mem_addr[k][11:5]] =  init_mem_data[k]; 
+
+/*        if(chip_byte_idx == 2'b0) 
+          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_1.mem[chip_line_addr] =  init_mem_data[k]; 
+        else if(chip_byte_idx == 2'b1) 
+          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_2.mem[chip_line_addr] =  init_mem_data[k]; 
+        else if(chip_byte_idx == 2'b10) 
+          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_3.mem[chip_line_addr] =  init_mem_data[k]; 
         else 
-          u_system.u_main_mem.u_mem_array.row_gen[0].col_gen[0].u_sram128x8_4.mem[0] =  datas[k]; 
-        
+          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_4.mem[chip_line_addr] =  init_mem_data[k]; 
+*/       
     end
 
 end
