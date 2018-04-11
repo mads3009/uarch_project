@@ -19,7 +19,7 @@ wire [31:0] esp_dec;
 wire [31:0] esp_change;
 wire [31:0] w_esp_ch_res;
 mux_nbit_4x1 #32 esp_size0  (.a0(32'd1), .a1(32'd2), .a2(32'd4), .a3(32'd8), .sel(mem_rd_size), .out(esp_inc));
-mux_nbit_4x1 #32 esp_size1  (.a0(32'hFFFF), .a1(32'hFFFE), .a2(32'hFFFC), .a3(32'hFFF8), .sel(mem_wr_size), .out(esp_dec));
+mux_nbit_4x1 #32 esp_size1  (.a0(32'hFFFFFFFF), .a1(32'hFFFFFFFE), .a2(32'hFFFFFFFC), .a3(32'hFFFFFFF8), .sel(mem_wr_size), .out(esp_dec));
 
 mux_nbit_2x1 #32 esp_ch  (.a0(esp_inc), .a1(esp_dec), .sel(alu2_op[1]), .out(esp_change));
 cond_sum32 u_esp_ch( .A(esp), .B(esp_change), .CIN(1'd0), .S(w_esp_ch_res), .COUT(/*unused*/));
@@ -31,7 +31,7 @@ wire [31:0] sr2_change;
 wire [31:0] mux1_res;
 wire [31:0] w_sr2_ch_res;
 mux_nbit_4x1 #32 sr2_size0  (.a0(32'd1), .a1(32'd2), .a2(32'd4), .a3(32'd8), .sel(mem_rd_size), .out(sr2_inc));
-mux_nbit_4x1 #32 sr2_size1  (.a0(32'hFFFF), .a1(32'hFFFE), .a2(32'hFFFC), .a3(32'hFFF8), .sel(mem_rd_size), .out(sr2_dec));
+mux_nbit_4x1 #32 sr2_size1  (.a0(32'hFFFFFFFF), .a1(32'hFFFFFFFE), .a2(32'hFFFFFFFC), .a3(32'hFFFFFFF8), .sel(mem_rd_size), .out(sr2_dec));
 
 mux_nbit_2x1 #32 sr2_ch  (.a0(sr2_inc), .a1(sr2_dec), .sel(DF_in), .out(sr2_change));
 cond_sum32 u_sr2_ch( .A(sr2), .B(sr2_change), .CIN(1'd0), .S(w_sr2_ch_res), .COUT(/*unused*/));

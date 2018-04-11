@@ -33,7 +33,7 @@ end
 
 for (j=1; j <= AMT_W; j=j+1) begin : gen_row
   for (i=0; i < WIDTH+1; i=i+1) begin : gen_col
-    if( i < (WIDTH - WIDTH/(2**j)) ) begin : lower
+    if( i < ((WIDTH - WIDTH/(2**j))+1) ) begin : lower
       mux2$ u_mux_1bit(.outb(inter[j][i]), .in0(inter[j-1][i]), .in1(inter[j-1][(WIDTH/(2**j))+i]), .s0(amt[AMT_W-j]));
     end
     else begin: upper
@@ -91,6 +91,8 @@ parity u_par32 (.in(in[8:1]), .out(flag32[PF]));
 assign flag8[AF]  = 1'b0;
 assign flag16[AF] = 1'b0;
 assign flag32[AF] = 1'b0;
+
+mux_nbit_4x1 #6 flag_mux(.a0(flag8), .a1(flag16), .a2(flag32), .a3(6'b0), .sel(alu1_op_size), .out(flags));
 
 endmodule
 
