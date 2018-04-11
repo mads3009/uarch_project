@@ -83,6 +83,9 @@ wire w_ex_br_stall;
 wire w_wb_br_stall;
 
 wire w_v_ex_ld_mem;
+wire w_mem_rd_busy;
+wire w_ro_cmps_stall;
+wire w_wb_mem_stall;
 
 //Writeback's internal signals for writeback
 wire [31:0] w_wb_wr_reg_data1;
@@ -1674,7 +1677,6 @@ wire [63:0] w_fifo_mem_wr_data;
 wire w_ro_v_mem_read;
 wire w_ro_mem_conflict;
 wire w_ro_mem_rd_ready;
-wire w_mem_rd_busy;
 wire w_mem_wr_busy;
 wire w_dc_miss;
 wire [31:0] w_dc_miss_addr;
@@ -1871,7 +1873,6 @@ wire w_cmps_flag_in2;
 wire w_cmps_flag_in;
 wire r_cmps_flag;
 wire r_cmps_flag_bar;
-wire w_ro_cmps_stall;
 
 and2$ u_w_cmps_flag_in1 (.out(w_cmps_flag_in1), .in0(w_ro_mem_rd_ready), .in1(r_ro_cmps_op));
 nand2$ u_w_cmps_flag_in2 (.out(w_cmps_flag_in2), .in0(w_ro_mem_rd_ready), .in1(w_ld_ro));      
@@ -1946,13 +1947,7 @@ register #1         u_r_wb_wr_reg2_data_sel    (.clk(clk), .rst_n(rst_n), .set_n
 register #2         u_r_wb_wr_seg_data_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_wr_seg_data_sel),       .data_o(r_wb_wr_seg_data_sel));
 register #1         u_r_wb_wr_eip_alu_res_sel  (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_wr_eip_alu_res_sel),    .data_o(r_wb_wr_eip_alu_res_sel));
 register #2         u_r_wb_wr_mem_data_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_wr_mem_data_sel),       .data_o(r_wb_wr_mem_data_sel));
-register #1         u_r_wb_ld_flag_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_CF),            .data_o(r_wb_ld_flag_CF));
-register #1         u_r_wb_ld_flag_PF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_PF),            .data_o(r_wb_ld_flag_PF));
-register #1         u_r_wb_ld_flag_AF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_AF),            .data_o(r_wb_ld_flag_AF));
-register #1         u_r_wb_ld_flag_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_ZF),            .data_o(r_wb_ld_flag_ZF));
-register #1         u_r_wb_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_SF),            .data_o(r_wb_ld_flag_SF));
 register #1         u_r_wb_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_DF),            .data_o(r_wb_ld_flag_DF));
-register #1         u_r_wb_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_OF),            .data_o(r_wb_ld_flag_OF));
 register #16        u_r_wb_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ptr_CS),                .data_o(r_wb_ptr_CS));
 register #32        u_r_wb_mem_wr_addr         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_mem_wr_addr),           .data_o(r_wb_mem_wr_addr));
 
@@ -1963,15 +1958,12 @@ wire [63:0] w_ex_alu_res3;
 wire  [5:0] w_ex_alu1_flags;
 wire  [5:0] w_ex_cmps_flags;
 wire        w_ex_df_val_ex;
-
-wire [31:0]  r_ex_ECX;
-wire [31:0]  r_ex_EAX;
-wire [31:0]  r_ex_sr1;
-wire [31:0]  r_ex_sr2;
-wire [63:0]  r_ex_mm_sr1;
-wire [63:0]  r_ex_mm_sr2;
-wire [31:0]  r_ex_mem_out;
-wire [31:0]  r_ex_mem_out_latched;
+wire        w_ex_ld_flag_CF;
+wire        w_ex_ld_flag_PF;
+wire        w_ex_ld_flag_AF;
+wire        w_ex_ld_flag_ZF;
+wire        w_ex_ld_flag_SF;
+wire        w_ex_ld_flag_OF;
 
 alu1 u_alu1(
   .sr1                 (r_ex_sr1), 
@@ -1987,10 +1979,23 @@ alu1 u_alu1(
   .DF_in               (r_EFLAGS[DF]),
   .df_val              (r_ex_df_val),
   .ISR                 (r_ex_ISR),
+  .ld_flag_CF_in       (r_ex_ld_flag_CF),
+  .ld_flag_PF_in       (r_ex_ld_flag_PF),
+  .ld_flag_AF_in       (r_ex_ld_flag_AF),
+  .ld_flag_ZF_in       (r_ex_ld_flag_ZF),
+  .ld_flag_SF_in       (r_ex_ld_flag_SF),
+  .ld_flag_OF_in       (r_ex_ld_flag_OF),
+
   .alu_res1            (w_ex_alu_res1), 
   .alu1_flags          (w_ex_alu1_flags),
   .cmps_flags          (w_ex_cmps_flags),
-  .df_val_ex           (w_ex_df_val_ex)
+  .df_val_ex           (w_ex_df_val_ex),
+  .ld_flag_CF          (w_ex_ld_flag_CF),
+  .ld_flag_PF          (w_ex_ld_flag_PF),
+  .ld_flag_AF          (w_ex_ld_flag_AF),
+  .ld_flag_ZF          (w_ex_ld_flag_ZF),
+  .ld_flag_SF          (w_ex_ld_flag_SF),
+  .ld_flag_OF          (w_ex_ld_flag_OF)
 );
 
 alu2 u_alu2(
@@ -2057,6 +2062,12 @@ register #64         u_r_wb_alu_res3            (.clk(clk), .rst_n(rst_n), .set_
 register  #6         u_r_wb_alu1_flags          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu1_flags),            .data_o(r_wb_alu1_flags));
 register  #6         u_r_wb_cmps_flags          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_cmps_flags),            .data_o(r_wb_cmps_flags));
 register  #1         u_r_wb_df_val_ex           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_df_val_ex ),            .data_o(r_wb_df_val_ex ));
+register #1          u_r_wb_ld_flag_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_CF),            .data_o(r_wb_ld_flag_CF));
+register #1          u_r_wb_ld_flag_PF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_PF),            .data_o(r_wb_ld_flag_PF));
+register #1          u_r_wb_ld_flag_AF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_AF),            .data_o(r_wb_ld_flag_AF));
+register #1          u_r_wb_ld_flag_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_ZF),            .data_o(r_wb_ld_flag_ZF));
+register #1          u_r_wb_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_SF),            .data_o(r_wb_ld_flag_SF));
+register #1          u_r_wb_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_OF),            .data_o(r_wb_ld_flag_OF));
 register #1          u_V_wb                     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_V_wb_next),                .data_o(r_V_wb));
 
 // ***************** WRITEBACK STAGE ******************
@@ -2134,7 +2145,6 @@ writeback_loads_gen u_writeback_loads_gen (
 );
 
 //wb_mem_stall
-wire w_wb_mem_stall;
 and2$ u_w_wb_mem_stall (.in0(r_V_wb), .in1(w_fifo_full), .out(w_wb_mem_stall)); 
 
 //Wr FIFO
