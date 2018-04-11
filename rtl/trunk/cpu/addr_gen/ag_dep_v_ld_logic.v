@@ -66,7 +66,8 @@ assign br_stall = eip_change && V_ag;
 assign stall_ag = stall_ro || ro_dep_stall || mem_rd_busy || ro_cmps_stall;
 assign ld_ro = !stall_ag || dc_exp;
 
-assign ag_dep_stall = (( in1_needed &&(((in1 == ro_dreg1) && v_ro_ld_reg1) ||
+assign V_ro = V_ag & !(dep_stall);
+assign dep_stall = (( in1_needed &&(((in1 == ro_dreg1) && v_ro_ld_reg1) ||
                                       ((in1 == ro_dreg2) && v_ro_ld_reg2) ||
                                       ((in1 == ro_dreg3) && v_ro_ld_reg3) ||
                                       ((in1 == ex_dreg1) && v_ex_ld_reg1) ||
