@@ -89,6 +89,7 @@
 ../../trunk/cpu/execute/cond_sum8_c.v
 ../../trunk/cpu/execute/parity_netlist.v
 ../../trunk/cpu/execute/zero_sizes.v
+../../trunk/cpu/execute/ld_override_netlist.v
 
 ../../trunk/cpu/read_operands/access2_combo_gen_netlist.v
 ../../trunk/cpu/read_operands/dcache.v

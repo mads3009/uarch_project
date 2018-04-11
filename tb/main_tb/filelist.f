@@ -103,6 +103,7 @@
 ../../rtl/trunk/cpu/execute/cond_sum8_c.v
 ../../rtl/trunk/cpu/execute/parity_netlist.v
 ../../rtl/trunk/cpu/execute/zero_sizes.v
+../../rtl/trunk/cpu/execute/ld_override_netlist.v
 
 ../../rtl/trunk/cpu/read_operands/access2_combo_gen_netlist.v
 ../../rtl/trunk/cpu/read_operands/dcache.v
@@ -123,11 +124,15 @@
 ../../rtl/trunk/cpu/intexp/intexp.v
 ../../rtl/trunk/cpu/intexp/rseq_rom.v
 
-../../rtl/trunk/cpu/writeback/writeback_loads_gen_netlist.v
 ../../rtl/trunk/cpu/writeback/wr_fifo.v
 ../../rtl/trunk/cpu/writeback/EIP_reg.v
 
-../../rtl/trunk/cpu/cpu.v
+../../rtl/trunk/cpu/decode/de_dep_v_ld_logic.v
+../../rtl/trunk/cpu/addr_gen/ag_dep_v_ld_logic.v
+../../rtl/trunk/cpu/read_operands/ro_dep_v_ld_logic.v
+../../rtl/trunk/cpu/execute/ex_dep_v_ld_logic.v
+../../rtl/trunk/cpu/writeback/writeback_loads_gen.v
 
+../../rtl/trunk/cpu/cpu.v
 ../../rtl/trunk/system/system.v
 testbench.v
