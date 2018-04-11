@@ -6,7 +6,7 @@ module AND1_nbit (a,en,out);
 
 	genvar i;
 	generate begin : loop 
-	for (i=0; i<WIDTH; i=i+1) begin
+	for (i=0; i<WIDTH; i=i+1) begin : and_gen
     	and2$ u_and (out[i], a[i], en);
 	end
 	end

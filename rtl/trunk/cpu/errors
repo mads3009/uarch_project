@@ -1,0 +1,413 @@
+echo "/home/ecelrc/students/mgontala/uarch/uarch_project/rtl"
+/home/ecelrc/students/mgontala/uarch/uarch_project/rtl
+vcs -full64 -f filelist.f
+
+Warning-[LNX_OS_VERUN] Unsupported Linux version
+  Linux version 'CentOS release 6.9 (Final)' is not supported on 'x86_64' 
+  officially, assuming linux compatibility by default. Set VCS_ARCH_OVERRIDE 
+  to linux or suse32 to override.
+  Please refer to release notes for information on supported platforms.
+
+                         Chronologic VCS (TM)
+       Version K-2015.09-SP1_Full64 -- Sun Apr  8 21:37:24 2018
+               Copyright (c) 1991-2015 by Synopsys Inc.
+                         ALL RIGHTS RESERVED
+
+This program is proprietary and confidential information of Synopsys Inc.
+and may be used and disclosed only as authorized in a license agreement
+controlling such use and disclosure.
+
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/time'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib1'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib2'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib3'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib4'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib5'
+Parsing design file '/home/projects/courses/spring_18/ee382n-16120/lib/lib6'
+Parsing design file '../../reuse/sub_designs/mux3bit_2x1.v'
+Parsing design file '../../reuse/sub_designs/mux4bit_2x1.v'
+Parsing design file '../../reuse/sub_designs/mux4bit_3x1.v'
+Parsing design file '../../reuse/sub_designs/mux2bit_2x1.v'
+Parsing design file '../../reuse/sub_designs/mux4_32.v'
+Parsing design file '../../reuse/sub_designs/mux16bit_8x1.v'
+Parsing design file '../../reuse/sub_designs/mux32bit_2x1.v'
+Parsing design file '../../reuse/sub_designs/mux32bit_4x1.v'
+Parsing design file '../../reuse/sub_designs/mux8bit_8x1.v'
+Parsing design file '../../reuse/sub_designs/mux32bit_16x1.v'
+Parsing design file '../../reuse/sub_designs/mux32bit_8x1.v'
+Parsing design file '../../reuse/sub_designs/mux_nbit_2x1.v'
+Parsing design file '../../reuse/sub_designs/register.v'
+Parsing design file '../../reuse/sub_designs/register_ld2bit.v'
+Parsing design file '../../reuse/sub_designs/mux_4x1.v'
+Parsing design file '../../reuse/sub_designs/mux_8x1.v'
+Parsing design file '../../reuse/sub_designs/mux_16x1.v'
+Parsing design file '../../reuse/sub_designs/demux_1x16.v'
+Parsing design file '../../reuse/sub_designs/mux_nbit_4x1.v'
+Parsing design file '../../reuse/sub_designs/mux_nbit_8x1.v'
+Parsing design file '../../reuse/sub_designs/mux_nbit_8x1_mulsel.v'
+Parsing design file '../../reuse/sub_designs/ram_nB_8w.v'
+Parsing design file '../../reuse/adders/cond_sum/wallace_abc_adder.v'
+Parsing design file '../../reuse/adders/cond_sum/cond_sum32.v'
+Parsing design file '../../reuse/adders/cond_sum/cond_sum16.v'
+Parsing design file '../../reuse/adders/cond_sum/cond_sum8.v'
+Parsing design file '../../reuse/adders/cond_sum/cond_sum_abc.v'
+Parsing design file '../../reuse/adders/kogge_stone/FA.v'
+Parsing design file '../../reuse/adders/kogge_stone/kogge_stone.v'
+Parsing design file '../../reuse/adders/synth_adder/adder2bit_netlist.v'
+Parsing design file '../../reuse/adders/synth_adder/adder3bit_netlist.v'
+Parsing design file '../../reuse/shifters/mux_1bit.v'
+Parsing design file '../../reuse/shifters/shift_right_rotate.v'
+Parsing design file '../../reuse/shifters/bit_shift_left.v'
+Parsing design file '../../reuse/shifters/bit_shift_right.v'
+Parsing design file '../../reuse/shifters/byte_rotate_left.v'
+Parsing design file '../../reuse/shifters/byte_rotate_right.v'
+Parsing design file '../../reuse/sub_designs/pencoder_3_2_netlist.v'
+Parsing design file '../../reuse/sub_designs/AND1_nbit.v'
+Parsing design file '../../reuse/sub_designs/muxNbit_2x1.v'
+Parsing design file '../../reuse/sub_designs/eq_checker16_netlist.v'
+Parsing design file '../../reuse/sub_designs/eq_checker20_netlist.v'
+Parsing design file '../../reuse/sub_designs/eq_checker32_netlist.v'
+Parsing design file '../../reuse/sub_designs/eq_checker3_netlist.v'
+Parsing design file '../../reuse/sub_designs/eq_checker6_netlist.v'
+Parsing design file '../../reuse/sub_designs/eq_checker8_netlist.v'
+Parsing design file '../../reuse/sub_designs/eq_checker.v'
+Parsing design file '../../trunk/cpu/fetch/i_cache.v'
+Parsing design file '../../trunk/cpu/fetch/fetch_TLB_lookup.v'
+Parsing design file '../../trunk/cpu/fetch/fetch_fsm.v'
+Parsing design file '../../trunk/cpu/decode/register_addr_dependency.v'
+Parsing design file '../../trunk/cpu/decode/segment_addr_dependency.v'
+Parsing design file '../../trunk/cpu/decode/mmx_addr_dependency.v'
+Parsing design file '../../trunk/cpu/decode/dep_ld_reg_netlist.v'
+Parsing design file '../../trunk/cpu/decode/dep_ld_mmx_netlist.v'
+Parsing design file '../../trunk/cpu/decode/dependency_seg_netlist.v'
+Parsing design file '../../trunk/cpu/decode/rom_value_select.v'
+Parsing design file '../../trunk/cpu/decode/decode.v'
+Parsing design file '../../trunk/cpu/regfile/regfile.v'
+Parsing design file '../../trunk/cpu/regfile/mmx_regfile.v'
+Parsing design file '../../trunk/cpu/regfile/seg_regfile.v'
+Parsing design file '../../trunk/cpu/execute/alu1.v'
+Parsing design file '../../trunk/cpu/execute/alu2.v'
+Parsing design file '../../trunk/cpu/execute/alu3.v'
+Parsing design file '../../trunk/cpu/execute/or.v'
+Parsing design file '../../trunk/cpu/execute/and.v'
+Parsing design file '../../trunk/cpu/execute/not.v'
+Parsing design file '../../trunk/cpu/execute/bit_shift_left_flgs.v'
+Parsing design file '../../trunk/cpu/execute/bit_shift_right_flgs.v'
+Parsing design file '../../trunk/cpu/execute/compare_netlist.v'
+Parsing design file '../../trunk/cpu/execute/cond_sum32_c.v'
+Parsing design file '../../trunk/cpu/execute/cond_sum16_c.v'
+Parsing design file '../../trunk/cpu/execute/cond_sum8_c.v'
+Parsing design file '../../trunk/cpu/execute/parity_netlist.v'
+Parsing design file '../../trunk/cpu/execute/zero_sizes.v'
+Parsing design file '../../trunk/cpu/dcache/access2_combo_gen_netlist.v'
+Parsing design file '../../trunk/cpu/dcache/dcache.v'
+Parsing design file '../../trunk/cpu/dcache/dc_arbiter.v'
+Parsing design file '../../trunk/cpu/dcache/dc_data_store.v'
+Parsing design file '../../trunk/cpu/dcache/dc_hit_checker.v'
+Parsing design file '../../trunk/cpu/dcache/dc_tag_store.v'
+Parsing design file '../../trunk/cpu/dcache/dc_wr_data_gen.v'
+Parsing design file '../../trunk/cpu/dcache/mem_rd_data_gen.v'
+Parsing design file '../../trunk/cpu/dcache/tlb_addr_gen.v'
+Parsing design file '../../trunk/cpu/dcache/tlb.v'
+Parsing design file '../../trunk/cpu/mmu/mmu_fsm_netlist.v'
+Parsing design file '../../trunk/cpu/mmu/mmu.v'
+Parsing design file '../../trunk/cpu/mmu/st_eq_checker_netlist.v'
+Parsing design file '../../trunk/cpu/intexp/intexp_fsm_netlist.v'
+Parsing design file '../../trunk/cpu/intexp/intexp.v'
+Parsing design file '../../trunk/cpu/intexp/rseq_rom.v'
+Parsing design file '../../trunk/cpu/writeback/writeback_loads_gen_netlist.v'
+Parsing design file '../../trunk/cpu/writeback/wr_fifo.v'
+Parsing design file '../../trunk/cpu/writeback/EIP_reg.v'
+Parsing design file './cpu.v'
+
+Warning-[IPDASP] Identifier in ANSI port declaration
+./cpu.v, 94
+  Redeclaration of ANSI ports not allowed for 'int', this will be an error in 
+  a future release
+
+
+Warning-[IPDASP] Identifier in ANSI port declaration
+./cpu.v, 95
+  Redeclaration of ANSI ports not allowed for 'int_clear', this will be an 
+  error in a future release
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1650
+  Second declaration for identifier 'r_ex_ECX' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1651
+  Second declaration for identifier 'r_ex_EAX' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1652
+  Second declaration for identifier 'r_ex_sr1' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1653
+  Second declaration for identifier 'r_ex_sr2' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1654
+  Second declaration for identifier 'r_ex_mm_sr1' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1655
+  Second declaration for identifier 'r_ex_mm_sr2' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1656
+  Second declaration for identifier 'r_ex_mem_out' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1657
+  Second declaration for identifier 'r_ex_mem_out_latched' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1658
+  Second declaration for identifier 'r_ex_mem_wr_addr' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1779
+  Second declaration for identifier 'w_fifo_empty' ignored
+
+
+Warning-[IPDW] Identifier previously declared
+./cpu.v, 1781
+  Second declaration for identifier 'w_fifo_to_be_full' ignored
+
+Top Level Modules:
+       timeunit
+       dff8$
+       dff16$
+       jkff8$
+       jkff16$
+       buffer8$
+       buffer16$
+       bufferH16$
+       bufferH64$
+       bufferH256$
+       bufferH1024$
+       bufferHInv16$
+       bufferHInv64$
+       bufferHInv256$
+       bufferHInv1024$
+       latch$
+       latch8$
+       latch16$
+       tristateL$
+       tristate8L$
+       tristate16L$
+       tristateH$
+       tristate8H$
+       tristate16H$
+       tristate_bus_driver1$
+       tristate_bus_driver8$
+       tristate_bus_driver16$
+       dff16b$
+       dff32b$
+       reg64e$
+       reg32e$
+       ioreg8$
+       ioreg16$
+       regfile$
+       regfile8x8$
+       ram16b8w$
+       ram8b4w$
+       rom4b32w$
+       mux3_8$
+       mux3_16$
+       syn_cntr8$
+       mag_comp8$
+       mag_comp4$
+       alu4$
+       sram128x8$
+       sram32x16$
+       sram32x32$
+       mux_16x1
+       demux_1x16
+       mux_nbit_8x1_mulsel
+       eq_checker16
+       eq_checker32
+       eq_checker3
+       cpu
+TimeScale is 1 ns / 10 ps
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1538
+  Implicit wire 'w_fifo_to_be_full' does not have any driver, please make sure
+  this is intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1541
+  Implicit wire 'w_ro_mem_rd_addr' does not have any driver, please make sure 
+  this is intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1688
+  Implicit wire 'r_ex_DF_in' does not have any driver, please make sure this 
+  is intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1693
+  Implicit wire 'r_ex_mm1' does not have any driver, please make sure this is 
+  intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1694
+  Implicit wire 'r_ex_mm2' does not have any driver, please make sure this is 
+  intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1806
+  Implicit wire 'w_V_de' does not have any driver, please make sure this is 
+  intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1807
+  Implicit wire 'w_V_ag' does not have any driver, please make sure this is 
+  intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1808
+  Implicit wire 'w_V_ro' does not have any driver, please make sure this is 
+  intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1809
+  Implicit wire 'w_V_ex' does not have any driver, please make sure this is 
+  intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1810
+  Implicit wire 'w_V_wb' does not have any driver, please make sure this is 
+  intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1813
+  Implicit wire 'w_dc_prot_exp' does not have any driver, please make sure 
+  this is intended.
+
+
+Warning-[IWNF] Implicit wire has no fanin
+./cpu.v, 1814
+  Implicit wire 'w_dc_page_fault' does not have any driver, please make sure 
+  this is intended.
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 616
+"i_cache u_i_cache( .clk (clk),  .rst_n (rst_n),  .ren (w_fe_ren),  .index (w_fe_address[8:5]),  .tag_14_12 (w_fe_PFN),  .tag_11_9 (w_fe_address[11:9]),  .ic_fill_data (w_ic_data_fill),  .ic_miss_ack (w_ic_miss_ack),  .ic_exp (w_ic_exp),  .r_data ({w_icache_upper_data, w_icache_lower_data}),  .ic_hit (w_ic_hit),  .ic_miss (w_ic_miss),  .ic_miss_addr (w_ic_miss_addr));"
+  The following 32-bit expression is connected to 1-bit port "ic_miss_addr" of
+  module "i_cache", instance "u_i_cache".
+  Expression: w_ic_miss_addr
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 944
+"rseq_rom u_rseq_rom( .oe (1'b0),  .rseq_addr (w_rseq_addr),  .rseq_data ({w_rseq_end_bit, w_rseq_V, w_rseq_IDT_address_sel, w_rseq_base_sel, w_rseq_disp_sel, w_rseq_SIB_pr, w_rseq_scale, w_rseq_in1_needed, w_rseq_in2_needed, w_rseq_in3_needed, w_rseq_in4_needed, w_rseq_esp_needed, w_rseq_eax_needed, w_rseq_ecx_needed, w_rseq_in1, w_rseq_in2, w_rseq_in3, w_rseq_in4, w_rseq_dreg1, w_rseq_dreg2, w_rseq_dreg3, w_rseq_ld_reg1, w_rseq_ld_reg2, w_rseq_ld_reg3, w_rseq_ld_reg1_strb, w_rseq_ld_reg2_strb, w_rseq_ld_reg3_strb, w_rseq_reg8_sr1_HL_sel, w_rseq_reg8_sr2_HL_sel, w_rseq_mm1_needed, w_rseq_mm2_needed, w_rseq_mm1, w_rseq_mm2, w_rseq_ld_mm, w_rseq_dmm, w_rseq_mm_sr1_sel_H, w_rseq_mm_sr1_sel_L, w_rseq_mm_sr2_sel, w_rseq_seg1_needed, w_rseq_seg2_needed, w_rse ... "
+  The following 136-bit expression is connected to 128-bit port "rseq_data" of
+  module "rseq_rom", instance "u_rseq_rom".
+  Expression: {w_rseq_end_bit, w_rseq_V, w_rseq_IDT_address_sel, 
+  w_rseq_base_sel, w_rseq_disp_sel, w_rseq_SIB_pr, w_rseq_scale, 
+  w_rseq_in1_needed, w_rseq_in2_need ...
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 1532
+"dcache u_dcache( .clk (clk),  .rst_n (rst_n),  .v_mem_read (w_ro_v_mem_read),  .mem_conflict (w_ro_mem_conflict),  .wr_fifo_empty (w_fifo_empty),  .wr_fifo_to_be_full (w_fifo_to_be_full),  .mem_rd_size (r_ro_mem_rd_size),  .mem_wr_size (w_fifo_mem_wr_size),  .mem_rd_addr (w_ro_mem_rd_addr),  .mem_wr_addr (w_fifo_mem_wr_addr),  .mem_rd_data (w_ro_mem_rd_data),  .mem_wr_data (w_fifo_mem_wr_data),  .mem_rd_ready (w_ro_mem_rd_ready),  .mem_wr_done (w_mem_wr_done),  .mem_rd_busy (w_mem_rd_busy),  .mem_wr_busy (w_mem_wr_busy),  .dc_miss (w_dc_miss),  .dc_miss_addr (w_dc_miss_addr),  .dc_data_fill (w_dc_data_fill),  .dc_miss_ack (w_dc_miss_ack),  .io_access (w_io_access),  .io_rw (w_io_rw),  .io_addr (w_io_addr),  .io_wr_data (w_io_wr_data),  .io_rd_data (w_io ... "
+  The following 1-bit expression is connected to 32-bit port "mem_rd_addr" of 
+  module "dcache", instance "u_dcache".
+  Expression: w_ro_mem_rd_addr
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 1532
+"dcache u_dcache( .clk (clk),  .rst_n (rst_n),  .v_mem_read (w_ro_v_mem_read),  .mem_conflict (w_ro_mem_conflict),  .wr_fifo_empty (w_fifo_empty),  .wr_fifo_to_be_full (w_fifo_to_be_full),  .mem_rd_size (r_ro_mem_rd_size),  .mem_wr_size (w_fifo_mem_wr_size),  .mem_rd_addr (w_ro_mem_rd_addr),  .mem_wr_addr (w_fifo_mem_wr_addr),  .mem_rd_data (w_ro_mem_rd_data),  .mem_wr_data (w_fifo_mem_wr_data),  .mem_rd_ready (w_ro_mem_rd_ready),  .mem_wr_done (w_mem_wr_done),  .mem_rd_busy (w_mem_rd_busy),  .mem_wr_busy (w_mem_wr_busy),  .dc_miss (w_dc_miss),  .dc_miss_addr (w_dc_miss_addr),  .dc_data_fill (w_dc_data_fill),  .dc_miss_ack (w_dc_miss_ack),  .io_access (w_io_access),  .io_rw (w_io_rw),  .io_addr (w_io_addr),  .io_wr_data (w_io_wr_data),  .io_rd_data (w_io ... "
+  The following 1-bit expression is connected to 64-bit port "mem_rd_data" of 
+  module "dcache", instance "u_dcache".
+  Expression: w_ro_mem_rd_data
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 1680
+"alu2 u_alu2( .EIP_next (r_ex_EIP_next),  .sr1 (r_ex_sr1),  .sr2 (r_ex_sr2),  .esp (r_ex_ESP),  .mem_rd_size (r_ex_mem_rd_size),  .mem_wr_size (r_ex_mem_wr_size),  .alu2_op (r_ex_alu2_op),  .DF_in (r_ex_DF_in),  .alu_res2 (w_ex_alu_res2));"
+  The following 1-bit expression is connected to 4-bit port "alu2_op" of 
+  module "alu2", instance "u_alu2".
+  Expression: r_ex_alu2_op
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 1692
+"alu3 u_alu_3( .mm1 (r_ex_mm1),  .mm2 (r_ex_mm2),  .sr2 (r_ex_sr2),  .ecx (r_ex_ECX),  .alu3_op (r_ex_alu3_op),  .alu_res3 (w_ex_alu_res3));"
+  The following 1-bit expression is connected to 64-bit port "mm1" of module 
+  "alu3", instance "u_alu_3".
+  Expression: r_ex_mm1
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 1692
+"alu3 u_alu_3( .mm1 (r_ex_mm1),  .mm2 (r_ex_mm2),  .sr2 (r_ex_sr2),  .ecx (r_ex_ECX),  .alu3_op (r_ex_alu3_op),  .alu_res3 (w_ex_alu_res3));"
+  The following 1-bit expression is connected to 64-bit port "mm2" of module 
+  "alu3", instance "u_alu_3".
+  Expression: r_ex_mm2
+  	use +lint=PCWM for more details
+
+
+Warning-[PCWM-W] Port connection width mismatch
+./cpu.v, 1692
+"alu3 u_alu_3( .mm1 (r_ex_mm1),  .mm2 (r_ex_mm2),  .sr2 (r_ex_sr2),  .ecx (r_ex_ECX),  .alu3_op (r_ex_alu3_op),  .alu_res3 (w_ex_alu_res3));"
+  The following 1-bit expression is connected to 5-bit port "alu3_op" of 
+  module "alu3", instance "u_alu_3".
+  Expression: r_ex_alu3_op
+  	use +lint=PCWM for more details
+
+
+Warning-[IWNF] Implicit wire has no fanin
+../../trunk/cpu/mmu/mmu.v, 173
+  Implicit wire 'w_curr_st_eq_IC_MEM_RW' does not have any driver, please make
+  sure this is intended.
+
+Notice: Ports coerced to inout, use -notice for details
+Starting vcs inline pass...
+134 modules and 5 UDPs read.
+	However, due to incremental compilation, only 1 module needs to be compiled.
+recompiling module dcache because:
+	This module or some inlined child module(s) has/have been modified.
+make[1]: Entering directory `/home/ecelrc/students/sshaikh1/microarch/repo/uarch_project/rtl/trunk/cpu/csrc'
+make[1]: Leaving directory `/home/ecelrc/students/sshaikh1/microarch/repo/uarch_project/rtl/trunk/cpu/csrc'
+make[1]: Entering directory `/home/ecelrc/students/sshaikh1/microarch/repo/uarch_project/rtl/trunk/cpu/csrc'
+rm -f _csrc*.so linux64_scvhdl_*.so pre_vcsobj_*.so share_vcsobj_*.so
+ld -shared  -o .//../simv.daidir//_csrc0.so objs/udps/BYmPi.o objs/udps/pIp1i.o objs/udps/i5D5s.o objs/udps/H4YNa.o objs/udps/abmDd.o 
+rm -f _csrc0.so
+if [ -x ../simv ]; then chmod -x ../simv; fi
+g++  -o ../simv   -Wl,-rpath-link=./ -Wl,-rpath='$ORIGIN'/simv.daidir/ -Wl,-rpath=./simv.daidir/ -Wl,-rpath='$ORIGIN'/simv.daidir//scsim.db.dir  -rdynamic   amcQwB.o objs/amcQw_d.o   _23964_archive_1.so _prev_archive_1.so _csrc0.so  SIM_l.o  _csrc0.so     rmapats_mop.o rmapats.o rmar.o  rmar_llvm_0_1.o rmar_llvm_0_0.o          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libzerosoft_rt_stubs.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvirsim.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/liberrorinf.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsnpsmalloc.so    /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsnew.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libsimprofile.so /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libuclinative.so   -Wl,-whole-archive /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/libvcsucli.so -Wl,-no-whole-archive          /usr/local/packages/synopsys_2015/vcs-mx/linux64/lib/vcs_save_restore_new.o -ldl  -lc -lm -lpthread -ldl 
+../simv up to date
+make[1]: Leaving directory `/home/ecelrc/students/sshaikh1/microarch/repo/uarch_project/rtl/trunk/cpu/csrc'
+CPU time: 2.811 seconds to compile + 1.631 seconds to elab + .197 seconds to link

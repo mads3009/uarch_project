@@ -44,7 +44,7 @@ and2$ u_and2_1(.out(w_ld_rd_ptr), .in0(rd), .in1(fifo_empty_bar));
 // wr_ptr update
 register #(.N(2)) u_wr_ptr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wr_ptr_inc), .data_o(r_wr_ptr), .ld(w_ld_wr_ptr));
 
-adder2bit u_rd_ptr_adder(.a(r_wr_ptr), .b(2'd1), .sum(w_wr_ptr_inc));
+adder2bit u_wr_ptr_adder(.a(r_wr_ptr), .b(2'd1), .sum(w_wr_ptr_inc));
 
 and2$ u_and2_2(.out(w_ld_wr_ptr), .in0(wr), .in1(fifo_full_bar));
 
@@ -92,7 +92,7 @@ and2$ u_and2_8(.out(w_wr_ptr_eq[3]), .in0(r_wr_ptr[0]), .in1(r_wr_ptr[1]));
 // mem read
 muxNbit_2x1 #(.N(DATA_W)) u_muxNbit_2x1_1(.IN0(r_mem[0]), .IN1(r_mem[1]), .S0(r_rd_ptr[0]), .Y(w_data_temp0));
 muxNbit_2x1 #(.N(DATA_W)) u_muxNbit_2x1_2(.IN0(r_mem[2]), .IN1(r_mem[3]), .S0(r_rd_ptr[0]), .Y(w_data_temp1));
-muxNbit_2x1 #(.N(DATA_W)) u_muxNbit_2x1_3(.IN0(w_data_temp0), .IN1(w_data_temp1), .S0(r_rd_ptr[1]), .Y(rd_data);
+muxNbit_2x1 #(.N(DATA_W)) u_muxNbit_2x1_3(.IN0(w_data_temp0), .IN1(w_data_temp1), .S0(r_rd_ptr[1]), .Y(rd_data));
 
 endmodule
 

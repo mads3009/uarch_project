@@ -30,7 +30,7 @@ inv1$ u_inv_1(.in(oe), .out(oebar));
 inv1$ u_inv_2[3:0] (.in(strb[3:0]), .out(w_strb_bar[3:0]));
 
 genvar i,j;
-generate
+generate begin : mem_gen
   for (i=0; i < 8; i=i+1) begin : row_gen
     for(j=0; j < 8; j=j+1) begin : col_gen
 
@@ -47,7 +47,7 @@ sram128x8$ u_sram128x8_4 (.A(addr[11:5]),.DIO(w_data[i][j][31:24]),.OE(oe),.WR(w
     end
   end
 
-  for(j=0; j < 8; j=j+1) begin : col_gen
+  for(j=0; j < 8; j=j+1) begin : col_mux_gen
     col_mux u_col_mux(.Y(w_col_data_temp[j]), 
             .IN0(w_data[0][j]), 
             .IN1(w_data[1][j]), 
@@ -65,6 +65,7 @@ sram128x8$ u_sram128x8_4 (.A(addr[11:5]),.DIO(w_data[i][j][31:24]),.OE(oe),.WR(w
     or3$ u_or3( .in0(rd), .in1(oe), .in2(w_col_decoded[j]), .out(w_col_rd_enbar[j]) );
     tri_buf32 u_tri_buf32_2( .enbar(w_col_rd_enbar[j]), .in(w_col_data_temp[j]), .out(data_o) );
   end
+end
 endgenerate
 
 endmodule

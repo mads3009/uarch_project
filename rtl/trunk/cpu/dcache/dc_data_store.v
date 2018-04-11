@@ -36,7 +36,7 @@ generate
   for(j=0; j < 4; j=j+1) begin: row_gen
     or4$ u_or4_1[15:0] (.out(w_array_wr_mask[j][15:0]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(dc_wr_mask[15:0]), .in3(w_clk_del));
     for(i=0; i < 16; i=i+1) begin: col_gen
-      ram8b8w$ u_ram8b8w$ (.A(index[3:0]),.DIN(dc_write_data[8*i+7 -: 8]),.OE(1'b0),.WR(w_array_wr_mask[j][i]), .DOUT(w_rd_data[j][8*i+7 -: 8]));
+      ram8b8w$ u_ram8b8w$ (.A(index[2:0]),.DIN(dc_write_data[8*i+7 -: 8]),.OE(1'b0),.WR(w_array_wr_mask[j][i]), .DOUT(w_rd_data[j][8*i+7 -: 8]));
     end
   end
 endgenerate

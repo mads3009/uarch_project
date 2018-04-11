@@ -13,7 +13,7 @@ wire [7:0] f_TLB_hits;
 wire f_TLB_hit;
 genvar i;
 generate begin : loop
-for (i=0; i<8; i=i+1) begin
+for (i=0; i<8; i=i+1) begin : eq_checker_gen
   eq_checker #22 u_chk_tlbhits({TLB[27*i+26: 27*i+7], TLB[27*i+3], TLB[27*i+2]}, {f_address[31:12],1'b1,1'b1}, f_TLB_hits[i]);
 end
 end

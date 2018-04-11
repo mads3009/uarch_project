@@ -24,7 +24,7 @@ output [63:0]         mem_rd_data;
 // Internal Variables
 
 wire [C_LINE_W-1:0] w_data_temp;
-wire [63:0]         w_temp0, w_temp1, w_temp2;
+wire [63:0]         w_temp1, w_temp2;
 wire                w_ld_mdr;
 wire                w_access2_reg_bar;
 wire [3:0]          w_addr_offset_bar;
@@ -33,9 +33,7 @@ wire [7:0]          w_sel_mask;
 
 // Generate mem_rd_data
 
-byte_rotate_left #(.NUM_BYTES(16)) u_data_rotate_left(.amt(addr_offset), .in(dc_rd_data), .out(w_data_temp));
-
-assign w_temp0 = w_data_temp[63:0];
+byte_rotate_right #(.NUM_BYTES(16)) u_data_rotate_right(.amt(addr_offset), .in(dc_rd_data), .out(w_data_temp));
 
 inv1$ u_inv1_1(.out(w_access2_reg_bar), .in(access2_reg));
 and2$ u_and2_1(.out(w_ld_mdr), .in0(dc_read_hit), .in1(w_access2_reg_bar));
@@ -45,10 +43,10 @@ register #(.N(64)) u_mdr (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_data
 
 // Compute addr_offset_com = 16-addr_offset
 
-inv1$ u_inv1_1[3:0] (.in(addr_offset[3:0]), .out(w_addr_offset_bar[3:0]));
+inv1$ u_inv1_2[3:0] (.in(addr_offset[3:0]), .out(w_addr_offset_bar[3:0]));
 nibble_low u_nibble_low(.a(w_addr_offset_bar), .b(4'd0), .cin(1'b1), .s(w_addr_offset_com), .cout(/*Unused*/) );
 
-bit_shift_left #(.WIDTH(8)) u_mask_sll(.amt(w_addr_offset_com), .sin(1'b0), .in(8'hFF), .out(w_sel_mask));
+bit_shift_left #(.WIDTH(8)) u_mask_sll(.amt(w_addr_offset_com[2:0]), .sin(1'b0), .in(8'hFF), .out(w_sel_mask));
 
 // Select between cache output and MDR
 

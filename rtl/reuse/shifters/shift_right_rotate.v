@@ -23,10 +23,10 @@ end
 
 for (j=1; j <= AMT_W; j=j+1) begin : gen_row
   for (i=0; i < WIDTH; i=i+1) begin : gen_col
-    if( i < (WIDTH - WIDTH/(2**j)) ) begin
+    if( i < (WIDTH - WIDTH/(2**j)) ) begin : lower
       mux_nbit_2x1 #N u_mux0(.out(inter[j][N*i+7 : N*i]), .a0(inter[j-1][N*i+7 : N*i]), .a1(inter[j-1][N*(i+WIDTH/(2**j))+7 : N*(i+WIDTH/(2**j))]), .sel(amt[AMT_W-j]));
     end
-    else begin
+    else begin : upper
       mux_nbit_2x1 #N u_mux1(.out(inter[j][N*i+7 : N*i]), .a0(inter[j-1][N*i+7 : N*i]), .a1(inter[j-1][N*(i-WIDTH/(2**j))+7 : N*(i-WIDTH/(2**j))]), .sel(amt[AMT_W-j]));
     end
   end

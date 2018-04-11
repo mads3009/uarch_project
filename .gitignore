@@ -6,3 +6,7 @@ master
 rc*
 fv
 libscore_work
+*~
+DVEfiles*
+*vpd
+ucli.key

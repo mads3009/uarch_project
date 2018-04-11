@@ -5,7 +5,7 @@
 /*              cache block.                            */
 /********************************************************/
 
-module dc_tag_store u_dc_tag_store(
+module dc_tag_store (
   clk,
   index,
   wr,
@@ -39,7 +39,7 @@ genvar j;
 generate
   for(j=0; j < 4; j=j+1) begin: row_gen
     or4$ u_or4_1 (.out(w_array_wr_mask[j]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(wr), .in3(w_clk_del));
-    ram8b8w$ u_ram8b8w$ (.A(index[3:0]),.DIN(data_in),.OE(1'b0),.WR(w_array_wr_mask[j]), .DOUT(w_rd_data[j][7:0]));
+    ram8b8w$ u_ram8b8w$ (.A(index[2:0]),.DIN(data_in),.OE(1'b0),.WR(w_array_wr_mask[j]), .DOUT(w_rd_data[j][7:0]));
   end
 endgenerate
 
