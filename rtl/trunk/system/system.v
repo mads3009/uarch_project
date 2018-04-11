@@ -197,6 +197,15 @@ cpu u_cpu(
   .m_data_i(m_mmu_data_i)
   );
 
+//Force valids of caches to 0
+integer i;
+initial begin
+  for (i=0;i<8;i=i+1)  begin
+    u_system.u_cpu.u_i_cache.ts.ts_lower.mem[i][6] = 1'b0;
+    u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i][6] = 1'b0;
+  end
+end
+
 /////////////////////////////////////
 // State variables
 /////////////////////////////////////
@@ -329,7 +338,6 @@ wire  [7:0] DH;
 wire  [7:0] BL; 
 wire  [7:0] BH; 
 
-/*
 assign AL  = u_cpu.u_regfile.loop2[0].u_reg0.data_o;
 assign AH  = u_cpu.u_regfile.loop2[0].u_reg1.data_o;
 assign AX  = {AH,AL};
@@ -362,6 +370,7 @@ assign ESI = {u_cpu.u_regfile.loop2[6].u_reg3.data_o, u_cpu.u_regfile.loop2[6].u
 assign DI  = {u_cpu.u_regfile.loop2[7].u_reg1.data_o, u_cpu.u_regfile.loop2[7].u_reg0.data_o};
 assign EDI = {u_cpu.u_regfile.loop2[7].u_reg3.data_o, u_cpu.u_regfile.loop2[7].u_reg2.data_o, DI};
 
+/*
 //MMX Registers
 
 wire [63:0] MM0;
