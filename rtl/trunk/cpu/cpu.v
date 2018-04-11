@@ -867,7 +867,10 @@ decode u_decode (
       .de_ld_flag_ZF                              (w_de_ld_flag_ZF), 
       .de_ld_flag_SF                              (w_de_ld_flag_SF), 
       .de_ld_flag_DF                              (w_de_ld_flag_DF), 
-      .de_ld_flag_OF                              (w_de_ld_flag_OF));
+      .de_ld_flag_OF                              (w_de_ld_flag_OF),
+      .de_repne                                   (w_de_repne),
+      .de_hlt                                     (w_de_hlt),
+      .de_iret                                    (w_de_iret));
 
 //Decode dep,V,ld logic
 

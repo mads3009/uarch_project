@@ -23,8 +23,8 @@ cond_sum16 addw3 ( .A(mm1[63:48]), .B(mm2[63:48]), .CIN(1'b0), .S(w_paddw_res[63
 
 //PADDD
 wire [63:0] w_paddd_res;
-cond_sum32 addd0 ( .A(mm1[31:0]), .B(mm2[31:0]), .CIN(1'b0), .S(w_paddw_res[31:0]), .COUT(/*unused*/ ));
-cond_sum32 addd1 ( .A(mm1[63:32]), .B(mm2[63:32]), .CIN(1'b0), .S(w_paddw_res[63:32]), .COUT(/*unused*/ ));
+cond_sum32 addd0 ( .A(mm1[31:0]), .B(mm2[31:0]), .CIN(1'b0), .S(w_paddd_res[31:0]), .COUT(/*unused*/ ));
+cond_sum32 addd1 ( .A(mm1[63:32]), .B(mm2[63:32]), .CIN(1'b0), .S(w_paddd_res[63:32]), .COUT(/*unused*/ ));
 
 //PADDSW
 wire [63:0] w_paddsw_res;
@@ -66,7 +66,7 @@ mux_nbit_2x1 #16 mux_sw3 (.a0(msb_sat3), .a1(w_res[63:48]), .sel(of3), .out(w_pa
 
 //ECX dec
 wire [31:0] w_ecx_res; 
-cond_sum32 ecx_dec ( .A(ecx), .B(32'hFFFF), .CIN(1'b0), .S(w_ecx_res), .COUT(/*unused*/));
+cond_sum32 ecx_dec ( .A(ecx), .B(32'hFFFFFFFF), .CIN(1'b0), .S(w_ecx_res), .COUT(/*unused*/));
 
 
 //MUXes

@@ -20,7 +20,7 @@ input [4:0] alu3_op;
 
 output reg [63:0]alu_res3;
 
-wire [31:0]w_alu_res3;
+wire [63:0]w_alu_res3;
 
 alu3 u_alu3(
   .mm1                 (mm1), 
@@ -36,7 +36,7 @@ always @(posedge clk, posedge rst)
 begin
   if(rst)
   begin
-    alu_res3   <= 32'd0; 
+    alu_res3   <= 63'd0; 
   end
   else
   begin
