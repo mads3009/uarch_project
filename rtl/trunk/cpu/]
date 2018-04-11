@@ -1355,7 +1355,7 @@ register #16        u_r_ro_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n
 //AG dependency logic
 ag_dep_v_ld_logic u_ag_dep_v_ld_logic(
   .V_ag               (r_V_ag),
-  .eip_change         (r_ag_eip_change),
+  .eip_change         (w_ag_eip_change),
   .in1                (r_ag_in1),
   .in2                (r_ag_in2),
   .in1_needed         (r_ag_in1_needed),
@@ -1398,7 +1398,7 @@ ag_dep_v_ld_logic u_ag_dep_v_ld_logic(
   .ld_reg1            (r_ag_ld_reg1),
   .ld_reg2            (r_ag_ld_reg2),
   .ld_reg3            (r_ag_ld_reg3),
-  .ld_flag_ZF         (r_ro_ld_flag_ZF),
+  .ld_flag_ZF         (r_ro_ld_flag_ZF)
   .v_ag_ld_reg1       (w_v_ag_ld_reg1),
   .v_ag_ld_reg2       (w_v_ag_ld_reg2),
   .v_ag_ld_reg3       (w_v_ag_ld_reg3),
@@ -1755,7 +1755,7 @@ mmu u_mmu(
 //RO dependency logic
 ro_dep_v_ld_logic u_ro_dep_v_ld_logic(
   .V_ro               (r_V_ro),
-  .eip_change         (r_ro_eip_change),
+  .eip_change         (w_ro_eip_change),
   .in3                (r_ro_in3),
   .in4                (r_ro_in4),
   .in3_needed         (r_ro_in3_needed),
@@ -1791,7 +1791,6 @@ ro_dep_v_ld_logic u_ro_dep_v_ld_logic(
   .ex_dep_stall       (w_ex_dep_stall),
   .wb_mem_stall       (w_wb_mem_stall),
   .mem_rd_busy        (w_mem_rd_busy),
-  .cmps_stall         (w_ro_cmps_stall),
   .dc_exp             (w_dc_exp),
 
   .ld_reg1            (r_ro_ld_reg1),
@@ -1805,8 +1804,9 @@ ro_dep_v_ld_logic u_ro_dep_v_ld_logic(
   .v_ro_ld_flag_ZF    (w_v_ro_ld_flag_ZF),
   .v_ro_ld_seg        (w_v_ro_ld_seg),
 
+  .mem_conflict       (w_ro_mem_conflict),
   .dep_stall          (w_ro_dep_stall),
-  .br_stall           (w_ro_br_stall),
+  .br_stall           (w_ro_cmps_stall),
   .stall_ro           (w_stall_ro),
   .V_ex               (w_V_ex_next),
   .ld_ex              (w_ld_ex)
@@ -1868,15 +1868,12 @@ wire w_cmps_flag_in2;
 wire w_cmps_flag_in;
 wire r_cmps_flag;
 wire r_cmps_flag_bar;
-wire w_ro_cmps_stall;
 
 and2$ u_w_cmps_flag_in1 (.out(w_cmps_flag_in1), .in0(w_ro_mem_rd_ready), .in1(r_ro_cmps_op));
 nand2$ u_w_cmps_flag_in2 (.out(w_cmps_flag_in2), .in0(w_ro_mem_rd_ready), .in1(w_ld_ro));      
 
 mux2$ u_mux(.outb(w_cmps_flag_in),.in0(w_cmps_flag_in1),.in1(w_cmps_flag_in1),.s0(w_cmps_flag_in));
 dff$  u_reg(.r(rst_n),.s(1'b1),.clk(clk),.d(w_cmps_flag_in),.q(r_cmps_flag),.qbar(r_cmps_flag_bar));
-
-and3$ u_w_ro_cmps_stall (.out(w_ro_cmps_stall), .in0(r_ro_cmps_op), .in1(r_cmps_flag_bar), .in2(w_ro_mem_rd_ready));
 
 //mem_out and mem_out_latched
 wire w_ro_ld_mem_latched;
@@ -2011,39 +2008,6 @@ alu3 u_alu_3(
   .alu_res3  (w_ex_alu_res3)  
 );
 
-//EX dependency logic
-ex_dep_v_ld_logic u_ex_dep_v_ld_logic(
-  .V_ex               (r_V_ex),
-  .eip_change         (r_ex_eip_change),
-  .AF_needed          (r_ex_AF_needed),
-  .DF_needed          (r_ex_DF_needed),
-  .CF_needed          (r_ex_CF_needed),
-  .v_wb_ld_flag_AF    (w_v_wb_ld_flag_AF),
-  .v_wb_ld_flag_DF    (w_v_wb_ld_flag_DF),
-  .v_wb_ld_flag_CF    (w_v_wb_ld_flag_CF),
-  .wb_mem_stall       (w_wb_mem_stall),
-
-  .ld_reg1            (r_ex_ld_reg1),
-  .ld_reg2            (r_ex_ld_reg2),
-  .ld_reg3            (r_ex_ld_reg3),
-  .ld_flag_ZF         (r_ex_ld_flag_ZF),
-  .ld_seg             (r_ex_ld_seg),
-  .ld_mm              (r_ex_ld_mm),
-  .ld_mem             (r_ex_ld_mem),
-  .v_ro_ld_reg1       (w_v_ex_ld_reg1),
-  .v_ro_ld_reg2       (w_v_ex_ld_reg2),
-  .v_ro_ld_reg3       (w_v_ex_ld_reg3),
-  .v_ro_ld_flag_ZF    (w_v_ex_ld_flag_ZF),
-  .v_ro_ld_seg        (w_v_ex_ld_seg),
-  .v_ro_ld_mm         (w_v_ex_ld_mm),
-  .v_ro_ld_mem        (w_v_ex_ld_mem),
-
-  .dep_stall          (w_ex_dep_stall),
-  .br_stall           (w_ex_br_stall),
-  .V_wb               (w_V_wb_next),
-  .ld_wb              (w_ld_wb)
-);
-
 //Valid loads etc
 assign w_v_ex_ld_mem = r_V_ex & r_ex_ld_mem;
 
@@ -2109,10 +2073,6 @@ writeback_loads_gen u_writeback_loads_gen (
   .ld_reg1_strb          (r_wb_ld_reg1_strb),
   .ld_reg2_strb          (r_wb_ld_reg2_strb),
   .ld_reg3_strb          (r_wb_ld_reg3_strb),
-  .ld_flag_ZF            (r_wb_ld_flag_ZF),
-  .ld_flag_AF            (r_wb_ld_flag_AF),
-  .ld_flag_DF            (r_wb_ld_flag_DF),
-  .ld_flag_CF            (r_wb_ld_flag_CF),
 
   .v_wb_ld_reg1_strb     (w_v_wb_ld_reg1_strb),
   .v_wb_ld_reg2_strb     (w_v_wb_ld_reg2_strb),
@@ -2122,17 +2082,9 @@ writeback_loads_gen u_writeback_loads_gen (
   .v_wb_ld_reg3          (w_v_wb_ld_reg3),
   .v_wb_ld_mm            (w_v_wb_ld_mm),
   .v_wb_ld_seg           (w_v_wb_ld_seg),
-  .v_wb_ld_mem           (w_v_wb_ld_mem),
-  .v_wb_ld_flag_ZF       (w_v_wb_ld_flag_ZF),
-  .v_wb_ld_flag_AF       (w_v_wb_ld_flag_AF),
-  .v_wb_ld_flag_DF       (w_v_wb_ld_flag_DF),
-  .v_wb_ld_flag_CF       (w_v_wb_ld_flag_CF)
+  .v_wb_ld_mem           (w_v_wb_ld_mem)
   
 );
-
-//wb_mem_stall
-wire w_wb_mem_stall;
-and2$ u_w_wb_mem_stall (.in0(r_V_wb), .in1(w_fifo_full), .out(w_wb_mem_stall)); 
 
 //Wr FIFO
 wr_fifo u_wr_fifo(

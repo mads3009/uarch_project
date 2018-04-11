@@ -104,16 +104,16 @@
 ../../rtl/trunk/cpu/execute/parity_netlist.v
 ../../rtl/trunk/cpu/execute/zero_sizes.v
 
-../../rtl/trunk/cpu/dcache/access2_combo_gen_netlist.v
-../../rtl/trunk/cpu/dcache/dcache.v
-../../rtl/trunk/cpu/dcache/dc_arbiter.v
-../../rtl/trunk/cpu/dcache/dc_data_store.v
-../../rtl/trunk/cpu/dcache/dc_hit_checker.v
-../../rtl/trunk/cpu/dcache/dc_tag_store.v
-../../rtl/trunk/cpu/dcache/dc_wr_data_gen.v
-../../rtl/trunk/cpu/dcache/mem_rd_data_gen.v
-../../rtl/trunk/cpu/dcache/tlb_addr_gen.v
-../../rtl/trunk/cpu/dcache/tlb.v
+../../rtl/trunk/cpu/read_operands/access2_combo_gen_netlist.v
+../../rtl/trunk/cpu/read_operands/dcache.v
+../../rtl/trunk/cpu/read_operands/dc_arbiter.v
+../../rtl/trunk/cpu/read_operands/dc_data_store.v
+../../rtl/trunk/cpu/read_operands/dc_hit_checker.v
+../../rtl/trunk/cpu/read_operands/dc_tag_store.v
+../../rtl/trunk/cpu/read_operands/dc_wr_data_gen.v
+../../rtl/trunk/cpu/read_operands/mem_rd_data_gen.v
+../../rtl/trunk/cpu/read_operands/tlb_addr_gen.v
+../../rtl/trunk/cpu/read_operands/tlb.v
 
 ../../rtl/trunk/cpu/mmu/mmu_fsm_netlist.v
 ../../rtl/trunk/cpu/mmu/mmu.v

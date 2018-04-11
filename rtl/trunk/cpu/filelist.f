@@ -90,16 +90,16 @@
 ../../trunk/cpu/execute/parity_netlist.v
 ../../trunk/cpu/execute/zero_sizes.v
 
-../../trunk/cpu/dcache/access2_combo_gen_netlist.v
-../../trunk/cpu/dcache/dcache.v
-../../trunk/cpu/dcache/dc_arbiter.v
-../../trunk/cpu/dcache/dc_data_store.v
-../../trunk/cpu/dcache/dc_hit_checker.v
-../../trunk/cpu/dcache/dc_tag_store.v
-../../trunk/cpu/dcache/dc_wr_data_gen.v
-../../trunk/cpu/dcache/mem_rd_data_gen.v
-../../trunk/cpu/dcache/tlb_addr_gen.v
-../../trunk/cpu/dcache/tlb.v
+../../trunk/cpu/read_operands/access2_combo_gen_netlist.v
+../../trunk/cpu/read_operands/dcache.v
+../../trunk/cpu/read_operands/dc_arbiter.v
+../../trunk/cpu/read_operands/dc_data_store.v
+../../trunk/cpu/read_operands/dc_hit_checker.v
+../../trunk/cpu/read_operands/dc_tag_store.v
+../../trunk/cpu/read_operands/dc_wr_data_gen.v
+../../trunk/cpu/read_operands/mem_rd_data_gen.v
+../../trunk/cpu/read_operands/tlb_addr_gen.v
+../../trunk/cpu/read_operands/tlb.v
 
 ../../trunk/cpu/mmu/mmu_fsm_netlist.v
 ../../trunk/cpu/mmu/mmu.v
@@ -109,9 +109,14 @@
 ../../trunk/cpu/intexp/intexp.v
 ../../trunk/cpu/intexp/rseq_rom.v
 
-../../trunk/cpu/writeback/writeback_loads_gen_netlist.v
 ../../trunk/cpu/writeback/wr_fifo.v
 ../../trunk/cpu/writeback/EIP_reg.v
+
+../../trunk/cpu/decode/de_dep_v_ld_logic.v
+../../trunk/cpu/addr_gen/ag_dep_v_ld_logic.v
+../../trunk/cpu/read_operands/ro_dep_v_ld_logic.v
+../../trunk/cpu/execute/ex_dep_v_ld_logic.v
+../../trunk/cpu/writeback/writeback_loads_gen.v
 
 ./cpu.v
 
