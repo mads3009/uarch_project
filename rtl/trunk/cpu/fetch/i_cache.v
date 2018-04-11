@@ -52,7 +52,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     data_store ds(
         .clk    (clk),
         .index  (index),
-        .oe     (1'b1),
+        .oe     (1'b0),
         .fill_data  (ic_fill_data),
         .wr   (not_ic_miss_ack),
         .r_data     (r_data)
@@ -61,7 +61,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     tag_store ts(
         .clk    (clk),
         .index (index),
-        .oe   (1'b1),
+        .oe   (1'b0),
         .tag (tag_in_cache),
         .tag_valid (tag_valid),
         .wr (not_ic_miss_ack),

@@ -63,7 +63,8 @@ assign v_ag_ld_flag_ZF = ld_flag_ZF && V_ag;
 
 assign br_stall = eip_change && V_ag;
 
-assign stall_ag = stall_ro || ro_dep_stall || mem_rd_busy || ro_cmps_stall;
+assign stall_ag = stall_ro || ro_dep_stall || ro_cmps_stall;
+
 assign ld_ro = !stall_ag || dc_exp;
 
 assign V_ro = V_ag & !(dep_stall);

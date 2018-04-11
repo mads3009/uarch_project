@@ -18,7 +18,9 @@ module writeback_loads_gen (
   input       ld_flag_AF,
   input       ld_flag_DF,
   input       ld_flag_CF,
+  input       eip_change,
                  
+  output      br_stall,
   output[3:0] v_wb_ld_reg1_strb,
   output[3:0] v_wb_ld_reg2_strb,
   output[3:0] v_wb_ld_reg3_strb,
@@ -33,6 +35,8 @@ module writeback_loads_gen (
   output      v_wb_ld_flag_DF,
   output      v_wb_ld_flag_CF
 );
+
+assign br_stall = eip_change & V_wb;
 
 assign v_wb_ld_reg1 = V_wb & ld_reg1 & ((~cxchg_op) || ZF_new) & ((~cond_wr_CF) || (CF_flag==CF_expected));
 assign v_wb_ld_reg2 = V_wb & ld_reg2 & ((~cxchg_op) || (~ZF_new)) & ((~cond_wr_CF) || (CF_flag==CF_expected));

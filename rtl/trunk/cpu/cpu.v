@@ -16,7 +16,7 @@ module cpu (
 
 // ********** Hardcoded entries ***********
 //TLB entries
-reg [26:0] TLB[7:0]; 
+reg [43:0] TLB[7:0]; 
 
 //Segment_limit_Regs (In their order)
 reg [19:0] ES_limit;
@@ -37,16 +37,22 @@ localparam DF=4'd10;
 localparam OF=4'd11;
 
 initial begin
-  TLB[0] = 30'h0000;
-  TLB[1] = 30'h0000;
-  TLB[2] = 30'h0000;
-  TLB[3] = 30'h0000;
-  TLB[4] = 30'h0000;
-  TLB[5] = 30'h0000;
-  TLB[6] = 30'h0000;
-  TLB[7] = 30'h0000;
+  TLB[0] = 44'h0000000000c;
+  TLB[1] = 44'h0200000002e;
+  TLB[2] = 44'h0400000005e;
+  TLB[3] = 44'h0b00000004e;
+  TLB[4] = 44'h0c00000007e;
+  TLB[5] = 44'h0a00000005e;
+  TLB[6] = 44'h00000000000;
+  TLB[7] = 44'h00000000000;
   
-  CS_limit = 20'h3ff;
+  CS_limit = 20'h04fff;
+  DS_limit = 20'h011ff;
+  SS_limit = 20'h04000;
+  ES_limit = 20'h003ff;
+  FS_limit = 20'h003ff;
+  GS_limit = 20'h007ff;
+
 end
 
 //Loads and Valids of pipeline latches
@@ -114,6 +120,8 @@ wire w_fifo_to_be_full;
 
 //Interrupts and Exceptions
 wire w_dc_exp;
+//FIXME
+assign w_dc_exp = 1'b0;
 wire w_ic_exp;
 wire w_ic_prot_exp;
 wire w_ic_page_fault;
@@ -582,7 +590,7 @@ wire [31:0] w_EIP_plus_32;
 kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
 
 //fetch_address
-mux_nbit_2x1 #32 u_fe_address_off( .a0(w_EIP_plus_32), .a1(r_EIP), .sel(w_fe_address_sel), .out(w_fe_address_off));
+mux_nbit_2x1 #32 u_fe_address_off(  .a0(r_EIP), .a1(w_EIP_plus_32), .sel(w_fe_address_sel), .out(w_fe_address_off));
 cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({r_CS,16'h0}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
 
 //Logic for fe_ren
@@ -591,7 +599,8 @@ wire [2:0] w_fe_ren_temp;
 or4$ u_fe_ren_or0 (.in0(w_ro_br_stall), .in1(w_de_br_stall), .in2(w_ag_br_stall), .in3(w_ex_br_stall), .out(w_fe_ren_temp[0])); 
 or4$ u_fe_ren_or1 (.in0(w_wb_br_stall), .in1(w_repne_stall), .in2(w_hlt_stall), .in3(w_de_iret_op), .out(w_fe_ren_temp[1])); 
 or4$ u_fe_ren_or2 (.in0(w_block_ic_ren), .in1(int), .in2(w_fe_ren_temp[0]), .in3(w_fe_ren_temp[1]), .out(w_fe_ren_temp[2])); 
-nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .out(w_fe_ren)); 
+nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(1'b0), .in2(w_dc_exp), .out(w_fe_ren)); 
+//nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .out(w_fe_ren)); 
 
 //Logic for w_V_de_next
 wire w_fe_next_state_not_10;
@@ -2127,7 +2136,9 @@ writeback_loads_gen u_writeback_loads_gen (
   .ld_flag_AF            (r_wb_ld_flag_AF),
   .ld_flag_DF            (r_wb_ld_flag_DF),
   .ld_flag_CF            (r_wb_ld_flag_CF),
+  .eip_change            (r_wb_eip_change),
 
+  .br_stall              (w_wb_br_stall),
   .v_wb_ld_reg1_strb     (w_v_wb_ld_reg1_strb),
   .v_wb_ld_reg2_strb     (w_v_wb_ld_reg2_strb),
   .v_wb_ld_reg3_strb     (w_v_wb_ld_reg3_strb),

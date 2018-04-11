@@ -35,7 +35,7 @@ initial begin
   $finish;
 end
 
-always #4 clk <= ~clk;
+always #6 clk <= ~clk;
 
 //Instantiate the system
 system u_system(
@@ -46,7 +46,8 @@ system u_system(
 initial
 begin
   $vcdplusfile("tb.vpd");
-  $vcdpluson(0, testbench); 
+  $vcdplusmemon();
+  $vcdpluson();
 end 
 
 
