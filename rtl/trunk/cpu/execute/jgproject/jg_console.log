@@ -1,0 +1,95 @@
+2018-04-09 01:46:23.377906 (11559) main____ INFO    ----------------------------------------
+2018-04-09 01:46:23.378327 (11559) main____ INFO    JasperGold version info
+2018-04-09 01:46:23.378347 (11559) main____ INFO      tool      : JasperGold 2015.09
+2018-04-09 01:46:23.378363 (11559) main____ INFO      version   : 2015.09 FCS 64 bits
+2018-04-09 01:46:23.378373 (11559) main____ INFO      build date: 2015.09.29 22:07:28 PDT
+2018-04-09 01:46:23.378381 (11559) main____ INFO    ----------------------------------------
+2018-04-09 01:46:23.378388 (11559) main____ INFO    Runtime info:
+2018-04-09 01:46:23.378397 (11559) main____ INFO      platform  : Linux 2.6.32-696.18.7.el6.x86_64 x86_64
+2018-04-09 01:46:23.378408 (11559) main____ INFO      hostname  : luigi
+2018-04-09 01:46:23.378417 (11559) main____ INFO      pid       : 11559
+2018-04-09 01:46:23.378425 (11559) main____ INFO      arguments : '-style' 'windows'
+2018-04-09 01:46:23.378432 (11559) main____ INFO    ----------------------------------------
+2018-04-09 01:46:23.380675 (11559) lic__man INFO    Claim 'main' for <ui>.
+2018-04-09 01:46:23.385401 (11559) lic_core INFO    (1) checking out 'jasper_interactive' ...
+2018-04-09 01:46:23.399406 (11559) lic_core INFO    ... (1) checkout succeeded
+2018-04-09 01:46:23.399508 (11559) lic__man INFO    Claim 'fpv' for <ui>.
+2018-04-09 01:46:23.399544 (11559) lic_core INFO    (2) checking out 'jasper_fpv' ...
+2018-04-09 01:46:23.412189 (11559) lic_core INFO    ... (2) checkout succeeded
+2018-04-09 01:46:23.930426 (11559) lic__man INFO    Claim 'fpv' for <ui>.
+2018-04-09 01:46:24.040515 (11559) lic__man INFO    Unclaim 'fpv' for <ui>.
+2018-04-09 01:46:24.040643 (11559) lic__man INFO    Claim 'fpv' for <ui>.
+2018-04-09 01:46:24.052180 (11559) session_ INFO    Starting analysis session with session id 'session_0' ...
+2018-04-09 01:46:24.056035 (11559) session_ INFO    Analysis session with session id 'session_0' started (pid: 13014)
+2018-04-09 01:46:27.712801 (11559) session_ INFO    Analysis session 'session_0' connected to the console (host: 146.6.221.76:39444)
+2018-04-09 01:46:35.704865 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 01:46:37.407862 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 01:46:39.139023 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-0'.
+2018-04-09 01:46:52.688672 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-1'.
+2018-04-09 01:57:21.547537 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 01:57:23.614045 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 01:57:25.799541 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-2'.
+2018-04-09 01:59:42.941828 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-3'.
+2018-04-09 02:11:43.720621 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:11:45.799607 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:11:48.012817 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-4'.
+2018-04-09 02:11:58.622399 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-5'.
+2018-04-09 02:33:32.647902 (11559) lic__man INFO    Entering idle state.
+2018-04-09 02:38:36.872340 (11559) lic__man INFO    Leaving idle state.
+2018-04-09 02:38:43.175178 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:38:45.346101 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:38:47.799184 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-6'.
+2018-04-09 02:38:58.947978 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-7'.
+2018-04-09 02:42:15.488374 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:42:17.605754 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:42:19.855430 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-8'.
+2018-04-09 02:42:35.147513 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-9'.
+2018-04-09 02:46:04.944618 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:46:07.137738 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:46:09.458448 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-10'.
+2018-04-09 02:46:19.498574 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-11'.
+2018-04-09 02:49:11.961943 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:49:13.890502 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:49:17.045187 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-12'.
+2018-04-09 02:49:24.979653 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-13'.
+2018-04-09 02:52:49.068321 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:52:51.406626 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:52:53.748624 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-14'.
+2018-04-09 02:53:04.102275 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-15'.
+2018-04-09 02:54:10.123481 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:54:12.316165 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:54:14.714072 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-16'.
+2018-04-09 02:54:26.226747 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-17'.
+2018-04-09 02:58:03.910944 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 02:58:06.128334 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 02:58:09.018595 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-18'.
+2018-04-09 02:58:23.088651 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-19'.
+2018-04-09 03:08:37.647443 (11559) lic__man INFO    Entering idle state.
+2018-04-09 03:15:31.917392 (11559) lic__man INFO    Leaving idle state.
+2018-04-09 03:16:54.793967 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 03:16:57.032482 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 03:17:00.071304 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-20'.
+2018-04-09 03:17:27.329289 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-21'.
+2018-04-09 03:36:28.177357 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 03:36:30.280189 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 03:36:33.243967 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-22'.
+2018-04-09 03:44:44.934169 (11559) lic__man INFO    Entering idle state.
+2018-04-09 15:03:25.233524 (11559) lic__man INFO    Leaving idle state.
+2018-04-09 15:11:30.562677 (11559) lic__man INFO    Entering idle state.
+2018-04-09 17:16:48.830095 (11559) lic__man INFO    Leaving idle state.
+2018-04-09 17:22:39.447786 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 17:22:40.632737 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 17:22:41.428579 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-23'.
+2018-04-09 17:22:59.129064 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-24'.
+2018-04-09 17:24:30.271302 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 17:24:31.347646 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 17:24:32.089908 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-25'.
+2018-04-09 17:24:42.955094 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-26'.
+2018-04-09 17:26:37.674812 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 17:26:38.726358 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 17:26:39.481975 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-27'.
+2018-04-09 17:27:28.029839 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-28'.
+2018-04-09 17:32:14.807110 (11559) lic__man INFO    Unclaim everything for 'session_0*'.
+2018-04-09 17:32:15.859129 (11559) lic__man INFO    Claim 'fpv' for 'session_0'.
+2018-04-09 17:32:16.868893 (11559) lic__man INFO    Unclaim everything for 'session_0/prove-29'.
+2018-04-09 17:44:09.433552 (11559) lic__man INFO    Entering idle state.

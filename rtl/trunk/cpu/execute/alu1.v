@@ -1,5 +1,7 @@
 module alu1 (sr1, sr2, mem_out, mem_out_latched, eax, alu1_op, alu1_op_size, mem_rd_size, 
-             CF_in, AF_in, DF_in, alu_res1, alu1_flags, df_val_ex, df_val, ISR, cmps_flags);
+             CF_in, AF_in, DF_in, alu_res1, alu1_flags, df_val_ex, df_val, ISR, cmps_flags,
+             ld_flag_CF_in, ld_flag_PF_in, ld_flag_AF_in, ld_flag_ZF_in, ld_flag_SF_in, ld_flag_OF_in,
+             ld_flag_CF, ld_flag_PF, ld_flag_AF, ld_flag_ZF, ld_flag_SF, ld_flag_OF );
 input [31:0]  sr1; 
 input [31:0]  sr2; 
 input [31:0]  mem_out; 
@@ -13,10 +15,24 @@ input         AF_in;
 input         DF_in;
 input         df_val;
 input         ISR;
+input         ld_flag_CF_in;
+input         ld_flag_PF_in;
+input         ld_flag_AF_in;
+input         ld_flag_ZF_in;
+input         ld_flag_SF_in;
+input         ld_flag_OF_in;
+
 output [31:0] alu_res1; 
 output [5:0]  alu1_flags;
 output [5:0]  cmps_flags;
 output        df_val_ex;
+output        ld_flag_CF;
+output        ld_flag_PF;
+output        ld_flag_AF;
+output        ld_flag_ZF;
+output        ld_flag_SF;
+output        ld_flag_OF;
+
 
 localparam CF = 3'd0;
 localparam PF = 3'd1;
@@ -25,6 +41,7 @@ localparam ZF = 3'd3;
 localparam SF = 3'd4;
 localparam OF = 3'd5;
 
+wire [5:0]  ld_flags_in;
 wire [31:0] w_or_res;
 wire [31:0] w_and_res;
 wire [31:0] w_sal_res;
@@ -37,6 +54,7 @@ wire [5:0] w_and_flags;
 wire [5:0] w_sal_flags;
 wire [5:0] w_sar_flags;
 
+assign ld_flags_in = {ld_flag_OF_in, ld_flag_SF_in, ld_flag_ZF_in, ld_flag_AF_in, ld_flag_PF_in, ld_flag_CF_in};
 //OR
 or32 u_or(.in0(sr1), .in1(sr2), .out(w_or_res)); 
 or_flags u_or_flgs(.in(w_or_res), .alu1_op_size(alu1_op_size), .flags(w_or_flags)); 
@@ -184,6 +202,16 @@ cond_sum32_c u_cmps_op( .A(mem_out_latched), .B(mem_out_bar), .CIN(1'd1), .S(w_c
 add_flags u_cmps_flags(.A(mem_out_latched), .B(mem_out_bar), .s(w_cmps_res), .c32(c32_cmps), .c16(c16_cmps), .c8(c8_cmps), .c4(c4_cmps), 
                       .flags(cmps_flags), .alu1_op_size(mem_rd_size));
 
+//ld_override mux
+wire [5:0] ld_flags_out;
+ld_override u_ld_over (.ld_override(ld_override), .ld_flags_in(ld_flags_in), .alu1_op(alu1_op), .ld_flags_out(ld_flags_out));
+
+assign ld_flag_CF = ld_flags_out[CF];
+assign ld_flag_PF = ld_flags_out[PF];
+assign ld_flag_AF = ld_flags_out[AF];
+assign ld_flag_ZF = ld_flags_out[ZF];
+assign ld_flag_SF = ld_flags_out[SF];
+assign ld_flag_OF = ld_flags_out[OF];
 
 endmodule
 
