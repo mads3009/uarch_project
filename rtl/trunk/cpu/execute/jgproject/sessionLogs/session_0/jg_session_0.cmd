@@ -79,3 +79,4 @@ include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/e
 include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
 visualize -new_window; visualize -min_length 5 -window {}; visualize -violation -property <embedded>::alu3_top.u_alu3_props.assert_alu_res3_chk -bg
 include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
