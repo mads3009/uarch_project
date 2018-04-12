@@ -120,8 +120,6 @@ wire w_fifo_to_be_full;
 
 //Interrupts and Exceptions
 wire w_dc_exp;
-//FIXME
-assign w_dc_exp = 1'b0;
 wire w_ic_exp;
 wire w_ic_prot_exp;
 wire w_ic_page_fault;
@@ -526,6 +524,7 @@ wire [31:0] w_de_EIP_next;
 
 wire w_hlt_or_repne;
 wire w_not_stall_fe;
+wire w_repne_and_int;
 
 //EIP register
 wire [31:0] r_EIP;
@@ -599,8 +598,7 @@ wire [2:0] w_fe_ren_temp;
 or4$ u_fe_ren_or0 (.in0(w_ro_br_stall), .in1(w_de_br_stall), .in2(w_ag_br_stall), .in3(w_ex_br_stall), .out(w_fe_ren_temp[0])); 
 or4$ u_fe_ren_or1 (.in0(w_wb_br_stall), .in1(w_repne_stall), .in2(w_hlt_stall), .in3(w_de_iret_op), .out(w_fe_ren_temp[1])); 
 or4$ u_fe_ren_or2 (.in0(w_block_ic_ren), .in1(int), .in2(w_fe_ren_temp[0]), .in3(w_fe_ren_temp[1]), .out(w_fe_ren_temp[2])); 
-nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(1'b0), .in2(w_dc_exp), .out(w_fe_ren)); 
-//nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .out(w_fe_ren)); 
+nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .out(w_fe_ren)); 
 
 //Logic for w_V_de_next
 wire w_fe_next_state_not_10;
@@ -610,9 +608,10 @@ nor2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state
 and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
 
 //Logic for ld_de;
+and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_repne_stall), .in1(int));
 or2$ u_hlt_or_repne (.out(w_hlt_or_repne), .in0(w_hlt_stall), .in1(w_repne_stall));
-nor2$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de));
-or2$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp));
+nor3$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de), .in2(w_de_dep_stall));
+or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(w_repne_and_int));
 
 //Fetch FSM
 fetch_fsm u_fe_fsm (
@@ -1766,6 +1765,29 @@ mmu u_mmu(
   .m_data_i(m_data_i)
   );
 
+wire w_v_ro_mem_read;
+wire w_v_ro_ld_mem;
+
+and2$ u_w_v_ro_mem_read ( .out(w_v_ro_mem_read), .in0(r_V_ro), .in1(r_ro_mem_read));
+and2$ u_w_v_ro_ld_mem ( .out(w_v_ro_ld_mem),   .in0(r_V_ro), .in1(r_ro_ld_mem));
+
+dc_exp_checker u_dc_exp_checker(
+  .v_ro_mem_read       (w_v_ro_mem_read),
+  .v_ro_ld_mem         (w_v_ro_ld_mem),
+  .isr                 (r_ro_ISR),
+  .mem_wr_addr         (w_ro_mem_wr_addr),
+  .seg_wr_limit        ({12'h0,w_ro_seg_wr_limit}),
+  .wr_addr_offset      (w_ro_wr_addr_offset),
+  .mem_rd_addr         (w_ro_mem_rd_addr),
+  .seg_rd_limit        ({12'h0,w_ro_seg_rd_limit}),
+  .rd_addr_offset      (w_ro_rd_addr_offset),
+  .dc_rd_exp           (w_dc_rd_exp),
+  .dc_wr_exp           (/*Unused*/),
+  .dc_exp              (w_dc_exp),
+  .dc_prot_exp         (w_dc_prot_exp),
+  .dc_page_fault       (w_dc_page_fault)
+);
+
 //RO dependency logic
 ro_dep_v_ld_logic u_ro_dep_v_ld_logic(
   .V_ro               (r_V_ro),
@@ -2106,15 +2128,16 @@ mux_nbit_4x1 #64 u_w_wb_mem_wr_data (.a0({32'h0,r_wb_alu_res1}), .a1({32'h0,r_wb
 wire [5:0] w_wb_flags6;
 mux_nbit_2x1 #6 u_w_wb_flags6 (.a0(r_wb_alu1_flags), .a1(r_wb_cmps_flags), .sel(r_wb_cmps_op), .out(w_wb_flags6));
 
-//Can others be X? FIXME
 register #1 u_r_CF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[0]), .data_o(r_EFLAGS[CF]), .ld(r_wb_ld_flag_CF));
 register #1 u_r_PF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[1]), .data_o(r_EFLAGS[PF]), .ld(r_wb_ld_flag_PF));
 register #1 u_r_AF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[2]), .data_o(r_EFLAGS[AF]), .ld(r_wb_ld_flag_AF));
 register #1 u_r_ZF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[3]), .data_o(r_EFLAGS[ZF]), .ld(r_wb_ld_flag_ZF));
 register #1 u_r_SF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[4]), .data_o(r_EFLAGS[SF]), .ld(r_wb_ld_flag_SF));
 register #1 u_r_0F (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[5]), .data_o(r_EFLAGS[OF]), .ld(r_wb_ld_flag_OF));
-                                                                                                                             
 register #1 u_r_DF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(r_wb_df_val_ex), .data_o(r_EFLAGS[DF]), .ld(r_wb_ld_flag_DF));
+
+register #5 u_r_flag13589 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(5'b0), .data_o({r_EFLAGS[9],r_EFLAGS[8],r_EFLAGS[5],r_EFLAGS[3],r_EFLAGS[1]}), .ld(1'b0));
+register #20 u_r_flag_others (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(20'h0), .data_o(r_EFLAGS[31:12]), .ld(1'b0));
 
 writeback_loads_gen u_writeback_loads_gen (
   .V_wb                  (r_V_wb),
