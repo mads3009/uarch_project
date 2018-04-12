@@ -208,3 +208,6 @@
 2018-04-11 12:42:28.695278 (11559) lic__man INFO    Unclaim everything for 'session_1*'.
 2018-04-11 12:42:29.710643 (11559) lic__man INFO    Claim 'fpv' for 'session_1'.
 2018-04-11 12:42:30.735055 (11559) lic__man INFO    Unclaim everything for 'session_1/prove-22'.
+2018-04-11 12:50:30.735049 (11559) lic__man INFO    Entering idle state.
+2018-04-11 20:09:20.221044 (11559) lic__man INFO    Leaving idle state.
+2018-04-11 20:17:20.224114 (11559) lic__man INFO    Entering idle state.

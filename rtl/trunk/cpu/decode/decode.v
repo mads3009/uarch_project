@@ -596,7 +596,7 @@ rom64b32w$ rom1(.A(w_opcode[4:0]), .OE(w_oprom_oe[i]), .DOUT(w_oprom_out_1[63:0]
   end
 endgenerate
 
-assign w_oprom_out = {w_oprom_out_0,w_oprom_out_1};
+assign w_oprom_out = {w_oprom_out_1,w_oprom_out_0};
 
 //Acessing Sub oprom
 wire [63:0] w_subrom_out_0;
