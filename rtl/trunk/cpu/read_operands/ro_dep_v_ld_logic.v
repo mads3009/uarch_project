@@ -69,7 +69,7 @@ assign stall_ro = ex_dep_stall || wb_mem_stall;
 
 assign ld_ex = !(stall_ro);
 
-assign V_ex = V_ro && !(dep_stall || cmps_stall || mem_rd_busy);
+assign V_ex = V_ro && !(dep_stall || cmps_stall || mem_rd_busy || dc_exp);
 
 assign dep_stall = (( in3_needed&&(((in3 == ex_dreg1) && v_ex_ld_reg1) ||
                                       ((in3 == ex_dreg2) && v_ex_ld_reg2) ||

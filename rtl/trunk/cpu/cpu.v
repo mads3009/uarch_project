@@ -16,7 +16,7 @@ module cpu (
 
 // ********** Hardcoded entries ***********
 //TLB entries
-reg [26:0] TLB[7:0]; 
+reg [43:0] TLB[7:0]; 
 
 //Segment_limit_Regs (In their order)
 reg [19:0] ES_limit;
@@ -37,16 +37,22 @@ localparam DF=4'd10;
 localparam OF=4'd11;
 
 initial begin
-  TLB[0] = 30'h0000;
-  TLB[1] = 30'h0000;
-  TLB[2] = 30'h0000;
-  TLB[3] = 30'h0000;
-  TLB[4] = 30'h0000;
-  TLB[5] = 30'h0000;
-  TLB[6] = 30'h0000;
-  TLB[7] = 30'h0000;
+  TLB[0] = 44'h0000000000c;
+  TLB[1] = 44'h0200000002e;
+  TLB[2] = 44'h0400000005e;
+  TLB[3] = 44'h0b00000004e;
+  TLB[4] = 44'h0c00000007e;
+  TLB[5] = 44'h0a00000005e;
+  TLB[6] = 44'h00000000000;
+  TLB[7] = 44'h00000000000;
   
-  CS_limit = 20'h3ff;
+  CS_limit = 20'h04fff;
+  DS_limit = 20'h011ff;
+  SS_limit = 20'h04000;
+  ES_limit = 20'h003ff;
+  FS_limit = 20'h003ff;
+  GS_limit = 20'h007ff;
+
 end
 
 //Loads and Valids of pipeline latches
@@ -518,6 +524,7 @@ wire [31:0] w_de_EIP_next;
 
 wire w_hlt_or_repne;
 wire w_not_stall_fe;
+wire w_repne_and_int;
 
 //EIP register
 wire [31:0] r_EIP;
@@ -582,7 +589,7 @@ wire [31:0] w_EIP_plus_32;
 kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
 
 //fetch_address
-mux_nbit_2x1 #32 u_fe_address_off( .a0(w_EIP_plus_32), .a1(r_EIP), .sel(w_fe_address_sel), .out(w_fe_address_off));
+mux_nbit_2x1 #32 u_fe_address_off(  .a0(r_EIP), .a1(w_EIP_plus_32), .sel(w_fe_address_sel), .out(w_fe_address_off));
 cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({r_CS,16'h0}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
 
 //Logic for fe_ren
@@ -601,9 +608,10 @@ nor2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state
 and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
 
 //Logic for ld_de;
+and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_repne_stall), .in1(int));
 or2$ u_hlt_or_repne (.out(w_hlt_or_repne), .in0(w_hlt_stall), .in1(w_repne_stall));
-nor2$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de));
-or2$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp));
+nor3$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de), .in2(w_de_dep_stall));
+or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(w_repne_and_int));
 
 //Fetch FSM
 fetch_fsm u_fe_fsm (
@@ -1757,6 +1765,29 @@ mmu u_mmu(
   .m_data_i(m_data_i)
   );
 
+wire w_v_ro_mem_read;
+wire w_v_ro_ld_mem;
+
+and2$ u_w_v_ro_mem_read ( .out(w_v_ro_mem_read), .in0(r_V_ro), .in1(r_ro_mem_read));
+and2$ u_w_v_ro_ld_mem ( .out(w_v_ro_ld_mem),   .in0(r_V_ro), .in1(r_ro_ld_mem));
+
+dc_exp_checker u_dc_exp_checker(
+  .v_ro_mem_read       (w_v_ro_mem_read),
+  .v_ro_ld_mem         (w_v_ro_ld_mem),
+  .isr                 (r_ro_ISR),
+  .mem_wr_addr         (w_ro_mem_wr_addr),
+  .seg_wr_limit        ({12'h0,w_ro_seg_wr_limit}),
+  .wr_addr_offset      (w_ro_wr_addr_offset),
+  .mem_rd_addr         (w_ro_mem_rd_addr),
+  .seg_rd_limit        ({12'h0,w_ro_seg_rd_limit}),
+  .rd_addr_offset      (w_ro_rd_addr_offset),
+  .dc_rd_exp           (w_dc_rd_exp),
+  .dc_wr_exp           (/*Unused*/),
+  .dc_exp              (w_dc_exp),
+  .dc_prot_exp         (w_dc_prot_exp),
+  .dc_page_fault       (w_dc_page_fault)
+);
+
 //RO dependency logic
 ro_dep_v_ld_logic u_ro_dep_v_ld_logic(
   .V_ro               (r_V_ro),
@@ -2097,15 +2128,16 @@ mux_nbit_4x1 #64 u_w_wb_mem_wr_data (.a0({32'h0,r_wb_alu_res1}), .a1({32'h0,r_wb
 wire [5:0] w_wb_flags6;
 mux_nbit_2x1 #6 u_w_wb_flags6 (.a0(r_wb_alu1_flags), .a1(r_wb_cmps_flags), .sel(r_wb_cmps_op), .out(w_wb_flags6));
 
-//Can others be X? FIXME
 register #1 u_r_CF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[0]), .data_o(r_EFLAGS[CF]), .ld(r_wb_ld_flag_CF));
 register #1 u_r_PF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[1]), .data_o(r_EFLAGS[PF]), .ld(r_wb_ld_flag_PF));
 register #1 u_r_AF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[2]), .data_o(r_EFLAGS[AF]), .ld(r_wb_ld_flag_AF));
 register #1 u_r_ZF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[3]), .data_o(r_EFLAGS[ZF]), .ld(r_wb_ld_flag_ZF));
 register #1 u_r_SF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[4]), .data_o(r_EFLAGS[SF]), .ld(r_wb_ld_flag_SF));
 register #1 u_r_0F (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[5]), .data_o(r_EFLAGS[OF]), .ld(r_wb_ld_flag_OF));
-                                                                                                                             
 register #1 u_r_DF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(r_wb_df_val_ex), .data_o(r_EFLAGS[DF]), .ld(r_wb_ld_flag_DF));
+
+register #5 u_r_flag13589 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(5'b0), .data_o({r_EFLAGS[9],r_EFLAGS[8],r_EFLAGS[5],r_EFLAGS[3],r_EFLAGS[1]}), .ld(1'b0));
+register #20 u_r_flag_others (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(20'h0), .data_o(r_EFLAGS[31:12]), .ld(1'b0));
 
 writeback_loads_gen u_writeback_loads_gen (
   .V_wb                  (r_V_wb),
@@ -2127,7 +2159,9 @@ writeback_loads_gen u_writeback_loads_gen (
   .ld_flag_AF            (r_wb_ld_flag_AF),
   .ld_flag_DF            (r_wb_ld_flag_DF),
   .ld_flag_CF            (r_wb_ld_flag_CF),
+  .eip_change            (r_wb_eip_change),
 
+  .br_stall              (w_wb_br_stall),
   .v_wb_ld_reg1_strb     (w_v_wb_ld_reg1_strb),
   .v_wb_ld_reg2_strb     (w_v_wb_ld_reg2_strb),
   .v_wb_ld_reg3_strb     (w_v_wb_ld_reg3_strb),

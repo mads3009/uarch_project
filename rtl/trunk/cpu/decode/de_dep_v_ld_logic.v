@@ -93,6 +93,6 @@ assign dep_stall = (((v_ag_ld_reg1) && (ag_dreg1== 1'b1)) ||
                    ((v_wb_ld_reg2) && (wb_dreg2== 1'b1)) ||
                    ((v_wb_ld_reg3) && (wb_dreg3== 1'b1)) ||
                    ((v_ag_ld_flag_ZF || v_ro_ld_flag_ZF || v_ex_ld_flag_ZF 
-                          || v_wb_ld_flag_ZF) && r_repne_flag)) && V_de;
+                          || v_wb_ld_flag_ZF) && r_repne_flag)) && V_de && repne;
 
 endmodule

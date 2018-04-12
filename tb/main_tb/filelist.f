@@ -57,6 +57,8 @@
 ../../rtl/reuse/sub_designs/eq_checker6_netlist.v
 ../../rtl/reuse/sub_designs/eq_checker8_netlist.v
 ../../rtl/reuse/sub_designs/eq_checker.v
+../../rtl/reuse/sub_designs/greater_than4_netlist.v
+../../rtl/reuse/sub_designs/greater_than32_netlist.v
 
 ../../rtl/trunk/dma/dma_master_controller_fsm_netlist.v  
 ../../rtl/trunk/dma/dma_master_controller.v
@@ -115,6 +117,7 @@
 ../../rtl/trunk/cpu/read_operands/mem_rd_data_gen.v
 ../../rtl/trunk/cpu/read_operands/tlb_addr_gen.v
 ../../rtl/trunk/cpu/read_operands/tlb.v
+../../rtl/trunk/cpu/read_operands/dc_exp_checker.v
 
 ../../rtl/trunk/cpu/mmu/mmu_fsm_netlist.v
 ../../rtl/trunk/cpu/mmu/mmu.v
