@@ -19,7 +19,7 @@ end
 end
 endgenerate
 
-assign ic_prot_exp = f_ren && ({f_address[31:5],5'b0} > CS_limit);
+assign ic_prot_exp = f_ren && ({f_address[31:5],5'b11111} > CS_limit);
 assign ic_page_fault = f_ren && (~(|(f_TLB_hits)));
 
 always @(*) begin

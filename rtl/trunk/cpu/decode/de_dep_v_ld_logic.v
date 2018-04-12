@@ -80,18 +80,18 @@ assign w_repne_stop = (repne & !(|ECX) & !r_repne_flag) ||
                       (r_repne_flag & (!(|ECX) || ZF));
 
 //DEP STALL
-assign dep_stall = (((v_ag_ld_reg1) && (ag_dreg1== 1'b1)) ||
-                   ((v_ag_ld_reg2) && (ag_dreg2== 1'b1)) ||
-                   ((v_ag_ld_reg3) && (ag_dreg3== 1'b1)) ||
-                   ((v_ro_ld_reg1) && (ro_dreg1== 1'b1)) ||
-                   ((v_ro_ld_reg2) && (ro_dreg2== 1'b1)) ||
-                   ((v_ro_ld_reg3) && (ro_dreg3== 1'b1)) ||
-                   ((v_ex_ld_reg1) && (ex_dreg1== 1'b1)) ||
-                   ((v_ex_ld_reg2) && (ex_dreg2== 1'b1)) ||
-                   ((v_ex_ld_reg3) && (ex_dreg3== 1'b1)) ||
-                   ((v_wb_ld_reg1) && (wb_dreg1== 1'b1)) ||
-                   ((v_wb_ld_reg2) && (wb_dreg2== 1'b1)) ||
-                   ((v_wb_ld_reg3) && (wb_dreg3== 1'b1)) ||
+assign dep_stall = (((v_ag_ld_reg1) && (ag_dreg1== 3'd1)) ||
+                   ((v_ag_ld_reg2) && (ag_dreg2== 3'd1)) ||
+                   ((v_ag_ld_reg3) && (ag_dreg3== 3'd1)) ||
+                   ((v_ro_ld_reg1) && (ro_dreg1== 3'd1)) ||
+                   ((v_ro_ld_reg2) && (ro_dreg2== 3'd1)) ||
+                   ((v_ro_ld_reg3) && (ro_dreg3== 3'd1)) ||
+                   ((v_ex_ld_reg1) && (ex_dreg1== 3'd1)) ||
+                   ((v_ex_ld_reg2) && (ex_dreg2== 3'd1)) ||
+                   ((v_ex_ld_reg3) && (ex_dreg3== 3'd1)) ||
+                   ((v_wb_ld_reg1) && (wb_dreg1== 3'd1)) ||
+                   ((v_wb_ld_reg2) && (wb_dreg2== 3'd1)) ||
+                   ((v_wb_ld_reg3) && (wb_dreg3== 3'd1)) ||
                    ((v_ag_ld_flag_ZF || v_ro_ld_flag_ZF || v_ex_ld_flag_ZF 
                           || v_wb_ld_flag_ZF) && r_repne_flag)) && V_de && repne;
 
