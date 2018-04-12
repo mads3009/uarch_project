@@ -199,7 +199,8 @@ tlb_addr_gen u_tlb_addr_gen_wr(
   .tlb_pn5(w_tlb_pn5),
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
-  .tlb_addr(w_tlb_addr1)
+  .tlb_addr(w_tlb_addr1),
+  .tlb_addr_valid(/*Unused*/)
   );
 
 tlb_addr_gen u_tlb_addr_gen_rd(
@@ -212,7 +213,8 @@ tlb_addr_gen u_tlb_addr_gen_rd(
   .tlb_pn5(w_tlb_pn5),
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
-  .tlb_addr(w_tlb_addr2)
+  .tlb_addr(w_tlb_addr2),
+  .tlb_addr_valid(/*Unused*/)
   );
 
 tlb_addr_gen u_tlb_addr_gen_rw(
@@ -225,7 +227,8 @@ tlb_addr_gen u_tlb_addr_gen_rw(
   .tlb_pn5(w_tlb_pn5),
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
-  .tlb_addr(w_tlb_addr3)
+  .tlb_addr(w_tlb_addr3),
+  .tlb_addr_valid(/*Unused*/)
   );
 
 

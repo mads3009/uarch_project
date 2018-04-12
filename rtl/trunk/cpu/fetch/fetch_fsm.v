@@ -7,8 +7,8 @@ module fetch_fsm(
   input     r_V_de,
   input     int,
   input     ic_exp,
-  input     dc_exp;
-  input     de_br_stall;
+  input     dc_exp,
+  input     de_br_stall,
   output reg [1:0] f_ld_buf,
   output reg [1:0] f_curr_st,
   output reg [1:0] f_next_st,

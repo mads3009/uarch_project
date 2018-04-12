@@ -38,8 +38,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     wire [5:0] tag_in_cache;
     wire tag_match, tag_valid;
     
-    //FIXME - Change to structural 
-    eq_checker #6 check_tag (.in1(tag_in_cache), .in2(phy_tag), .eq_out(tag_match));
+    eq_checker6 check_tag (.in1(tag_in_cache), .in2(phy_tag), .eq_out(tag_match));
 
     and2$ u_hit(.out(hit), .in0(tag_match), .in1(tag_valid));
     inv1$ u_not_hit (.in(hit), .out(not_hit)); 
@@ -54,7 +53,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
         .index  (index),
         .oe     (1'b0),
         .fill_data  (ic_fill_data),
-        .wr   (not_ic_miss_ack),
+        .ic_miss_ack_bar (not_ic_miss_ack),
         .r_data     (r_data)
     );
 
@@ -64,7 +63,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
         .oe   (1'b0),
         .tag (tag_in_cache),
         .tag_valid (tag_valid),
-        .wr (not_ic_miss_ack),
+        .ic_miss_ack_bar (not_ic_miss_ack),
         .wr_tag(phy_tag)
     );
 
@@ -76,14 +75,12 @@ module tag_store(
     input [3:0] index,
     input       oe,
     input [5:0] wr_tag,
-    input       wr,
+    input       ic_miss_ack_bar,
     output [5:0] tag,
     output       tag_valid
     );
 
     wire wr_neg_cycle;
-    and2$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(wr));
-
     wire wr_upper, wr_lower;
     wire   [5:0] tag_upper;
     wire   [5:0] tag_lower;
@@ -94,14 +91,24 @@ module tag_store(
     
     wire index3; 
     wire not_index3;
+
+    buffer$ u_buffer_1(.out(w_clk_001), .in(clk));
+    buffer$ u_buffer_2(.out(w_clk_002), .in(w_clk_001));
+    buffer$ u_buffer_3(.out(w_clk_003), .in(w_clk_002));
+    buffer$ u_buffer_4(.out(w_clk_004), .in(w_clk_003));
+    buffer$ u_buffer_5(.out(w_clk_005), .in(w_clk_004));
+    buffer$ u_buffer_6(.out(w_clk_del), .in(w_clk_005));
+
+    nor3$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(ic_miss_ack_bar), .in2(w_clk_del));
+
     assign index3 = index[3];
     inv1$ u_indexlower (.in(index3), .out(not_index3));
 
     or2$ u_wr_upper (.in0(wr_neg_cycle), .in1(not_index3), .out(wr_upper));
     or2$ u_wr_lower (.in0(wr_neg_cycle), .in1(index3), .out(wr_lower));
     
-    ram8b8w$ ts_lower (.A(index[2:0]), .DIN({2'b0,wr_tag}), .OE(oe), .WR(wr_lower), .DOUT({blah[0],valid_lower,tag_lower}));
-    ram8b8w$ ts_upper (.A(index[2:0]), .DIN({2'b0,wr_tag}), .OE(oe), .WR(wr_upper), .DOUT({blah[1],valid_upper,tag_upper}));
+    ram8b8w$ ts_lower (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(wr_lower), .DOUT({blah[0],valid_lower,tag_lower}));
+    ram8b8w$ ts_upper (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(wr_upper), .DOUT({blah[1],valid_upper,tag_upper}));
     
     //FIXME : fanout 6;
     mux_nbit_2x1 #6 u_tag (.a0(tag_lower), .a1(tag_upper), .sel(index[3]), .out(tag));
@@ -137,19 +144,27 @@ module data_store(
     input   [3:0]   index,
     input           oe,
     input   [255:0] fill_data,
-    input           wr,
+    input           ic_miss_ack_bar,
     output  [255:0] r_data
     );
     
     wire wr_neg_cycle;
-    or2$ u_wr_neg_cycle (.out(wr_neg_cycle), .in0(clk), .in1(wr));
-
     wire wr_upper, wr_lower;
     wire   [255:0] dout_upper;
     wire   [255:0] dout_lower;
-   
     wire index3; 
     wire not_index3;
+
+    buffer$ u_buffer_1(.out(w_clk_001), .in(clk));
+    buffer$ u_buffer_2(.out(w_clk_002), .in(w_clk_001));
+    buffer$ u_buffer_3(.out(w_clk_003), .in(w_clk_002));
+    buffer$ u_buffer_4(.out(w_clk_004), .in(w_clk_003));
+    buffer$ u_buffer_5(.out(w_clk_005), .in(w_clk_004));
+    buffer$ u_buffer_6(.out(w_clk_del), .in(w_clk_005));
+
+    nor3$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(ic_miss_ack_bar), .in2(w_clk_del));
+
+
     assign index3 = index[3];
     inv1$ u_indexlower (.in(index3), .out(not_index3));
 

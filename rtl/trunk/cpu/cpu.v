@@ -651,7 +651,7 @@ i_cache u_i_cache (
   .ren          (w_fe_ren),
   .index        (w_fe_address_off[8:5]),
   .tag_14_12    (w_fe_PFN),
-  .tag_11_9     (w_fe_address[11:9]),
+  .tag_11_9     (w_fe_address_off[11:9]),
   .ic_fill_data (w_ic_data_fill),
   .ic_miss_ack  (w_ic_miss_ack),
   .ic_exp       (w_ic_exp),

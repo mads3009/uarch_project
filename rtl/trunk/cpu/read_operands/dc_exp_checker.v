@@ -80,7 +80,7 @@ tlb_addr_gen u_tlb_addr_gen_rd(
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
   .tlb_addr(w_tlb_addr1),
-  .tld_addr_valid(w_tld_addr_valid1)
+  .tlb_addr_valid(w_tlb_addr_valid1)
   );
 
 tlb_addr_gen u_tlb_addr_gen_wr(
@@ -94,7 +94,7 @@ tlb_addr_gen u_tlb_addr_gen_wr(
   .tlb_pn6(w_tlb_pn6),
   .tlb_pn7(w_tlb_pn7),
   .tlb_addr(w_tlb_addr2),
-  .tld_addr_valid(w_tld_addr_valid2)
+  .tlb_addr_valid(w_tlb_addr_valid2)
   );
 
 inv1$ u_inv1_1(.in(v_ro_mem_read), .out(w_v_ro_mem_read_bar));
@@ -102,8 +102,8 @@ inv1$ u_inv1_2(.in(v_ro_ld_mem), .out(w_v_ro_ld_mem_bar));
 inv1$ u_inv1_3(.in(isr), .out(w_isr_bar));
 
 
-nand3$ u_nand3_1(.in0(w_tlb_valid1), .in1(w_tlb_pr1), .in2(w_tld_addr_valid1), .out(w_tlb_rd_hit_bar));
-nand3$ u_nand3_2(.in0(w_tlb_valid2), .in1(w_tlb_pr2), .in2(w_tld_addr_valid2), .out(w_tlb_wr_hit_bar));
+nand3$ u_nand3_1(.in0(w_tlb_valid1), .in1(w_tlb_pr1), .in2(w_tlb_addr_valid1), .out(w_tlb_rd_hit_bar));
+nand3$ u_nand3_2(.in0(w_tlb_valid2), .in1(w_tlb_pr2), .in2(w_tlb_addr_valid2), .out(w_tlb_wr_hit_bar));
 inv1$ u_inv1_4(.in(w_tlb_rw2), .out(w_tlb_wr_rw_bar));
 
 and2$ u_and2_1(.in0(w_tlb_rd_hit_bar), .in1(v_ro_mem_read), .out(w_dc_rd_page_fault));
