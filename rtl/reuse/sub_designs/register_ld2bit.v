@@ -12,6 +12,11 @@ output [N-1:0] data_o;
 // Internal variables
 wire   [N-1:0]   w_mux_out;
 
+reg [N-1:0] data;
+always@(*) begin
+  data = data_o;
+end
+
 genvar i;
 generate
 for (i=0; i < N; i=i+1) begin : gen_reg

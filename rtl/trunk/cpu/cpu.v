@@ -668,7 +668,7 @@ register #128 u_icache_lower_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_
 register #128 u_icache_upper_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[1]), .data_i(w_icache_upper_data), .data_o(r_icache_upper_data));
 
 wire [4:0] w_EIP_to_use_to_shift;
-mux_nbit_2x1 #5 u_w_EIP_to_use_to_shift (.a0(r_EIP), .a1(w_de_EIP_next[4:0]), .sel(r_V_de), .out(w_EIP_to_use_to_shift));
+mux_nbit_2x1 #5 u_w_EIP_to_use_to_shift (.a0(r_EIP[4:0]), .a1(w_de_EIP_next[4:0]), .sel(r_V_de), .out(w_EIP_to_use_to_shift));
 
 //4 shifters
 byte_rotate_right #32 u_ic_data_shifter_00(

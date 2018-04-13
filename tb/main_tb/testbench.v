@@ -50,6 +50,42 @@ begin
   $vcdpluson();
 end 
 
+//Initialize registers to some non zero values
+initial begin
+  u_system.u_cpu.u_regfile.loop2[0].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[1].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[2].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[3].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[4].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[5].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[6].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[7].u_reg0.data[7:0] = 8'h1;
+  u_system.u_cpu.u_regfile.loop2[0].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[1].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[2].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[3].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[4].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[5].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[6].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[7].u_reg1.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[0].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[1].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[2].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[3].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[4].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[5].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[6].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[7].u_reg2.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[0].u_reg3.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[1].u_reg3.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[2].u_reg3.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[3].u_reg3.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[4].u_reg3.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[5].u_reg3.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[6].u_reg3.data[7:0] = 8'h0;
+  u_system.u_cpu.u_regfile.loop2[7].u_reg3.data[7:0] = 8'h0;
+end
+
 //Force valids of caches to 0
 integer i;
 initial begin
@@ -62,6 +98,11 @@ initial begin
     u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[2].ram_forcache.mem[0][7:0] = 8'h66;
     u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[3].ram_forcache.mem[0][7:0] = 8'h01;
     u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[4].ram_forcache.mem[0][7:0] = 8'hc3;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[5].ram_forcache.mem[0][7:0] = 8'h01;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[6].ram_forcache.mem[0][7:0] = 8'hc3;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[7].ram_forcache.mem[0][7:0] = 8'h66;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[8].ram_forcache.mem[0][7:0] = 8'h01;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[9].ram_forcache.mem[0][7:0] = 8'hc3;
 end
 
 //Initialize memory
