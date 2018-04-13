@@ -6,7 +6,7 @@ f0 = open("introm_dump0.txt","w")
 f1 = open("introm_dump1.txt","w")
 f2 = open("introm_dump2.txt","w")
 
-cols=91
+cols=85
 rows=9
 
 start=2
@@ -23,12 +23,12 @@ for i in range(1,rows):
 	count=0;
 	for j in range(start,start+cols):
 		for c in words[j]:
-			if(count<20):
-				f0.write(c);
-			elif(count<84):
+			if(count<15):
+				f2.write(c);
+			elif(count<79):
 				f1.write(c);
 			else:
-				f2.write(c);
+				f0.write(c);
 			count=count+1
 
 	f0.write("\n")
@@ -38,4 +38,6 @@ for i in range(1,rows):
 f0.close()
 f1.close()
 f2.close()
+
+
 
