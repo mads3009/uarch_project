@@ -206,48 +206,48 @@ initial begin
        u_system.u_cpu.u_decode.op_rom_gen[7].rom1.mem[k] = oprom_data1_7[k];
     end
 //Initializing SUBOPROM
-//    
-//    
-//
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_0,31,0);
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_1,63,32);
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_2,95,64);
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_3,127,96);
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_4,159,128);
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_5,191,160);
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_6,223,192);
-//    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_7,255,224);
-//    
-//    for (k = 0; k < 64; k= k+1) begin: subrom_data0
-//       u_system.u_cpu.u_decode.sub_rom_gen[0].subrom0.mem[k] = subrom_data0_0[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[1].subrom0.mem[k] = subrom_data0_1[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[2].subrom0.mem[k] = subrom_data0_2[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[3].subrom0.mem[k] = subrom_data0_3[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[4].subrom0.mem[k] = subrom_data0_4[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[5].subrom0.mem[k] = subrom_data0_5[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[6].subrom0.mem[k] = subrom_data0_6[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[7].subrom0.mem[k] = subrom_data0_7[k];
-//    end 
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_0,31,0);
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_1,63,32);
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_2,95,64);
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_3,127,96);
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_4,159,128);
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_5,191,160);
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_6,223,192);
-//    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_7,255,224);
-//
-//
-//    for (k = 0; k < 64; k= k+1) begin: subrom_data1
-//       u_system.u_cpu.u_decode.sub_rom_gen[0].subrom1.mem[k] = subrom_data1_0[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[1].subrom1.mem[k] = subrom_data1_1[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[2].subrom1.mem[k] = subrom_data1_2[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[3].subrom1.mem[k] = subrom_data1_3[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[4].subrom1.mem[k] = subrom_data1_4[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[5].subrom1.mem[k] = subrom_data1_5[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[6].subrom1.mem[k] = subrom_data1_6[k];
-//       u_system.u_cpu.u_decode.sub_rom_gen[7].subrom1.mem[k] = subrom_data1_7[k];
-//    end
+    
+    
+
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_0,31,0);
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_1,63,32);
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_2,95,64);
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_3,127,96);
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_4,159,128);
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_5,191,160);
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_6,223,192);
+    $readmemh("../../scripts/subrom_dump_lower.txt",subrom_data0_7,255,224);
+    
+    for (k = 0; k < 64; k= k+1) begin: subrom_data0
+       u_system.u_cpu.u_decode.sub_rom_gen[0].subrom0.mem[k] = subrom_data0_0[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[1].subrom0.mem[k] = subrom_data0_1[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[2].subrom0.mem[k] = subrom_data0_2[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[3].subrom0.mem[k] = subrom_data0_3[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[4].subrom0.mem[k] = subrom_data0_4[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[5].subrom0.mem[k] = subrom_data0_5[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[6].subrom0.mem[k] = subrom_data0_6[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[7].subrom0.mem[k] = subrom_data0_7[k];
+    end 
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_0,31,0);
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_1,63,32);
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_2,95,64);
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_3,127,96);
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_4,159,128);
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_5,191,160);
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_6,223,192);
+    $readmemh("../../scripts/subrom_dump_upper.txt",subrom_data1_7,255,224);
+
+
+    for (k = 0; k < 64; k= k+1) begin: subrom_data1
+       u_system.u_cpu.u_decode.sub_rom_gen[0].subrom1.mem[k] = subrom_data1_0[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[1].subrom1.mem[k] = subrom_data1_1[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[2].subrom1.mem[k] = subrom_data1_2[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[3].subrom1.mem[k] = subrom_data1_3[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[4].subrom1.mem[k] = subrom_data1_4[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[5].subrom1.mem[k] = subrom_data1_5[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[6].subrom1.mem[k] = subrom_data1_6[k];
+       u_system.u_cpu.u_decode.sub_rom_gen[7].subrom1.mem[k] = subrom_data1_7[k];
+    end
 
 //Initializing MODROM
     
