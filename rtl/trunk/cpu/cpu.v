@@ -653,7 +653,9 @@ i_cache u_i_cache (
   .tag_14_12    (w_fe_PFN),
   .tag_11_9     (w_fe_address_off[11:9]),
   .ic_fill_data (w_ic_data_fill),
-  .ic_miss_ack  (w_ic_miss_ack),
+//FIXME
+  .ic_miss_ack  (1'b0),
+  //.ic_miss_ack  (w_ic_miss_ack),
   .ic_exp       (w_ic_exp),
   .r_data       ({w_icache_upper_data,w_icache_lower_data}),
   .ic_hit       (w_ic_hit),
@@ -1915,7 +1917,7 @@ nand2$ u_w_cmps_flag_in2 (.out(w_cmps_flag_in2), .in0(w_ro_mem_rd_ready), .in1(w
 mux2$ u_mux(.outb(w_cmps_flag_in),.in0(w_cmps_flag_in1),.in1(w_cmps_flag_in1),.s0(w_cmps_flag_in));
 dff$  u_reg(.r(rst_n),.s(1'b1),.clk(clk),.d(w_cmps_flag_in),.q(r_cmps_flag),.qbar(r_cmps_flag_bar));
 
-and3$ u_w_ro_cmps_stall (.out(w_ro_cmps_stall), .in0(r_ro_cmps_op), .in1(r_cmps_flag_bar), .in2(w_ro_mem_rd_ready));
+and4$ u_w_ro_cmps_stall (.out(w_ro_cmps_stall), .in0(r_ro_cmps_op), .in1(r_cmps_flag_bar), .in2(w_ro_mem_rd_ready), .in3(r_V_ro));
 
 //mem_out and mem_out_latched
 wire w_ro_ld_mem_latched;

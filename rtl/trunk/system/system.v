@@ -197,15 +197,6 @@ cpu u_cpu(
   .m_data_i(m_mmu_data_i)
   );
 
-//Force valids of caches to 0
-integer i;
-initial begin
-  for (i=0;i<8;i=i+1)  begin
-    u_system.u_cpu.u_i_cache.ts.ts_lower.mem[i][6] = 1'b0;
-    u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i][6] = 1'b0;
-  end
-end
-
 /////////////////////////////////////
 // State variables
 /////////////////////////////////////

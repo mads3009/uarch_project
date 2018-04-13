@@ -99,16 +99,19 @@ module tag_store(
     buffer$ u_buffer_5(.out(w_clk_005), .in(w_clk_004));
     buffer$ u_buffer_6(.out(w_clk_del), .in(w_clk_005));
 
-    nor3$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(ic_miss_ack_bar), .in2(w_clk_del));
+    or3$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(ic_miss_ack_bar), .in2(w_clk_del));
 
     assign index3 = index[3];
     inv1$ u_indexlower (.in(index3), .out(not_index3));
 
     or2$ u_wr_upper (.in0(wr_neg_cycle), .in1(not_index3), .out(wr_upper));
     or2$ u_wr_lower (.in0(wr_neg_cycle), .in1(index3), .out(wr_lower));
-    
-    ram8b8w$ ts_lower (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(wr_lower), .DOUT({blah[0],valid_lower,tag_lower}));
-    ram8b8w$ ts_upper (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(wr_upper), .DOUT({blah[1],valid_upper,tag_upper}));
+   
+  //FIXME 
+    ram8b8w$ ts_lower (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(1'b1), .DOUT({blah[0],valid_lower,tag_lower}));
+    ram8b8w$ ts_upper (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(1'b1), .DOUT({blah[1],valid_upper,tag_upper}));
+    //ram8b8w$ ts_lower (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(wr_lower), .DOUT({blah[0],valid_lower,tag_lower}));
+    //ram8b8w$ ts_upper (.A(index[2:0]), .DIN({2'b1,wr_tag}), .OE(oe), .WR(wr_upper), .DOUT({blah[1],valid_upper,tag_upper}));
     
     //FIXME : fanout 6;
     mux_nbit_2x1 #6 u_tag (.a0(tag_lower), .a1(tag_upper), .sel(index[3]), .out(tag));
@@ -162,7 +165,7 @@ module data_store(
     buffer$ u_buffer_5(.out(w_clk_005), .in(w_clk_004));
     buffer$ u_buffer_6(.out(w_clk_del), .in(w_clk_005));
 
-    nor3$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(ic_miss_ack_bar), .in2(w_clk_del));
+    or3$ u_wr_neg_cycle(.out(wr_neg_cycle), .in0(clk), .in1(ic_miss_ack_bar), .in2(w_clk_del));
 
 
     assign index3 = index[3];
@@ -170,9 +173,12 @@ module data_store(
 
     or2$ u_wr_upper (.in0(wr_neg_cycle), .in1(not_index3), .out(wr_upper));
     or2$ u_wr_lower (.in0(wr_neg_cycle), .in1(index3), .out(wr_lower));
-    
-    ram_nB_8w upper_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(wr_upper), .DOUT(dout_upper));
-    ram_nB_8w lower_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(wr_lower), .DOUT(dout_lower));
+   
+    //FIXME 
+    ram_nB_8w upper_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(1'b1), .DOUT(dout_upper));
+    ram_nB_8w lower_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(1'b1), .DOUT(dout_lower));
+    //ram_nB_8w upper_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(wr_upper), .DOUT(dout_upper));
+    //ram_nB_8w lower_ram (.A(index[2:0]), .DIN(fill_data), .OE(oe), .WR(wr_lower), .DOUT(dout_lower));
     
     //FIXME : Huge fanout for sel;
     mux_nbit_2x1 #256 u_r_data (.a0(dout_lower), .a1(dout_upper), .sel(index[3]), .out(r_data));
