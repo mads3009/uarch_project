@@ -24,8 +24,8 @@ wire [1:0]  w_EIP_sel;
 
 wire w_wb_CF_as_expected;
 wire w_wb_ZF_as_expected;
-nor2$ u_w_wb_CF_as_expected (.out(w_wb_CF_as_expected), .in0(r_wb_CF_expected), .in1(w_wb_flag_CF));
-nor2$ u_w_wb_ZF_as_expected (.out(w_wb_ZF_as_expected), .in0(r_wb_ZF_expected), .in1(w_wb_flag_ZF));
+xnor2$ u_w_wb_CF_as_expected (.out(w_wb_CF_as_expected), .in0(r_wb_CF_expected), .in1(w_wb_flag_CF));
+xnor2$ u_w_wb_ZF_as_expected (.out(w_wb_ZF_as_expected), .in0(r_wb_ZF_expected), .in1(w_wb_flag_ZF));
 
 wire w_not_cond_wr_CF;
 wire w_not_cond_wr_ZF;
@@ -45,6 +45,6 @@ mux_nbit_2x1 u_eip_alu_res(.out(w_eip_alu_res), .a0(r_wb_alu_res1), .a1(r_wb_alu
 wire [31:0] w_eip_alu_res_with_pr_over;
 mux_nbit_2x1 u_eip_alu_res_with_pr_over(.out(w_eip_alu_res_with_pr_over), .a0(w_eip_alu_res), .a1({16'h0,w_eip_alu_res[15:0]}), .sel(r_wb_pr_size_over));
 register_ld2bit u_r_EIP(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld({w_EIP_sel[1],w_EIP_sel[0]}), 
-                        .data_i1(w_de_EIP_next), .data_i2(w_eip_alu_res_with_pr_over), .data_i3(/*Unused*/), .data_o(r_EIP));
+                        .data_i1(w_de_EIP_next), .data_i2(w_eip_alu_res_with_pr_over), .data_i3(w_eip_alu_res_with_pr_over), .data_o(r_EIP));
 
 endmodule

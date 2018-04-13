@@ -586,7 +586,7 @@ assign w_fe_EIP_curr = r_EIP;
 assign w_fe_CS_curr = r_CS;
 
 wire [31:0] w_EIP_plus_32;
-kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h10), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
+kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h20), .cin(1'b0), .out(w_EIP_plus_32), .vout(/*Unused*/) , .cout(/*Unused*/) ); 
 
 //fetch_address
 mux_nbit_2x1 #32 u_fe_address_off(  .a0(r_EIP), .a1(w_EIP_plus_32), .sel(w_fe_address_sel), .out(w_fe_address_off));
@@ -621,6 +621,10 @@ fetch_fsm u_fe_fsm (
   .eip_4    (r_EIP[4]),
   .ic_hit   (w_ic_hit),
   .r_V_de   (r_V_de),
+  .int(int),
+  .ic_exp(w_ic_exp),
+  .dc_exp(w_dc_exp),
+  .de_br_stall(w_de_br_stall),
   .f_ld_buf   (w_fe_ld_buf),
   .f_curr_st  (r_fe_curr_state),
   .f_next_st  (w_fe_next_state),
@@ -645,9 +649,9 @@ i_cache u_i_cache (
   .clk          (clk),
   .rst_n        (rst_n),
   .ren          (w_fe_ren),
-  .index        (w_fe_address[8:5]),
+  .index        (w_fe_address_off[8:5]),
   .tag_14_12    (w_fe_PFN),
-  .tag_11_9     (w_fe_address[11:9]),
+  .tag_11_9     (w_fe_address_off[11:9]),
   .ic_fill_data (w_ic_data_fill),
   .ic_miss_ack  (w_ic_miss_ack),
   .ic_exp       (w_ic_exp),
