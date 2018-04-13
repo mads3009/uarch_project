@@ -54,8 +54,8 @@ end
 integer i;
 initial begin
   for (i=0;i<8;i=i+1)  begin
-    u_system.u_cpu.u_i_cache.ts.ts_lower.mem[i][6] = 1'b1;
-    u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i][6] = 1'b1;
+    u_system.u_cpu.u_i_cache.ts.ts_lower.mem[i][6] = 1'b0;
+    u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i][6] = 1'b0;
   end
     u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[0].ram_forcache.mem[0][7:0] = 8'h01;
     u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[0].ram_forcache.mem[1][7:0] = 8'hc3;
