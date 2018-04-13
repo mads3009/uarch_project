@@ -10,8 +10,8 @@ module fetch_fsm(
   input     dc_exp,
   input     de_br_stall,
   output reg [1:0] f_ld_buf,
-  output reg [1:0] f_curr_st,
-  output reg [1:0] f_next_st,
+  output reg [2:0] f_curr_st,
+  output reg [2:0] f_next_st,
   output reg  f_address_sel
   );
 

@@ -1,5 +1,5 @@
-set LIB_PATH ../../../../synth/lib/
-set SCRIPTS_PATH ../../../../synth/scripts/
+set LIB_PATH ../../../../../synth/lib/
+set SCRIPTS_PATH ../../../../../synth/scripts/
 set HDL_PATH ./
 
 set current_design dep_ld_mmx

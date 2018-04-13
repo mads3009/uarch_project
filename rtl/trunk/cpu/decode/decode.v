@@ -97,7 +97,8 @@ module decode (r_de_ic_data_shifted,
                de_ld_flag_OF,
                de_repne,
                de_hlt,
-               de_iret);
+               de_iret,
+               de_ptr_CS);
 
 input [255:0]r_de_ic_data_shifted;
 input [31:0] r_de_EIP_curr;
@@ -194,6 +195,7 @@ output       de_ld_flag_OF;
 output       de_repne;
 output       de_hlt;
 output       de_iret;
+output [15:0]de_ptr_CS;
 
 
 wire [127:0] de_lower_16bytes;
@@ -848,7 +850,7 @@ assign de_AF_needed = control_signals[AF_NEEDED];
 assign de_pr_size_over = prefix_op_size_pr;
 assign de_EIP_EFLAGS_sel = control_signals[EIP_EFLAGS_SEL];
 assign de_alu2_op = control_signals[ALU2_OP_BH:ALU2_OP_BL];
-assign de_alu2_op = control_signals[ALU2_OP_BH:ALU2_OP_BL];
+assign de_alu3_op = control_signals[ALU3_OP_BH:ALU3_OP_BL];
 assign de_df_val = control_signals[DF_VAL];
 assign de_CF_expected = control_signals[CF_EXPECTED];
 assign de_ZF_expected = control_signals[ZF_EXPECTED];
@@ -867,7 +869,7 @@ assign de_ld_flag_ZF = control_signals[LD_FLAG_ZF];
 assign de_ld_flag_SF = control_signals[LD_FLAG_SF];
 assign de_ld_flag_DF = control_signals[LD_FLAG_DF];
 assign de_ld_flag_OF = control_signals[LD_FLAG_OF];
-
+assign de_ptr_CS = ptr_cs;
 
 
 

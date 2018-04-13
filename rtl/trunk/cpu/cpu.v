@@ -562,8 +562,8 @@ wire          w_ic_miss_ack;
 wire [255:0]  w_ic_data_fill;
 
 //Internal to fetch
-wire [1:0]    r_fe_curr_state;
-wire [1:0]    w_fe_next_state;
+wire [2:0]    r_fe_curr_state;
+wire [2:0]    w_fe_next_state;
 wire          w_fe_address_sel; 
 wire [31:0]   w_fe_address;
 wire [31:0]   w_fe_address_off;
@@ -602,9 +602,9 @@ nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .
 
 //Logic for w_V_de_next
 wire w_fe_next_state_not_10;
-wire w_not_fe_next_state1;
-inv1$ u_not_fe_next_state1(.out(w_not_fe_next_state1), .in(w_fe_next_state[1]));
-nor2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state[0]), .in1(w_not_fe_next_state1));
+wire w_not_fe_next_state0;
+inv1$ u_not_fe_next_state1(.out(w_not_fe_next_state0), .in(w_fe_next_state[0]));
+nand2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state[1]), .in1(w_not_fe_next_state0));
 and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
 
 //Logic for ld_de;
@@ -617,7 +617,7 @@ or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(w_repne_
 fetch_fsm u_fe_fsm (
   .clk      (clk),
   .rst_n    (rst_n),
-  .de_p     (w_de_p),
+  .de_p     (w_de_EIP_next[4]),
   .eip_4    (r_EIP[4]),
   .ic_hit   (w_ic_hit),
   .r_V_de   (r_V_de),
@@ -667,24 +667,27 @@ i_cache u_i_cache (
 register #128 u_icache_lower_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[0]), .data_i(w_icache_lower_data), .data_o(r_icache_lower_data));
 register #128 u_icache_upper_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[1]), .data_i(w_icache_upper_data), .data_o(r_icache_upper_data));
 
+wire [4:0] w_EIP_to_use_to_shift;
+mux_nbit_2x1 #5 u_w_EIP_to_use_to_shift (.a0(r_EIP), .a1(w_de_EIP_next[4:0]), .sel(r_V_de), .out(w_EIP_to_use_to_shift));
+
 //4 shifters
-shift_right_rotate #32 u_ic_data_shifter_00(
-  .amt(r_EIP[4:0]),
+byte_rotate_right #32 u_ic_data_shifter_00(
+  .amt(w_EIP_to_use_to_shift[4:0]),
   .in({r_icache_upper_data, r_icache_lower_data}),
   .out(w_ic_data_shifted_00)
   );
-shift_right_rotate #32 u_ic_data_shifter_01(
-  .amt(r_EIP[4:0]),
+byte_rotate_right #32 u_ic_data_shifter_01(
+  .amt(w_EIP_to_use_to_shift[4:0]),
   .in({r_icache_upper_data, w_icache_lower_data}),
   .out(w_ic_data_shifted_01)
   );
-shift_right_rotate #32 u_ic_data_shifter_10(
-  .amt(r_EIP[4:0]),
+byte_rotate_right #32 u_ic_data_shifter_10(
+  .amt(w_EIP_to_use_to_shift[4:0]),
   .in({w_icache_upper_data, r_icache_lower_data}),
   .out(w_ic_data_shifted_10)
   );
-shift_right_rotate #32 u_ic_data_shifter_11(
-  .amt(r_EIP[4:0]),
+byte_rotate_right #32 u_ic_data_shifter_11(
+  .amt(w_EIP_to_use_to_shift[4:0]),
   .in({w_icache_upper_data, w_icache_lower_data}),
   .out(w_ic_data_shifted_11)
   );
@@ -887,7 +890,8 @@ decode u_decode (
       .de_ld_flag_OF                              (w_de_ld_flag_OF),
       .de_repne                                   (w_de_repne),
       .de_hlt                                     (w_de_hlt),
-      .de_iret                                    (w_de_iret));
+      .de_iret                                    (w_de_iret),
+      .de_ptr_CS                                  (w_de_ptr_CS));
 
 //Decode dep,V,ld logic
 
@@ -1371,6 +1375,10 @@ register #1         u_r_ro_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n
 register #1         u_r_ro_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_DF),            .data_o(r_ro_ld_flag_DF));
 register #1         u_r_ro_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_OF),            .data_o(r_ro_ld_flag_OF));
 register #16        u_r_ro_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_ptr_CS),                    .data_o(r_ro_ptr_CS));
+register #2         u_r_ro_imm_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_imm_sel),               .data_o(r_ro_imm_sel));
+register #1         u_r_ro_EIP_EFLAGS_sel      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_EIP_EFLAGS_sel),        .data_o(r_ro_EIP_EFLAGS_sel));
+register #2         u_r_ro_sr1_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_sr1_sel),               .data_o(r_ro_sr1_sel));
+register #2         u_r_ro_sr2_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_sr2_sel),               .data_o(r_ro_sr2_sel));
 
 //AG dependency logic
 ag_dep_v_ld_logic u_ag_dep_v_ld_logic(
@@ -1859,7 +1867,7 @@ wire [1:0] w_ro_add_ldmem_exwb;
 xor2$  u_w_ro_add_ldmem_exwb0 (.out(w_ro_add_ldmem_exwb[0]), .in0(w_v_ex_ld_mem), .in1(w_v_wb_ld_mem));
 and2$  u_w_ro_add_ldmem_exwb1 (.out(w_ro_add_ldmem_exwb[1]), .in0(w_v_ex_ld_mem), .in1(w_v_wb_ld_mem));
 wire [2:0] w_ro_add_ldmem_exwbfifo;
-adder3bit u_ (.a({1'b0,w_ro_add_ldmem_exwb}), .b(w_fifo_cnt), .sum(w_ro_add_ldmem_exwbfifo));
+adder3bit u_w_ro_add_ldmem_exwbfifo (.a({1'b0,w_ro_add_ldmem_exwb}), .b(w_fifo_cnt), .sum(w_ro_add_ldmem_exwbfifo));
 
 assign w_fifo_to_be_full = w_ro_add_ldmem_exwbfifo[2];
 

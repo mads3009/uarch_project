@@ -30,8 +30,8 @@ assign mm1_needed = (mm1_needed_in & ((!sr1_rm) || ( (mod==2'b11) & mod_rm_pr)))
 assign mm2_needed = (mm2_needed_in & ((!sr2_rm) || ( (mod==2'b11) & mod_rm_pr)));
 
 assign ld_mm = (ld_mm_in & ((!sr1_rm) || ((mod==2'b11) & mod_rm_pr)));
-assign mm1_sr1_sel_L =( (!sr1_rm) &  (mod != 2'b11) )& (!ret_op) ;
-assign mm1_sr2_sel =( (!sr2_rm) &  (mod != 2'b11) );
+assign mm_sr1_sel_L =( (!sr1_rm) &  (mod != 2'b11) )& (!ret_op) ;
+assign mm_sr2_sel =( (!sr2_rm) &  (mod != 2'b11) );
 
 endmodule
 
