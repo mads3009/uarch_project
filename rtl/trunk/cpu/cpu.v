@@ -90,6 +90,8 @@ wire w_wb_br_stall;
 
 wire w_v_ex_ld_mem;
 wire w_mem_rd_busy;
+//FIXME
+assign w_mem_rd_busy = 1'b0;
 wire w_ro_cmps_stall;
 wire w_wb_mem_stall;
 
@@ -667,27 +669,27 @@ i_cache u_i_cache (
 register #128 u_icache_lower_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[0]), .data_i(w_icache_lower_data), .data_o(r_icache_lower_data));
 register #128 u_icache_upper_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[1]), .data_i(w_icache_upper_data), .data_o(r_icache_upper_data));
 
-wire [4:0] w_EIP_to_use_to_shift;
-mux_nbit_2x1 #5 u_w_EIP_to_use_to_shift (.a0(r_EIP[4:0]), .a1(w_de_EIP_next[4:0]), .sel(r_V_de), .out(w_EIP_to_use_to_shift));
+wire [31:0] w_EIP_to_use;
+mux_nbit_2x1 #32 u_w_EIP_to_use (.a0(r_EIP[31:0]), .a1(w_de_EIP_next[31:0]), .sel(r_V_de), .out(w_EIP_to_use));
 
 //4 shifters
 byte_rotate_right #32 u_ic_data_shifter_00(
-  .amt(w_EIP_to_use_to_shift[4:0]),
+  .amt(w_EIP_to_use[4:0]),
   .in({r_icache_upper_data, r_icache_lower_data}),
   .out(w_ic_data_shifted_00)
   );
 byte_rotate_right #32 u_ic_data_shifter_01(
-  .amt(w_EIP_to_use_to_shift[4:0]),
+  .amt(w_EIP_to_use[4:0]),
   .in({r_icache_upper_data, w_icache_lower_data}),
   .out(w_ic_data_shifted_01)
   );
 byte_rotate_right #32 u_ic_data_shifter_10(
-  .amt(w_EIP_to_use_to_shift[4:0]),
+  .amt(w_EIP_to_use[4:0]),
   .in({w_icache_upper_data, r_icache_lower_data}),
   .out(w_ic_data_shifted_10)
   );
 byte_rotate_right #32 u_ic_data_shifter_11(
-  .amt(w_EIP_to_use_to_shift[4:0]),
+  .amt(w_EIP_to_use[4:0]),
   .in({w_icache_upper_data, w_icache_lower_data}),
   .out(w_ic_data_shifted_11)
   );
@@ -698,7 +700,7 @@ mux_nbit_4x1 #256 u_w_fe_ic_data_shifted(.a0(w_ic_data_shifted_00), .a1(w_ic_dat
 
 //Output of decode latches
 register #256 u_de_ic_data_shifted (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_ic_data_shifted), .data_o(r_de_ic_data_shifted));
-register  #32 u_de_EIP_curr        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_EIP_curr       ), .data_o(r_de_EIP_curr       ));
+register  #32 u_de_EIP_curr        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_EIP_to_use        ), .data_o(r_de_EIP_curr       ));
 register  #16 u_de_CS_curr         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_CS_curr        ), .data_o(r_de_CS_curr        ));
 register   #1 u_V_de               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_V_de_next         ), .data_o(r_V_de              ));
 
@@ -1729,7 +1731,9 @@ dcache u_dcache (
   .mem_wr_data(w_fifo_mem_wr_data), 
   .mem_rd_ready(w_ro_mem_rd_ready), 
   .mem_wr_done(w_mem_wr_done),
-  .mem_rd_busy(w_mem_rd_busy), 
+  .mem_rd_busy(/*unused*/), 
+  //FIXME  
+//.mem_rd_busy(w_mem_rd_busy), 
   .mem_wr_busy(w_mem_wr_busy), 
   .dc_miss(w_dc_miss), 
   .dc_miss_addr(w_dc_miss_addr), 

@@ -329,41 +329,39 @@ wire  [7:0] DH;
 wire  [7:0] BL; 
 wire  [7:0] BH; 
 
-assign AL  = u_cpu.u_regfile.loop2[0].u_reg0.data_o;
-assign AH  = u_cpu.u_regfile.loop2[0].u_reg1.data_o;
+assign AL  = u_cpu.u_regfile.reg_loop.loop2[0].u_reg0.data_o;
+assign AH  = u_cpu.u_regfile.reg_loop.loop2[0].u_reg1.data_o;
 assign AX  = {AH,AL};
-assign EAX = {u_cpu.u_regfile.loop2[0].u_reg3.data_o, u_cpu.u_regfile.loop2[0].u_reg2.data_o, AH, AL};
+assign EAX = {u_cpu.u_regfile.reg_loop.loop2[0].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[0].u_reg2.data_o, AH, AL};
 
-assign CL  = u_cpu.u_regfile.loop2[1].u_reg0.data_o;
-assign CH  = u_cpu.u_regfile.loop2[1].u_reg1.data_o;
+assign CL  = u_cpu.u_regfile.reg_loop.loop2[1].u_reg0.data_o;
+assign CH  = u_cpu.u_regfile.reg_loop.loop2[1].u_reg1.data_o;
 assign CX  = {CH,CL};
-assign ECX = {u_cpu.u_regfile.loop2[1].u_reg3.data_o, u_cpu.u_regfile.loop2[1].u_reg2.data_o, CH, CL};
+assign ECX = {u_cpu.u_regfile.reg_loop.loop2[1].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[1].u_reg2.data_o, CH, CL};
 
-assign DL  = u_cpu.u_regfile.loop2[2].u_reg0.data_o;
-assign DH  = u_cpu.u_regfile.loop2[2].u_reg1.data_o;
+assign DL  = u_cpu.u_regfile.reg_loop.loop2[2].u_reg0.data_o;
+assign DH  = u_cpu.u_regfile.reg_loop.loop2[2].u_reg1.data_o;
 assign DX  = {DH,DL};
-assign EDX = {u_cpu.u_regfile.loop2[2].u_reg3.data_o, u_cpu.u_regfile.loop2[2].u_reg2.data_o, DH, DL};
+assign EDX = {u_cpu.u_regfile.reg_loop.loop2[2].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[2].u_reg2.data_o, DH, DL};
 
-assign BL  = u_cpu.u_regfile.loop2[3].u_reg0.data_o;
-assign BH  = u_cpu.u_regfile.loop2[3].u_reg1.data_o;
+assign BL  = u_cpu.u_regfile.reg_loop.loop2[3].u_reg0.data_o;
+assign BH  = u_cpu.u_regfile.reg_loop.loop2[3].u_reg1.data_o;
 assign BX  = {BH,BL};
-assign EBX = {u_cpu.u_regfile.loop2[3].u_reg3.data_o, u_cpu.u_regfile.loop2[3].u_reg3.data_o, BH, BL};
+assign EBX = {u_cpu.u_regfile.reg_loop.loop2[3].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[3].u_reg3.data_o, BH, BL};
 
-assign SP  = {u_cpu.u_regfile.loop2[4].u_reg1.data_o, u_cpu.u_regfile.loop2[4].u_reg0.data_o};
-assign ESP = {u_cpu.u_regfile.loop2[4].u_reg3.data_o, u_cpu.u_regfile.loop2[4].u_reg2.data_o, SP};
+assign SP  = {u_cpu.u_regfile.reg_loop.loop2[4].u_reg1.data_o, u_cpu.u_regfile.reg_loop.loop2[4].u_reg0.data_o};
+assign ESP = {u_cpu.u_regfile.reg_loop.loop2[4].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[4].u_reg2.data_o, SP};
 
-assign BP  = {u_cpu.u_regfile.loop2[5].u_reg1.data_o, u_cpu.u_regfile.loop2[5].u_reg0.data_o};
-assign EBP = {u_cpu.u_regfile.loop2[5].u_reg3.data_o, u_cpu.u_regfile.loop2[5].u_reg2.data_o, BP};
+assign BP  = {u_cpu.u_regfile.reg_loop.loop2[5].u_reg1.data_o, u_cpu.u_regfile.reg_loop.loop2[5].u_reg0.data_o};
+assign EBP = {u_cpu.u_regfile.reg_loop.loop2[5].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[5].u_reg2.data_o, BP};
 
-assign SI  = {u_cpu.u_regfile.loop2[6].u_reg1.data_o, u_cpu.u_regfile.loop2[6].u_reg0.data_o};
-assign ESI = {u_cpu.u_regfile.loop2[6].u_reg3.data_o, u_cpu.u_regfile.loop2[6].u_reg2.data_o, SI};
+assign SI  = {u_cpu.u_regfile.reg_loop.loop2[6].u_reg1.data_o, u_cpu.u_regfile.reg_loop.loop2[6].u_reg0.data_o};
+assign ESI = {u_cpu.u_regfile.reg_loop.loop2[6].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[6].u_reg2.data_o, SI};
 
-assign DI  = {u_cpu.u_regfile.loop2[7].u_reg1.data_o, u_cpu.u_regfile.loop2[7].u_reg0.data_o};
-assign EDI = {u_cpu.u_regfile.loop2[7].u_reg3.data_o, u_cpu.u_regfile.loop2[7].u_reg2.data_o, DI};
+assign DI  = {u_cpu.u_regfile.reg_loop.loop2[7].u_reg1.data_o, u_cpu.u_regfile.reg_loop.loop2[7].u_reg0.data_o};
+assign EDI = {u_cpu.u_regfile.reg_loop.loop2[7].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[7].u_reg2.data_o, DI};
 
-/*
 //MMX Registers
-
 wire [63:0] MM0;
 wire [63:0] MM1;
 wire [63:0] MM2;
@@ -373,17 +371,16 @@ wire [63:0] MM5;
 wire [63:0] MM6;
 wire [63:0] MM7;
 
-assign MM0 = u_cpu.u_mmx_regfile.loop2[0].data_o;
-assign MM1 = u_cpu.u_mmx_regfile.loop2[1].data_o;
-assign MM2 = u_cpu.u_mmx_regfile.loop2[2].data_o;
-assign MM3 = u_cpu.u_mmx_regfile.loop2[3].data_o;
-assign MM4 = u_cpu.u_mmx_regfile.loop2[4].data_o;
-assign MM5 = u_cpu.u_mmx_regfile.loop2[5].data_o;
-assign MM6 = u_cpu.u_mmx_regfile.loop2[6].data_o;
-assign MM7 = u_cpu.u_mmx_regfile.loop2[7].data_o;
+assign MM0 = u_cpu.u_mmx_regfile.mmx_loop.loop2[0].u_mm_reg.data_o;
+assign MM1 = u_cpu.u_mmx_regfile.mmx_loop.loop2[1].u_mm_reg.data_o;
+assign MM2 = u_cpu.u_mmx_regfile.mmx_loop.loop2[2].u_mm_reg.data_o;
+assign MM3 = u_cpu.u_mmx_regfile.mmx_loop.loop2[3].u_mm_reg.data_o;
+assign MM4 = u_cpu.u_mmx_regfile.mmx_loop.loop2[4].u_mm_reg.data_o;
+assign MM5 = u_cpu.u_mmx_regfile.mmx_loop.loop2[5].u_mm_reg.data_o;
+assign MM6 = u_cpu.u_mmx_regfile.mmx_loop.loop2[6].u_mm_reg.data_o;
+assign MM7 = u_cpu.u_mmx_regfile.mmx_loop.loop2[7].u_mm_reg.data_o;
 
 //Segment Registers
-
 wire [15:0] ES;
 wire [15:0] CS;
 wire [15:0] SS;
@@ -391,13 +388,12 @@ wire [15:0] DS;
 wire [15:0] FS;
 wire [15:0] GS;
 
-assign ES = u_cpu.u_seg_regfile.loop2[0].data_o;
-assign CS = u_cpu.u_seg_regfile.loop2[1].data_o;
-assign SS = u_cpu.u_seg_regfile.loop2[2].data_o;
-assign DS = u_cpu.u_seg_regfile.loop2[3].data_o;
-assign FS = u_cpu.u_seg_regfile.loop2[4].data_o;
-assign GS = u_cpu.u_seg_regfile.loop2[5].data_o;
-*/
+assign ES = u_cpu.u_seg_regfile.seg_loop.loop2[0].u_seg_reg.data_o;
+assign CS = u_cpu.u_seg_regfile.seg_loop.loop2[1].u_seg_reg.data_o;
+assign SS = u_cpu.u_seg_regfile.seg_loop.loop2[2].u_seg_reg.data_o;
+assign DS = u_cpu.u_seg_regfile.seg_loop.loop2[3].u_seg_reg.data_o;
+assign FS = u_cpu.u_seg_regfile.seg_loop.loop2[4].u_seg_reg.data_o;
+assign GS = u_cpu.u_seg_regfile.seg_loop.loop2[5].u_seg_reg.data_o;
 
 endmodule
 

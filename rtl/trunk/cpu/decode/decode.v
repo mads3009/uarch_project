@@ -454,17 +454,17 @@ wire nand_temp1;
 wire nand_temp2;
 wire nand_temp3;
 
-inv1$ inv1 (.in(w_pr_pos[0]), .out(pr_pos_0_bar));
-inv1$ inv3 (.in(w_pr_pos[2]), .out(pr_pos_2_bar));
+inv1$ inv1 (.in(w_pr_pos[3]), .out(pr_pos_0_bar));
+inv1$ inv3 (.in(w_pr_pos[1]), .out(pr_pos_2_bar));
 
 and4$ and4_1 (.in0(w_pr_pos[0]), .in1(w_pr_pos[1]), .in2(w_pr_pos[2]), .in3(w_pr_pos[3]), .out(w_mux_sel[2]));
 
-and2$ and2_1 (.in0(w_pr_pos[3]), .in1(w_pr_pos[2]), .out(and_temp1)); 
-nand2$ nand2_1   (.in0(w_pr_pos[1]), .in1(w_pr_pos[0]), .out(nand_temp1)); 
+and2$ and2_1 (.in0(w_pr_pos[0]), .in1(w_pr_pos[1]), .out(and_temp1)); 
+nand2$ nand2_1   (.in0(w_pr_pos[2]), .in1(w_pr_pos[3]), .out(nand_temp1)); 
 and2$ and2_2 (.in0(and_temp1), .in1(nand_temp1), .out(w_mux_sel[1])); 
 
-nand2$ nand2_2 (.in0(w_pr_pos[3]), .in1(pr_pos_2_bar), .out(nand_temp2)); 
-nand3$ nand3_1 (.in0(w_pr_pos[3]), .in1(w_pr_pos[1]), .in2(pr_pos_0_bar), .out(nand_temp3)); 
+nand2$ nand2_2 (.in0(w_pr_pos[0]), .in1(pr_pos_2_bar), .out(nand_temp2)); 
+nand3$ nand3_1 (.in0(w_pr_pos[0]), .in1(w_pr_pos[2]), .in2(pr_pos_0_bar), .out(nand_temp3)); 
 nand2$ nand2_3   (.in0(nand_temp2), .in1(nand_temp3), .out(w_mux_sel[0])); 
 
 //Thermometer encoder
@@ -538,18 +538,15 @@ mux_nbit_2x1#3 mod_sel(.a1(w_modrom_out[MOD_ROM_SIZE_BH:MOD_ROM_SIZE_BL]), .a0(3
 nibble_low imm_add  ( .a({1'b0,w_mux_sel}), .b({1'b0,mod_size}), .cin(1'd0), .s(imm_sel), .cout(/*unused*/));
 
 //Muxes
-mux8bit_8x1 mux_op    (.IN0(de_lower_16bytes[7:0]), .IN1(de_lower_16bytes[15:8]), .IN2(de_lower_16bytes[23:16]), .IN3(de_lower_16bytes[31:24]),
-                       .IN4(de_lower_16bytes[39:32]), .IN5(8'd0), .IN6(8'd0), .IN7(8'd0), .S0(w_mux_sel[0]), .S1(w_mux_sel[1]),
-                       .S2(w_mux_sel[2]), .Y(w_opcode));
+mux_nbit_8x1 #8 mux_op    (.a0(de_lower_16bytes[7:0]), .a1(de_lower_16bytes[15:8]), .a2(de_lower_16bytes[23:16]), .a3(de_lower_16bytes[31:24]),
+                       .a4(de_lower_16bytes[39:32]), .a5(8'd0), .a6(8'd0), .a7(8'd0), .sel(w_mux_sel), .out(w_opcode));
 
-mux8bit_8x1 mux_mod   (.IN0(de_lower_16bytes[15:8]), .IN1(de_lower_16bytes[23:16]), .IN2(de_lower_16bytes[31:24]), .IN3(de_lower_16bytes[39:32]),
-                       .IN4(de_lower_16bytes[47:40]), .IN5(8'd0), .IN6(8'd0), .IN7(8'd0), .S0(w_mux_sel[0]), .S1(w_mux_sel[1]),
-                       .S2(w_mux_sel[2]), .Y(w_modrm));
+mux_nbit_8x1 #8 mux_mod   (.a0(de_lower_16bytes[15:8]), .a1(de_lower_16bytes[23:16]), .a2(de_lower_16bytes[31:24]), .a3(de_lower_16bytes[39:32]),
+                       .a4(de_lower_16bytes[47:40]), .a5(8'd0), .a6(8'd0), .a7(8'd0), .sel(w_mux_sel), .out(w_modrm));
 
 
-mux8bit_8x1 mux_sib   (.IN0(de_lower_16bytes[23:16]), .IN1(de_lower_16bytes[31:24]), .IN2(de_lower_16bytes[39:32]), .IN3(de_lower_16bytes[47:40]),
-                       .IN4(de_lower_16bytes[55:48]), .IN5(8'd0), .IN6(8'd0), .IN7(8'd0), .S0(w_mux_sel[0]), .S1(w_mux_sel[1]),
-                       .S2(w_mux_sel[2]), .Y(SIB));
+mux_nbit_8x1 #8 mux_sib   (.a0(de_lower_16bytes[23:16]), .a1(de_lower_16bytes[31:24]), .a2(de_lower_16bytes[39:32]), .a3(de_lower_16bytes[47:40]),
+                       .a4(de_lower_16bytes[55:48]), .a5(8'd0), .a6(8'd0), .a7(8'd0), .sel(w_mux_sel), .out(SIB));
 
 
 mux32bit_8x1 mux_disp (.IN0(de_lower_16bytes[47:16]), .IN1(de_lower_16bytes[55:24]), .IN2(de_lower_16bytes[63:32]), .IN3(de_lower_16bytes[71:40]),

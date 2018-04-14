@@ -40,7 +40,7 @@ assign br_stall = eip_change & V_wb;
 
 assign v_wb_ld_reg1 = V_wb & ld_reg1 & ((~cxchg_op) || ZF_new) & ((~cond_wr_CF) || (CF_flag==CF_expected));
 assign v_wb_ld_reg2 = V_wb & ld_reg2 & ((~cxchg_op) || (~ZF_new)) & ((~cond_wr_CF) || (CF_flag==CF_expected));
-assign v_wb_ld_reg2 = V_wb & ld_reg3;
+assign v_wb_ld_reg3 = V_wb & ld_reg3;
  
 genvar i;
 generate begin

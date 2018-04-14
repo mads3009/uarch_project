@@ -94,7 +94,7 @@ generate begin
 end
 endgenerate
 
-generate begin
+generate begin : reg_loop
   for (i=0; i<8; i=i+1) begin : loop2
     register_ld2bit #8 u_reg0 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i1(wr_data1[ 7: 0]), .data_i2(wr_data2[ 7: 0]), .data_i3(wr_data3[ 7: 0]), .data_o(regs[i][ 7: 0]), .ld(ld_reg_0[i]));
     register_ld2bit #8 u_reg1 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i1(wr_data1[15: 8]), .data_i2(wr_data2[15: 8]), .data_i3(wr_data3[15: 8]), .data_o(regs[i][15: 8]), .ld(ld_reg_1[i]));

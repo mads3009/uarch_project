@@ -35,7 +35,7 @@ AND1_nbit #8 u_dec_out (.a(decode_out), .en(wr_en), .out(ld_mm_reg) );
 
 //Write to respective register
 genvar i;
-generate begin
+generate begin : mmx_loop
   for (i=0; i<8; i=i+1) begin : loop2
     register #64 u_mm_reg (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(wr_data), .data_o(mm_regs[i]), .ld(ld_mm_reg[i]));
   end

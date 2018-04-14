@@ -37,8 +37,8 @@ wire w_wb_ZF_met;
 or2$ u_w_wb_CF_met (.out(w_wb_CF_met), .in0(w_wb_CF_as_expected), .in1(w_not_cond_wr_CF));
 or2$ u_w_wb_ZF_met (.out(w_wb_ZF_met), .in0(w_wb_ZF_as_expected), .in1(w_not_cond_wr_ZF));
 
-and4$ u_w_EIP_sel0 (.out(w_EIP_sel[0]), .in0(r_V_wb), .in1(r_wb_eip_change), .in2(w_wb_CF_met), .in3(w_wb_ZF_met));
-and2$ u_w_EIP_sel1 (.out(w_EIP_sel[1]), .in0(r_V_de), .in1(w_not_stall_fe));
+and4$ u_w_EIP_sel1 (.out(w_EIP_sel[1]), .in0(r_V_wb), .in1(r_wb_eip_change), .in2(w_wb_CF_met), .in3(w_wb_ZF_met));
+and2$ u_w_EIP_sel0 (.out(w_EIP_sel[0]), .in0(r_V_de), .in1(w_not_stall_fe));
 
 wire [31:0] w_eip_alu_res;
 mux_nbit_2x1 u_eip_alu_res(.out(w_eip_alu_res), .a0(r_wb_alu_res1), .a1(r_wb_alu_res3), .sel(r_wb_wr_eip_alu_res_sel));
