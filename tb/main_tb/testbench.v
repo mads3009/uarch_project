@@ -104,17 +104,17 @@ initial begin
     u_system.u_cpu.u_i_cache.ts.ts_lower.mem[i] = 8'h40;
     u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i] = 8'h40;
   end
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[0].ram_forcache.mem[0][7:0] = 8'h40;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[1].ram_forcache.mem[0][7:0] = 8'h43;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[2].ram_forcache.mem[0][7:0] = 8'h01;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[3].ram_forcache.mem[0][7:0] = 8'hc3;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[4].ram_forcache.mem[0][7:0] = 8'h66;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[5].ram_forcache.mem[0][7:0] = 8'h01;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[6].ram_forcache.mem[0][7:0] = 8'hc3;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[7].ram_forcache.mem[0][7:0] = 8'h01;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[8].ram_forcache.mem[0][7:0] = 8'hc3;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[9].ram_forcache.mem[0][7:0] = 8'h66;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[10].ram_forcache.mem[0][7:0] = 8'h01;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[0].ram_forcache.mem[0][7:0] = 8'hb8;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[1].ram_forcache.mem[0][7:0] = 8'hfe;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[2].ram_forcache.mem[0][7:0] = 8'hff;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[3].ram_forcache.mem[0][7:0] = 8'hff;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[4].ram_forcache.mem[0][7:0] = 8'hff;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[5].ram_forcache.mem[0][7:0] = 8'h43;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[6].ram_forcache.mem[0][7:0] = 8'h40;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[7].ram_forcache.mem[0][7:0] = 8'h75;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[8].ram_forcache.mem[0][7:0] = 8'hfc;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[9].ram_forcache.mem[0][7:0] = 8'h41;
+    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[10].ram_forcache.mem[0][7:0] = 8'hF4;
     u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[11].ram_forcache.mem[0][7:0] = 8'hc3;
     u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[12].ram_forcache.mem[0][7:0] = 8'hf4;
 end

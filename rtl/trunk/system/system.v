@@ -395,5 +395,30 @@ assign DS = u_cpu.u_seg_regfile.seg_loop.loop2[3].u_seg_reg.data_o;
 assign FS = u_cpu.u_seg_regfile.seg_loop.loop2[4].u_seg_reg.data_o;
 assign GS = u_cpu.u_seg_regfile.seg_loop.loop2[5].u_seg_reg.data_o;
 
+localparam sys_CF=4'd0;
+localparam sys_PF=4'd2;
+localparam sys_AF=4'd4;
+localparam sys_ZF=4'd6;
+localparam sys_SF=4'd7;
+localparam sys_DF=4'd10;
+localparam sys_OF=4'd11;
+
+wire CF;
+wire AF;
+wire PF;
+wire SF;
+wire ZF;
+wire DF;
+wire OF;
+
+assign CF = u_cpu.r_EFLAGS[sys_CF];
+assign PF = u_cpu.r_EFLAGS[sys_PF];
+assign AF = u_cpu.r_EFLAGS[sys_AF];
+assign ZF = u_cpu.r_EFLAGS[sys_ZF];
+assign SF = u_cpu.r_EFLAGS[sys_SF];
+assign DF = u_cpu.r_EFLAGS[sys_DF];
+assign DF = u_cpu.r_EFLAGS[sys_OF];
+
+
 endmodule
 
