@@ -41,6 +41,16 @@ output        tlb_pcd3;
 
 reg [43:0] r_tlb_mem[7:0];
 
+
+assign tlb_pn0 = r_tlb_mem[0][43-:20];
+assign tlb_pn1 = r_tlb_mem[1][43-:20];
+assign tlb_pn2 = r_tlb_mem[2][43-:20];
+assign tlb_pn3 = r_tlb_mem[3][43-:20];
+assign tlb_pn4 = r_tlb_mem[4][43-:20];
+assign tlb_pn5 = r_tlb_mem[5][43-:20];
+assign tlb_pn6 = r_tlb_mem[6][43-:20];
+assign tlb_pn7 = r_tlb_mem[7][43-:20];
+
 // Read port 1
 wire [43:0] w_temp0, w_temp1;
 

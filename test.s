@@ -5,3 +5,4 @@ L1: inc %EBX
 inc %EAX
 jne L1
 inc %ECX
+hlt

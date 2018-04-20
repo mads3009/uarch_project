@@ -23,19 +23,186 @@ parameter ADDR_MAIN_MEM_MAX = 32'h0000_7FFF;
 reg         clk;
 reg         rst_n;
 
-/////////////////////////////////////
-// Clock and Reset generation
-/////////////////////////////////////
+integer i,j,k;
+
 initial begin
-  clk = 1'b0;
+  force u_system.u_cpu.u_i_cache.ts.ts_lower.WR = 1'b1;
+  force u_system.u_cpu.u_i_cache.ts.ts_upper.WR = 1'b1;
+
+  force testbench.u_system.u_cpu.u_i_cache.ds.lower_ram.WR = 1'b1;
+  force testbench.u_system.u_cpu.u_i_cache.ds.upper_ram.WR = 1'b1;
+
+  force u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[2].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[3].u_ram8b8w$.WR = 1'b1;
+
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[0].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[1].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[2].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[3].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[4].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[5].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[6].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[7].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[8].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[9].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[10].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[11].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[12].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[13].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[14].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[15].u_ram8b8w$.WR = 1'b1;
+
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[0].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[1].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[2].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[3].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[4].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[5].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[6].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[7].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[8].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[9].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[10].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[11].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[12].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[13].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[14].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[15].u_ram8b8w$.WR = 1'b1;
+
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[0].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[1].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[2].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[3].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[4].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[5].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[6].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[7].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[8].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[9].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[10].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[11].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[12].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[13].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[14].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[15].u_ram8b8w$.WR = 1'b1;
+
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[0].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[1].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[2].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[3].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[4].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[5].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[6].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[7].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[8].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[9].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[10].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[11].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[12].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[13].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[14].u_ram8b8w$.WR = 1'b1;
+  force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[15].u_ram8b8w$.WR = 1'b1;
+
+  clk = 1'b1;
   rst_n = 1'b0;
   #100;
+
+  release u_system.u_cpu.u_i_cache.ts.ts_lower.WR;
+  release u_system.u_cpu.u_i_cache.ts.ts_upper.WR;
+
+  release u_system.u_cpu.u_i_cache.ds.lower_ram.WR;
+  release u_system.u_cpu.u_i_cache.ds.upper_ram.WR;
+
+  release u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[2].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[3].u_ram8b8w$.WR;
+
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[0].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[1].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[2].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[3].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[4].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[5].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[6].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[7].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[8].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[9].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[10].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[11].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[12].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[13].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[14].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[0].col_gen[15].u_ram8b8w$.WR;
+
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[0].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[1].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[2].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[3].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[4].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[5].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[6].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[7].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[8].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[9].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[10].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[11].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[12].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[13].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[14].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[1].col_gen[15].u_ram8b8w$.WR;
+
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[0].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[1].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[2].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[3].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[4].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[5].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[6].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[7].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[8].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[9].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[10].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[11].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[12].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[13].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[14].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[2].col_gen[15].u_ram8b8w$.WR;
+
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[0].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[1].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[2].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[3].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[4].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[5].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[6].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[7].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[8].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[9].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[10].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[11].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[12].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[13].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[14].u_ram8b8w$.WR;
+  release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[15].u_ram8b8w$.WR;
+
   rst_n = 1'b1;
+  
+  // FIXME
+  force u_system.u_cpu.u_seg_regfile.seg_loop.loop2[3].u_seg_reg.data_o = 16'h0A00;
+
   #1000;
+
   $finish;
 end
 
-always #6 clk <= ~clk;
+/////////////////////////////////////
+// Clock generation
+/////////////////////////////////////
+
+always #4 clk <= ~clk;
 
 //Instantiate the system
 system u_system(
@@ -49,6 +216,20 @@ begin
   $vcdplusmemon();
   $vcdpluson();
 end 
+
+// Initialize i-cache and d-cache tag stores
+initial begin
+  for (i=0;i<8;i=i+1)  begin
+    u_system.u_cpu.u_i_cache.ts.ts_lower.mem[i] = 8'h00;
+    u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i] = 8'h00;
+  end
+  for (i=0;i<8;i=i+1)  begin
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].u_ram8b8w$.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].u_ram8b8w$.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[2].u_ram8b8w$.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[3].u_ram8b8w$.mem[i] = 8'h00;
+  end
+end
 
 /*
 //Initialize registers to some non zero values
@@ -97,26 +278,42 @@ initial begin
 end
 */
 
-//Force valids of caches to 0
-integer i;
+// Initialize TLB and segment limit registers
 initial begin
-  for (i=0;i<8;i=i+1)  begin
-    u_system.u_cpu.u_i_cache.ts.ts_lower.mem[i] = 8'h40;
-    u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i] = 8'h40;
-  end
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[0].ram_forcache.mem[0][7:0] = 8'hb8;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[1].ram_forcache.mem[0][7:0] = 8'hfe;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[2].ram_forcache.mem[0][7:0] = 8'hff;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[3].ram_forcache.mem[0][7:0] = 8'hff;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[4].ram_forcache.mem[0][7:0] = 8'hff;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[5].ram_forcache.mem[0][7:0] = 8'h43;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[6].ram_forcache.mem[0][7:0] = 8'h40;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[7].ram_forcache.mem[0][7:0] = 8'h75;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[8].ram_forcache.mem[0][7:0] = 8'hfc;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[9].ram_forcache.mem[0][7:0] = 8'h41;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[10].ram_forcache.mem[0][7:0] = 8'hF4;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[11].ram_forcache.mem[0][7:0] = 8'hc3;
-    u_system.u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[12].ram_forcache.mem[0][7:0] = 8'hf4;
+  u_system.u_cpu.TLB[0] = 44'h0000000000c;
+  u_system.u_cpu.TLB[1] = 44'h0200000002e;
+  u_system.u_cpu.TLB[2] = 44'h0400000005e;
+  u_system.u_cpu.TLB[3] = 44'h0b00000004e;
+  u_system.u_cpu.TLB[4] = 44'h0c00000007e;
+  u_system.u_cpu.TLB[5] = 44'h0a00000005e;
+  u_system.u_cpu.TLB[6] = 44'h8000000000f;
+  u_system.u_cpu.TLB[7] = 44'hC000000000f;
+  
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[0] = 44'h0000000000c;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[1] = 44'h0200000002e;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[2] = 44'h0400000005e;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[3] = 44'h0b00000004e;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[4] = 44'h0c00000007e;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[5] = 44'h0a00000005e;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[6] = 44'h8000000000f;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[7] = 44'hC000000000f;
+
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[0] = 44'h0000000000c;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[1] = 44'h0200000002e;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[2] = 44'h0400000005e;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = 44'h0b00000004e;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[4] = 44'h0c00000007e;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[5] = 44'h0a00000005e;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[6] = 44'h8000000000f;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[7] = 44'hC000000000f;
+
+  u_system.u_cpu.CS_limit = 20'h04fff;
+  u_system.u_cpu.DS_limit = 20'h011ff;
+  u_system.u_cpu.SS_limit = 20'h04000;
+  u_system.u_cpu.ES_limit = 20'h003ff;
+  u_system.u_cpu.FS_limit = 20'h003ff;
+  u_system.u_cpu.GS_limit = 20'h007ff;
+
 end
 
 //Initialize memory
@@ -143,7 +340,6 @@ reg [63:0] int_exp_data1 [7:0];
 reg [63:0] int_exp_data2 [7:0];
 
 
-integer k,j;
 initial begin
     $readmemh("../../scripts/hex_data0.txt",data0);
     for (k=0; k < 128; k=k+1) begin : line_gen0
