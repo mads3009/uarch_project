@@ -90,7 +90,7 @@ wire w_wb_br_stall;
 
 wire w_v_ex_ld_mem;
 wire w_mem_rd_busy;
-//FIXME
+//FIXME : w_mem_rd_busy hardcoded
 assign w_mem_rd_busy = 1'b0;
 wire w_ro_cmps_stall;
 wire w_wb_mem_stall;
@@ -655,7 +655,7 @@ i_cache u_i_cache (
   .tag_14_12    (w_fe_PFN),
   .tag_11_9     (w_fe_address_off[11:9]),
   .ic_fill_data (w_ic_data_fill),
-//FIXME
+//FIXME : harcoded w_ic_miss_ack
   .ic_miss_ack  (1'b0),
   //.ic_miss_ack  (w_ic_miss_ack),
   .ic_exp       (w_ic_exp),
@@ -1732,7 +1732,7 @@ dcache u_dcache (
   .mem_rd_ready(w_ro_mem_rd_ready), 
   .mem_wr_done(w_mem_wr_done),
   .mem_rd_busy(/*unused*/), 
-  //FIXME  
+  //FIXME : dcache shld drive w_mem_rd_busy
 //.mem_rd_busy(w_mem_rd_busy), 
   .mem_wr_busy(w_mem_wr_busy), 
   .dc_miss(w_dc_miss), 
