@@ -71,11 +71,6 @@ wire w_wb_br_stall;
 
 wire w_v_ex_ld_mem;
 wire w_mem_rd_busy;
-<<<<<<< HEAD
-//FIXME : w_mem_rd_busy hardcoded
-assign w_mem_rd_busy = 1'b0;
-=======
->>>>>>> a8d3d184d5ab5470063fa755bd759d781a26a5bb
 wire w_ro_cmps_stall;
 wire w_wb_mem_stall;
 
@@ -641,13 +636,7 @@ i_cache u_i_cache (
   .tag_14_12    (w_fe_PFN),
   .tag_11_9     (w_fe_address_off[11:9]),
   .ic_fill_data (w_ic_data_fill),
-<<<<<<< HEAD
-//FIXME : harcoded w_ic_miss_ack
-  .ic_miss_ack  (1'b0),
-  //.ic_miss_ack  (w_ic_miss_ack),
-=======
   .ic_miss_ack  (w_ic_miss_ack),
->>>>>>> a8d3d184d5ab5470063fa755bd759d781a26a5bb
   .ic_exp       (w_ic_exp),
   .r_data       ({w_icache_upper_data,w_icache_lower_data}),
   .ic_hit       (w_ic_hit),
@@ -1727,13 +1716,7 @@ dcache u_dcache (
   .mem_wr_data(w_fifo_mem_wr_data), 
   .mem_rd_ready(w_ro_mem_rd_ready), 
   .mem_wr_done(w_mem_wr_done),
-<<<<<<< HEAD
-  .mem_rd_busy(/*unused*/), 
-  //FIXME : dcache shld drive w_mem_rd_busy
-//.mem_rd_busy(w_mem_rd_busy), 
-=======
   .mem_rd_busy(w_mem_rd_busy), 
->>>>>>> a8d3d184d5ab5470063fa755bd759d781a26a5bb
   .mem_wr_busy(w_mem_wr_busy), 
   .dc_miss(w_dc_miss), 
   .dc_miss_addr(w_dc_miss_addr), 
