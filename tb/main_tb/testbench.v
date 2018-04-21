@@ -191,7 +191,7 @@ initial begin
   rst_n = 1'b1;
   
   // FIXME
-  force u_system.u_cpu.u_seg_regfile.seg_loop.loop2[3].u_seg_reg.data_o = 16'h0A00;
+  //force u_system.u_cpu.u_seg_regfile.seg_loop.loop2[3].u_seg_reg.data_o = 16'h0A00;
 
   #1000;
 
@@ -202,7 +202,7 @@ end
 // Clock generation
 /////////////////////////////////////
 
-always #4 clk <= ~clk;
+always #4.5 clk <= ~clk;
 
 //Instantiate the system
 system u_system(
