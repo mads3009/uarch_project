@@ -14,12 +14,15 @@ wire f_TLB_hit;
 genvar i;
 generate begin : loop
 for (i=0; i<8; i=i+1) begin : eq_checker_gen
-  eq_checker #22 u_chk_tlbhits({TLB[44*i+43: 44*i+24], TLB[44*i+3], TLB[44*i+2]}, {f_address[31:12],1'b1,1'b1}, f_TLB_hits[i]);
+  eq_checker22 u_chk_tlbhits({TLB[44*i+43: 44*i+24], TLB[44*i+3], TLB[44*i+2]}, {f_address[31:12],1'b1,1'b1}, f_TLB_hits[i]);
 end
 end
 endgenerate
 
-assign ic_prot_exp = f_ren && ({f_address[31:5],5'b11111} > CS_limit);
+wire offset_more_than_llimit;
+greater_than32 u_offset_more_than_llimit (.in1({f_address[31:5],5'b11111}), .in2({12'h0,CS_limit}), .gt_out(offset_more_than_llimit));
+
+assign ic_prot_exp = f_ren && offset_more_than_llimit;
 assign ic_page_fault = f_ren && (~(|(f_TLB_hits)));
 
 always @(*) begin

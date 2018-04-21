@@ -7,7 +7,7 @@ output [N-1:0] Y;
 
 genvar i;
 generate
-  for (i=0; i<N; i=i+1) begin
+  for (i=0; i<N; i=i+1) begin : loop
     mux2$ u_mux2(.outb(Y[i]), .in0(IN0[i]), .in1(IN1[i]), .s0(S0));
   end
 endgenerate

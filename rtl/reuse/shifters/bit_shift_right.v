@@ -22,7 +22,7 @@ wire   [WIDTH-1:0] inter[AMT_W:0];
 // Shifter logic
 
 genvar i, j;
-generate
+generate begin: loop
 
 for (i=0; i < WIDTH; i=i+1) begin : gen_lvl1
   assign inter[0][i] = in[i];
@@ -30,10 +30,12 @@ end
 
 for (j=1; j <= AMT_W; j=j+1) begin : gen_row
   for (i=0; i < WIDTH; i=i+1) begin : gen_col
-    if( i < (WIDTH - WIDTH/(2**j)) )
+    if( i < (WIDTH - WIDTH/(2**j)) ) begin: lower
       mux_1bit u_mux_1bit(.outb(inter[j][i]), .in0(inter[j-1][i]), .in1(inter[j-1][(WIDTH/(2**j))+i]), .s0(amt[AMT_W-j]));
-    else
+    end
+    else begin: upper
       mux_1bit u_mux_1bit(.outb(inter[j][i]), .in0(inter[j-1][i]), .in1(sin), .s0(amt[AMT_W-j]));
+    end
   end
 end
 
@@ -41,6 +43,7 @@ for (i=0; i < WIDTH; i=i+1) begin : gen_lvlN
   assign out[i] = inter[AMT_W][i];
 end
 
+end
 endgenerate
 
 endmodule
