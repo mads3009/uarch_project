@@ -782,12 +782,14 @@ nor2$  mem_nor1 ( .in0(mem_nor0_out), .in1(mem_nand1_out), .out(mem_nor1_out));
 or2$   mem_or0  ( .in0(mem_nor1_out), .in1(control_signals[STACK_WRITE]), .out(de_ld_mem));
 
 
-or2$   mem_or1  ( .in0(control_signals[SR1_RM]), .in1(control_signals[SR2_RM]), .out(w_mem_or1_out));
-and2$  mem_and0 ( .in0(w_mem_or1_out), .in1(mod_not_11), .out(w_mem_and0_out));
-or2$   mem_or2  ( .in0(control_signals[CMPS_OP]), .in1(control_signals[STACK_READ]), .out(w_mem_or2_out));
-or2$   mem_or3  ( .in0(w_mem_or2_out), .in1(w_mem_and0_out), .out(de_mem_read));
-
-
+or2$   mem_or2  ( .in0(control_signals[SR1_NEEDED]), .in1(control_signals[MM1_NEEDED]), .out(w_needed1));
+or2$   mem_or3  ( .in0(control_signals[SR2_NEEDED]), .in1(control_signals[MM2_NEEDED]), .out(w_needed2));
+nand2$ mem_nand2( .in0(control_signals[SR1_RM]), .in1(w_needed1), .out(w_sr1_rd));
+nand2$ mem_nand3( .in0(control_signals[SR2_RM]), .in1(w_needed2), .out(w_sr2_rd));
+nand2$ mem_nand4( .in0(w_sr1_rd), .in1(w_sr2_rd), .out(w_mem_rm_out));
+and2$  mem_and0 ( .in0(w_mem_rm_out), .in1(mod_not_11), .out(w_mem_and0_out));
+or2$   mem_or4  ( .in0(control_signals[CMPS_OP]), .in1(control_signals[STACK_READ]), .out(w_mem_or2_out));
+or2$   mem_or5  ( .in0(w_mem_or2_out), .in1(w_mem_and0_out), .out(de_mem_read));
 
 //EIP mux
 wire [31:0] nxt_eip0;

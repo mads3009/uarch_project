@@ -417,7 +417,7 @@ assign AF = u_cpu.r_EFLAGS[sys_AF];
 assign ZF = u_cpu.r_EFLAGS[sys_ZF];
 assign SF = u_cpu.r_EFLAGS[sys_SF];
 assign DF = u_cpu.r_EFLAGS[sys_DF];
-assign DF = u_cpu.r_EFLAGS[sys_OF];
+assign OF = u_cpu.r_EFLAGS[sys_OF];
 
 
 endmodule
