@@ -12,7 +12,8 @@ module fetch_fsm(
   output reg [1:0] f_ld_buf,
   output reg [2:0] f_curr_st,
   output reg [2:0] f_next_st,
-  output reg  f_address_sel
+  output reg  f_address_sel,
+  output      f_nextstate_01_11
   );
 
   localparam IDLE    = 3'b000;
@@ -136,5 +137,6 @@ module fetch_fsm(
       f_address_sel <= next_f_address_sel;
     end
   end
-  
+ 
+  assign f_nextstate_01_11 = (f_next_st==STATE_11) || (f_next_st==STATE_01) ; 
 endmodule

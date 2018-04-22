@@ -202,13 +202,14 @@ end
 // Clock generation
 /////////////////////////////////////
 
-always #4.5 clk <= ~clk;
+always #5 clk <= ~clk;
 
 //Instantiate the system
 system u_system(
   .clk    (clk),
   .rst_n  (rst_n)
 );
+
 
 initial
 begin

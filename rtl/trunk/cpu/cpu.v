@@ -563,6 +563,7 @@ wire [255:0]  w_ic_data_shifted_01;
 wire [255:0]  w_ic_data_shifted_10;
 wire [255:0]  w_ic_data_shifted_11;
 wire [15:0]   r_CS;
+wire          w_fe_nextstate_01_11;
 
 //Passing outputs
 assign w_fe_EIP_curr = r_EIP;
@@ -584,11 +585,12 @@ or4$ u_fe_ren_or2 (.in0(w_block_ic_ren), .in1(int), .in2(w_fe_ren_temp[0]), .in3
 nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .out(w_fe_ren)); 
 
 //Logic for w_V_de_next
-wire w_fe_next_state_not_10;
-wire w_not_fe_next_state0;
-inv1$ u_not_fe_next_state1(.out(w_not_fe_next_state0), .in(w_fe_next_state[0]));
-nand2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state[1]), .in1(w_not_fe_next_state0));
-and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
+//wire w_fe_next_state_not_10;
+//wire w_not_fe_next_state0;
+//inv1$ u_not_fe_next_state1(.out(w_not_fe_next_state0), .in(w_fe_next_state[0]));
+//nand2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state[1]), .in1(w_not_fe_next_state0));
+//and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
+assign w_V_de_next = w_fe_nextstate_01_11;
 
 //Logic for ld_de;
 and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_repne_stall), .in1(int));
@@ -611,7 +613,8 @@ fetch_fsm u_fe_fsm (
   .f_ld_buf   (w_fe_ld_buf),
   .f_curr_st  (r_fe_curr_state),
   .f_next_st  (w_fe_next_state),
-  .f_address_sel  (w_fe_address_sel)
+  .f_address_sel  (w_fe_address_sel),
+  .f_nextstate_01_11 (w_fe_nextstate_01_11)
   );
 
 //Fetch TLB lookup
