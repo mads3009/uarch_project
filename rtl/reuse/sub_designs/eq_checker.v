@@ -1,4 +1,4 @@
-module eq_checker #(parameter WIDTH = 22) (in1, in2, eq_out);
+module eq_checker #(parameter WIDTH = 32) (in1, in2, eq_out);
 
 input [WIDTH-1:0] in1, in2;
 output            eq_out;

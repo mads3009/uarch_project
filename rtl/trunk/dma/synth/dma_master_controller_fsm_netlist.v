@@ -15,47 +15,48 @@ module dma_master_controller_fsm(clk, rst_n, curr_st, start_transfer,
   wire UNCONNECTED, UNCONNECTED0, UNCONNECTED1, n_0, n_1, n_2, n_3, n_4;
   wire n_5, n_6, n_7, n_8, n_9, n_10, n_11, n_12;
   wire n_13, n_14, n_15, n_16, n_17, n_18, n_19, n_20;
-  wire n_21, n_22, n_23, n_24, n_25, n_43;
-  dff$ \curr_st_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_25),
+  wire n_21, n_22, n_23, n_24, n_25, n_26, n_27, n_28;
+  dff$ \curr_st_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_28),
        .q (curr_st[0]), .qbar (UNCONNECTED));
-  dff$ \curr_st_reg[2] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_24),
-       .q (curr_st[2]), .qbar (UNCONNECTED0));
-  nand4$ g567(.in0 (n_14), .in1 (n_17), .in2 (n_22), .in3 (n_7), .out
-       (n_25));
-  dff$ \curr_st_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_23),
-       .q (curr_st[1]), .qbar (UNCONNECTED1));
-  nand4$ g570(.in0 (n_9), .in1 (n_4), .in2 (n_21), .in3 (n_11), .out
-       (n_24));
-  nand3$ g569(.in0 (n_5), .in1 (n_20), .in2 (n_12), .out (n_23));
-  or2$ g568(.in0 (n_19), .in1 (n_8), .out (n_22));
-  nand2$ g573(.in0 (n_16), .in1 (d_ready), .out (n_21));
-  nand3$ g577(.in0 (n_3), .in1 (n_18), .in2 (m_ack), .out (n_20));
-  mux2$ g571(.s0 (m_ack), .in0 (n_13), .in1 (n_18), .outb (n_19));
-  or2$ g572(.in0 (n_15), .in1 (d_ready), .out (n_17));
-  inv1$ g579(.in (n_15), .out (n_16));
-  nand3$ g574(.in0 (n_13), .in1 (n_10), .in2 (start_transfer), .out
-       (n_14));
-  or2$ g575(.in0 (n_11), .in1 (n_6), .out (n_12));
-  nand2$ g580(.in0 (n_10), .in1 (curr_st[0]), .out (n_15));
-  or2$ g581(.in0 (n_8), .in1 (m_ack), .out (n_9));
-  nand4$ g576(.in0 (curr_st[1]), .in1 (n_43), .in2 (n_6), .in3
-       (curr_st[2]), .out (n_7));
-  or4$ g578(.in0 (curr_st[2]), .in1 (curr_st[0]), .in2 (n_2), .in3
-       (int_clear), .out (n_5));
-  or3$ g582(.in0 (curr_st[0]), .in1 (n_1), .in2 (num_trans_eq1), .out
-       (n_4));
-  nand3$ g583(.in0 (n_0), .in1 (n_43), .in2 (num_trans_eq2), .out
-       (n_18));
-  nand3$ g584(.in0 (curr_st[1]), .in1 (n_13), .in2 (curr_st[2]), .out
-       (n_11));
-  inv1$ g586(.in (n_8), .out (n_3));
-  and2$ g585(.in0 (n_2), .in1 (n_1), .out (n_10));
-  nand2$ g587(.in0 (n_2), .in1 (curr_st[2]), .out (n_8));
-  and2$ g588(.in0 (trans_cnt_eq2), .in1 (m_ack), .out (n_6));
-  inv1$ g592(.in (num_trans_eq1), .out (n_0));
-  inv1$ g589(.in (curr_st[1]), .out (n_2));
-  inv1$ g591(.in (curr_st[0]), .out (n_13));
-  inv1$ g590(.in (curr_st[2]), .out (n_1));
-  inv1$ drc_bufs598(.in (curr_st[0]), .out (n_43));
+  dff$ \curr_st_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_26),
+       .q (curr_st[1]), .qbar (UNCONNECTED0));
+  dff$ \curr_st_reg[2] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_27),
+       .q (curr_st[2]), .qbar (UNCONNECTED1));
+  nand3$ g2026(.in0 (n_25), .in1 (n_24), .in2 (n_21), .out (n_28));
+  nand4$ g2029(.in0 (n_22), .in1 (n_16), .in2 (n_7), .in3 (n_11), .out
+       (n_27));
+  nand3$ g2027(.in0 (n_20), .in1 (n_23), .in2 (n_8), .out (n_26));
+  nand4$ g2030(.in0 (num_trans_eq2), .in1 (m_ack), .in2 (n_5), .in3
+       (n_17), .out (n_25));
+  nor3$ g2028(.in0 (n_10), .in1 (n_9), .in2 (n_18), .out (n_24));
+  nand3$ g2037(.in0 (m_ack), .in1 (n_6), .in2 (n_4), .out (n_23));
+  nand2$ g2032(.in0 (d_ready), .in1 (n_14), .out (n_22));
+  nand3$ g2034(.in0 (m_ack), .in1 (trans_cnt_eq2), .in2 (n_19), .out
+       (n_21));
+  nand2$ g2031(.in0 (n_0), .in1 (n_19), .out (n_20));
+  nor3$ g2035(.in0 (n_13), .in1 (d_ready), .in2 (n_12), .out (n_18));
+  nor2$ g2041(.in0 (n_15), .in1 (curr_st[0]), .out (n_17));
+  or2$ g2042(.in0 (m_ack), .in1 (n_15), .out (n_16));
+  nor2$ g2043(.in0 (n_13), .in1 (n_12), .out (n_14));
+  inv1$ g2044(.in (n_19), .out (n_11));
+  nor3$ g2033(.in0 (n_15), .in1 (m_ack), .in2 (n_12), .out (n_10));
+  and3$ g2036(.in0 (n_2), .in1 (start_transfer), .in2 (n_12), .out
+       (n_9));
+  or4$ g2038(.in0 (curr_st[0]), .in1 (n_3), .in2 (int_clear), .in3
+       (curr_st[2]), .out (n_8));
+  nand2$ g2039(.in0 (n_1), .in1 (curr_st[2]), .out (n_7));
+  nand3$ g2040(.in0 (num_trans_eq2), .in1 (n_5), .in2 (n_12), .out
+       (n_6));
+  and3$ g2045(.in0 (curr_st[1]), .in1 (n_12), .in2 (curr_st[2]), .out
+       (n_19));
+  inv1$ g2046(.in (n_15), .out (n_4));
+  nand2$ g2047(.in0 (n_3), .in1 (curr_st[2]), .out (n_15));
+  inv1$ g2050(.in (n_2), .out (n_13));
+  nor2$ g2049(.in0 (num_trans_eq1), .in1 (curr_st[0]), .out (n_1));
+  nand2$ g2048(.in0 (trans_cnt_eq2), .in1 (m_ack), .out (n_0));
+  nor2$ g2051(.in0 (curr_st[1]), .in1 (curr_st[2]), .out (n_2));
+  inv1$ g2053(.in (curr_st[0]), .out (n_12));
+  inv1$ g2052(.in (curr_st[1]), .out (n_3));
+  inv1$ g2054(.in (num_trans_eq1), .out (n_5));
 endmodule
 

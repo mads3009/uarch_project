@@ -6,7 +6,7 @@ module pencoder_3_2 (
 );
 
 always @(*) begin
-  case({a2,a1,a0})
+  case({a0,a1,a2})
     3'b001 : out = 2'b01;
     3'b011 : out = 2'b01;
     3'b101 : out = 2'b01;
