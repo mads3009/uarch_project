@@ -3,7 +3,7 @@
 
 // Verification Directory fv/greater_than 
 
-module greater_than(in1, in2, gt_out);
+module greater_than4(in1, in2, gt_out);
   input [3:0] in1, in2;
   output gt_out;
   wire [3:0] in1, in2;

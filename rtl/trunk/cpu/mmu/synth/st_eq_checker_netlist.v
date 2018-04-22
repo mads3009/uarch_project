@@ -45,82 +45,78 @@ module st_eq_checker(curr_st, next_st, count, curr_st_eq_IO_SEL,
        curr_st_eq_IC_MISS_ACK_bar, curr_st_eq_DC_MEM_WR_bar,
        curr_st_eq_DC_CLEAR_EVICT_bar, count_eq0, count_eq1, count_eq2,
        count_eq3, count_eq4, count_eq5, count_eq6, count_eq7;
-  wire n_0, n_1, n_2, n_3, n_4, n_5, n_10, n_14;
-  wire n_19, n_26, n_27, n_28, n_29, n_30;
-  inv1$ g566(.in (curr_st_eq_IO_ACK_WAIT_bar), .out
-       (curr_st_eq_IO_ACK_WAIT));
-  inv1$ g567(.in (curr_st_eq_IC_MEM_RD_bar), .out
-       (curr_st_eq_IC_MEM_RD));
-  or2$ g574(.in0 (n_29), .in1 (n_4), .out (curr_st_eq_IO_ACK_WAIT_bar));
+  wire n_0, n_1, n_2, n_3, n_6, n_7, n_8, n_19;
+  wire n_21, n_22, n_25, n_26, n_29, n_32, n_33, n_36;
+  inv1$ g564(.in (curr_st_eq_DC_MISS_ACK_bar), .out
+       (curr_st_eq_DC_MISS_ACK));
   inv1$ g581(.in (curr_st_eq_DC_MEM_RD_bar), .out
        (curr_st_eq_DC_MEM_RD));
-  or2$ g575(.in0 (n_28), .in1 (curr_st[0]), .out
-       (curr_st_eq_IC_MEM_RD_bar));
-  inv1$ g583(.in (curr_st_eq_DC_MISS_ACK_bar), .out
-       (curr_st_eq_DC_MISS_ACK));
-  inv1$ g584(.in (curr_st_eq_IC_MISS_ACK_bar), .out
+  inv1$ g565(.in (curr_st_eq_IC_MEM_RD_bar), .out
+       (curr_st_eq_IC_MEM_RD));
+  inv1$ g579(.in (curr_st_eq_IC_MISS_ACK_bar), .out
        (curr_st_eq_IC_MISS_ACK));
-  inv1$ g568(.in (curr_st_eq_DC_MEM_WR_bar), .out
+  nand2$ g567(.in0 (n_26), .in1 (curr_st[0]), .out
+       (curr_st_eq_DC_MISS_ACK_bar));
+  nor2$ g593(.in0 (n_19), .in1 (n_21), .out (next_st_eq_DC_MEM_WR));
+  nor2$ g570(.in0 (n_36), .in1 (count[1]), .out (count_eq1));
+  nor2$ g572(.in0 (n_36), .in1 (n_32), .out (count_eq3));
+  nor2$ g575(.in0 (n_33), .in1 (count[1]), .out (count_eq4));
+  nor2$ g583(.in0 (n_33), .in1 (n_32), .out (count_eq6));
+  nand2$ g573(.in0 (n_29), .in1 (n_25), .out
+       (curr_st_eq_IC_MEM_RD_bar));
+  inv1$ g578(.in (curr_st_eq_IO_ACK_WAIT_bar), .out
+       (curr_st_eq_IO_ACK_WAIT));
+  nand2$ g585(.in0 (n_29), .in1 (curr_st[0]), .out
+       (curr_st_eq_IC_MISS_ACK_bar));
+  inv1$ g580(.in (curr_st_eq_DC_MEM_WR_bar), .out
        (curr_st_eq_DC_MEM_WR));
-  and3$ g579(.in0 (n_0), .in1 (n_2), .in2 (next_st[0]), .out
+  nand2$ g592(.in0 (n_26), .in1 (n_25), .out
+       (curr_st_eq_DC_MEM_RD_bar));
+  nor2$ g574(.in0 (n_22), .in1 (next_st[1]), .out
        (next_st_eq_IO_ACK_WAIT));
-  and3$ g573(.in0 (n_14), .in1 (n_0), .in2 (next_st[1]), .out
-       (next_st_eq_DC_MEM_RD));
-  inv1$ g565(.in (n_30), .out (count_eq0));
-  and3$ g593(.in0 (next_st[1]), .in1 (n_0), .in2 (next_st[0]), .out
-       (next_st_eq_DC_MISS_ACK));
-  and3$ g585(.in0 (n_14), .in1 (n_2), .in2 (next_st[2]), .out
+  nor2$ g586(.in0 (n_22), .in1 (n_21), .out (next_st_eq_DC_MISS_ACK));
+  nor2$ g589(.in0 (n_19), .in1 (next_st[1]), .out
        (next_st_eq_IC_MEM_RD));
-  and3$ g586(.in0 (next_st[2]), .in1 (n_2), .in2 (next_st[0]), .out
+  and2$ g571(.in0 (n_0), .in1 (count[1]), .out (count_eq2));
+  nor2$ g591(.in0 (n_1), .in1 (next_st[1]), .out
        (next_st_eq_IC_MISS_ACK));
-  and3$ g595(.in0 (next_st[1]), .in1 (n_14), .in2 (next_st[2]), .out
-       (next_st_eq_DC_MEM_WR));
-  and3$ g576(.in0 (n_19), .in1 (n_3), .in2 (count[0]), .out
-       (count_eq1));
-  and3$ g572(.in0 (n_5), .in1 (n_19), .in2 (count[1]), .out
-       (count_eq2));
-  and3$ g588(.in0 (count[1]), .in1 (n_19), .in2 (count[0]), .out
-       (count_eq3));
+  nor2$ g576(.in0 (n_2), .in1 (count[1]), .out (count_eq5));
   inv1$ g582(.in (curr_st_eq_DC_CLEAR_EVICT_bar), .out
        (curr_st_eq_DC_CLEAR_EVICT));
-  and3$ g577(.in0 (n_5), .in1 (n_3), .in2 (count[2]), .out (count_eq4));
-  and3$ g578(.in0 (count[2]), .in1 (n_3), .in2 (count[0]), .out
-       (count_eq5));
-  and3$ g592(.in0 (count[1]), .in1 (n_5), .in2 (count[2]), .out
-       (count_eq6));
-  nand3$ g591(.in0 (curr_st[0]), .in1 (n_10), .in2 (curr_st[1]), .out
-       (curr_st_eq_DC_MISS_ACK_bar));
-  inv1$ g563(.in (curr_st_eq_IO_SEL_bar), .out (curr_st_eq_IO_SEL));
-  inv1$ g564(.in (n_27), .out (next_st_eq_IO_SEL));
-  nand3$ g594(.in0 (curr_st[0]), .in1 (n_1), .in2 (curr_st[2]), .out
-       (curr_st_eq_IC_MISS_ACK_bar));
-  or2$ g580(.in0 (n_26), .in1 (curr_st[0]), .out
+  nand3$ g590(.in0 (curr_st[2]), .in1 (n_25), .in2 (curr_st[1]), .out
        (curr_st_eq_DC_MEM_WR_bar));
-  nand3$ g587(.in0 (n_10), .in1 (n_4), .in2 (curr_st[1]), .out
-       (curr_st_eq_DC_MEM_RD_bar));
-  nand3$ g589(.in0 (curr_st[2]), .in1 (curr_st[0]), .in2 (curr_st[1]),
-       .out (curr_st_eq_DC_CLEAR_EVICT_bar));
-  and3$ g590(.in0 (next_st[2]), .in1 (next_st[1]), .in2 (next_st[0]),
+  or3$ g584(.in0 (curr_st[2]), .in1 (n_25), .in2 (curr_st[1]), .out
+       (curr_st_eq_IO_ACK_WAIT_bar));
+  inv1$ g563(.in (curr_st_eq_IO_SEL), .out (curr_st_eq_IO_SEL_bar));
+  and2$ g577(.in0 (n_3), .in1 (next_st[1]), .out
+       (next_st_eq_DC_MEM_RD));
+  or2$ g600(.in0 (n_8), .in1 (next_st[0]), .out (n_19));
+  and3$ g588(.in0 (next_st[2]), .in1 (next_st[1]), .in2 (next_st[0]),
        .out (next_st_eq_DC_CLEAR_EVICT));
-  and3$ g596(.in0 (count[2]), .in1 (count[1]), .in2 (count[0]), .out
+  nor3$ g587(.in0 (count[2]), .in1 (count[1]), .in2 (count[0]), .out
+       (count_eq0));
+  nand3$ g594(.in0 (curr_st[2]), .in1 (curr_st[0]), .in2 (curr_st[1]),
+       .out (curr_st_eq_DC_CLEAR_EVICT_bar));
+  nor2$ g595(.in0 (n_6), .in1 (curr_st[2]), .out (n_26));
+  nand2$ g596(.in0 (n_7), .in1 (count[0]), .out (n_36));
+  nand2$ g597(.in0 (n_8), .in1 (next_st[0]), .out (n_22));
+  or2$ g598(.in0 (n_7), .in1 (count[0]), .out (n_33));
+  nor3$ g566(.in0 (curr_st[2]), .in1 (curr_st[0]), .in2 (curr_st[1]),
+       .out (curr_st_eq_IO_SEL));
+  and2$ g599(.in0 (n_6), .in1 (curr_st[2]), .out (n_29));
+  nor3$ g569(.in0 (next_st[2]), .in1 (next_st[1]), .in2 (next_st[0]),
+       .out (next_st_eq_IO_SEL));
+  and3$ g568(.in0 (count[2]), .in1 (count[1]), .in2 (count[0]), .out
        (count_eq7));
-  or3$ g569(.in0 (curr_st[2]), .in1 (curr_st[0]), .in2 (curr_st[1]),
-       .out (curr_st_eq_IO_SEL_bar));
-  or3$ g571(.in0 (count[2]), .in1 (count[1]), .in2 (count[0]), .out
-       (n_30));
-  nand2$ g597(.in0 (n_10), .in1 (n_1), .out (n_29));
-  nand2$ g598(.in0 (n_1), .in1 (curr_st[2]), .out (n_28));
-  or3$ g570(.in0 (next_st[2]), .in1 (next_st[1]), .in2 (next_st[0]),
-       .out (n_27));
-  nand2$ g599(.in0 (curr_st[2]), .in1 (curr_st[1]), .out (n_26));
-  inv1$ g602(.in (count[2]), .out (n_19));
-  inv1$ g608(.in (next_st[0]), .out (n_14));
-  inv1$ g609(.in (curr_st[2]), .out (n_10));
-  inv1$ g625(.in (count[0]), .out (n_5));
-  inv1$ g622(.in (curr_st[0]), .out (n_4));
-  inv1$ g618(.in (count[1]), .out (n_3));
-  inv1$ g604(.in (next_st[1]), .out (n_2));
-  inv1$ g615(.in (curr_st[1]), .out (n_1));
-  inv1$ g612(.in (next_st[2]), .out (n_0));
+  nor2$ g602(.in0 (next_st[2]), .in1 (next_st[0]), .out (n_3));
+  nand2$ g603(.in0 (count[2]), .in1 (count[0]), .out (n_2));
+  nand2$ g604(.in0 (next_st[2]), .in1 (next_st[0]), .out (n_1));
+  nor2$ g601(.in0 (count[2]), .in1 (count[0]), .out (n_0));
+  inv1$ g607(.in (next_st[2]), .out (n_8));
+  inv1$ g610(.in (count[2]), .out (n_7));
+  inv1$ g605(.in (curr_st[0]), .out (n_25));
+  inv1$ g606(.in (next_st[1]), .out (n_21));
+  inv1$ g609(.in (curr_st[1]), .out (n_6));
+  inv1$ g608(.in (count[1]), .out (n_32));
 endmodule
 
