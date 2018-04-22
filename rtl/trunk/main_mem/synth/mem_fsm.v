@@ -39,7 +39,7 @@ wire w_cyc, w_start, w_wr_done, w_addr_ch, w_wr_wait_n_done, w_wr_wait_2n_done, 
 assign w_cyc = cyc & (addr[31:15]==17'd0);
 assign ce    = ~w_cyc;
 assign oe    = ~w_cyc | we;
-assign ack   = (curr_st == RD_ACK) | (curr_st == WR_ACK);
+assign ack   = ((curr_st == RD_ACK) | (curr_st == WR_ACK)) & w_cyc;
 assign rd    = ~((curr_st == RD_EN) | (curr_st == RD_ACK));
 assign wr    = ~((curr_st == WR_EN) | (curr_st == WR_ACK));
 

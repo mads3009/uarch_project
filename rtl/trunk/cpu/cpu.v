@@ -36,25 +36,6 @@ localparam SF=4'd7;
 localparam DF=4'd10;
 localparam OF=4'd11;
 
-initial begin
-  TLB[0] = 44'h0000000000c;
-  TLB[1] = 44'h0200000002e;
-  TLB[2] = 44'h0400000005e;
-  TLB[3] = 44'h0b00000004e;
-  TLB[4] = 44'h0c00000007e;
-  TLB[5] = 44'h0a00000005e;
-  TLB[6] = 44'h00000000000;
-  TLB[7] = 44'h00000000000;
-  
-  CS_limit = 20'h04fff;
-  DS_limit = 20'h011ff;
-  SS_limit = 20'h04000;
-  ES_limit = 20'h003ff;
-  FS_limit = 20'h003ff;
-  GS_limit = 20'h007ff;
-
-end
-
 //Loads and Valids of pipeline latches
 wire w_V_de_next;
 wire w_V_ag_next;
@@ -90,8 +71,6 @@ wire w_wb_br_stall;
 
 wire w_v_ex_ld_mem;
 wire w_mem_rd_busy;
-//FIXME
-assign w_mem_rd_busy = 1'b0;
 wire w_ro_cmps_stall;
 wire w_wb_mem_stall;
 
@@ -657,9 +636,7 @@ i_cache u_i_cache (
   .tag_14_12    (w_fe_PFN),
   .tag_11_9     (w_fe_address_off[11:9]),
   .ic_fill_data (w_ic_data_fill),
-//FIXME
-  .ic_miss_ack  (1'b0),
-  //.ic_miss_ack  (w_ic_miss_ack),
+  .ic_miss_ack  (w_ic_miss_ack),
   .ic_exp       (w_ic_exp),
   .r_data       ({w_icache_upper_data,w_icache_lower_data}),
   .ic_hit       (w_ic_hit),
@@ -1687,6 +1664,10 @@ wire [19:0] w_ro_seg_rd_limit;
 wire [31:0] w_ro_rd_addr_offset;
 wire w_dc_rd_exp;
 
+wire w_v_ro_mem_read;
+wire w_v_ro_ld_mem;
+
+
 //To out
 wire [31:0]  w_ro_sr1;
 wire [31:0]  w_ro_sr2;
@@ -1700,7 +1681,6 @@ wire [31:0]  w_ro_mem_wr_addr;
 wire [31:0] w_fifo_mem_wr_addr;
 wire [1:0] w_fifo_mem_wr_size;
 wire [63:0] w_fifo_mem_wr_data;
-wire w_ro_v_mem_read;
 wire w_ro_mem_conflict;
 wire w_ro_mem_rd_ready;
 wire w_mem_wr_busy;
@@ -1718,10 +1698,13 @@ wire w_dc_evict;
 wire [31:0] w_dc_evict_addr;
 wire [127:0] w_dc_evict_data;
 
+// FIXME
+assign w_ro_mem_conflict = 1'b0;
+
 dcache u_dcache (
   .clk(clk), 
   .rst_n(rst_n), 
-  .v_mem_read(w_ro_v_mem_read),
+  .v_mem_read(w_v_ro_mem_read),
   .mem_conflict(w_ro_mem_conflict), 
   .wr_fifo_empty(w_fifo_empty), 
   .wr_fifo_to_be_full(w_fifo_to_be_full),
@@ -1733,9 +1716,7 @@ dcache u_dcache (
   .mem_wr_data(w_fifo_mem_wr_data), 
   .mem_rd_ready(w_ro_mem_rd_ready), 
   .mem_wr_done(w_mem_wr_done),
-  .mem_rd_busy(/*unused*/), 
-  //FIXME  
-//.mem_rd_busy(w_mem_rd_busy), 
+  .mem_rd_busy(w_mem_rd_busy), 
   .mem_wr_busy(w_mem_wr_busy), 
   .dc_miss(w_dc_miss), 
   .dc_miss_addr(w_dc_miss_addr), 
@@ -1784,9 +1765,6 @@ mmu u_mmu(
   .m_ack(m_ack), 
   .m_data_i(m_data_i)
   );
-
-wire w_v_ro_mem_read;
-wire w_v_ro_ld_mem;
 
 and2$ u_w_v_ro_mem_read ( .out(w_v_ro_mem_read), .in0(r_V_ro), .in1(r_ro_mem_read));
 and2$ u_w_v_ro_ld_mem ( .out(w_v_ro_ld_mem),   .in0(r_V_ro), .in1(r_ro_ld_mem));
@@ -2103,6 +2081,7 @@ ex_dep_v_ld_logic u_ex_dep_v_ld_logic(
   .ld_wb              (w_ld_wb)
 );
 
+// FIXME
 //Valid loads etc
 assign w_v_ex_ld_mem = r_V_ex & r_ex_ld_mem;
 
@@ -2207,8 +2186,8 @@ wr_fifo u_wr_fifo(
   .rst_n              (rst_n),
   .wr                 (w_v_wb_ld_mem),
   .rd                 (w_mem_wr_done),
-  .wr_data            ({w_wb_mem_wr_addr, r_wb_mem_wr_size, w_wb_mem_wr_data}),
-  .rd_data            ({w_fifo_mem_wr_addr, w_fifo_mem_wr_size, w_fifo_mem_wr_data}),
+  .wr_data            ({r_wb_mem_wr_size, r_wb_mem_wr_addr, w_wb_mem_wr_data}),// FIXME am i right? w_wb_mem_wr_addr replaced by r_wb_mem_wr_addr
+  .rd_data            ({w_fifo_mem_wr_size, w_fifo_mem_wr_addr, w_fifo_mem_wr_data}),
   .fifo_empty         (w_fifo_empty),
   .fifo_full          (w_fifo_full),
   .fifo_empty_bar     (w_fifo_empty_bar),

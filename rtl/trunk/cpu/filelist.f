@@ -52,6 +52,7 @@
 ../../reuse/sub_designs/muxNbit_2x1.v
 ../../reuse/sub_designs/eq_checker16_netlist.v
 ../../reuse/sub_designs/eq_checker20_netlist.v
+../../reuse/sub_designs/eq_checker22_netlist.v
 ../../reuse/sub_designs/eq_checker32_netlist.v
 ../../reuse/sub_designs/eq_checker3_netlist.v
 ../../reuse/sub_designs/eq_checker6_netlist.v

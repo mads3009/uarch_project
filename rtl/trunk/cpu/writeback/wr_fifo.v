@@ -51,6 +51,8 @@ and2$ u_and2_2(.out(w_ld_wr_ptr), .in0(wr), .in1(fifo_full_bar));
 // fifo_cnt update
 register #(.N(3)) u_fifo_cnt_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_fifo_cnt), .data_o(r_fifo_cnt), .ld(w_ld_fifo_cnt));
 
+assign fifo_cnt = r_fifo_cnt;
+
 adder3bit u_fifo_cnt_inc_adder(.a(r_fifo_cnt), .b(3'd1), .sum(w_fifo_cnt_inc));
 adder3bit u_fifo_cnt_dec_adder(.a(r_fifo_cnt), .b(3'd7), .sum(w_fifo_cnt_dec));
 

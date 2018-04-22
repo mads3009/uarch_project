@@ -1,0 +1,8 @@
+fetch/fetch_fsm.v
+fetch/fetch_TLB_lookup.v
+decode/de_dep_v_ld_logic.v
+addr_gen/ag_dep_v_ld_logic.v
+read_operands/ro_dep_v_ld_logic.v
+execute/ex_dep_v_ld_logic.v
+writeback/writeback_loads_gen.v
+reuse/sub_modules/pencoder_3_2.v
