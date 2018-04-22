@@ -161,7 +161,7 @@ assign m_strb = 4'b1111;
 //////////////////////////////////////////////////
 
 // m_addr generation
-mux32bit_4x1 u_mux32bit_4x1_2(.Y(w_temp_addr), .IN0(r_dc_evict_addr), .IN1(dc_miss_addr), .IN2(ic_miss_addr), .IN3(w_temp_addr_inc), .S0(w_mux_sel0), .S1(w_mux_sel0));
+mux32bit_4x1 u_mux32bit_4x1_2(.Y(w_temp_addr), .IN0(r_dc_evict_addr), .IN1(dc_miss_addr), .IN2(ic_miss_addr), .IN3(w_temp_addr_inc), .S0(w_mux_sel0), .S1(w_mux_sel1));
 
 cond_sum32 u_cond_sum32(.A(r_temp_addr), .B(32'd4), .CIN(1'b0), .S(w_temp_addr_inc), .COUT(/*unused*/));
 
