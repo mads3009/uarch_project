@@ -347,7 +347,7 @@ assign EDX = {u_cpu.u_regfile.reg_loop.loop2[2].u_reg3.data_o, u_cpu.u_regfile.r
 assign BL  = u_cpu.u_regfile.reg_loop.loop2[3].u_reg0.data_o;
 assign BH  = u_cpu.u_regfile.reg_loop.loop2[3].u_reg1.data_o;
 assign BX  = {BH,BL};
-assign EBX = {u_cpu.u_regfile.reg_loop.loop2[3].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[3].u_reg3.data_o, BH, BL};
+assign EBX = {u_cpu.u_regfile.reg_loop.loop2[3].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[3].u_reg2.data_o, BH, BL};
 
 assign SP  = {u_cpu.u_regfile.reg_loop.loop2[4].u_reg1.data_o, u_cpu.u_regfile.reg_loop.loop2[4].u_reg0.data_o};
 assign ESP = {u_cpu.u_regfile.reg_loop.loop2[4].u_reg3.data_o, u_cpu.u_regfile.reg_loop.loop2[4].u_reg2.data_o, SP};
