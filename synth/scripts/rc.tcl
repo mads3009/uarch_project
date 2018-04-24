@@ -18,6 +18,6 @@ synthesize -to_generic
 synthesize -to_mapped
 report_timing
 
-write_hdl -mapped >  ${current_design}_netlist.v
+write_hdl -mapped >  ../${current_design}_netlist.v
 
 

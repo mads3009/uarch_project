@@ -189,9 +189,6 @@ initial begin
   release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[15].u_ram8b8w$.WR;
 
   rst_n = 1'b1;
-  
-  // FIXME
-  //force u_system.u_cpu.u_seg_regfile.seg_loop.loop2[3].u_seg_reg.data_o = 16'h0A00;
 
   #1000;
 
