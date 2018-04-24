@@ -29,7 +29,7 @@ module fetch_fsm(
     case(f_curr_st)
     IDLE : begin
       if(eip_4 && ic_hit) begin
-        f_next_st = STATE_10;
+        f_next_st <= STATE_10;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b11;
       end
@@ -119,7 +119,13 @@ module fetch_fsm(
         f_ld_buf <= 2'b00;
       end
     end
-  
+ 
+    default : begin
+        f_next_st <= IDLE;
+        next_f_address_sel = 1'b0;
+        f_ld_buf <= 2'b00;      
+    end
+ 
     endcase
   end
 
