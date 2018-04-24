@@ -11,3 +11,5 @@ DVEfiles*
 *vpd
 ucli.key
 dve*
+*.o
+test.txt

@@ -9,10 +9,10 @@ module pencoder_3_2(a0, a1, a2, out);
   wire a0, a1, a2;
   wire [1:0] out;
   wire n_0, n_1, n_2;
-  or2$ g31(.in0 (n_2), .in1 (a2), .out (out[0]));
-  nor2$ g30(.in0 (n_1), .in1 (a2), .out (out[1]));
-  nor2$ g32(.in0 (n_0), .in1 (a1), .out (n_2));
-  nor2$ g33(.in0 (a0), .in1 (a1), .out (n_1));
-  inv1$ g34(.in (a0), .out (n_0));
+  or2$ g28(.in0 (n_2), .in1 (a0), .out (out[0]));
+  nor2$ g27(.in0 (n_1), .in1 (a0), .out (out[1]));
+  nor2$ g29(.in0 (n_0), .in1 (a1), .out (n_2));
+  nor2$ g30(.in0 (a1), .in1 (a2), .out (n_1));
+  inv1$ g31(.in (a2), .out (n_0));
 endmodule
 
