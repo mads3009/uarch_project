@@ -5,68 +5,80 @@
 
 module writeback_loads_gen(V_wb, CF_expected, cond_wr_CF, CF_flag,
      cxchg_op, ZF_new, ld_mem, ld_seg, ld_mm, ld_reg1, ld_reg2,
-     ld_reg3, ld_reg1_strb, ld_reg2_strb, ld_reg3_strb,
+     ld_reg3, ld_reg1_strb, ld_reg2_strb, ld_reg3_strb, ld_flag_ZF,
+     ld_flag_AF, ld_flag_DF, ld_flag_CF, eip_change, br_stall,
      v_wb_ld_reg1_strb, v_wb_ld_reg2_strb, v_wb_ld_reg3_strb,
      v_wb_ld_reg1, v_wb_ld_reg2, v_wb_ld_reg3, v_wb_ld_mm, v_wb_ld_seg,
-     v_wb_ld_mem);
+     v_wb_ld_mem, v_wb_ld_flag_ZF, v_wb_ld_flag_AF, v_wb_ld_flag_DF,
+     v_wb_ld_flag_CF);
   input V_wb, CF_expected, cond_wr_CF, CF_flag, cxchg_op, ZF_new,
-       ld_mem, ld_seg, ld_mm, ld_reg1, ld_reg2, ld_reg3;
+       ld_mem, ld_seg, ld_mm, ld_reg1, ld_reg2, ld_reg3, ld_flag_ZF,
+       ld_flag_AF, ld_flag_DF, ld_flag_CF, eip_change;
   input [3:0] ld_reg1_strb, ld_reg2_strb, ld_reg3_strb;
+  output br_stall, v_wb_ld_reg1, v_wb_ld_reg2, v_wb_ld_reg3,
+       v_wb_ld_mm, v_wb_ld_seg, v_wb_ld_mem, v_wb_ld_flag_ZF,
+       v_wb_ld_flag_AF, v_wb_ld_flag_DF, v_wb_ld_flag_CF;
   output [3:0] v_wb_ld_reg1_strb, v_wb_ld_reg2_strb, v_wb_ld_reg3_strb;
-  output v_wb_ld_reg1, v_wb_ld_reg2, v_wb_ld_reg3, v_wb_ld_mm,
-       v_wb_ld_seg, v_wb_ld_mem;
   wire V_wb, CF_expected, cond_wr_CF, CF_flag, cxchg_op, ZF_new,
-       ld_mem, ld_seg, ld_mm, ld_reg1, ld_reg2, ld_reg3;
+       ld_mem, ld_seg, ld_mm, ld_reg1, ld_reg2, ld_reg3, ld_flag_ZF,
+       ld_flag_AF, ld_flag_DF, ld_flag_CF, eip_change;
   wire [3:0] ld_reg1_strb, ld_reg2_strb, ld_reg3_strb;
+  wire br_stall, v_wb_ld_reg1, v_wb_ld_reg2, v_wb_ld_reg3, v_wb_ld_mm,
+       v_wb_ld_seg, v_wb_ld_mem, v_wb_ld_flag_ZF, v_wb_ld_flag_AF,
+       v_wb_ld_flag_DF, v_wb_ld_flag_CF;
   wire [3:0] v_wb_ld_reg1_strb, v_wb_ld_reg2_strb, v_wb_ld_reg3_strb;
-  wire v_wb_ld_reg1, v_wb_ld_reg2, v_wb_ld_reg3, v_wb_ld_mm,
-       v_wb_ld_seg, v_wb_ld_mem;
-  wire n_0, n_1, n_2, n_3, n_4, n_5, n_6, n_13;
-  wire n_17, n_18, n_19;
-  and2$ g480(.in0 (n_19), .in1 (n_1), .out (v_wb_ld_reg2));
-  and3$ g482(.in0 (V_wb), .in1 (n_17), .in2 (ld_reg2), .out (n_19));
-  and3$ g483(.in0 (V_wb), .in1 (n_0), .in2 (ld_mem), .out
+  wire n_0, n_3, n_16, n_17, n_18, n_19, n_20, n_21;
+  wire n_23, n_24, n_25, n_26, n_27, n_68, n_69;
+  nor2$ g503(.in0 (n_69), .in1 (n_23), .out (v_wb_ld_reg1_strb[3]));
+  nor2$ g504(.in0 (n_69), .in1 (n_21), .out (v_wb_ld_reg1_strb[2]));
+  nor2$ g507(.in0 (n_69), .in1 (n_20), .out (v_wb_ld_reg1_strb[1]));
+  nor2$ g509(.in0 (n_69), .in1 (n_19), .out (v_wb_ld_reg1_strb[0]));
+  nor2$ g511(.in0 (n_69), .in1 (n_24), .out (v_wb_ld_reg2_strb[3]));
+  nor2$ g505(.in0 (n_69), .in1 (n_27), .out (v_wb_ld_reg2_strb[2]));
+  nor2$ g506(.in0 (n_69), .in1 (n_18), .out (v_wb_ld_reg2_strb[1]));
+  nor2$ g508(.in0 (n_69), .in1 (n_26), .out (v_wb_ld_reg2_strb[0]));
+  nor2$ g510(.in0 (n_69), .in1 (n_17), .out (v_wb_ld_reg1));
+  nor2$ g512(.in0 (n_69), .in1 (n_16), .out (v_wb_ld_reg2));
+  nand3$ g514(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg2_strb[2]), .out
+       (n_27));
+  nand3$ g518(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg2_strb[0]), .out
+       (n_26));
+  nand3$ g524(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg2_strb[3]), .out
+       (n_24));
+  nand3$ g519(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg1_strb[3]), .out
+       (n_23));
+  and3$ g515(.in0 (V_wb), .in1 (n_25), .in2 (ld_mem), .out
        (v_wb_ld_mem));
-  or2$ g484(.in0 (CF_expected), .in1 (CF_flag), .out (n_18));
-  nand2$ g486(.in0 (cxchg_op), .in1 (ZF_new), .out (n_17));
-  and2$ g490(.in0 (V_wb), .in1 (ld_reg3), .out (v_wb_ld_reg2));
-  nand2$ g491(.in0 (CF_expected), .in1 (CF_flag), .out (n_13));
-  and2$ g494(.in0 (V_wb), .in1 (ld_reg3_strb[3]), .out
-       (v_wb_ld_reg3_strb[3]));
-  and2$ g495(.in0 (V_wb), .in1 (ld_reg3_strb[2]), .out
-       (v_wb_ld_reg3_strb[2]));
-  and2$ g496(.in0 (V_wb), .in1 (ld_reg3_strb[1]), .out
+  nand3$ g516(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg1_strb[2]), .out
+       (n_21));
+  nand3$ g520(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg1_strb[1]), .out
+       (n_20));
+  nand3$ g521(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg1_strb[0]), .out
+       (n_19));
+  nand3$ g517(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg2_strb[1]), .out
+       (n_18));
+  nand3$ g522(.in0 (V_wb), .in1 (n_25), .in2 (ld_reg1), .out (n_17));
+  nand3$ g523(.in0 (V_wb), .in1 (n_3), .in2 (ld_reg2), .out (n_16));
+  nand2$ g525(.in0 (n_0), .in1 (cxchg_op), .out (n_25));
+  and2$ g528(.in0 (V_wb), .in1 (ld_seg), .out (v_wb_ld_seg));
+  and2$ g531(.in0 (V_wb), .in1 (ld_flag_ZF), .out (v_wb_ld_flag_ZF));
+  and2$ g529(.in0 (V_wb), .in1 (ld_flag_DF), .out (v_wb_ld_flag_DF));
+  and2$ g537(.in0 (V_wb), .in1 (ld_reg3_strb[1]), .out
        (v_wb_ld_reg3_strb[1]));
-  and2$ g497(.in0 (V_wb), .in1 (ld_reg3_strb[0]), .out
+  and2$ g534(.in0 (V_wb), .in1 (eip_change), .out (br_stall));
+  and2$ g538(.in0 (V_wb), .in1 (ld_reg3_strb[0]), .out
        (v_wb_ld_reg3_strb[0]));
-  and2$ g501(.in0 (V_wb), .in1 (ld_mm), .out (v_wb_ld_mm));
-  and2$ g502(.in0 (V_wb), .in1 (ld_seg), .out (v_wb_ld_seg));
-  inv1$ g504(.in (ZF_new), .out (n_6));
-  nand3$ g523(.in0 (n_13), .in1 (n_18), .in2 (cond_wr_CF), .out (n_5));
-  nand2$ g485_dup528(.in0 (n_6), .in1 (cxchg_op), .out (n_4));
-  nand2$ g533(.in0 (n_6), .in1 (cxchg_op), .out (n_3));
-  nand3$ g481_dup538(.in0 (n_13), .in1 (n_18), .in2 (cond_wr_CF), .out
-       (n_2));
-  nand3$ g481_dup_dup539(.in0 (n_13), .in1 (n_18), .in2 (cond_wr_CF),
-       .out (n_1));
-  nand2$ g518_dup540(.in0 (n_6), .in1 (cxchg_op), .out (n_0));
-  and4$ g2(.in0 (V_wb), .in1 (ld_reg1_strb[3]), .in2 (n_5), .in3 (n_3),
-       .out (v_wb_ld_reg1_strb[3]));
-  and4$ g541(.in0 (V_wb), .in1 (ld_reg1_strb[2]), .in2 (n_1), .in3
-       (n_0), .out (v_wb_ld_reg1_strb[2]));
-  and4$ g542(.in0 (V_wb), .in1 (ld_reg2_strb[2]), .in2 (n_5), .in3
-       (n_3), .out (v_wb_ld_reg2_strb[2]));
-  and4$ g543(.in0 (V_wb), .in1 (ld_reg2_strb[1]), .in2 (n_1), .in3
-       (n_0), .out (v_wb_ld_reg2_strb[1]));
-  and4$ g544(.in0 (V_wb), .in1 (ld_reg1_strb[1]), .in2 (n_2), .in3
-       (n_4), .out (v_wb_ld_reg1_strb[1]));
-  and4$ g545(.in0 (V_wb), .in1 (ld_reg2_strb[0]), .in2 (n_1), .in3
-       (n_0), .out (v_wb_ld_reg2_strb[0]));
-  and4$ g546(.in0 (V_wb), .in1 (ld_reg1_strb[0]), .in2 (n_2), .in3
-       (n_4), .out (v_wb_ld_reg1_strb[0]));
-  and4$ g547(.in0 (V_wb), .in1 (ld_reg1), .in2 (n_5), .in3 (n_3), .out
-       (v_wb_ld_reg1));
-  and4$ g548(.in0 (V_wb), .in1 (ld_reg2_strb[3]), .in2 (n_2), .in3
-       (n_4), .out (v_wb_ld_reg2_strb[3]));
+  and2$ g526(.in0 (V_wb), .in1 (ld_reg3), .out (v_wb_ld_reg3));
+  and2$ g527(.in0 (V_wb), .in1 (ld_mm), .out (v_wb_ld_mm));
+  and2$ g532(.in0 (V_wb), .in1 (ld_flag_AF), .out (v_wb_ld_flag_AF));
+  and2$ g533(.in0 (V_wb), .in1 (ld_flag_CF), .out (v_wb_ld_flag_CF));
+  nand2$ g540(.in0 (cxchg_op), .in1 (ZF_new), .out (n_3));
+  and2$ g536(.in0 (V_wb), .in1 (ld_reg3_strb[2]), .out
+       (v_wb_ld_reg3_strb[2]));
+  and2$ g535(.in0 (V_wb), .in1 (ld_reg3_strb[3]), .out
+       (v_wb_ld_reg3_strb[3]));
+  inv1$ g541(.in (ZF_new), .out (n_0));
+  and2$ g2(.in0 (n_68), .in1 (cond_wr_CF), .out (n_69));
+  xor2$ g3(.in0 (CF_expected), .in1 (CF_flag), .out (n_68));
 endmodule
 

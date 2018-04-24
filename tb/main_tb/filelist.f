@@ -77,7 +77,7 @@
 
 ../../rtl/trunk/cpu/fetch/i_cache.v
 ../../rtl/trunk/cpu/fetch/fetch_TLB_lookup.v
-../../rtl/trunk/cpu/fetch/fetch_fsm.v
+../../rtl/trunk/cpu/fetch/fetch_fsm_netlist.v
 
 ../../rtl/trunk/cpu/decode/register_addr_dependency.v
 ../../rtl/trunk/cpu/decode/segment_addr_dependency.v
@@ -131,11 +131,11 @@
 ../../rtl/trunk/cpu/writeback/wr_fifo.v
 ../../rtl/trunk/cpu/writeback/EIP_reg.v
 
-../../rtl/trunk/cpu/decode/de_dep_v_ld_logic.v
-../../rtl/trunk/cpu/addr_gen/ag_dep_v_ld_logic.v
-../../rtl/trunk/cpu/read_operands/ro_dep_v_ld_logic.v
-../../rtl/trunk/cpu/execute/ex_dep_v_ld_logic.v
-../../rtl/trunk/cpu/writeback/writeback_loads_gen.v
+../../rtl/trunk/cpu/decode/de_dep_v_ld_logic_netlist.v
+../../rtl/trunk/cpu/addr_gen/ag_dep_v_ld_logic_netlist.v
+../../rtl/trunk/cpu/read_operands/ro_dep_v_ld_logic_netlist.v
+../../rtl/trunk/cpu/execute/ex_dep_v_ld_logic_netlist.v
+../../rtl/trunk/cpu/writeback/writeback_loads_gen_netlist.v
 
 ../../rtl/trunk/cpu/cpu.v
 ../../rtl/trunk/system/system.v
