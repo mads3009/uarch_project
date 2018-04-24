@@ -46,7 +46,7 @@
 ../../rtl/reuse/shifters/byte_rotate_left.v
 ../../rtl/reuse/shifters/byte_rotate_right.v
 
-../../rtl/reuse/sub_designs/pencoder_3_2.v
+../../rtl/reuse/sub_designs/pencoder_3_2_netlist.v
 
 ../../rtl/reuse/sub_designs/AND1_nbit.v
 ../../rtl/reuse/sub_designs/muxNbit_2x1.v

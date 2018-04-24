@@ -584,6 +584,11 @@ or4$ u_fe_ren_or1 (.in0(w_wb_br_stall), .in1(w_repne_stall), .in2(w_hlt_stall), 
 or4$ u_fe_ren_or2 (.in0(w_block_ic_ren), .in1(int), .in2(w_fe_ren_temp[0]), .in3(w_fe_ren_temp[1]), .out(w_fe_ren_temp[2])); 
 nor3$ u_fe_ren_nor3 (.in0(w_fe_ren_temp[2]), .in1(w_stall_de), .in2(w_dc_exp), .out(w_fe_ren)); 
 
+//Logic for fe_ren_to_use
+wire w_fe_ren_to_use;
+mux2$ u_w_fe_ren_to_use(.outb(w_fe_ren_to_use),.in0(w_fe_ren),.in1(w_ic_miss),.s0(r_fe_ren));
+dff$  u_r_fe_ren(.r(rst_n),.s(1'b1),.clk(clk),.d(w_fe_ren_to_use),.q(r_fe_ren),.qbar(/*Unused*/));
+
 //Logic for w_V_de_next
 //wire w_fe_next_state_not_10;
 //wire w_not_fe_next_state0;
@@ -621,7 +626,7 @@ fetch_fsm u_fe_fsm (
 fetch_TLB_lookup u_fe_tlb_lookup(
   .TLB({TLB[7], TLB[6], TLB[5], TLB[4], TLB[3], TLB[2], TLB[1], TLB[0]}),  
   .CS_limit     (CS_limit),
-  .f_ren        (w_fe_ren),
+  .f_ren        (w_fe_ren_to_use),
   .f_address    (w_fe_address),  
   .f_PFN        (w_fe_PFN),
   .ic_prot_exp  (w_ic_prot_exp),
@@ -634,7 +639,7 @@ or2$ u_ic_exp(.out(w_ic_exp), .in0(w_ic_prot_exp), .in1(w_ic_page_fault));
 i_cache u_i_cache (
   .clk          (clk),
   .rst_n        (rst_n),
-  .ren          (w_fe_ren),
+  .ren          (w_fe_ren_to_use),
   .index        (w_fe_address_off[8:5]),
   .tag_14_12    (w_fe_PFN),
   .tag_11_9     (w_fe_address_off[11:9]),
