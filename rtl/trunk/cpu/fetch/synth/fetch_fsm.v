@@ -66,7 +66,7 @@ module fetch_fsm(
       end
       else if(~de_p && r_V_de) begin
         f_next_st <= FE_STALL_01;
-        next_f_address_sel = 1'b0;
+        next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b00;
       end
       else begin
@@ -84,7 +84,7 @@ module fetch_fsm(
       end
       else if(de_p && r_V_de) begin
         f_next_st <= FE_STALL_11;
-        next_f_address_sel = 1'b0;
+        next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b00;
       end
       else begin
@@ -102,7 +102,7 @@ module fetch_fsm(
       end
       else begin
         f_next_st <= FE_STALL_11;
-        next_f_address_sel = 1'b0;
+        next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b00;
       end
     end
@@ -115,7 +115,7 @@ module fetch_fsm(
       end
       else begin
         f_next_st <= FE_STALL_01;
-        next_f_address_sel = 1'b0;
+        next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b00;
       end
     end
