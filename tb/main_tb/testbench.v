@@ -26,6 +26,7 @@ reg         rst_n;
 integer i,j,k;
 
 initial begin
+/*
   force u_system.u_cpu.u_i_cache.ts.ts_lower.WR = 1'b1;
   force u_system.u_cpu.u_i_cache.ts.ts_upper.WR = 1'b1;
 
@@ -104,11 +105,11 @@ initial begin
   force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[13].u_ram8b8w$.WR = 1'b1;
   force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[14].u_ram8b8w$.WR = 1'b1;
   force u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[15].u_ram8b8w$.WR = 1'b1;
-
+*/
   clk = 1'b1;
   rst_n = 1'b0;
   #100;
-
+/*
   release u_system.u_cpu.u_i_cache.ts.ts_lower.WR;
   release u_system.u_cpu.u_i_cache.ts.ts_upper.WR;
 
@@ -187,7 +188,7 @@ initial begin
   release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[13].u_ram8b8w$.WR;
   release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[14].u_ram8b8w$.WR;
   release u_system.u_cpu.u_dcache.u_dc_data_store.row_gen[3].col_gen[15].u_ram8b8w$.WR;
-
+*/
   rst_n = 1'b1;
 
   #1000;
