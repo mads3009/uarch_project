@@ -114,7 +114,7 @@ nand2$ u_nand2_4(.in0(w_tlb_wr_hit_bar), .in1(v_ro_ld_mem), .out(w_dc_wr_page_fa
 nand2$ u_nand2_5(.in0(w_dc_rd_page_fault_bar), .in1(w_dc_wr_page_fault_bar), .out(dc_page_fault));
 
 // Segment limit checking
-greater_than32 u_greater_than32_1(.in1({rd_addr_offset[31:5],5'h1F}), .in2(seg_rd_limit), .gt_out(w_rd_limit_cross));
+greater_than32 u_greater_than32_1(.in1({rd_addr_offset[31:4],4'hF}), .in2(seg_rd_limit), .gt_out(w_rd_limit_cross));
 greater_than32 u_greater_than32_2(.in1({wr_addr_offset[31:4],4'hF}), .in2(seg_wr_limit), .gt_out(w_wr_limit_cross));
 
 and3$ u_and3_1(.in0(w_rd_limit_cross), .in1(v_ro_mem_read), .in2(w_isr_bar), .out(w_dc_rd_prot_exp));
