@@ -12,4 +12,4 @@ DVEfiles*
 ucli.key
 dve*
 *.o
-scripts/hex_data*
+hex_data*txt
