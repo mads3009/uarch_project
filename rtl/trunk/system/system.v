@@ -437,9 +437,9 @@ generate
 endgenerate
 
 //ICACHE
-wire [16*8-1:0] icache[31:0];
+wire [32*8-1:0] icache[15:0];
 generate
-    for (j=0; j < 16; j=j+1) begin : i_col0
+    for (j=0; j < 32; j=j+1) begin : i_col0
       assign icache[0][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[0];
       assign icache[1][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[1];
       assign icache[2][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[2];
@@ -449,7 +449,7 @@ generate
       assign icache[6][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[6];
       assign icache[7][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[7];
     end
-    for (j=0; j < 16; j=j+1) begin : i_col1
+    for (j=0; j < 32; j=j+1) begin : i_col1
       assign icache[8+0][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[0];
       assign icache[8+1][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[1];
       assign icache[8+2][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[2];
