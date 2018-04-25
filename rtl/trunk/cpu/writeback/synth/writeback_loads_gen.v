@@ -18,6 +18,9 @@ module writeback_loads_gen (
   input       ld_flag_AF,
   input       ld_flag_DF,
   input       ld_flag_CF,
+  input       ld_flag_PF,
+  input       ld_flag_OF,
+  input       ld_flag_SF,
   input       eip_change,
                  
   output      br_stall,
@@ -33,7 +36,10 @@ module writeback_loads_gen (
   output      v_wb_ld_flag_ZF,
   output      v_wb_ld_flag_AF,
   output      v_wb_ld_flag_DF,
-  output      v_wb_ld_flag_CF
+  output      v_wb_ld_flag_CF,
+  output      v_wb_ld_flag_PF,
+  output      v_wb_ld_flag_OF,
+  output      v_wb_ld_flag_SF
 );
 
 assign br_stall = eip_change & V_wb;
@@ -73,5 +79,8 @@ assign  v_wb_ld_flag_ZF = ld_flag_ZF & V_wb;
 assign  v_wb_ld_flag_AF = ld_flag_AF & V_wb;
 assign  v_wb_ld_flag_DF = ld_flag_DF & V_wb;
 assign  v_wb_ld_flag_CF = ld_flag_CF & V_wb;
+assign  v_wb_ld_flag_PF = ld_flag_PF & V_wb;
+assign  v_wb_ld_flag_OF = ld_flag_OF & V_wb;
+assign  v_wb_ld_flag_SF = ld_flag_SF & V_wb;
 
 endmodule

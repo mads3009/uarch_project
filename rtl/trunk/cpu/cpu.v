@@ -2200,13 +2200,13 @@ mux_nbit_4x1 #64 u_w_wb_mem_wr_data (.a0({32'h0,r_wb_alu_res1}), .a1({32'h0,r_wb
 wire [5:0] w_wb_flags6;
 mux_nbit_2x1 #6 u_w_wb_flags6 (.a0(r_wb_alu1_flags), .a1(r_wb_cmps_flags), .sel(r_wb_cmps_op), .out(w_wb_flags6));
 
-register #1 u_r_CF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[0]), .data_o(r_EFLAGS[CF]), .ld(r_wb_ld_flag_CF));
-register #1 u_r_PF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[1]), .data_o(r_EFLAGS[PF]), .ld(r_wb_ld_flag_PF));
-register #1 u_r_AF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[2]), .data_o(r_EFLAGS[AF]), .ld(r_wb_ld_flag_AF));
-register #1 u_r_ZF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[3]), .data_o(r_EFLAGS[ZF]), .ld(r_wb_ld_flag_ZF));
-register #1 u_r_SF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[4]), .data_o(r_EFLAGS[SF]), .ld(r_wb_ld_flag_SF));
-register #1 u_r_0F (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[5]), .data_o(r_EFLAGS[OF]), .ld(r_wb_ld_flag_OF));
-register #1 u_r_DF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(r_wb_df_val_ex), .data_o(r_EFLAGS[DF]), .ld(r_wb_ld_flag_DF));
+register #1 u_r_CF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[0]), .data_o(r_EFLAGS[CF]), .ld(w_v_wb_ld_flag_CF));
+register #1 u_r_PF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[1]), .data_o(r_EFLAGS[PF]), .ld(w_v_wb_ld_flag_PF));
+register #1 u_r_AF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[2]), .data_o(r_EFLAGS[AF]), .ld(w_v_wb_ld_flag_AF));
+register #1 u_r_ZF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[3]), .data_o(r_EFLAGS[ZF]), .ld(w_v_wb_ld_flag_ZF));
+register #1 u_r_SF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[4]), .data_o(r_EFLAGS[SF]), .ld(w_v_wb_ld_flag_SF));
+register #1 u_r_0F (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_wb_flags6[5]), .data_o(r_EFLAGS[OF]), .ld(w_v_wb_ld_flag_OF));
+register #1 u_r_DF (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(r_wb_df_val_ex), .data_o(r_EFLAGS[DF]), .ld(w_v_wb_ld_flag_DF));
 
 register #5 u_r_flag13589 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(5'b0), .data_o({r_EFLAGS[9],r_EFLAGS[8],r_EFLAGS[5],r_EFLAGS[3],r_EFLAGS[1]}), .ld(1'b0));
 register #20 u_r_flag_others (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(20'h0), .data_o(r_EFLAGS[31:12]), .ld(1'b0));
@@ -2231,6 +2231,9 @@ writeback_loads_gen u_writeback_loads_gen (
   .ld_flag_AF            (r_wb_ld_flag_AF),
   .ld_flag_DF            (r_wb_ld_flag_DF),
   .ld_flag_CF            (r_wb_ld_flag_CF),
+  .ld_flag_PF            (r_wb_ld_flag_PF),
+  .ld_flag_OF            (r_wb_ld_flag_OF),
+  .ld_flag_SF            (r_wb_ld_flag_SF),
   .eip_change            (r_wb_eip_change),
 
   .br_stall              (w_wb_br_stall),
@@ -2246,7 +2249,10 @@ writeback_loads_gen u_writeback_loads_gen (
   .v_wb_ld_flag_ZF       (w_v_wb_ld_flag_ZF),
   .v_wb_ld_flag_AF       (w_v_wb_ld_flag_AF),
   .v_wb_ld_flag_DF       (w_v_wb_ld_flag_DF),
-  .v_wb_ld_flag_CF       (w_v_wb_ld_flag_CF)
+  .v_wb_ld_flag_CF       (w_v_wb_ld_flag_CF),
+  .v_wb_ld_flag_PF       (w_v_wb_ld_flag_PF),
+  .v_wb_ld_flag_OF       (w_v_wb_ld_flag_OF),
+  .v_wb_ld_flag_SF       (w_v_wb_ld_flag_SF)
   
 );
 
