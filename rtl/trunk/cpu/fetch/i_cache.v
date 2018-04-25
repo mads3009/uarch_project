@@ -48,9 +48,14 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     and3$ u_ic_miss(.out(ic_miss), .in0(not_hit), .in1(ren), .in2(not_ic_exp));
     assign ic_miss_addr = {phy_tag,index,5'b0};
 
+    // FIXME
+    wire [3:0] index_del;
+    assign #1 index_del = index;
+    // FIXME END
+
     data_store ds(
         .clk    (clk),
-        .index  (index),
+        .index  (index_del),
         .oe     (1'b0),
         .fill_data  (ic_fill_data),
         .ic_miss_ack_bar (not_ic_miss_ack),
@@ -59,7 +64,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
 
     tag_store ts(
         .clk    (clk),
-        .index (index),
+        .index (index_del),
         .oe   (1'b0),
         .tag (tag_in_cache),
         .tag_valid (tag_valid),

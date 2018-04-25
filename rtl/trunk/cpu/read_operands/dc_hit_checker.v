@@ -63,8 +63,8 @@ and3$ u_and3_5(.in0(w_tlb_pcd_bar), .in1(n_901), .in2(n_005), .out(n_006));
 nand2$ u_nand2_2(.in0(w_tag_eq), .in1(ts_valid), .out(n_007));
 and2$ u_and2_3(.in0(n_006), .in1(n_007), .out(dc_miss));
 
-// dc_evict = dc_miss & ts_valid & ts_dirty
-and3$ u_and3_6(.in0(dc_miss), .in1(ts_valid), .in2(ts_dirty), .out(dc_evict));
+// dc_evict = dc_miss & ts_valid & ts_dirty & !dc_miss_ack
+and4$ u_and3_6(.in0(dc_miss), .in1(ts_valid), .in2(ts_dirty), .in3(w_dc_miss_ack_bar), .out(dc_evict));
 
 // mem_rd_ready, mem_wr_done, mem_rd_busy & mem_wr_busy generation
 inv1$ u_inv1_4(.out(w_access2_combo_bar), .in(access2_combo));

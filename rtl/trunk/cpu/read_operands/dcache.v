@@ -129,10 +129,15 @@ mem_rd_data_gen u_mem_rd_data_gen(
   .mem_rd_data(mem_rd_data)
   );
 
+// FIXME
+wire [4:0] index_del;
+assign #1 index_del = w_mem_rw_addr[8:4];
+// FIXME END
+
 // D-cache data store
 dc_data_store u_dc_data_store(
   .clk(clk),
-  .index(w_mem_rw_addr[8:4]),
+  .index(index_del),
   .dc_wr_mask(w_dc_wr_mask),
   .dc_write_data(w_dc_wr_data),
   .dc_read_data(w_dc_rd_data)
@@ -145,7 +150,7 @@ nor2$ u_nor2(.out(w_ts_wr_enb), .in0(w_dc_wr_hit), .in1(dc_miss_ack));
 
 dc_tag_store u_dc_tag_store(
   .clk(clk),
-  .index(w_mem_rw_addr[8:4]),
+  .index(index_del),
   .wr(w_ts_wr_enb),
   .data_in(w_ts_data_in),
   .data_out({w_ts_tag, w_ts_valid, w_ts_dirty})
