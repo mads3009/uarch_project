@@ -98,6 +98,7 @@ wire w_fifo_full;
 wire w_fifo_empty;
 wire [2:0] w_fifo_cnt;
 wire w_fifo_to_be_full;
+wire [31:0] w_fifo_mem_wr_addr_end;
 
 //Interrupts and Exceptions
 wire w_dc_exp;
@@ -381,6 +382,10 @@ wire [15:0]  r_ro_ptr_CS;
 wire [31:0]  r_ro_ESP;
 wire [31:0]  r_ro_addr1;
 wire [31:0]  r_ro_addr2;
+wire [31:0]  r_ro_addr1_end_rd;
+wire [31:0]  r_ro_addr2_end_rd;
+wire [31:0]  r_ro_addr1_end_wr;
+wire [31:0]  r_ro_addr2_end_wr;
 wire [19:0]  r_ro_seg1_limit;
 wire [19:0]  r_ro_seg2_limit;
 wire [31:0]  r_ro_addr1_offset;
@@ -448,6 +453,7 @@ wire [63:0]  r_ex_mm_sr2;
 wire [31:0]  r_ex_mem_out;
 wire [31:0]  r_ex_mem_out_latched;
 wire [31:0]  r_ex_mem_wr_addr;
+wire [31:0]  r_ex_mem_wr_addr_end;
 
 //Output latches EX -> WB
 wire [2:0]   r_wb_dreg1;
@@ -490,6 +496,7 @@ wire         r_wb_ld_flag_DF;
 wire         r_wb_ld_flag_OF;
 wire [15:0]  r_wb_ptr_CS;
 wire [31:0]  r_wb_mem_wr_addr;
+wire [31:0]  r_wb_mem_wr_addr_end;
 wire [31:0]  r_wb_alu_res1;
 wire [31:0]  r_wb_alu_res2;
 wire [63:0]  r_wb_alu_res3;
@@ -1532,9 +1539,20 @@ mux_nbit_2x1 u_w_ag_scaled_index_muxed (.a0(32'h0), .a1(w_ag_scaled_index), .sel
 wire [31:0] w_ag_addr_base;
 mux_nbit_2x1 u_w_ag_addr_base (.a0(32'h0), .a1(r_ag_reg_out1), .sel(w_mux_ag_base_sel), .out(w_ag_addr_base));
 
+//Addr size in bytes -1
+wire [31:0] w_ag_addr_end_pos_rd;
+mux_nbit_4x1 #32 u_w_ag_addr_end_pos_rd (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3(32'h7), .sel(r_ag_mem_rd_size), .out(w_ag_addr_end_pos_rd));
+wire [31:0] w_ag_addr_end_pos_wr;
+mux_nbit_4x1 #32 u_w_ag_addr_end_pos_wr (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3(32'h7), .sel(r_ag_mem_wr_size), .out(w_ag_addr_end_pos_wr));
+
 //addr1
 wire [31:0] w_ag_addr1;
-wallace_abc_adder u_w_ag_addr1 ( .A(w_ag_disp_add_seg), .B(w_ag_addr_base), .C(w_ag_scaled_index_muxed), .CIN(1'b0), .S(w_ag_addr1) ); 
+wallace_abc_adder u_w_ag_addr1( .A(w_ag_disp_add_seg), .B(w_ag_addr_base), .C(w_ag_scaled_index_muxed), .CIN(1'b0), .S(w_ag_addr1) ); 
+
+wire [31:0] w_ag_addr1_end_rd;
+cond_sum32 u_w_ag_addr1_end_rd  ( .A(w_ag_addr1), .B(w_ag_addr_end_pos_rd), .CIN(1'd0), .S(w_ag_addr1_end_rd), .COUT(/*unused*/)); 
+wire [31:0] w_ag_addr1_end_wr;
+cond_sum32 u_w_ag_addr1_end_wr  ( .A(w_ag_addr1), .B(w_ag_addr_end_pos_wr), .CIN(1'd0), .S(w_ag_addr1_end_wr), .COUT(/*unused*/)); 
 
 //reg2 and ESP muxed
 wire [31:0] w_ag_reg2_ESP_muxed;
@@ -1552,6 +1570,11 @@ assign w_ag_ISR = w_rseq_mux_sel;
 wire [31:0] w_ag_addr2_temp;
 wire [31:0] w_ag_addr2;
 wallace_abc_adder u_w_ag_addr2_temp ( .A(w_ag_reg2_ESP_muxed), .B({r_ag_seg_data2,16'h0}), .C(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_temp) ); 
+
+wire [31:0] w_ag_addr2_end_rd;
+cond_sum32 u_w_ag_addr2_end_rd  ( .A(w_ag_addr2), .B(w_ag_addr_end_pos_rd), .CIN(1'd0), .S(w_ag_addr2_end_rd), .COUT(/*unused*/)); 
+wire [31:0] w_ag_addr2_end_wr;
+cond_sum32 u_w_ag_addr2_end_wr  ( .A(w_ag_addr2), .B(w_ag_addr_end_pos_wr), .CIN(1'd0), .S(w_ag_addr2_end_wr), .COUT(/*unused*/)); 
 
 wire IDT_and_ISR;
 and2$ u_IDT_and_ISR (.in0(w_ag_ISR), .in1(w_rseq_IDT_address_sel), .out(IDT_and_ISR));
@@ -1599,6 +1622,10 @@ cond_sum32 u_w_ag_addr2_offset ( .A(w_ag_reg2_ESP_muxed), .B(w_ag_stack_off), .C
 register #32         u_r_ro_ESP                   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_ESP         ),            .data_o(r_ro_ESP         ));
 register #32         u_r_ro_addr1                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr1       ),            .data_o(r_ro_addr1       ));
 register #32         u_r_ro_addr2                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr2       ),            .data_o(r_ro_addr2       ));
+register #32         u_r_ro_addr1_end_rd          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr1_end_rd),            .data_o(r_ro_addr1_end_rd));
+register #32         u_r_ro_addr2_end_rd          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr2_end_rd),            .data_o(r_ro_addr2_end_rd));
+register #32         u_r_ro_addr1_end_wr          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr1_end_wr),            .data_o(r_ro_addr1_end_wr));
+register #32         u_r_ro_addr2_end_wr          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr2_end_wr),            .data_o(r_ro_addr2_end_wr));
 register #20         u_r_ro_seg1_limit            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_seg1_limit  ),            .data_o(r_ro_seg1_limit  ));
 register #20         u_r_ro_seg2_limit            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_seg2_limit  ),            .data_o(r_ro_seg2_limit  ));
 register #32         u_r_ro_addr1_offset          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr1_offset),            .data_o(r_ro_addr1_offset));
@@ -1684,6 +1711,8 @@ wire [63:0]  w_ro_mm_sr2;
 wire [31:0]  w_ro_mem_out;
 wire [31:0]  w_ro_mem_out_latched;
 wire [31:0]  w_ro_mem_wr_addr;
+wire [31:0]  w_ro_mem_wr_addr_end;
+wire [31:0]  w_ro_mem_rd_addr_end;
 
 //DCACHE
 wire [31:0] w_fifo_mem_wr_addr;
@@ -1706,8 +1735,40 @@ wire w_dc_evict;
 wire [31:0] w_dc_evict_addr;
 wire [127:0] w_dc_evict_data;
 
-// FIXME
-assign w_ro_mem_conflict = 1'b0;
+//mem_conflict
+wire [31:0] w_fifo_wr_addr0_start;
+wire [31:0] w_fifo_wr_addr0_end;
+wire [31:0] w_fifo_wr_addr1_start;
+wire [31:0] w_fifo_wr_addr1_end;
+wire [31:0] w_fifo_wr_addr2_start;
+wire [31:0] w_fifo_wr_addr2_end;
+wire [31:0] w_fifo_wr_addr3_start;
+wire [31:0] w_fifo_wr_addr3_end;
+wire [1:0] w_fifo_rd_ptr;
+
+// assign w_ro_mem_conflict = 1'b0;
+mem_conflict_gen u_w_ro_mem_conflict(
+  .v_ro_mem_read            (w_v_ro_mem_read),
+  .ro_mem_rd_addr_start     (w_ro_mem_rd_addr),
+  .ro_mem_rd_addr_end       (w_ro_mem_rd_addr_end),
+  .v_ex_ld_mem              (w_v_ex_ld_mem),
+  .ex_mem_wr_addr_start     (r_ex_mem_wr_addr),
+  .ex_mem_wr_addr_end       (r_ex_mem_wr_addr_end),
+  .v_wb_ld_mem              (w_v_wb_ld_mem),
+  .wb_mem_wr_addr_start     (r_wb_mem_wr_addr),
+  .wb_mem_wr_addr_end       (r_wb_mem_wr_addr_end),
+  .fifo_wr_addr0_start      (w_fifo_wr_addr0_start),
+  .fifo_wr_addr0_end        (w_fifo_wr_addr0_end),
+  .fifo_wr_addr1_start      (w_fifo_wr_addr1_start),
+  .fifo_wr_addr1_end        (w_fifo_wr_addr1_end),
+  .fifo_wr_addr2_start      (w_fifo_wr_addr2_start),
+  .fifo_wr_addr2_end        (w_fifo_wr_addr2_end),
+  .fifo_wr_addr3_start      (w_fifo_wr_addr3_start),
+  .fifo_wr_addr3_end        (w_fifo_wr_addr3_end),
+  .fifo_cnt                 (w_fifo_cnt),
+  .fifo_rd_ptr              (w_fifo_rd_ptr),
+  .mem_conflict             (w_ro_mem_conflict)
+);
 
 dcache u_dcache (
   .clk(clk), 
@@ -1927,14 +1988,16 @@ assign w_ro_mem_out = w_ro_mem_rd_data[31:0];
 register #32 u_w_ro_mem_out_latched (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_ro_mem_rd_data[31:0]), .data_o(w_ro_mem_out_latched), .ld(w_ro_ld_mem_latched));
 
 //mem wr addr/limit/offset
-mux_nbit_2x1 u_w_ro_mem_wr_addr (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_mem_wr_addr));
+mux_nbit_2x1 u_w_ro_mem_wr_addr     (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_mem_wr_addr));
+mux_nbit_2x1 u_w_ro_mem_wr_addr_end (.a0(r_ro_addr1_end_wr), .a1(r_ro_addr2_end_wr), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_mem_wr_addr_end));
 mux_nbit_2x1 #20 u_w_ro_seg_wr_limit (.a0(r_ro_seg1_limit), .a1(r_ro_seg2_limit), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_seg_wr_limit));
 mux_nbit_2x1 u_w_ro_wr_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offset), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_wr_addr_offset));
 
 //mem rd addr/limit/offset
 mux2$ u_w_ro_rd_mem_addr_sel (.outb(w_ro_rd_mem_addr_sel), .in0(r_ro_mem_rd_addr_sel), .in1(r_cmps_flag), .s0(r_ro_cmps_op));
 
-mux_nbit_2x1 u_w_ro_mem_rd_addr (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_addr));
+mux_nbit_2x1 u_w_ro_mem_rd_addr     (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_addr));
+mux_nbit_2x1 u_w_ro_mem_rd_addr_end (.a0(r_ro_addr1_end_rd), .a1(r_ro_addr2_end_rd), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_addr));
 mux_nbit_2x1 #20 u_w_ro_seg_rd_limit (.a0(r_ro_seg1_limit), .a1(r_ro_seg2_limit), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_seg_rd_limit));
 mux_nbit_2x1 u_w_ro_rd_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offset), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_rd_addr_offset));
 
@@ -1948,6 +2011,7 @@ register #64 u_r_ex_mm_sr2          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld
 register #32 u_r_ex_mem_out         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_mem_out        ), .data_o(r_ex_mem_out        ));
 register #32 u_r_ex_mem_out_latched (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_mem_out_latched), .data_o(r_ex_mem_out_latched));
 register #32 u_r_ex_mem_wr_addr     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_mem_wr_addr    ), .data_o(r_ex_mem_wr_addr));
+register #32 u_r_ex_mem_wr_addr_end (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_mem_wr_addr_end), .data_o(r_ex_mem_wr_addr_end));
 register #1  u_V_ex                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_V_ex_next),          .data_o(r_V_ex));
 
 // ***************** EXECUTE STAGE ******************                          
@@ -1987,6 +2051,7 @@ register #2         u_r_wb_wr_mem_data_sel     (.clk(clk), .rst_n(rst_n), .set_n
 register #1         u_r_wb_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_DF),            .data_o(r_wb_ld_flag_DF));
 register #16        u_r_wb_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ptr_CS),                .data_o(r_wb_ptr_CS));
 register #32        u_r_wb_mem_wr_addr         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_mem_wr_addr),           .data_o(r_wb_mem_wr_addr));
+register #32        u_r_wb_mem_wr_addr_end     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_mem_wr_addr_end),       .data_o(r_wb_mem_wr_addr_end));
 
 //EX generates these:
 wire [31:0] w_ex_alu_res1;
@@ -2194,13 +2259,22 @@ wr_fifo u_wr_fifo(
   .rst_n              (rst_n),
   .wr                 (w_v_wb_ld_mem),
   .rd                 (w_mem_wr_done),
-  .wr_data            ({r_wb_mem_wr_size, r_wb_mem_wr_addr, w_wb_mem_wr_data}),// FIXME am i right? w_wb_mem_wr_addr replaced by r_wb_mem_wr_addr
-  .rd_data            ({w_fifo_mem_wr_size, w_fifo_mem_wr_addr, w_fifo_mem_wr_data}),
+  .wr_data            ({r_wb_mem_wr_size, r_wb_mem_wr_addr_end, r_wb_mem_wr_addr, w_wb_mem_wr_data}),// FIXME am i right? w_wb_mem_wr_addr replaced by r_wb_mem_wr_addr
+  .rd_data            ({w_fifo_mem_wr_size, w_fifo_mem_wr_addr_end, w_fifo_mem_wr_addr, w_fifo_mem_wr_data}),
   .fifo_empty         (w_fifo_empty),
   .fifo_full          (w_fifo_full),
   .fifo_empty_bar     (w_fifo_empty_bar),
   .fifo_full_bar      (w_fifo_full_bar),
-  .fifo_cnt           (w_fifo_cnt)
+  .fifo_cnt           (w_fifo_cnt),
+  .fifo_wr_addr0_start      (w_fifo_wr_addr0_start),
+  .fifo_wr_addr0_end        (w_fifo_wr_addr0_end),
+  .fifo_wr_addr1_start      (w_fifo_wr_addr1_start),
+  .fifo_wr_addr1_end        (w_fifo_wr_addr1_end),
+  .fifo_wr_addr2_start      (w_fifo_wr_addr2_start),
+  .fifo_wr_addr2_end        (w_fifo_wr_addr2_end),
+  .fifo_wr_addr3_start      (w_fifo_wr_addr3_start),
+  .fifo_wr_addr3_end        (w_fifo_wr_addr3_end),
+  .fifo_rd_ptr              (w_fifo_rd_ptr)
 );
 
 // ***************** INTERRUPT EXCEPTION FSM ******************
