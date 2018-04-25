@@ -6,7 +6,7 @@ f1 = open("subrom_dump_upper.txt","w")
 f2 = open("subrom_dump_lower.txt","w")
 
 cols=97+15+1
-rows=17
+rows=101
 
 start=6
 index=1

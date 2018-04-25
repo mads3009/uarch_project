@@ -604,7 +604,7 @@ wire [127:0] w_subrom_out;
 wire [7:0] w_subrom_oe;
 wire [7:0] w_subrom_oebar;
 wire [7:0] w_subrom_addr;
-assign w_subrom_addr = {prefix_0f_pr, w_opcode[3:0], reg_op} ; 
+assign w_subrom_addr = {prefix_0f_pr, w_opcode[3:0], reg_op_mod} ; 
 decoder3_8$ decode2 (.SEL(w_subrom_addr[7:5]), .Y(w_subrom_oe), .YBAR(w_subrom_oebar));
 
 generate
@@ -616,7 +616,7 @@ rom64b32w$ subrom1(.A(w_subrom_addr[4:0]), .OE(w_subrom_oe[i]), .DOUT(w_subrom_o
   end
 endgenerate
 
-assign w_subrom_out = {w_subrom_out_0,w_subrom_out_1};
+assign w_subrom_out = {w_subrom_out_1,w_subrom_out_0};
 
 // Select between op rom and sub rom outputs
 
