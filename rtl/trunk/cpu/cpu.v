@@ -1997,7 +1997,7 @@ mux_nbit_2x1 u_w_ro_wr_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offse
 mux2$ u_w_ro_rd_mem_addr_sel (.outb(w_ro_rd_mem_addr_sel), .in0(r_ro_mem_rd_addr_sel), .in1(r_cmps_flag), .s0(r_ro_cmps_op));
 
 mux_nbit_2x1 u_w_ro_mem_rd_addr     (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_addr));
-mux_nbit_2x1 u_w_ro_mem_rd_addr_end (.a0(r_ro_addr1_end_rd), .a1(r_ro_addr2_end_rd), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_addr));
+mux_nbit_2x1 u_w_ro_mem_rd_addr_end (.a0(r_ro_addr1_end_rd), .a1(r_ro_addr2_end_rd), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_addr_end));
 mux_nbit_2x1 #20 u_w_ro_seg_rd_limit (.a0(r_ro_seg1_limit), .a1(r_ro_seg2_limit), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_seg_rd_limit));
 mux_nbit_2x1 u_w_ro_rd_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offset), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_rd_addr_offset));
 
