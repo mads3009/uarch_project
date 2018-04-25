@@ -24,7 +24,7 @@ wire w_mux_in_ren, w_mux_in_wen, w_v_mem_read_bar;
 // w_mux_in_ren = v_mem_read & !mem_conflict & !wr_fifo_to_be_full
 // w_mux_in_wen = !w_mux_in_ren & !wr_fifo_empty
 inv1$ u_inv1_1(.in(v_mem_read), .out(w_v_mem_read_bar));
-nor3$ u_nor3_1(.in0(w_v_mem_read_bar), .in1(mem_conflict), .in2(w_v_mem_read_bar), .out(w_mux_in_ren));
+nor3$ u_nor3_1(.in0(w_v_mem_read_bar), .in1(mem_conflict), .in2(wr_fifo_to_be_full), .out(w_mux_in_ren));
 nor2$ u_nor2_1(.in0(w_mux_in_ren), .in1(wr_fifo_empty), .out(w_mux_in_wen));
 
 // w_retain_arb = (r_ren & !r_ld_ro) | (r_wen & !r_mem_wr_done)
