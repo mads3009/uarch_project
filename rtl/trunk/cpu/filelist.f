@@ -105,7 +105,7 @@
 ../../trunk/cpu/read_operands/tlb_addr_gen.v
 ../../trunk/cpu/read_operands/tlb.v
 ../../trunk/cpu/read_operands/dc_exp_checker.v
-../../trunk/cpu/read_operands/synth/mem_conflict_gen.v
+../../trunk/cpu/read_operands/mem_conflict_gen_netlist.v
 
 ../../trunk/cpu/mmu/mmu_fsm_netlist.v
 ../../trunk/cpu/mmu/mmu.v

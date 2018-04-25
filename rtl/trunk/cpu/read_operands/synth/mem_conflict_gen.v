@@ -32,18 +32,18 @@ input [1:0]  fifo_rd_ptr;
 output       mem_conflict;
 
 reg [3:0] V_fifo_entry;
-assign mem_conflict = v_ro_mem_read && ( (v_ex_ld_mem && (ro_mem_rd_addr_start>=ex_mem_wr_addr_start && ro_mem_rd_addr_start<=ex_mem_wr_addr_end)) ||
-                                         (v_ex_ld_mem && (ro_mem_rd_addr_end  >=ex_mem_wr_addr_start && ro_mem_rd_addr_end  <=ex_mem_wr_addr_end)) ||
-                                         (v_wb_ld_mem && (ro_mem_rd_addr_start>=wb_mem_wr_addr_start && ro_mem_rd_addr_start<=wb_mem_wr_addr_end)) ||
-                                         (v_wb_ld_mem && (ro_mem_rd_addr_end  >=wb_mem_wr_addr_start && ro_mem_rd_addr_end  <=wb_mem_wr_addr_end)) ||
-                                         (V_fifo_entry[0] && (ro_mem_rd_addr_start>=fifo_wr_addr0_start && ro_mem_rd_addr_start<=fifo_wr_addr0_end)) ||
-                                         (V_fifo_entry[0] && (ro_mem_rd_addr_end  >=fifo_wr_addr0_start && ro_mem_rd_addr_end  <=fifo_wr_addr0_end)) ||
-                                         (V_fifo_entry[1] && (ro_mem_rd_addr_start>=fifo_wr_addr1_start && ro_mem_rd_addr_start<=fifo_wr_addr1_end)) ||
-                                         (V_fifo_entry[1] && (ro_mem_rd_addr_end  >=fifo_wr_addr1_start && ro_mem_rd_addr_end  <=fifo_wr_addr1_end)) ||
-                                         (V_fifo_entry[2] && (ro_mem_rd_addr_start>=fifo_wr_addr2_start && ro_mem_rd_addr_start<=fifo_wr_addr2_end)) ||
-                                         (V_fifo_entry[2] && (ro_mem_rd_addr_end  >=fifo_wr_addr2_start && ro_mem_rd_addr_end  <=fifo_wr_addr2_end)) ||
-                                         (V_fifo_entry[3] && (ro_mem_rd_addr_start>=fifo_wr_addr3_start && ro_mem_rd_addr_start<=fifo_wr_addr3_end)) ||
-                                         (V_fifo_entry[3] && (ro_mem_rd_addr_end  >=fifo_wr_addr3_start && ro_mem_rd_addr_end  <=fifo_wr_addr3_end)) );
+assign mem_conflict = v_ro_mem_read && ( (v_ex_ld_mem && ((ro_mem_rd_addr_start>=ex_mem_wr_addr_start && ro_mem_rd_addr_start<=ex_mem_wr_addr_end) ||
+                                                         (ro_mem_rd_addr_end  >=ex_mem_wr_addr_start && ro_mem_rd_addr_end  <=ex_mem_wr_addr_end))) ||
+                                         (v_wb_ld_mem && ((ro_mem_rd_addr_start>=wb_mem_wr_addr_start && ro_mem_rd_addr_start<=wb_mem_wr_addr_end) ||
+                                                         (ro_mem_rd_addr_end  >=wb_mem_wr_addr_start && ro_mem_rd_addr_end  <=wb_mem_wr_addr_end))) ||
+                                         (V_fifo_entry[0] && ((ro_mem_rd_addr_start>=fifo_wr_addr0_start && ro_mem_rd_addr_start<=fifo_wr_addr0_end) ||
+                                                             (ro_mem_rd_addr_end  >=fifo_wr_addr0_start && ro_mem_rd_addr_end  <=fifo_wr_addr0_end))) ||
+                                         (V_fifo_entry[1] && ((ro_mem_rd_addr_start>=fifo_wr_addr1_start && ro_mem_rd_addr_start<=fifo_wr_addr1_end) ||
+                                                             (ro_mem_rd_addr_end  >=fifo_wr_addr1_start && ro_mem_rd_addr_end  <=fifo_wr_addr1_end))) ||
+                                         (V_fifo_entry[2] && ((ro_mem_rd_addr_start>=fifo_wr_addr2_start && ro_mem_rd_addr_start<=fifo_wr_addr2_end) ||
+                                                             (ro_mem_rd_addr_end  >=fifo_wr_addr2_start && ro_mem_rd_addr_end  <=fifo_wr_addr2_end))) ||
+                                         (V_fifo_entry[3] && ((ro_mem_rd_addr_start>=fifo_wr_addr3_start && ro_mem_rd_addr_start<=fifo_wr_addr3_end) ||
+                                                             (ro_mem_rd_addr_end  >=fifo_wr_addr3_start && ro_mem_rd_addr_end  <=fifo_wr_addr3_end))) );
 
 always@(*) begin
 
