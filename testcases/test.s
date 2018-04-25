@@ -2,6 +2,6 @@
 
 inc %ax
 xchg %bx, %ax
-mov $0x55, %bx
-xchg %ebx, %ecx
+mov $0x5566, %bx
+xchg %bl, %cl
 hlt
