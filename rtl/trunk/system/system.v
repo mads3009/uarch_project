@@ -440,24 +440,24 @@ endgenerate
 wire [16*8-1:0] icache[31:0];
 generate
     for (j=0; j < 16; j=j+1) begin : i_col0
-      assign dcache[0][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[0];
-      assign dcache[1][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[1];
-      assign dcache[2][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[2];
-      assign dcache[3][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[3];
-      assign dcache[4][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[4];
-      assign dcache[5][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[5];
-      assign dcache[6][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[6];
-      assign dcache[7][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[7];
+      assign icache[0][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[0];
+      assign icache[1][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[1];
+      assign icache[2][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[2];
+      assign icache[3][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[3];
+      assign icache[4][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[4];
+      assign icache[5][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[5];
+      assign icache[6][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[6];
+      assign icache[7][8*j+7:8*j] =   u_cpu.u_i_cache.ds.lower_ram.loop.mem_gen[j].ram_forcache.mem[7];
     end
     for (j=0; j < 16; j=j+1) begin : i_col1
-      assign dcache[8+0][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[0];
-      assign dcache[8+1][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[1];
-      assign dcache[8+2][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[2];
-      assign dcache[8+3][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[3];
-      assign dcache[8+4][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[4];
-      assign dcache[8+5][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[5];
-      assign dcache[8+6][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[6];
-      assign dcache[8+7][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[7];
+      assign icache[8+0][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[0];
+      assign icache[8+1][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[1];
+      assign icache[8+2][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[2];
+      assign icache[8+3][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[3];
+      assign icache[8+4][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[4];
+      assign icache[8+5][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[5];
+      assign icache[8+6][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[6];
+      assign icache[8+7][8*j+7:8*j] =   u_cpu.u_i_cache.ds.upper_ram.loop.mem_gen[j].ram_forcache.mem[7];
     end
 endgenerate
 

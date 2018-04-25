@@ -1,8 +1,7 @@
 .ORG 0X0000
 
-mov $-2, %EAX
-L1: inc %EBX
-inc %EAX
-jne L1
-inc %ECX
+inc %ax
+xchg %bx, %ax
+mov $0x55, %bx
+xchg %ebx, %ecx
 hlt
