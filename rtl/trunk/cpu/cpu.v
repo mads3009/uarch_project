@@ -210,6 +210,7 @@ wire       r_ag_ld_flag_SF;
 wire       r_ag_ld_flag_DF;
 wire       r_ag_ld_flag_OF;
 wire [15:0]r_ag_ptr_CS;
+wire  [7:0]r_ag_opcode;
 
 //Special ROM signals
 wire        w_rseq_mux_sel;
@@ -379,6 +380,7 @@ wire         r_ro_ld_flag_SF;
 wire         r_ro_ld_flag_DF;
 wire         r_ro_ld_flag_OF;
 wire [15:0]  r_ro_ptr_CS;
+wire  [7:0]  r_ro_opcode;
 wire [31:0]  r_ro_ESP;
 wire [31:0]  r_ro_addr1;
 wire [31:0]  r_ro_addr2;
@@ -442,6 +444,7 @@ wire         r_ex_ld_flag_SF;
 wire         r_ex_ld_flag_DF;
 wire         r_ex_ld_flag_OF;
 wire [15:0]  r_ex_ptr_CS;
+wire  [7:0]  r_ex_opcode;
 wire [31:0]  r_ex_ESP;
 wire         r_ex_ISR;
 wire [31:0]  r_ex_ECX;
@@ -495,6 +498,7 @@ wire         r_wb_ld_flag_SF;
 wire         r_wb_ld_flag_DF;
 wire         r_wb_ld_flag_OF;
 wire [15:0]  r_wb_ptr_CS;
+wire  [7:0]  r_wb_opcode;
 wire [31:0]  r_wb_mem_wr_addr;
 wire [31:0]  r_wb_mem_wr_addr_end;
 wire [31:0]  r_wb_alu_res1;
@@ -602,7 +606,8 @@ dff$  u_r_fe_ren(.r(rst_n),.s(1'b1),.clk(clk),.d(w_fe_ren_to_use),.q(r_fe_ren),.
 //inv1$ u_not_fe_next_state1(.out(w_not_fe_next_state0), .in(w_fe_next_state[0]));
 //nand2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state[1]), .in1(w_not_fe_next_state0));
 //and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
-assign w_V_de_next = w_fe_nextstate_01_11;
+//assign w_V_de_next = w_fe_nextstate_01_11;
+and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_fe_nextstate_01_11), .in1(w_fe_ren_to_use));
 
 //Logic for ld_de;
 and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_repne_stall), .in1(int));
@@ -787,6 +792,7 @@ wire       w_de_ld_flag_SF;
 wire       w_de_ld_flag_DF;
 wire       w_de_ld_flag_OF;
 wire [15:0]w_de_ptr_CS;
+wire  [7:0]w_de_opcode;
 
 //Other decode signals for dependency
 wire w_de_repne;
@@ -887,7 +893,8 @@ decode u_decode (
       .de_repne                                   (w_de_repne),
       .de_hlt                                     (w_de_hlt),
       .de_iret                                    (w_de_iret),
-      .de_ptr_CS                                  (w_de_ptr_CS));
+      .de_ptr_CS                                  (w_de_ptr_CS),
+      .de_opcode                                  (w_de_opcode));
 
 //Decode dep,V,ld logic
 
@@ -1033,6 +1040,7 @@ register #1       u_r_ag_ld_flag_SF            (.clk(clk), .rst_n(rst_n), .set_n
 register #1       u_r_ag_ld_flag_DF            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_de_ld_flag_DF),            .data_o(r_ag_ld_flag_DF));
 register #1       u_r_ag_ld_flag_OF            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_de_ld_flag_OF),            .data_o(r_ag_ld_flag_OF));
 register #16      u_r_ag_ptr_CS                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_de_ptr_CS),                .data_o(r_ag_ptr_CS));
+register #8       u_r_ag_opcode                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_de_opcode),                .data_o(r_ag_opcode));
 register #1       u_V_ag                       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_V_ag_next),                .data_o(r_V_ag));
 
 // ***************** ADDRESS GEN STAGE ******************
@@ -1371,6 +1379,7 @@ register #1         u_r_ro_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n
 register #1         u_r_ro_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_DF),            .data_o(r_ro_ld_flag_DF));
 register #1         u_r_ro_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_OF),            .data_o(r_ro_ld_flag_OF));
 register #16        u_r_ro_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_ptr_CS),                    .data_o(r_ro_ptr_CS));
+register #8       u_r_ro_opcode                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_opcode),                .data_o(r_ro_opcode));
 register #2         u_r_ro_imm_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_imm_sel),               .data_o(r_ro_imm_sel));
 register #1         u_r_ro_EIP_EFLAGS_sel      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_EIP_EFLAGS_sel),        .data_o(r_ro_EIP_EFLAGS_sel));
 register #2         u_r_ro_sr1_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_sr1_sel),               .data_o(r_ro_sr1_sel));
@@ -1684,6 +1693,7 @@ register #1         u_r_ex_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n
 register #1         u_r_ex_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ld_flag_DF),            .data_o(r_ex_ld_flag_DF));
 register #1         u_r_ex_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ld_flag_OF),            .data_o(r_ex_ld_flag_OF));
 register #16        u_r_ex_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ptr_CS),                .data_o(r_ex_ptr_CS));
+register #8       u_r_ex_opcode                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_opcode),                .data_o(r_ex_opcode));
 register #32        u_r_ex_ESP                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ESP         ),          .data_o(r_ex_ESP         ));
 register #1         u_r_ex_ISR                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ISR         ),          .data_o(r_ex_ISR         ));
 
@@ -2050,6 +2060,7 @@ register #1         u_r_wb_wr_eip_alu_res_sel  (.clk(clk), .rst_n(rst_n), .set_n
 register #2         u_r_wb_wr_mem_data_sel     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_wr_mem_data_sel),       .data_o(r_wb_wr_mem_data_sel));
 register #1         u_r_wb_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ld_flag_DF),            .data_o(r_wb_ld_flag_DF));
 register #16        u_r_wb_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_ptr_CS),                .data_o(r_wb_ptr_CS));
+register #8       u_r_wb_opcode                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_opcode),                .data_o(r_wb_opcode));
 register #32        u_r_wb_mem_wr_addr         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_mem_wr_addr),           .data_o(r_wb_mem_wr_addr));
 register #32        u_r_wb_mem_wr_addr_end     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_mem_wr_addr_end),       .data_o(r_wb_mem_wr_addr_end));
 

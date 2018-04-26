@@ -191,7 +191,7 @@ initial begin
 */
   rst_n = 1'b1;
 
-  #1000;
+  #4000;
 
   $finish;
 end
