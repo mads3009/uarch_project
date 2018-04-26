@@ -67,7 +67,8 @@ wire w_repne_in1;
 wire w_repne_flag_regin;
 wire r_repne_flag;
 
-assign w_repne_in0 = (|ECX) & repne;
+assign w_v_repne = repne && V_de;
+assign w_repne_in0 = (|ECX) & w_v_repne;
 assign w_repne_in1 = (|ECX) & ~(ZF);
 
 assign w_repne_flag_regin = r_repne_flag ? w_repne_in1 : w_repne_in0;
@@ -76,7 +77,7 @@ dff$  u_reg(.r(rst_n),.s(1'b1),.clk(clk),.d(w_repne_flag_regin),.q(r_repne_flag)
 
 assign repne_stall = w_repne_flag_regin & V_de;
 
-assign w_repne_stop = (repne & !(|ECX) & !r_repne_flag) ||
+assign w_repne_stop = (w_v_repne & !(|ECX) & !r_repne_flag) ||
                       (r_repne_flag & (!(|ECX) || ZF));
 
 //DEP STALL

@@ -7,7 +7,7 @@ cmovc %ebx, %ebp
 cmpxchg %cx,%bx 
 cmovc %ebx, %ebp
 L1: add $0x10000000, %ebx
-jnbe L2
+jnbe L1
 mov $0x1234, %bx
 hlt
 

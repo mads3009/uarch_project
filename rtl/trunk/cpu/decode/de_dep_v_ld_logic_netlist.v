@@ -36,114 +36,113 @@ module de_dep_v_ld_logic(clk, rst_n, V_de, repne, hlt, iret,
        wb_dreg3;
   wire hlt_stall, repne_stall, dep_stall, br_stall, iret_op, stall_de,
        V_ag, ld_ag;
-  wire UNCONNECTED, n_1, n_2, n_3, n_4, n_5, n_6, n_7;
-  wire n_8, n_9, n_10, n_11, n_12, n_13, n_14, n_15;
-  wire n_16, n_17, n_18, n_20, n_21, n_22, n_23, n_24;
-  wire n_25, n_26, n_27, n_28, n_32, n_33, n_34, n_35;
-  wire n_36, n_37, n_38, n_41, n_42, n_43, n_44, n_45;
-  wire n_46, n_47, n_48, n_49, n_50, n_51, n_53, n_54;
+  wire UNCONNECTED, n_1, n_2, n_3, n_4, n_6, n_7, n_8;
+  wire n_9, n_10, n_11, n_12, n_13, n_14, n_15, n_16;
+  wire n_17, n_18, n_19, n_23, n_24, n_25, n_26, n_27;
+  wire n_28, n_29, n_30, n_31, n_32, n_33, n_34, n_35;
+  wire n_36, n_39, n_40, n_41, n_42, n_43, n_44, n_45;
+  wire n_46, n_47, n_48, n_50, n_51, n_52, n_53, n_54;
   wire n_55, n_56, n_57, n_58, n_59, n_60, n_61, n_62;
-  wire n_63, n_64, n_65, n_67, n_68, n_69, n_70, n_71;
-  wire n_72, n_73, n_75, n_76, n_174, n_175, r_repne_flag;
-  nor2$ g7950(.in0 (dep_stall), .in1 (n_75), .out (V_ag));
-  nor2$ g7954(.in0 (n_76), .in1 (n_16), .out (dep_stall));
-  nor3$ g7956(.in0 (n_67), .in1 (n_73), .in2 (n_68), .out (n_76));
-  nor2$ g7953(.in0 (n_72), .in1 (n_61), .out (n_75));
-  dff$ u_reg(.r (rst_n), .s (1'b1), .clk (clk), .d (n_70), .q
+  wire n_63, n_64, n_66, n_67, n_68, n_69, n_70, n_71;
+  wire n_72, n_74, n_75, n_173, n_174, r_repne_flag;
+  nor2$ g8461(.in0 (dep_stall), .in1 (n_74), .out (V_ag));
+  nor2$ g8464(.in0 (n_75), .in1 (n_46), .out (dep_stall));
+  nor3$ g8467(.in0 (n_66), .in1 (n_72), .in2 (n_67), .out (n_75));
+  nor2$ g8465(.in0 (n_71), .in1 (n_60), .out (n_74));
+  dff$ u_reg(.r (rst_n), .s (1'b1), .clk (clk), .d (n_69), .q
        (r_repne_flag), .qbar (UNCONNECTED));
-  nor3$ g7952(.in0 (n_69), .in1 (n_71), .in2 (n_2), .out (repne_stall));
-  nand3$ g7959(.in0 (n_63), .in1 (n_64), .in2 (n_65), .out (n_73));
-  nor2$ g7957(.in0 (n_71), .in1 (n_175), .out (n_72));
-  nor2$ g7955(.in0 (n_71), .in1 (n_69), .out (n_70));
-  nand3$ g7960(.in0 (n_47), .in1 (n_48), .in2 (n_62), .out (n_68));
-  nand4$ g7961(.in0 (n_42), .in1 (n_44), .in2 (n_45), .in3 (n_59), .out
-       (n_67));
-  nor4$ g7958(.in0 (n_46), .in1 (n_57), .in2 (n_54), .in3 (n_49), .out
-       (n_71));
-  nor2$ g7966(.in0 (n_55), .in1 (n_53), .out (n_65));
-  nor2$ g7962(.in0 (n_43), .in1 (n_60), .out (n_64));
-  nor2$ g7964(.in0 (n_58), .in1 (n_56), .out (n_63));
-  nand2$ g7970(.in0 (n_41), .in1 (r_repne_flag), .out (n_62));
-  nor4$ g7971(.in0 (r_repne_flag), .in1 (n_50), .in2 (n_51), .in3
-       (repne), .out (n_61));
-  nor3$ g7979(.in0 (ex_dreg3[2]), .in1 (n_11), .in2 (ex_dreg3[1]), .out
-       (n_60));
-  nand3$ g7980(.in0 (wb_dreg1[0]), .in1 (n_10), .in2 (v_wb_ld_reg1),
+  nor3$ g8463(.in0 (n_68), .in1 (n_70), .in2 (n_1), .out (repne_stall));
+  nand3$ g8470(.in0 (n_62), .in1 (n_63), .in2 (n_64), .out (n_72));
+  nor2$ g8468(.in0 (n_70), .in1 (n_174), .out (n_71));
+  nor2$ g8466(.in0 (n_70), .in1 (n_68), .out (n_69));
+  nand3$ g8471(.in0 (n_43), .in1 (n_45), .in2 (n_61), .out (n_67));
+  nand4$ g8472(.in0 (n_59), .in1 (n_41), .in2 (n_42), .in3 (n_56), .out
+       (n_66));
+  nor4$ g8469(.in0 (n_44), .in1 (n_57), .in2 (n_50), .in3 (n_53), .out
+       (n_70));
+  nor2$ g8477(.in0 (n_52), .in1 (n_51), .out (n_64));
+  nor2$ g8473(.in0 (n_40), .in1 (n_58), .out (n_63));
+  nor2$ g8475(.in0 (n_55), .in1 (n_54), .out (n_62));
+  nand2$ g8481(.in0 (n_39), .in1 (r_repne_flag), .out (n_61));
+  nor4$ g8482(.in0 (r_repne_flag), .in1 (n_47), .in2 (n_48), .in3
+       (repne), .out (n_60));
+  nand3$ g8490(.in0 (ro_dreg2[0]), .in1 (n_11), .in2 (v_ro_ld_reg2),
        .out (n_59));
-  nor3$ g7981(.in0 (ag_dreg2[2]), .in1 (n_6), .in2 (ag_dreg2[1]), .out
+  nor3$ g8491(.in0 (ex_dreg3[2]), .in1 (n_9), .in2 (ex_dreg3[1]), .out
        (n_58));
-  nand4$ g7967(.in0 (n_17), .in1 (n_24), .in2 (n_33), .in3 (n_14), .out
+  nand4$ g8478(.in0 (n_16), .in1 (n_23), .in2 (n_28), .in3 (n_10), .out
        (n_57));
-  nor3$ g7982(.in0 (ag_dreg3[2]), .in1 (n_5), .in2 (ag_dreg3[1]), .out
-       (n_56));
-  nor3$ g7983(.in0 (ag_dreg1[2]), .in1 (n_35), .in2 (ag_dreg1[1]), .out
+  nand3$ g8492(.in0 (wb_dreg1[0]), .in1 (n_8), .in2 (v_wb_ld_reg1),
+       .out (n_56));
+  nor3$ g8493(.in0 (ag_dreg1[2]), .in1 (n_6), .in2 (ag_dreg1[1]), .out
        (n_55));
-  nand4$ g7968(.in0 (n_9), .in1 (n_28), .in2 (n_18), .in3 (n_4), .out
+  nor3$ g8494(.in0 (ag_dreg2[2]), .in1 (n_3), .in2 (ag_dreg2[1]), .out
        (n_54));
-  nor3$ g7984(.in0 (ro_dreg1[2]), .in1 (n_34), .in2 (ro_dreg1[1]), .out
+  nand4$ g8479(.in0 (n_19), .in1 (n_25), .in2 (n_30), .in3 (n_17), .out
        (n_53));
-  nand4$ g7969(.in0 (n_23), .in1 (n_27), .in2 (n_32), .in3 (n_21), .out
-       (n_49));
-  nand3$ g7973(.in0 (wb_dreg2[0]), .in1 (n_22), .in2 (v_wb_ld_reg2),
-       .out (n_48));
-  nand3$ g7974(.in0 (wb_dreg3[0]), .in1 (n_20), .in2 (v_wb_ld_reg3),
-       .out (n_47));
-  nand4$ g7963(.in0 (n_37), .in1 (n_7), .in2 (n_8), .in3 (n_36), .out
-       (n_46));
-  nand3$ g7975(.in0 (ro_dreg2[0]), .in1 (n_15), .in2 (v_ro_ld_reg2),
+  nor3$ g8495(.in0 (ag_dreg3[2]), .in1 (n_34), .in2 (ag_dreg3[1]), .out
+       (n_52));
+  nor3$ g8496(.in0 (ro_dreg1[2]), .in1 (n_32), .in2 (ro_dreg1[1]), .out
+       (n_51));
+  nand4$ g8480(.in0 (n_7), .in1 (n_14), .in2 (n_24), .in3 (n_35), .out
+       (n_50));
+  mux2$ g8483(.s0 (r_repne_flag), .in0 (n_46), .in1 (ZF), .outb (n_68));
+  nand3$ g8485(.in0 (wb_dreg2[0]), .in1 (n_29), .in2 (v_wb_ld_reg2),
        .out (n_45));
-  nand3$ g7976(.in0 (ex_dreg1[0]), .in1 (n_3), .in2 (v_ex_ld_reg1),
-       .out (n_44));
-  nor3$ g7977(.in0 (ex_dreg2[2]), .in1 (n_13), .in2 (ex_dreg2[1]), .out
-       (n_43));
-  nand3$ g7978(.in0 (ro_dreg3[0]), .in1 (n_12), .in2 (v_ro_ld_reg3),
+  nand4$ g8474(.in0 (n_2), .in1 (n_4), .in2 (n_31), .in3 (n_33), .out
+       (n_44));
+  nand3$ g8486(.in0 (wb_dreg3[0]), .in1 (n_18), .in2 (v_wb_ld_reg3),
+       .out (n_43));
+  nand3$ g8487(.in0 (ro_dreg3[0]), .in1 (n_15), .in2 (v_ro_ld_reg3),
        .out (n_42));
-  nand2$ g7985(.in0 (n_26), .in1 (n_25), .out (n_41));
-  mux2$ g7987(.s0 (r_repne_flag), .in0 (n_1), .in1 (ZF), .outb (n_69));
-  nand2$ g7972(.in0 (stall_de), .in1 (n_38), .out (ld_ag));
-  nand2$ g7988(.in0 (n_38), .in1 (V_de), .out (n_51));
-  nor2$ g8020(.in0 (ECX[7]), .in1 (ECX[6]), .out (n_37));
-  nor2$ g8021(.in0 (ECX[5]), .in1 (ECX[4]), .out (n_36));
-  nand2$ g8022(.in0 (ag_dreg1[0]), .in1 (v_ag_ld_reg1), .out (n_35));
-  nand2$ g8023(.in0 (ro_dreg1[0]), .in1 (v_ro_ld_reg1), .out (n_34));
-  nor2$ g8024(.in0 (ECX[31]), .in1 (ECX[30]), .out (n_33));
-  nor2$ g8025(.in0 (ECX[15]), .in1 (ECX[14]), .out (n_32));
-  and2$ g8006(.in0 (V_de), .in1 (hlt), .out (hlt_stall));
-  and2$ g8003(.in0 (V_de), .in1 (iret), .out (iret_op));
-  and2$ g8010(.in0 (V_de), .in1 (eip_change), .out (br_stall));
-  nor2$ g7989(.in0 (ECX[25]), .in1 (ECX[24]), .out (n_28));
-  nor2$ g7990(.in0 (ECX[13]), .in1 (ECX[12]), .out (n_27));
-  nor2$ g7991(.in0 (v_ag_ld_flag_ZF), .in1 (v_ro_ld_flag_ZF), .out
+  nand3$ g8488(.in0 (ex_dreg1[0]), .in1 (n_12), .in2 (v_ex_ld_reg1),
+       .out (n_41));
+  nor3$ g8489(.in0 (ex_dreg2[2]), .in1 (n_13), .in2 (ex_dreg2[1]), .out
+       (n_40));
+  nand2$ g8497(.in0 (n_27), .in1 (n_26), .out (n_39));
+  nand2$ g8484(.in0 (stall_de), .in1 (n_36), .out (ld_ag));
+  nand2$ g8499(.in0 (n_36), .in1 (V_de), .out (n_48));
+  nor2$ g8531(.in0 (ECX[21]), .in1 (ECX[20]), .out (n_35));
+  nand2$ g8532(.in0 (ag_dreg3[0]), .in1 (v_ag_ld_reg3), .out (n_34));
+  nor2$ g8533(.in0 (ECX[5]), .in1 (ECX[4]), .out (n_33));
+  nand2$ g8534(.in0 (ro_dreg1[0]), .in1 (v_ro_ld_reg1), .out (n_32));
+  nor2$ g8535(.in0 (ECX[11]), .in1 (ECX[10]), .out (n_31));
+  nor2$ g8536(.in0 (ECX[15]), .in1 (ECX[14]), .out (n_30));
+  nor2$ g8507(.in0 (wb_dreg2[2]), .in1 (wb_dreg2[1]), .out (n_29));
+  nor2$ g8500(.in0 (ECX[31]), .in1 (ECX[30]), .out (n_28));
+  nor2$ g8501(.in0 (v_ag_ld_flag_ZF), .in1 (v_ro_ld_flag_ZF), .out
+       (n_27));
+  nor2$ g8502(.in0 (v_ex_ld_flag_ZF), .in1 (v_wb_ld_flag_ZF), .out
        (n_26));
-  nor2$ g7992(.in0 (v_ex_ld_flag_ZF), .in1 (v_wb_ld_flag_ZF), .out
-       (n_25));
-  nor2$ g7993(.in0 (ECX[29]), .in1 (ECX[28]), .out (n_24));
-  nor2$ g7994(.in0 (ECX[3]), .in1 (ECX[2]), .out (n_23));
-  nor2$ g7995(.in0 (wb_dreg2[2]), .in1 (wb_dreg2[1]), .out (n_22));
-  nor2$ g7996(.in0 (ECX[1]), .in1 (ECX[0]), .out (n_21));
-  nor2$ g7997(.in0 (wb_dreg3[2]), .in1 (wb_dreg3[1]), .out (n_20));
-  nor2$ g7999(.in0 (ECX[27]), .in1 (ECX[26]), .out (n_18));
-  nor2$ g8000(.in0 (ECX[19]), .in1 (ECX[18]), .out (n_17));
-  nand2$ g8001(.in0 (V_de), .in1 (repne), .out (n_16));
-  nor2$ g8002(.in0 (ro_dreg2[2]), .in1 (ro_dreg2[1]), .out (n_15));
-  nor2$ g8004(.in0 (ECX[17]), .in1 (ECX[16]), .out (n_14));
-  nand2$ g8005(.in0 (ex_dreg2[0]), .in1 (v_ex_ld_reg2), .out (n_13));
-  nor2$ g8007(.in0 (ro_dreg3[2]), .in1 (ro_dreg3[1]), .out (n_12));
-  nand2$ g8008(.in0 (ex_dreg3[0]), .in1 (v_ex_ld_reg3), .out (n_11));
-  nor2$ g8009(.in0 (wb_dreg1[2]), .in1 (wb_dreg1[1]), .out (n_10));
-  nor2$ g8011(.in0 (ECX[23]), .in1 (ECX[22]), .out (n_9));
-  or2$ g8012(.in0 (stall_ag), .in1 (ag_dep_stall), .out (stall_de));
-  nor2$ g8013(.in0 (ECX[11]), .in1 (ECX[10]), .out (n_8));
-  nor2$ g8014(.in0 (ECX[9]), .in1 (ECX[8]), .out (n_7));
-  or2$ g8015(.in0 (hlt), .in1 (iret), .out (n_50));
-  nand2$ g8016(.in0 (ag_dreg2[0]), .in1 (v_ag_ld_reg2), .out (n_6));
-  nand2$ g8017(.in0 (ag_dreg3[0]), .in1 (v_ag_ld_reg3), .out (n_5));
-  nor2$ g8018(.in0 (ECX[21]), .in1 (ECX[20]), .out (n_4));
-  nor2$ g8019(.in0 (ex_dreg1[2]), .in1 (ex_dreg1[1]), .out (n_3));
-  inv1$ g8026(.in (V_de), .out (n_2));
-  inv1$ g8027(.in (dc_exp), .out (n_38));
-  inv1$ g8028(.in (repne), .out (n_1));
-  or3$ g2(.in0 (n_174), .in1 (n_51), .in2 (n_50), .out (n_175));
-  and2$ g3(.in0 (r_repne_flag), .in1 (ZF), .out (n_174));
+  nor2$ g8503(.in0 (ECX[13]), .in1 (ECX[12]), .out (n_25));
+  nor2$ g8504(.in0 (ECX[27]), .in1 (ECX[26]), .out (n_24));
+  nor2$ g8505(.in0 (ECX[29]), .in1 (ECX[28]), .out (n_23));
+  or2$ g8506(.in0 (hlt), .in1 (iret), .out (n_47));
+  and2$ g8516(.in0 (V_de), .in1 (hlt), .out (hlt_stall));
+  and2$ g8521(.in0 (V_de), .in1 (eip_change), .out (br_stall));
+  and2$ g8522(.in0 (V_de), .in1 (iret), .out (iret_op));
+  nor2$ g8508(.in0 (ECX[3]), .in1 (ECX[2]), .out (n_19));
+  nor2$ g8509(.in0 (wb_dreg3[2]), .in1 (wb_dreg3[1]), .out (n_18));
+  nor2$ g8510(.in0 (ECX[1]), .in1 (ECX[0]), .out (n_17));
+  nor2$ g8511(.in0 (ECX[19]), .in1 (ECX[18]), .out (n_16));
+  nor2$ g8512(.in0 (ro_dreg3[2]), .in1 (ro_dreg3[1]), .out (n_15));
+  nor2$ g8513(.in0 (ECX[25]), .in1 (ECX[24]), .out (n_14));
+  nand2$ g8514(.in0 (ex_dreg2[0]), .in1 (v_ex_ld_reg2), .out (n_13));
+  nor2$ g8515(.in0 (ex_dreg1[2]), .in1 (ex_dreg1[1]), .out (n_12));
+  nor2$ g8517(.in0 (ro_dreg2[2]), .in1 (ro_dreg2[1]), .out (n_11));
+  nor2$ g8518(.in0 (ECX[17]), .in1 (ECX[16]), .out (n_10));
+  nand2$ g8519(.in0 (ex_dreg3[0]), .in1 (v_ex_ld_reg3), .out (n_9));
+  nor2$ g8520(.in0 (wb_dreg1[2]), .in1 (wb_dreg1[1]), .out (n_8));
+  nand2$ g8523(.in0 (V_de), .in1 (repne), .out (n_46));
+  or2$ g8524(.in0 (stall_ag), .in1 (ag_dep_stall), .out (stall_de));
+  nor2$ g8525(.in0 (ECX[23]), .in1 (ECX[22]), .out (n_7));
+  nand2$ g8526(.in0 (ag_dreg1[0]), .in1 (v_ag_ld_reg1), .out (n_6));
+  nor2$ g8528(.in0 (ECX[9]), .in1 (ECX[8]), .out (n_4));
+  nand2$ g8529(.in0 (ag_dreg2[0]), .in1 (v_ag_ld_reg2), .out (n_3));
+  nor2$ g8530(.in0 (ECX[7]), .in1 (ECX[6]), .out (n_2));
+  inv1$ g8537(.in (V_de), .out (n_1));
+  inv1$ g8538(.in (dc_exp), .out (n_36));
+  or3$ g2(.in0 (n_173), .in1 (n_48), .in2 (n_47), .out (n_174));
+  and2$ g3(.in0 (r_repne_flag), .in1 (ZF), .out (n_173));
 endmodule
 
