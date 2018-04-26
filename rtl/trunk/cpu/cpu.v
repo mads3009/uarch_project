@@ -83,7 +83,6 @@ wire [3:0] w_v_wb_ld_reg1_strb;
 wire [3:0] w_v_wb_ld_reg2_strb;
 wire [3:0] w_v_wb_ld_reg3_strb;
 wire [63:0] w_wb_mem_wr_data;
-wire [31:0] w_wb_mem_wr_addr;
 wire w_v_wb_ld_reg1;
 wire w_v_wb_ld_reg2;
 wire w_v_wb_ld_reg3;
@@ -2165,7 +2164,6 @@ ex_dep_v_ld_logic u_ex_dep_v_ld_logic(
   .ld_wb              (w_ld_wb)
 );
 
-// FIXME
 //Valid loads etc
 assign w_v_ex_ld_mem = r_V_ex & r_ex_ld_mem;
 
@@ -2276,7 +2274,7 @@ wr_fifo u_wr_fifo(
   .rst_n              (rst_n),
   .wr                 (w_v_wb_ld_mem),
   .rd                 (w_mem_wr_done),
-  .wr_data            ({r_wb_mem_wr_size, r_wb_mem_wr_addr_end, r_wb_mem_wr_addr, w_wb_mem_wr_data}),// FIXME am i right? w_wb_mem_wr_addr replaced by r_wb_mem_wr_addr
+  .wr_data            ({r_wb_mem_wr_size, r_wb_mem_wr_addr_end, r_wb_mem_wr_addr, w_wb_mem_wr_data}),
   .rd_data            ({w_fifo_mem_wr_size, w_fifo_mem_wr_addr_end, w_fifo_mem_wr_addr, w_fifo_mem_wr_data}),
   .fifo_empty         (w_fifo_empty),
   .fifo_full          (w_fifo_full),
