@@ -118,10 +118,12 @@ add_flags u_add_flags(.A(sr1), .B(sr2), .s(w_add_res), .c32(c32_add), .c16(c16_a
  
 //COMP_PASS_SR1
 wire [31:0] sr1_bar;
+wire [31:0] sr1_comp;
 wire [31:0] w_comp_res;
 not32 u_sr1_inv(.in(sr1), .out(sr1_bar));
-cond_sum32_c u_comp( .A(eax), .B(sr1_bar), .CIN(1'd1), .S(w_comp_res), .COUT(c32_comp), .c4(c4_comp), .c8(c8_comp), .c16(c16_comp));
-add_flags u_comp_flags(.A(eax), .B(sr1_bar), .s(w_comp_res), .c32(c32_comp), .c16(c16_comp), .c8(c8_comp), .c4(c4_comp), 
+cond_sum32_c u_sr1_bar( .A(sr1_bar), .B(32'b1), .CIN(1'd0), .S(sr1_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
+cond_sum32_c u_comp   ( .A(eax), .B(sr1_comp), .CIN(1'd0), .S(w_comp_res), .COUT(c32_comp), .c4(c4_comp), .c8(c8_comp), .c16(c16_comp));
+add_flags u_comp_flags(.A(eax), .B(sr1_comp), .s(w_comp_res), .c32(c32_comp), .c16(c16_comp), .c8(c8_comp), .c4(c4_comp), 
                        .flags(w_comp_flags), .alu1_op_size(alu1_op_size));
 
 //CMPS PTR CH
