@@ -24,7 +24,7 @@ output [63:0]         mem_rd_data;
 // Internal Variables
 
 wire [C_LINE_W-1:0] w_data_temp;
-wire [63:0]         w_temp1, w_temp2;
+wire [63:0]         w_temp1, w_temp2, w_temp3;
 wire                w_ld_mdr;
 wire                w_access2_reg_bar;
 wire [3:0]          w_addr_offset_bar;
@@ -58,7 +58,8 @@ generate
 endgenerate
 
 // Select between memory or IO
-muxNbit_2x1 #(.N(64)) u_muxNbit_2x1_1(.IN0(w_temp2), .IN1({32'h0000_0000,io_rd_data}), .S0(io_ack), .Y(mem_rd_data));
+muxNbit_2x1 #(.N(64)) u_muxNbit_2x1_1(.IN0(w_temp3), .IN1({32'h0000_0000,io_rd_data}), .S0(io_ack), .Y(mem_rd_data));
+muxNbit_2x1 #(.N(64)) u_muxNbit_2x1_2(.IN0(w_data_temp[63:0]), .IN1(w_temp2), .S0(access2_reg), .Y(w_temp3));
 
 endmodule
 
