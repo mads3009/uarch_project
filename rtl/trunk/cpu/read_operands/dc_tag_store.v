@@ -28,13 +28,17 @@ wire        w_array_wr_mask[3:0];
 decoder2_4$ u_decoder2_4_1(.SEL(index[4:3]),.Y(/*Unused*/),.YBAR(w_row_sel_bar));
 
 // Delayed clock
+// FIXME
+wire w_clk_del;
+assign #2 w_clk_del = clk;
+/*
 buffer$ u_buffer_1(.out(w_clk_001), .in(clk));
 buffer$ u_buffer_2(.out(w_clk_002), .in(w_clk_001));
 buffer$ u_buffer_3(.out(w_clk_003), .in(w_clk_002));
 buffer$ u_buffer_4(.out(w_clk_004), .in(w_clk_003));
 buffer$ u_buffer_5(.out(w_clk_005), .in(w_clk_004));
 buffer$ u_buffer_6(.out(w_clk_del), .in(w_clk_005));
-
+*/
 genvar j;
 generate
   for(j=0; j < 4; j=j+1) begin: row_gen

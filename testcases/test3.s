@@ -4,6 +4,6 @@ movl    $0xa00, %ecx
 movw    %cx, %ss             
 movl    $0x08090a0b, %eax       
 pushl   %eax
-popl    %ebx		       
+popw    %bx		       
 hlt
 
