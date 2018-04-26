@@ -126,7 +126,8 @@ mem_rd_data_gen u_mem_rd_data_gen(
   .dc_read_hit(w_dc_rd_hit),
   .io_rd_data(io_rd_data),
   .io_ack(io_ack),
-  .mem_rd_data(mem_rd_data)
+  .mem_rd_data(mem_rd_data),
+  .mem_rd_ready(mem_rd_ready)
   );
 
 // FIXME
