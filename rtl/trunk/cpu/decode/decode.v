@@ -516,7 +516,7 @@ nand3$ seg_nor2(.in0(prefix_es_pr), .in1(prefix_fs_pr), .in2(prefix_gs_pr), .out
 or2$ seg_nand(.in0(nor_temp1), .in1(nor_temp2), .out(prefix_seg_over_pr));
 
 wire [2:0]prefix_seg_reg;
-pencoder8_3$ enc (.enbar(1'b0), .X({1'b0,1'b0,prefix_gs_pr, prefix_fs_pr,prefix_ds_pr, prefix_ss_pr, prefix_cs_pr, prefix_es_pr}), .Y(prefix_seg_reg));
+pencoder8_3$ enc (.enbar(1'b0), .X({prefix_es_pr, prefix_cs_pr,prefix_ss_pr, prefix_ds_pr, prefix_fs_pr, prefix_gs_pr,1'b1,1'b1}), .Y(prefix_seg_reg));
 
 
 //Mux array to select opcode (dispa nd imm not done yet)

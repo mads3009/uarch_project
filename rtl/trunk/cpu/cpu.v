@@ -606,8 +606,8 @@ dff$  u_r_fe_ren(.r(rst_n),.s(1'b1),.clk(clk),.d(w_fe_ren_to_use),.q(r_fe_ren),.
 //inv1$ u_not_fe_next_state1(.out(w_not_fe_next_state0), .in(w_fe_next_state[0]));
 //nand2$ u_fe_next_state_not_10 (.out(w_fe_next_state_not_10), .in0(w_fe_next_state[1]), .in1(w_not_fe_next_state0));
 //and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_ic_hit), .in1(w_fe_next_state_not_10));
-//assign w_V_de_next = w_fe_nextstate_01_11;
-and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_fe_nextstate_01_11), .in1(w_fe_ren_to_use));
+assign w_V_de_next = w_fe_nextstate_01_11;
+//and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_fe_nextstate_01_11), .in1(w_fe_ren_to_use));
 
 //Logic for ld_de;
 and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_repne_stall), .in1(int));
