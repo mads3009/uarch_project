@@ -58,7 +58,7 @@ endgenerate
 
 generate begin
   for (i=0;i<4;i=i+1) begin : loop2
-    assign v_wb_ld_reg2_strb[i] = V_wb & ld_reg2_strb[i] & ((~cxchg_op) || ZF_new) & ((~cond_wr_CF) || (CF_flag==CF_expected));
+    assign v_wb_ld_reg2_strb[i] = V_wb & ld_reg2_strb[i] & ((~cxchg_op) || ~ZF_new) & ((~cond_wr_CF) || (CF_flag==CF_expected));
   end
 end
 endgenerate
