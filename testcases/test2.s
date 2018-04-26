@@ -7,7 +7,7 @@ movl    $0xFF00FF00      , %ecx
 not     %eax
 or      %ax              ,%cx
 salw    %cl              ,%ax
-sarb    $1               ,%cl
+sarw    $1               ,%cx
 sarl    $7               ,%eax
             
 
