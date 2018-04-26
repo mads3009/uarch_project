@@ -144,7 +144,7 @@ dc_data_store u_dc_data_store(
   );
 
 // D-cache tag store
-muxNbit_2x1 #(.N(8)) u_muxNbit_2x1_0 (.IN0({w_phy_tag,1'b1, 1'b0}), .IN1({w_phy_tag,1'b1, 1'b1}), .S0(dc_miss_ack), .Y(w_ts_data_in));
+muxNbit_2x1 #(.N(8)) u_muxNbit_2x1_0 (.IN0({w_phy_tag,1'b1, 1'b1}), .IN1({w_phy_tag,1'b1, 1'b0}), .S0(dc_miss_ack), .Y(w_ts_data_in));
 
 nor2$ u_nor2(.out(w_ts_wr_enb), .in0(w_dc_wr_hit), .in1(dc_miss_ack));
 
