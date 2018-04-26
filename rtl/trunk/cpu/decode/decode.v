@@ -98,7 +98,8 @@ module decode (r_de_ic_data_shifted,
                de_repne,
                de_hlt,
                de_iret,
-               de_ptr_CS);
+               de_ptr_CS,
+               de_opcode);
 
 input [255:0]r_de_ic_data_shifted;
 input [31:0] r_de_EIP_curr;
@@ -196,6 +197,7 @@ output       de_repne;
 output       de_hlt;
 output       de_iret;
 output [15:0]de_ptr_CS;
+output [7:0] de_opcode;
 
 
 wire [127:0] de_lower_16bytes;
@@ -566,6 +568,7 @@ mux16bit_8x1 mux_ptr1 (.IN0(de_lower_16bytes[55:40]), .IN1(de_lower_16bytes[63:4
 
 mux_nbit_2x1#16 mux_disp_sel(.a1(imm[31:16]), .a0(ptr_cs_1), .sel(prefix_op_size_pr), .out(ptr_cs));
 
+assign de_opcode = w_opcode;
 assign mod = w_modrm[7:6];
 assign r_m = w_modrm[2:0];
 assign reg_op_mod = w_modrm[5:3];
