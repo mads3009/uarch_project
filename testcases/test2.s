@@ -1,18 +1,15 @@
 .ORG   0x00000000
 movl    $0xa00, %edx
 movw    %dx, %ds
-movl    $0xDE54      , %eax
+movl    $0xFFFFFFFF      , %eax
+movl    $0xFF00FF00      , %ecx
 
-movb    %ah          , %al 
-movb    %al          , %ch 
-movb    %dh          , %dl 
-movb    %dh          , %bh
+not     %eax
+or      %ax              ,%cx
+salw    %cl              ,%ax
+sarb    $1               ,%cl
+sarl    $7               ,%eax
+            
 
- 
-movw    %cx          , %bp 
-movw    %ds          , %sp 
-
-movw    $0x1134        , %si    
-movb    $0x11          , %dh    
 hlt
 

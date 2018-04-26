@@ -196,13 +196,15 @@ mux_nbit_4x1 #6 mux_flags (.a0(w_mux0_flags), .a1(w_mux1_flags), .a2(w_mux2_flag
 
 //CMPS flags
 wire [31:0] mem_out_bar;
+wire [31:0] mem_out_comp;
 wire [31:0] w_cmps_res;
 wire [5:0]  w_cmps_flags;
 not32 u_mem_inv(.in(mem_out), .out(mem_out_bar));
 
-cond_sum32_c u_cmps_op( .A(mem_out_latched), .B(mem_out_bar), .CIN(1'd1), .S(w_cmps_res), .COUT(c32_cmps), .c4(c4_cmps), .c8(c8_cmps), .c16(c16_cmps));
-add_flags u_cmps_flags(.A(mem_out_latched), .B(mem_out_bar), .s(w_cmps_res), .c32(c32_cmps), .c16(c16_cmps), .c8(c8_cmps), .c4(c4_cmps), 
-                      .flags(cmps_flags), .alu1_op_size(mem_rd_size));
+cond_sum32_c u_mem_out_comp(.A(mem_out_bar), .B(32'b1), .CIN(1'd0), .S(mem_out_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
+cond_sum32_c u_cmps_op     (.A(mem_out_latched), .B(mem_out_comp), .CIN(1'd0), .S(w_cmps_res), .COUT(c32_cmps), .c4(c4_cmps), .c8(c8_cmps), .c16(c16_cmps));
+add_flags u_cmps_flags     (.A(mem_out_latched), .B(mem_out_comp), .s(w_cmps_res), .c32(c32_cmps), .c16(c16_cmps), .c8(c8_cmps), .c4(c4_cmps), 
+                            .flags(cmps_flags), .alu1_op_size(mem_rd_size));
 
 //ld_override mux
 wire [5:0] ld_flags_out;
