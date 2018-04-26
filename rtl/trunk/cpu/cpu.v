@@ -1568,7 +1568,7 @@ mux_nbit_2x1 u_w_ag_reg2_ESP_muxed(.a0(w_ag_ESP), .a1(r_ag_reg_out2), .sel(w_mux
 
 //stack offset
 wire [31:0] w_ag_stack_off;
-mux_nbit_4x1 u_w_ag_stack_off (.a0(32'h0), .a1(32'hfffe), .a2(32'hfffc), .a3(32'hfff8), .sel(w_mux_ag_stack_off_sel), .out(w_ag_stack_off));
+mux_nbit_4x1 u_w_ag_stack_off (.a0(32'h0000_0000), .a1(32'hffff_fffe), .a2(32'hffff_fffc), .a3(32'hffff_fff8), .sel(w_mux_ag_stack_off_sel), .out(w_ag_stack_off));
 
 //ISR
 wire w_ag_ISR;
