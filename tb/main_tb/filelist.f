@@ -112,7 +112,7 @@
 ../../rtl/trunk/cpu/read_operands/dcache.v
 ../../rtl/trunk/cpu/read_operands/dc_arbiter.v
 ../../rtl/trunk/cpu/read_operands/dc_data_store.v
-../../rtl/trunk/cpu/read_operands/dc_hit_checker.v
+../../rtl/trunk/cpu/read_operands/dc_hit_checker_netlist.v
 ../../rtl/trunk/cpu/read_operands/dc_tag_store.v
 ../../rtl/trunk/cpu/read_operands/dc_wr_data_gen.v
 ../../rtl/trunk/cpu/read_operands/mem_rd_data_gen.v
