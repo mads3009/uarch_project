@@ -7,7 +7,7 @@ movl    $0x06      , %ebp
 movl    $0x12      , (%eax)
 movl    $0x13      , (%ebp)
 
-addw    %dx       ,0x3(%eax,%ebx,0x2) 
-
+addl    $0xDEADBEEF,(%eax,%ebx,0x4) 
+movq    (%eax)     ,%mm1     
 hlt
 
