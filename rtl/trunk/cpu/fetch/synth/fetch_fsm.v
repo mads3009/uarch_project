@@ -9,6 +9,7 @@ module fetch_fsm(
   input     ic_exp,
   input     dc_exp,
   input     de_br_stall,
+  input[1:0] ld_eip,
   output reg [1:0] f_ld_buf,
   output reg [2:0] f_curr_st,
   output reg [2:0] f_next_st,
@@ -22,6 +23,7 @@ module fetch_fsm(
   localparam STATE_10  = 3'b110;
   localparam FE_STALL_11 = 3'b011;
   localparam FE_STALL_01 = 3'b001;
+  localparam FE_STALL_01_WAIT = 3'b010;
 
   reg next_f_address_sel;
 
@@ -64,8 +66,13 @@ module fetch_fsm(
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b10;
       end
-      else if(~de_p && r_V_de) begin
+      else if(~de_p && r_V_de && (|ld_eip)) begin
         f_next_st <= FE_STALL_01;
+        next_f_address_sel = 1'b0;
+        f_ld_buf <= 2'b00;
+      end
+      else if(~de_p && r_V_de) begin
+        f_next_st <= FE_STALL_01_WAIT;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b00;
       end
@@ -115,6 +122,19 @@ module fetch_fsm(
       end
       else begin
         f_next_st <= FE_STALL_01;
+        next_f_address_sel = 1'b0;
+        f_ld_buf <= 2'b00;
+      end
+    end
+ 
+    FE_STALL_01_WAIT : begin
+      if(|ld_eip) begin
+        f_next_st <= FE_STALL_01;
+        next_f_address_sel = 1'b0;
+        f_ld_buf <= 2'b00;
+      end
+      else begin
+        f_next_st <= FE_STALL_01_WAIT;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b00;
       end

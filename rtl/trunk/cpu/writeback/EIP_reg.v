@@ -19,7 +19,8 @@ module EIP_reg (
   input r_wb_ZF_expected,
   input r_wb_CF_expected,
   
-  output [31:0] r_EIP
+  output [31:0] r_EIP,
+  output [1:0] ld_eip
 );
  
 wire [1:0]  w_EIP_sel;
@@ -53,5 +54,7 @@ wire [31:0] w_eip_alu_res_with_pr_over;
 mux_nbit_2x1 u_eip_alu_res_with_pr_over(.out(w_eip_alu_res_with_pr_over), .a0(w_eip_alu_res), .a1({16'h0,w_eip_alu_res[15:0]}), .sel(r_wb_pr_size_over));
 register_ld2bit u_r_EIP(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld({w_EIP_sel[1],w_EIP_sel[0]}), 
                         .data_i1(w_de_EIP_next), .data_i2(w_eip_alu_res_with_pr_over), .data_i3(w_eip_alu_res_with_pr_over), .data_o(r_EIP));
+
+assign ld_eip = w_EIP_sel;
 
 endmodule
