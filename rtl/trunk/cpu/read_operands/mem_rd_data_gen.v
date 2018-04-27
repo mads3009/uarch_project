@@ -6,7 +6,7 @@
 /**********************************************************/
 
 module mem_rd_data_gen( clk, rst_n, dc_rd_data, addr_offset, access2_reg, 
-                        dc_read_hit, io_rd_data, io_ack, mem_rd_data, mem_rd_ready);
+                        dc_read_hit, io_rd_data, io_ack, mem_rd_data, dc_miss_ack, ren);
 
 localparam C_LINE_W = 16*8; // 16 Bytes
 
@@ -18,7 +18,8 @@ input                 access2_reg;
 input                 dc_read_hit;
 input  [31:0]         io_rd_data;
 input                 io_ack;
-input                 mem_rd_ready;
+input                 dc_miss_ack;
+input                 ren;
 
 output [63:0]         mem_rd_data;
 
@@ -63,7 +64,7 @@ muxNbit_2x1 #(.N(64)) u_muxNbit_2x1_2(.IN0(w_data_temp[63:0]), .IN1(w_temp2), .S
 
 //muxNbit_2x1 #(.N(64)) u_muxNbit_2x1_1(.IN0(w_temp3), .IN1({32'h0000_0000,io_rd_data}), .S0(io_ack), .Y(mem_rd_data));
 
-mux_nbit_4x1 #(.N(64)) u_mux_nbit_4x1 (.a0(64'd0),.a1(64'd0),.a2(w_temp3),.a3({32'h0000_0000,io_rd_data}),.sel({mem_rd_ready,io_ack}),.out(mem_rd_data));
+mux_nbit_4x1 #(.N(64)) u_mux_nbit_4x1 (.a0(64'd0),.a1(64'd0),.a2(w_temp3),.a3({32'h0000_0000,io_rd_data}),.sel({!dc_miss_ack&ren,io_ack}),.out(mem_rd_data));
 
 endmodule
 
