@@ -52,7 +52,12 @@ module ro_dep_v_ld_logic(V_ro, eip_change, in3, in4, in3_needed,
   wire n_120, n_121, n_122, n_123, n_124, n_125, n_126, n_127;
   wire n_128, n_129, n_130, n_131, n_132, n_133, n_134, n_135;
   wire n_136;
-  and3$ g16778(.in0 (n_136), .in1 (n_135), .in2 (n_134), .out (V_ex));
+
+  or3$ u_or_1 (.out(n10001), .in0(cmps_stall), .in1(dc_exp), .in2(dep_stall));
+  nor2$ u_nor2_1(.out(n10002), .in0(n10001), .in1(mem_rd_busy));
+  and2$ u_and2_1(.out(V_ex), .in0(n10002), .in1(V_ro));
+
+  and3$ g16778(.in0 (n_136), .in1 (n_135), .in2 (n_134), .out (/*Unused*/));
   nand3$ g16777(.in0 (n_136), .in1 (n_135), .in2 (n_133), .out
        (dep_stall));
   and2$ g16781(.in0 (n_133), .in1 (n_71), .out (n_134));

@@ -69,6 +69,12 @@ assign stall_ro = ex_dep_stall || wb_mem_stall;
 
 assign ld_ex = !(stall_ro);
 
+/*
+  or3$ u_or_1 (.out(n10001), .in0(cmps_stall), .in1(dc_exp), .in2(dep_stall));
+  nor2$ u_nor2_1(.out(n10002), .in0(n10001), .in1(mem_rd_busy));
+  and2$ u_and2_1(.out(V_ex), .in0(n10002), .in1(V_ro));
+*/
+
 assign V_ex = V_ro && !(dep_stall || cmps_stall || mem_rd_busy || dc_exp);
 
 assign dep_stall = (( in3_needed&&(((in3 == ex_dreg1) && v_ex_ld_reg1) ||

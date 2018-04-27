@@ -516,6 +516,7 @@ wire [31:0] w_de_EIP_next;
 wire w_hlt_or_repne;
 wire w_not_stall_fe;
 wire w_repne_and_int;
+wire [1:0] w_ld_eip;
 
 //EIP register
 wire [31:0] r_EIP;
@@ -540,7 +541,8 @@ EIP_reg u_EIP_reg (
   .r_wb_ZF_expected          (r_wb_ZF_expected),
   .r_wb_CF_expected          (r_wb_CF_expected),
 
-  .r_EIP                     (r_EIP)
+  .r_EIP                     (r_EIP),
+  .ld_eip                    (w_ld_eip)
 );
 
 //Output of fetch
@@ -615,17 +617,18 @@ nor3$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_d
 or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(w_repne_and_int));
 
 //Fetch FSM
-fetch_fsm u_fe_fsm (
+fetch_fsm u_fetch_fsm (
   .clk      (clk),
   .rst_n    (rst_n),
   .de_p     (w_de_EIP_next[4]),
   .eip_4    (r_EIP[4]),
   .ic_hit   (w_ic_hit),
   .r_V_de   (r_V_de),
-  .int(int),
-  .ic_exp(w_ic_exp),
-  .dc_exp(w_dc_exp),
+  .int      (int),
+  .ic_exp   (w_ic_exp),
+  .dc_exp   (w_dc_exp),
   .de_br_stall(w_de_br_stall),
+  .ld_eip   (w_ld_eip),
   .f_ld_buf   (w_fe_ld_buf),
   .f_curr_st  (r_fe_curr_state),
   .f_next_st  (w_fe_next_state),
