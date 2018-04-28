@@ -33,9 +33,14 @@ with open(outobj, 'r') as f1:
 
 for cnt in range(6,len(content)):
     linefull = content[cnt]
-    line = linefull[:32]
+    if(":" in linefull):
+      index = linefull.index(":")
+      line = linefull[:index+23]
+    else:
+      line = linefull[:32]
+    
     line=line.replace(".","")
-    print(line)
+    print(linefull)
     if(len(line) and line[0]!=""):
         vals = line.split()
         n = len(vals) - 1
@@ -81,5 +86,3 @@ for i in range(0,8):
         f_data.write(data[j])
         f_data.write("\n")
     f_data.close()
-
-

@@ -15,11 +15,12 @@ Disassembly of section .text:
   1d:	c7 00 12 00 00 00    	movl   $0x12,(%eax)
   23:	c7 45 00 13 00 00 00 	movl   $0x13,0x0(%ebp)
   2a:	be cd 00 00 00       	mov    $0xcd,%esi
-  2f:	81 04 98 ef be ad de 	addl   $0xdeadbeef,(%eax,%ebx,4)
-  36:	0f 6f 08             	movq   (%eax),%mm1
-  39:	be 32 00 00 00       	mov    $0x32,%esi
-  3e:	bf 36 00 00 00       	mov    $0x36,%edi
-  43:	c7 06 f3 7f 76 98    	movl   $0x98767ff3,(%esi)
-  49:	26 c7 07 76 98 cd ab 	movl   $0xabcd9876,%es:(%edi)
-  50:	a6                   	cmpsb  %es:(%edi),%ds:(%esi)
-  51:	f4                   	hlt    
+  2f:	81 84 98 33 69 74 35 	addl   $0xdeadbeef,0x35746933(%eax,%ebx,4)
+  36:	ef be ad de 
+  3a:	0f 6f 08             	movq   (%eax),%mm1
+  3d:	be 32 00 00 00       	mov    $0x32,%esi
+  42:	bf 36 00 00 00       	mov    $0x36,%edi
+  47:	c7 06 f3 7f 76 98    	movl   $0x98767ff3,(%esi)
+  4d:	26 c7 07 76 98 cd ab 	movl   $0xabcd9876,%es:(%edi)
+  54:	a6                   	cmpsb  %es:(%edi),%ds:(%esi)
+  55:	f4                   	hlt    
