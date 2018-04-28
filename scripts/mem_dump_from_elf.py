@@ -2,12 +2,19 @@ import re
 import sys
 import os
 
-name = sys.argv[1]
+name = sys.argv[2]
+res = sys.argv[1]
+
 out = name.split(".s")[0] + ".o"
 outtxt = name.split(".s")[0] + ".txt"
 
-os.system("gcc -m32 -c "+name+" -o "+out)
-os.system("readelf -x .text "+out+" > "+outtxt)
+cmd = "gcc -m32 -c "+name+" -o "+out
+print(cmd)
+os.system(cmd)
+
+cmd = "readelf -x .text "+out+" > "+outtxt
+print(cmd)
+os.system(cmd)
 
 inFile = outtxt
 size = 256;
@@ -77,10 +84,10 @@ for cnt in range(0,len(content)):
                 page = '6' 
 
           f_data.close();
-          f_data = open("hex_data"+page+".txt", "w")
+          f_data = open(res+"/hex_data"+page+".txt", "w")
           lines = 0;
 
-          print("page=%s"%page)
+          #print("page=%s"%page)
 
         if (n>=5):
             n=5
