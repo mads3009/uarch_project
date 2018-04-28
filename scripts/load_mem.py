@@ -36,22 +36,26 @@ for cnt in range(0,len(content)):
             mem_addr = vals[0].split(":")[0]
             mem_addr_no_x = zero_extend(mem_addr.split('x')[1])
 
-            if(mem_addr_no_x[:5]=='00000'):
-                page = 0
-            elif (mem_addr_no_x[:5]=='02000'):
-                page = 2 
-            elif (mem_addr_no_x[:5]=='04000'):
-                page = 5 
-            elif (mem_addr_no_x[:5]=='0b000'):
-                page = 4 
-            elif (mem_addr_no_x[:5]=='0c000'):
-                page = 7 
-            elif (mem_addr_no_x[:5]=='0a000'):
-                page = 5 
-
-            offset = int(mem_addr_no_x[5:8],16)
             print(mem_addr_no_x)
-            addr = (size*page) + offset
+            #if(mem_addr_no_x[:5]=='00000'):
+            #    page = 0
+            #elif (mem_addr_no_x[:5]=='02000'):
+            #    page = 2 
+            #elif (mem_addr_no_x[:5]=='04000'):
+            #    page = 5 
+            #elif (mem_addr_no_x[:5]=='0b000'):
+            #    page = 4 
+            #elif (mem_addr_no_x[:5]=='0c000'):
+            #    page = 7 
+            #elif (mem_addr_no_x[:5]=='0a000'):
+            #    page = 5 
+            #else:
+            #    print("pagefault!")
+
+            #offset = int(mem_addr_no_x[5:8],16)
+            #addr = (size*page) + offset
+
+            addr = int(mem_addr_no_x,16)
 
             for v in range(0,n):
               data[addr] = vals[v+1]
