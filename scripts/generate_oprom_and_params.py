@@ -7,7 +7,7 @@ f2 = open("oprom_dump_lower.txt","w")
 f3 = open("localparams.txt","w")
 
 cols=97+15+1
-rows=125
+rows=127
 
 start=4
 index=2

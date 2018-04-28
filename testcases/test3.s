@@ -11,4 +11,5 @@ addb    %cl         ,(%eax)
 addl    %edx        ,(%eax) 
 addw    %dx         ,(%ecx) 
 
+andl    %edx        ,(%ecx)
 hlt
