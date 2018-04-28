@@ -1,6 +1,8 @@
 .ORG   0x00000000
 movl    $0xa00, %edx
 movw    %dx, %ds
+movl    $0xb00, %eax
+movw    %ax, %es
 movl    $0x02      , %eax
 movl    $0x01      , %ebx
 movl    $0x06      , %ebp
@@ -11,13 +13,12 @@ movl    $0xCD      , %esi
 addl    $0xDEADBEEF,(%eax,%ebx,0x4) 
 movq    (%eax)     ,%mm1     
 
-movl    $0x32      , %eax
-movl    $0x36      , %ebx
-movl    $0x98767FF3,(%eax)
-movl    $0xABCD9876,(%ebx)
-movq    (%eax)     ,%mm2
+movl    $0x32      , %esi
+movl    $0x36      , %edi
+movl    $0x98767FF3,(%esi)
+movl    $0xABCD9876, %es:(%edi)
 
-paddsw   %mm1        ,%mm2
-pshufw   $0x8D  ,%mm2  ,%mm1
+cmpsb
+
 hlt
 
