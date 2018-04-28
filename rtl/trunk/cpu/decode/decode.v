@@ -532,7 +532,7 @@ wire [3:0]imm_sel_sum;
 
 //disp
 nibble_low disp_add  ( .a({1'b0,w_mux_sel}), .b(4'd1), .cin(1'd0), .s(disp_sel_1), .cout(/*unused*/));
-mux_nbit_2x1#3 disp_mux(.a1(disp_sel[2:0]), .a0(w_mux_sel), .sel(w_modrom_out[SIB_PR]), .out(disp_sel));
+mux_nbit_2x1#3 disp_mux(.a1(disp_sel_1[2:0]), .a0(w_mux_sel), .sel(w_modrom_out[SIB_PR]), .out(disp_sel));
 
 //imm
 
