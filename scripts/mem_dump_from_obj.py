@@ -34,18 +34,17 @@ with open(outobj, 'r') as f1:
 for cnt in range(6,len(content)):
     linefull = content[cnt]
     line = linefull[:32]
-    line.replace(".","")
-
+    line=line.replace(".","")
+    print(line)
     if(len(line) and line[0]!=""):
         vals = line.split()
         n = len(vals) - 1
 
-        print(linefull)
         if(len(vals)>1 and "<" in vals[1]):
             #print("Label:"+line)
             continue #labels
 
-        elif(":" in vals[0]):
+        elif(len(vals)>0 and ":" in vals[0]):
             mem_addr = vals[0].split(":")[0]
             mem_addr_no_x = zero_extend(mem_addr)
 
