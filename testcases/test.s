@@ -1,19 +1,17 @@
 .ORG 0X0000
+movl    $0xa00, %edx
+movw    %dx, %ds
+movl    $0xb00, %ecx
+movw    %cx, %gs
 inc %ax
 mov $0x5566, %bx
-xchg %bl, %cl
-cmpxchg %cx,%bx 
-cmovc %ebx, %ebp
-cmpxchg %cx,%bx 
-cmovc %ebx, %ebp
-L1: add $0x0, %edx
-jne L1
-add $0x1, %edx
-jne L3
-mov $0x1234, %bx
-L3: hlt
+jmp L1
+movw $1234, %dx
+L1 : movw $5678, %dx
+jmp L2
+L3 : mov $5555, %edx
 
-.ORG 0x500
+.ORG 0x2000000
 L2: mov $3569, %esp
 hlt
 
