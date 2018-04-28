@@ -376,28 +376,257 @@ initial begin
         u_system.u_main_mem.u_mem_array.mem_gen.row_gen[0].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
     end
 
-/*
-    for (k=0; k < init_num_lines[0]; k=k+1) begin : line_gen
-        chip_addr = init_mem_addr[k];
-        $display("addr=%b",chip_addr);
- 
-        chip_arr_row = chip_addr[14:12];
-        chip_byte_idx = chip_addr[1:0];
-        chip_arr_col = chip_addr[4:2];[
-        chip_line_addr = chip_addr[11:5];
-        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[init_mem_addr[k][14:12]].col_gen[init_mem_addr[k][4:2]].u_sram128x8_1.mem[init_mem_addr[k][11:5]] =  init_mem_data[k]; 
-
-        if(chip_byte_idx == 2'b0) 
-          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_1.mem[chip_line_addr] =  init_mem_data[k]; 
-        else if(chip_byte_idx == 2'b1) 
-          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_2.mem[chip_line_addr] =  init_mem_data[k]; 
-        else if(chip_byte_idx == 2'b10) 
-          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_3.mem[chip_line_addr] =  init_mem_data[k]; 
-        else 
-          u_system.u_main_mem.u_mem_array.row_gen[chip_arr_row].col_gen[chip_arr_col].u_sram128x8_4.mem[chip_line_addr] =  init_mem_data[k]; 
-      
+    $readmemh("../../scripts/hex_data1.txt",data0);
+    for (k=0; k < 128; k=k+1) begin : line_gen1
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[0].u_sram128x8_1.mem[k] = data0[k*32+(4*0)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[0].u_sram128x8_2.mem[k] = data0[k*32+(4*0)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[0].u_sram128x8_3.mem[k] = data0[k*32+(4*0)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[0].u_sram128x8_4.mem[k] = data0[k*32+(4*0)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[1].u_sram128x8_1.mem[k] = data0[k*32+(4*1)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[1].u_sram128x8_2.mem[k] = data0[k*32+(4*1)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[1].u_sram128x8_3.mem[k] = data0[k*32+(4*1)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[1].u_sram128x8_4.mem[k] = data0[k*32+(4*1)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[2].u_sram128x8_1.mem[k] = data0[k*32+(4*2)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[2].u_sram128x8_2.mem[k] = data0[k*32+(4*2)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[2].u_sram128x8_3.mem[k] = data0[k*32+(4*2)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[2].u_sram128x8_4.mem[k] = data0[k*32+(4*2)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[3].u_sram128x8_1.mem[k] = data0[k*32+(4*3)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[3].u_sram128x8_2.mem[k] = data0[k*32+(4*3)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[3].u_sram128x8_3.mem[k] = data0[k*32+(4*3)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[3].u_sram128x8_4.mem[k] = data0[k*32+(4*3)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[4].u_sram128x8_1.mem[k] = data0[k*32+(4*4)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[4].u_sram128x8_2.mem[k] = data0[k*32+(4*4)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[4].u_sram128x8_3.mem[k] = data0[k*32+(4*4)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[4].u_sram128x8_4.mem[k] = data0[k*32+(4*4)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[5].u_sram128x8_1.mem[k] = data0[k*32+(4*5)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[5].u_sram128x8_2.mem[k] = data0[k*32+(4*5)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[5].u_sram128x8_3.mem[k] = data0[k*32+(4*5)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[5].u_sram128x8_4.mem[k] = data0[k*32+(4*5)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[6].u_sram128x8_1.mem[k] = data0[k*32+(4*6)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[6].u_sram128x8_2.mem[k] = data0[k*32+(4*6)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[6].u_sram128x8_3.mem[k] = data0[k*32+(4*6)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[6].u_sram128x8_4.mem[k] = data0[k*32+(4*6)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[7].u_sram128x8_1.mem[k] = data0[k*32+(4*7)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[7].u_sram128x8_2.mem[k] = data0[k*32+(4*7)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[7].u_sram128x8_3.mem[k] = data0[k*32+(4*7)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[1].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
     end
-*/
+
+    $readmemh("../../scripts/hex_data2.txt",data0);
+    for (k=0; k < 128; k=k+1) begin : line_gen2
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[0].u_sram128x8_1.mem[k] = data0[k*32+(4*0)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[0].u_sram128x8_2.mem[k] = data0[k*32+(4*0)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[0].u_sram128x8_3.mem[k] = data0[k*32+(4*0)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[0].u_sram128x8_4.mem[k] = data0[k*32+(4*0)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[1].u_sram128x8_1.mem[k] = data0[k*32+(4*1)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[1].u_sram128x8_2.mem[k] = data0[k*32+(4*1)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[1].u_sram128x8_3.mem[k] = data0[k*32+(4*1)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[1].u_sram128x8_4.mem[k] = data0[k*32+(4*1)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[2].u_sram128x8_1.mem[k] = data0[k*32+(4*2)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[2].u_sram128x8_2.mem[k] = data0[k*32+(4*2)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[2].u_sram128x8_3.mem[k] = data0[k*32+(4*2)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[2].u_sram128x8_4.mem[k] = data0[k*32+(4*2)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[3].u_sram128x8_1.mem[k] = data0[k*32+(4*3)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[3].u_sram128x8_2.mem[k] = data0[k*32+(4*3)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[3].u_sram128x8_3.mem[k] = data0[k*32+(4*3)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[3].u_sram128x8_4.mem[k] = data0[k*32+(4*3)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[4].u_sram128x8_1.mem[k] = data0[k*32+(4*4)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[4].u_sram128x8_2.mem[k] = data0[k*32+(4*4)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[4].u_sram128x8_3.mem[k] = data0[k*32+(4*4)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[4].u_sram128x8_4.mem[k] = data0[k*32+(4*4)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[5].u_sram128x8_1.mem[k] = data0[k*32+(4*5)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[5].u_sram128x8_2.mem[k] = data0[k*32+(4*5)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[5].u_sram128x8_3.mem[k] = data0[k*32+(4*5)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[5].u_sram128x8_4.mem[k] = data0[k*32+(4*5)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[6].u_sram128x8_1.mem[k] = data0[k*32+(4*6)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[6].u_sram128x8_2.mem[k] = data0[k*32+(4*6)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[6].u_sram128x8_3.mem[k] = data0[k*32+(4*6)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[6].u_sram128x8_4.mem[k] = data0[k*32+(4*6)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[7].u_sram128x8_1.mem[k] = data0[k*32+(4*7)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[7].u_sram128x8_2.mem[k] = data0[k*32+(4*7)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[7].u_sram128x8_3.mem[k] = data0[k*32+(4*7)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[2].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
+    end
+
+    $readmemh("../../scripts/hex_data3.txt",data0);
+    for (k=0; k < 128; k=k+1) begin : line_gen3
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[0].u_sram128x8_1.mem[k] = data0[k*32+(4*0)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[0].u_sram128x8_2.mem[k] = data0[k*32+(4*0)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[0].u_sram128x8_3.mem[k] = data0[k*32+(4*0)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[0].u_sram128x8_4.mem[k] = data0[k*32+(4*0)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[1].u_sram128x8_1.mem[k] = data0[k*32+(4*1)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[1].u_sram128x8_2.mem[k] = data0[k*32+(4*1)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[1].u_sram128x8_3.mem[k] = data0[k*32+(4*1)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[1].u_sram128x8_4.mem[k] = data0[k*32+(4*1)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[2].u_sram128x8_1.mem[k] = data0[k*32+(4*2)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[2].u_sram128x8_2.mem[k] = data0[k*32+(4*2)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[2].u_sram128x8_3.mem[k] = data0[k*32+(4*2)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[2].u_sram128x8_4.mem[k] = data0[k*32+(4*2)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[3].u_sram128x8_1.mem[k] = data0[k*32+(4*3)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[3].u_sram128x8_2.mem[k] = data0[k*32+(4*3)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[3].u_sram128x8_3.mem[k] = data0[k*32+(4*3)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[3].u_sram128x8_4.mem[k] = data0[k*32+(4*3)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[4].u_sram128x8_1.mem[k] = data0[k*32+(4*4)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[4].u_sram128x8_2.mem[k] = data0[k*32+(4*4)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[4].u_sram128x8_3.mem[k] = data0[k*32+(4*4)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[4].u_sram128x8_4.mem[k] = data0[k*32+(4*4)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[5].u_sram128x8_1.mem[k] = data0[k*32+(4*5)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[5].u_sram128x8_2.mem[k] = data0[k*32+(4*5)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[5].u_sram128x8_3.mem[k] = data0[k*32+(4*5)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[5].u_sram128x8_4.mem[k] = data0[k*32+(4*5)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[6].u_sram128x8_1.mem[k] = data0[k*32+(4*6)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[6].u_sram128x8_2.mem[k] = data0[k*32+(4*6)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[6].u_sram128x8_3.mem[k] = data0[k*32+(4*6)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[6].u_sram128x8_4.mem[k] = data0[k*32+(4*6)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[7].u_sram128x8_1.mem[k] = data0[k*32+(4*7)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[7].u_sram128x8_2.mem[k] = data0[k*32+(4*7)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[7].u_sram128x8_3.mem[k] = data0[k*32+(4*7)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[3].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
+    end
+
+    $readmemh("../../scripts/hex_data4.txt",data0);
+    for (k=0; k < 128; k=k+1) begin : line_gen4
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[0].u_sram128x8_1.mem[k] = data0[k*32+(4*0)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[0].u_sram128x8_2.mem[k] = data0[k*32+(4*0)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[0].u_sram128x8_3.mem[k] = data0[k*32+(4*0)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[0].u_sram128x8_4.mem[k] = data0[k*32+(4*0)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[1].u_sram128x8_1.mem[k] = data0[k*32+(4*1)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[1].u_sram128x8_2.mem[k] = data0[k*32+(4*1)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[1].u_sram128x8_3.mem[k] = data0[k*32+(4*1)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[1].u_sram128x8_4.mem[k] = data0[k*32+(4*1)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[2].u_sram128x8_1.mem[k] = data0[k*32+(4*2)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[2].u_sram128x8_2.mem[k] = data0[k*32+(4*2)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[2].u_sram128x8_3.mem[k] = data0[k*32+(4*2)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[2].u_sram128x8_4.mem[k] = data0[k*32+(4*2)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[3].u_sram128x8_1.mem[k] = data0[k*32+(4*3)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[3].u_sram128x8_2.mem[k] = data0[k*32+(4*3)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[3].u_sram128x8_3.mem[k] = data0[k*32+(4*3)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[3].u_sram128x8_4.mem[k] = data0[k*32+(4*3)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[4].u_sram128x8_1.mem[k] = data0[k*32+(4*4)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[4].u_sram128x8_2.mem[k] = data0[k*32+(4*4)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[4].u_sram128x8_3.mem[k] = data0[k*32+(4*4)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[4].u_sram128x8_4.mem[k] = data0[k*32+(4*4)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[5].u_sram128x8_1.mem[k] = data0[k*32+(4*5)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[5].u_sram128x8_2.mem[k] = data0[k*32+(4*5)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[5].u_sram128x8_3.mem[k] = data0[k*32+(4*5)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[5].u_sram128x8_4.mem[k] = data0[k*32+(4*5)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[6].u_sram128x8_1.mem[k] = data0[k*32+(4*6)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[6].u_sram128x8_2.mem[k] = data0[k*32+(4*6)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[6].u_sram128x8_3.mem[k] = data0[k*32+(4*6)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[6].u_sram128x8_4.mem[k] = data0[k*32+(4*6)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[7].u_sram128x8_1.mem[k] = data0[k*32+(4*7)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[7].u_sram128x8_2.mem[k] = data0[k*32+(4*7)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[7].u_sram128x8_3.mem[k] = data0[k*32+(4*7)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[4].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
+    end
+
+    $readmemh("../../scripts/hex_data5.txt",data0);
+    for (k=0; k < 128; k=k+1) begin : line_gen5
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[0].u_sram128x8_1.mem[k] = data0[k*32+(4*0)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[0].u_sram128x8_2.mem[k] = data0[k*32+(4*0)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[0].u_sram128x8_3.mem[k] = data0[k*32+(4*0)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[0].u_sram128x8_4.mem[k] = data0[k*32+(4*0)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[1].u_sram128x8_1.mem[k] = data0[k*32+(4*1)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[1].u_sram128x8_2.mem[k] = data0[k*32+(4*1)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[1].u_sram128x8_3.mem[k] = data0[k*32+(4*1)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[1].u_sram128x8_4.mem[k] = data0[k*32+(4*1)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[2].u_sram128x8_1.mem[k] = data0[k*32+(4*2)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[2].u_sram128x8_2.mem[k] = data0[k*32+(4*2)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[2].u_sram128x8_3.mem[k] = data0[k*32+(4*2)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[2].u_sram128x8_4.mem[k] = data0[k*32+(4*2)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[3].u_sram128x8_1.mem[k] = data0[k*32+(4*3)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[3].u_sram128x8_2.mem[k] = data0[k*32+(4*3)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[3].u_sram128x8_3.mem[k] = data0[k*32+(4*3)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[3].u_sram128x8_4.mem[k] = data0[k*32+(4*3)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[4].u_sram128x8_1.mem[k] = data0[k*32+(4*4)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[4].u_sram128x8_2.mem[k] = data0[k*32+(4*4)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[4].u_sram128x8_3.mem[k] = data0[k*32+(4*4)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[4].u_sram128x8_4.mem[k] = data0[k*32+(4*4)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[5].u_sram128x8_1.mem[k] = data0[k*32+(4*5)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[5].u_sram128x8_2.mem[k] = data0[k*32+(4*5)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[5].u_sram128x8_3.mem[k] = data0[k*32+(4*5)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[5].u_sram128x8_4.mem[k] = data0[k*32+(4*5)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[6].u_sram128x8_1.mem[k] = data0[k*32+(4*6)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[6].u_sram128x8_2.mem[k] = data0[k*32+(4*6)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[6].u_sram128x8_3.mem[k] = data0[k*32+(4*6)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[6].u_sram128x8_4.mem[k] = data0[k*32+(4*6)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[7].u_sram128x8_1.mem[k] = data0[k*32+(4*7)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[7].u_sram128x8_2.mem[k] = data0[k*32+(4*7)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[7].u_sram128x8_3.mem[k] = data0[k*32+(4*7)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[5].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
+    end
+
+    $readmemh("../../scripts/hex_data6.txt",data0);
+    for (k=0; k < 128; k=k+1) begin : line_gen6
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[0].u_sram128x8_1.mem[k] = data0[k*32+(4*0)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[0].u_sram128x8_2.mem[k] = data0[k*32+(4*0)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[0].u_sram128x8_3.mem[k] = data0[k*32+(4*0)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[0].u_sram128x8_4.mem[k] = data0[k*32+(4*0)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[1].u_sram128x8_1.mem[k] = data0[k*32+(4*1)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[1].u_sram128x8_2.mem[k] = data0[k*32+(4*1)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[1].u_sram128x8_3.mem[k] = data0[k*32+(4*1)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[1].u_sram128x8_4.mem[k] = data0[k*32+(4*1)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[2].u_sram128x8_1.mem[k] = data0[k*32+(4*2)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[2].u_sram128x8_2.mem[k] = data0[k*32+(4*2)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[2].u_sram128x8_3.mem[k] = data0[k*32+(4*2)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[2].u_sram128x8_4.mem[k] = data0[k*32+(4*2)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[3].u_sram128x8_1.mem[k] = data0[k*32+(4*3)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[3].u_sram128x8_2.mem[k] = data0[k*32+(4*3)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[3].u_sram128x8_3.mem[k] = data0[k*32+(4*3)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[3].u_sram128x8_4.mem[k] = data0[k*32+(4*3)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[4].u_sram128x8_1.mem[k] = data0[k*32+(4*4)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[4].u_sram128x8_2.mem[k] = data0[k*32+(4*4)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[4].u_sram128x8_3.mem[k] = data0[k*32+(4*4)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[4].u_sram128x8_4.mem[k] = data0[k*32+(4*4)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[5].u_sram128x8_1.mem[k] = data0[k*32+(4*5)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[5].u_sram128x8_2.mem[k] = data0[k*32+(4*5)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[5].u_sram128x8_3.mem[k] = data0[k*32+(4*5)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[5].u_sram128x8_4.mem[k] = data0[k*32+(4*5)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[6].u_sram128x8_1.mem[k] = data0[k*32+(4*6)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[6].u_sram128x8_2.mem[k] = data0[k*32+(4*6)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[6].u_sram128x8_3.mem[k] = data0[k*32+(4*6)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[6].u_sram128x8_4.mem[k] = data0[k*32+(4*6)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[7].u_sram128x8_1.mem[k] = data0[k*32+(4*7)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[7].u_sram128x8_2.mem[k] = data0[k*32+(4*7)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[7].u_sram128x8_3.mem[k] = data0[k*32+(4*7)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[6].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
+    end
+
+    $readmemh("../../scripts/hex_data7.txt",data0);
+    for (k=0; k < 128; k=k+1) begin : line_gen7
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[0].u_sram128x8_1.mem[k] = data0[k*32+(4*0)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[0].u_sram128x8_2.mem[k] = data0[k*32+(4*0)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[0].u_sram128x8_3.mem[k] = data0[k*32+(4*0)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[0].u_sram128x8_4.mem[k] = data0[k*32+(4*0)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[1].u_sram128x8_1.mem[k] = data0[k*32+(4*1)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[1].u_sram128x8_2.mem[k] = data0[k*32+(4*1)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[1].u_sram128x8_3.mem[k] = data0[k*32+(4*1)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[1].u_sram128x8_4.mem[k] = data0[k*32+(4*1)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[2].u_sram128x8_1.mem[k] = data0[k*32+(4*2)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[2].u_sram128x8_2.mem[k] = data0[k*32+(4*2)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[2].u_sram128x8_3.mem[k] = data0[k*32+(4*2)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[2].u_sram128x8_4.mem[k] = data0[k*32+(4*2)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[3].u_sram128x8_1.mem[k] = data0[k*32+(4*3)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[3].u_sram128x8_2.mem[k] = data0[k*32+(4*3)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[3].u_sram128x8_3.mem[k] = data0[k*32+(4*3)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[3].u_sram128x8_4.mem[k] = data0[k*32+(4*3)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[4].u_sram128x8_1.mem[k] = data0[k*32+(4*4)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[4].u_sram128x8_2.mem[k] = data0[k*32+(4*4)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[4].u_sram128x8_3.mem[k] = data0[k*32+(4*4)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[4].u_sram128x8_4.mem[k] = data0[k*32+(4*4)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[5].u_sram128x8_1.mem[k] = data0[k*32+(4*5)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[5].u_sram128x8_2.mem[k] = data0[k*32+(4*5)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[5].u_sram128x8_3.mem[k] = data0[k*32+(4*5)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[5].u_sram128x8_4.mem[k] = data0[k*32+(4*5)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[6].u_sram128x8_1.mem[k] = data0[k*32+(4*6)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[6].u_sram128x8_2.mem[k] = data0[k*32+(4*6)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[6].u_sram128x8_3.mem[k] = data0[k*32+(4*6)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[6].u_sram128x8_4.mem[k] = data0[k*32+(4*6)+3];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[7].u_sram128x8_1.mem[k] = data0[k*32+(4*7)+0];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[7].u_sram128x8_2.mem[k] = data0[k*32+(4*7)+1];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[7].u_sram128x8_3.mem[k] = data0[k*32+(4*7)+2];
+        u_system.u_main_mem.u_mem_array.mem_gen.row_gen[7].col_gen[7].u_sram128x8_4.mem[k] = data0[k*32+(4*7)+3];
+    end
 
 //Initializing OPROM
     $readmemb("../../scripts/oprom_dump_lower.txt",oprom_data0);

@@ -7,8 +7,8 @@ inc %ax
 mov $0x5566, %bx
 jmp L1
 movw $1234, %dx
-L1 : movw $5678, %dx
-jmp L2
+L1 : movw $200, %dx
+jmp $0x0200,$00000000
 L3 : mov $5555, %edx
 
 .ORG 0x2000000

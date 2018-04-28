@@ -642,6 +642,7 @@ fetch_TLB_lookup u_fe_tlb_lookup(
   .CS_limit     (CS_limit),
   .f_ren        (w_fe_ren_to_use),
   .f_address    (w_fe_address),  
+  .f_address_off(w_fe_address_off),  
   .f_PFN        (w_fe_PFN),
   .ic_prot_exp  (w_ic_prot_exp),
   .ic_page_fault(w_ic_page_fault)
