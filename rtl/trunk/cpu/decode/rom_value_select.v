@@ -127,9 +127,9 @@ mux4bit_3x1 mux_aluop (.Y(alu1_op), .IN0(alu1_op1), .IN1(alu1_op2), .IN2(alu1_op
 
 //Base, disp, sib
 
-and2$  base  (.out(base_sel), .in0(base_sel_in), .in1(mod_rm_pr));
 and2$  sib   (.out(SIB_pr), .in0(SIB_pr_in), .in1(mod_rm_pr));
 and2$  disp0 (.out(disp_sel[0]), .in0(disp_sel_in[0]), .in1(mod_rm_pr));
 and2$  disp1 (.out(disp_sel[1]), .in0(disp_sel_in[1]), .in1(mod_rm_pr));
+mux_nbit_2x1#1 mux_base_sel(.a1(base_sel_in), .a0(1'b1), .sel(mod_rm_pr), .out(base_sel));
 
 endmodule

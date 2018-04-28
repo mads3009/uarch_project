@@ -10,7 +10,7 @@ movl    $0x12      , (%eax)
 movl    $0x13      , (%ebp)
 movl    $0xCD      , %esi
 
-addl    $0xDEADBEEF,0x35746933(%eax,%ebx,0x4) 
+addl    $0xDEADBEEF,(%eax,%ebx,0x4) 
 movq    (%eax)     ,%mm1     
 
 movl    $0x32      , %esi
