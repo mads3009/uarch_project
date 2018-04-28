@@ -1056,7 +1056,7 @@ wire [16:0] blah;
 
 //SPECIAL ROM instantiation
 rseq_rom u_rseq_rom(
-  .oe         (1'b0),
+  .oe         (1'b1),
   .rseq_addr  (w_rseq_addr),
   .rseq_data  ({blah,
       w_rseq_end_bit,
@@ -2006,10 +2006,10 @@ wire r_cmps_flag_bar;
 and2$ u_w_cmps_flag_in1 (.out(w_cmps_flag_in1), .in0(w_ro_mem_rd_ready), .in1(r_ro_cmps_op));
 nand2$ u_w_cmps_flag_in2 (.out(w_cmps_flag_in2), .in0(w_ro_mem_rd_ready), .in1(w_ld_ro));      
 
-mux2$ u_mux(.outb(w_cmps_flag_in),.in0(w_cmps_flag_in1),.in1(w_cmps_flag_in1),.s0(w_cmps_flag_in));
+mux2$ u_mux(.outb(w_cmps_flag_in),.in0(w_cmps_flag_in1),.in1(w_cmps_flag_in2),.s0(r_cmps_flag));
 dff$  u_reg(.r(rst_n),.s(1'b1),.clk(clk),.d(w_cmps_flag_in),.q(r_cmps_flag),.qbar(r_cmps_flag_bar));
 
-and4$ u_w_ro_cmps_stall (.out(w_ro_cmps_stall), .in0(r_ro_cmps_op), .in1(r_cmps_flag_bar), .in2(w_ro_mem_rd_ready), .in3(r_V_ro));
+and3$ u_w_ro_cmps_stall (.out(w_ro_cmps_stall), .in0(r_ro_cmps_op), .in1(r_cmps_flag_bar), .in2(r_V_ro));
 
 //mem_out and mem_out_latched
 wire w_ro_ld_mem_latched;

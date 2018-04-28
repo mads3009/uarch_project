@@ -1,15 +1,14 @@
 .ORG   0x00000000
 movl    $0xa00, %edx
 movw    %dx, %ds
-movl    $0xAB      , %eax
-movl    $0xCD      , %ecx
-movl    $0xABCDFFFF, %edx
-movl    $0xCD      , (%eax)
-movl    $0xFFFF0001  ,(%ecx)
+movl    $0xb00, %eax
+movw    %ax, %es
+movl    $0x32      , %esi
+movl    $0x36      , %edi
+movl    $0x98767FF3,(%esi)
+movl    $0xABCD9876, %es:(%edi)
 
-addb    %cl         ,(%eax) 
-addl    %edx        ,(%eax) 
-addw    %dx         ,(%ecx) 
+cmpsb
 
-andl    %edx        ,(%ecx)
 hlt
+
