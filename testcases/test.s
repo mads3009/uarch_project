@@ -14,4 +14,3 @@ L3 : mov $5555, %edx
 .ORG 0x2000000
 L2: mov $3569, %esp
 hlt
-

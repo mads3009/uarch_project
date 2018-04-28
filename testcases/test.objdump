@@ -1,0 +1,27 @@
+
+../testcases/test.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <L1-0x1a>:
+       0:	ba 00 0a 00 00       	mov    $0xa00,%edx
+       5:	8e da                	mov    %edx,%ds
+       7:	b9 00 0b 00 00       	mov    $0xb00,%ecx
+       c:	8e e9                	mov    %ecx,%gs
+       e:	66 40                	inc    %ax
+      10:	66 bb 66 55          	mov    $0x5566,%bx
+      14:	eb 04                	jmp    1a <L1>
+      16:	66 ba d2 04          	mov    $0x4d2,%dx
+
+0000001a <L1>:
+      1a:	66 ba 2e 16          	mov    $0x162e,%dx
+      1e:	e9 dd ff ff 01       	jmp    2000000 <L2>
+
+00000023 <L3>:
+      23:	ba b3 15 00 00       	mov    $0x15b3,%edx
+	...
+
+02000000 <L2>:
+ 2000000:	bc f1 0d 00 00       	mov    $0xdf1,%esp
+ 2000005:	f4                   	hlt    
