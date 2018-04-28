@@ -32,16 +32,17 @@ with open(outobj, 'r') as f1:
     content = f1.read().splitlines()
 
 for cnt in range(6,len(content)):
-    line = content[cnt]
-    line = line[:32]
+    linefull = content[cnt]
+    line = linefull[:32]
     line.replace(".","")
 
     if(len(line) and line[0]!=""):
         vals = line.split()
         n = len(vals) - 1
 
+        print(linefull)
         if(len(vals)>1 and "<" in vals[1]):
-            print("Label:"+line)
+            #print("Label:"+line)
             continue #labels
 
         elif(":" in vals[0]):
@@ -61,7 +62,7 @@ for cnt in range(6,len(content)):
             elif (mem_addr_no_x[:5]=='0a000'):
                 page = 5 
 
-            print(mem_addr_no_x)
+            #print(mem_addr_no_x)
             offset = int(mem_addr_no_x[5:8],16)
             addr = (4096*page) + offset
 
