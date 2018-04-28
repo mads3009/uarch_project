@@ -5,7 +5,7 @@
 /********************************************************/
 
 module dc_exp_checker(v_ro_mem_read, v_ro_ld_mem, isr, mem_wr_addr, seg_wr_limit, 
-                      wr_addr_offset, mem_rd_addr, seg_rd_limit, rd_addr_offset, 
+                      wr_addr_offset_end, mem_rd_addr, seg_rd_limit, rd_addr_offset_end, 
                       dc_rd_exp, dc_wr_exp, dc_exp, dc_prot_exp, dc_page_fault);
 
 input        v_ro_mem_read;
@@ -13,10 +13,10 @@ input        v_ro_ld_mem;
 input        isr;
 input [31:0] mem_wr_addr;
 input [31:0] seg_wr_limit;
-input [31:0] wr_addr_offset;
+input [31:0] wr_addr_offset_end;
 input [31:0] mem_rd_addr;
 input [31:0] seg_rd_limit;
-input [31:0] rd_addr_offset;
+input [31:0] rd_addr_offset_end;
 output       dc_rd_exp;
 output       dc_wr_exp;
 output       dc_exp;
@@ -114,8 +114,8 @@ nand2$ u_nand2_4(.in0(w_tlb_wr_hit_bar), .in1(v_ro_ld_mem), .out(w_dc_wr_page_fa
 nand2$ u_nand2_5(.in0(w_dc_rd_page_fault_bar), .in1(w_dc_wr_page_fault_bar), .out(dc_page_fault));
 
 // Segment limit checking
-greater_than32 u_greater_than32_1(.in1({rd_addr_offset[31:4],4'hF}), .in2(seg_rd_limit), .gt_out(w_rd_limit_cross));
-greater_than32 u_greater_than32_2(.in1({wr_addr_offset[31:4],4'hF}), .in2(seg_wr_limit), .gt_out(w_wr_limit_cross));
+greater_than32 u_greater_than32_1(.in1(rd_addr_offset_end), .in2(seg_rd_limit), .gt_out(w_rd_limit_cross));
+greater_than32 u_greater_than32_2(.in1(wr_addr_offset_end), .in2(seg_wr_limit), .gt_out(w_wr_limit_cross));
 
 and3$ u_and3_1(.in0(w_rd_limit_cross), .in1(v_ro_mem_read), .in2(w_isr_bar), .out(w_dc_rd_prot_exp));
 nand3$ u_nand3_3(.in0(w_rd_limit_cross), .in1(v_ro_mem_read), .in2(w_isr_bar), .out(w_dc_rd_prot_exp_bar));

@@ -391,6 +391,10 @@ wire [19:0]  r_ro_seg1_limit;
 wire [19:0]  r_ro_seg2_limit;
 wire [31:0]  r_ro_addr1_offset;
 wire [31:0]  r_ro_addr2_offset;
+wire [31:0]  r_ro_addr1_offset_end_rd;
+wire [31:0]  r_ro_addr2_offset_end_rd;
+wire [31:0]  r_ro_addr1_offset_end_wr;
+wire [31:0]  r_ro_addr2_offset_end_wr;
 wire         r_ro_ISR;
 
 //Output latches RO -> EX
@@ -1382,7 +1386,7 @@ register #1         u_r_ro_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n
 register #1         u_r_ro_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_DF),            .data_o(r_ro_ld_flag_DF));
 register #1         u_r_ro_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_OF),            .data_o(r_ro_ld_flag_OF));
 register #16        u_r_ro_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_ptr_CS),                    .data_o(r_ro_ptr_CS));
-register #8       u_r_ro_opcode                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_opcode),                .data_o(r_ro_opcode));
+register #8         u_r_ro_opcode              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_opcode),                .data_o(r_ro_opcode));
 register #2         u_r_ro_imm_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_imm_sel),               .data_o(r_ro_imm_sel));
 register #1         u_r_ro_EIP_EFLAGS_sel      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_EIP_EFLAGS_sel),        .data_o(r_ro_EIP_EFLAGS_sel));
 register #2         u_r_ro_sr1_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_sr1_sel),               .data_o(r_ro_sr1_sel));
@@ -1624,11 +1628,19 @@ mux_nbit_8x1 #20 u_w_ag_seg2_limit (
 
 //addr1_offset
 wire [31:0] w_ag_addr1_offset;
+wire [31:0] w_ag_addr1_offset_end_rd;
+wire [31:0] w_ag_addr1_offset_end_wr;
 wallace_abc_adder u_w_ag_addr1_offset ( .A(w_ag_disp_out), .B(w_ag_addr_base), .C(w_ag_scaled_index_muxed), .CIN(1'b0), .S(w_ag_addr1_offset) ); 
+cond_sum32 u_w_ag_addr1_offset_end_rd ( .A(w_ag_addr1_offset), .B(w_ag_addr_end_pos_rd), .CIN(1'b0), .S(w_ag_addr1_offset_end_rd), .COUT(/*Unused*/) );
+cond_sum32 u_w_ag_addr1_offset_end_wr ( .A(w_ag_addr1_offset), .B(w_ag_addr_end_pos_wr), .CIN(1'b0), .S(w_ag_addr1_offset_end_wr), .COUT(/*Unused*/) );
 
 //addr2_offset
 wire [31:0] w_ag_addr2_offset;
+wire [31:0] w_ag_addr2_offset_end_rd;
+wire [31:0] w_ag_addr2_offset_end_wr;
 cond_sum32 u_w_ag_addr2_offset ( .A(w_ag_reg2_ESP_muxed), .B(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_offset), .COUT(/*Unused*/) );
+wallace_abc_adder u_w_ag_addr2_offset_end_rd ( .A(w_ag_reg2_ESP_muxed), .B(w_ag_stack_off), .C(w_ag_addr_end_pos_rd), .CIN(1'b0), .S(w_ag_addr2_offset_end_rd) ); 
+wallace_abc_adder u_w_ag_addr2_offset_end_wr ( .A(w_ag_reg2_ESP_muxed), .B(w_ag_stack_off), .C(w_ag_addr_end_pos_wr), .CIN(1'b0), .S(w_ag_addr2_offset_end_wr) ); 
 
 //Newly generated AG to RO signals latching
 register #32         u_r_ro_ESP                   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_ESP         ),            .data_o(r_ro_ESP         ));
@@ -1642,6 +1654,10 @@ register #20         u_r_ro_seg1_limit            (.clk(clk), .rst_n(rst_n), .se
 register #20         u_r_ro_seg2_limit            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_seg2_limit  ),            .data_o(r_ro_seg2_limit  ));
 register #32         u_r_ro_addr1_offset          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr1_offset),            .data_o(r_ro_addr1_offset));
 register #32         u_r_ro_addr2_offset          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr2_offset),            .data_o(r_ro_addr2_offset));
+register #32         u_r_ro_addr1_offset_end_rd   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr1_offset_end_rd),        .data_o(r_ro_addr1_offset_end_rd));
+register #32         u_r_ro_addr2_offset_end_rd   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr2_offset_end_rd),        .data_o(r_ro_addr2_offset_end_rd));
+register #32         u_r_ro_addr1_offset_end_wr   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr1_offset_end_wr),        .data_o(r_ro_addr1_offset_end_wr));
+register #32         u_r_ro_addr2_offset_end_wr   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr2_offset_end_wr),        .data_o(r_ro_addr2_offset_end_wr));
 register #1          u_r_ro_ISR                   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_ISR         ),            .data_o(r_ro_ISR         ));
 register #1          u_V_ro                       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_V_ro_next),                  .data_o(r_V_ro));
 
@@ -1707,9 +1723,11 @@ wire w_dc_prot_exp;
 wire w_dc_page_fault;
 wire w_ro_rd_mem_addr_sel;
 wire [19:0] w_ro_seg_wr_limit;
-wire [31:0] w_ro_wr_addr_offset;
 wire [19:0] w_ro_seg_rd_limit;
+wire [31:0] w_ro_wr_addr_offset;
 wire [31:0] w_ro_rd_addr_offset;
+wire [31:0] w_ro_wr_addr_offset_end;
+wire [31:0] w_ro_rd_addr_offset_end;
 wire w_dc_rd_exp;
 
 wire w_v_ro_mem_read;
@@ -1857,10 +1875,10 @@ dc_exp_checker u_dc_exp_checker(
   .isr                 (r_ro_ISR),
   .mem_wr_addr         (w_ro_mem_wr_addr),
   .seg_wr_limit        ({12'h0,w_ro_seg_wr_limit}),
-  .wr_addr_offset      (w_ro_wr_addr_offset),
+  .wr_addr_offset_end  (w_ro_wr_addr_offset_end),
   .mem_rd_addr         (w_ro_mem_rd_addr),
   .seg_rd_limit        ({12'h0,w_ro_seg_rd_limit}),
-  .rd_addr_offset      (w_ro_rd_addr_offset),
+  .rd_addr_offset_end  (w_ro_rd_addr_offset_end),
   .dc_rd_exp           (w_dc_rd_exp),
   .dc_wr_exp           (/*Unused*/),
   .dc_exp              (w_dc_exp),
@@ -2005,6 +2023,7 @@ mux_nbit_2x1 u_w_ro_mem_wr_addr     (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(r_ro
 mux_nbit_2x1 u_w_ro_mem_wr_addr_end (.a0(r_ro_addr1_end_wr), .a1(r_ro_addr2_end_wr), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_mem_wr_addr_end));
 mux_nbit_2x1 #20 u_w_ro_seg_wr_limit (.a0(r_ro_seg1_limit), .a1(r_ro_seg2_limit), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_seg_wr_limit));
 mux_nbit_2x1 u_w_ro_wr_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offset), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_wr_addr_offset));
+mux_nbit_2x1 u_w_ro_wr_addr_offset_end (.a0(r_ro_addr1_offset_end_wr), .a1(r_ro_addr2_offset_end_wr), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_wr_addr_offset_end));
 
 //mem rd addr/limit/offset
 mux2$ u_w_ro_rd_mem_addr_sel (.outb(w_ro_rd_mem_addr_sel), .in0(r_ro_mem_rd_addr_sel), .in1(r_cmps_flag), .s0(r_ro_cmps_op));
@@ -2013,6 +2032,7 @@ mux_nbit_2x1 u_w_ro_mem_rd_addr     (.a0(r_ro_addr1), .a1(r_ro_addr2), .sel(w_ro
 mux_nbit_2x1 u_w_ro_mem_rd_addr_end (.a0(r_ro_addr1_end_rd), .a1(r_ro_addr2_end_rd), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_addr_end));
 mux_nbit_2x1 #20 u_w_ro_seg_rd_limit (.a0(r_ro_seg1_limit), .a1(r_ro_seg2_limit), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_seg_rd_limit));
 mux_nbit_2x1 u_w_ro_rd_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offset), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_rd_addr_offset));
+mux_nbit_2x1 u_w_ro_rd_addr_offset_end (.a0(r_ro_addr1_offset_end_rd), .a1(r_ro_addr2_offset_end_rd), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_rd_addr_offset_end));
 
 //Newly generated RO to WB signals latching
 register #32 u_r_ex_ECX             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_ECX            ), .data_o(r_ex_ECX            ));
