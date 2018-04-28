@@ -15,11 +15,11 @@ Disassembly of section .text:
       16:	66 ba d2 04          	mov    $0x4d2,%dx
 
 0000001a <L1>:
-      1a:	66 ba 2e 16          	mov    $0x162e,%dx
-      1e:	e9 dd ff ff 01       	jmp    2000000 <L2>
+      1a:	66 ba c8 00          	mov    $0xc8,%dx
+      1e:	ea 00 00 00 00 00 02 	ljmp   $0x200,$0x0
 
-00000023 <L3>:
-      23:	ba b3 15 00 00       	mov    $0x15b3,%edx
+00000025 <L3>:
+      25:	ba b3 15 00 00       	mov    $0x15b3,%edx
 	...
 
 02000000 <L2>:

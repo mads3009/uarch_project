@@ -3,6 +3,7 @@ module fetch_TLB_lookup(
   input [19:0] CS_limit,
   input f_ren,
   input [31:0] f_address,  
+  input [31:0] f_address_off,  
   output [2:0] f_PFN,
   output ic_prot_exp,
   output ic_page_fault
@@ -42,7 +43,7 @@ mux_nbit_8x1 #3 u_f_PFN (
 
 //Protection exception
 wire offset_more_than_limit;
-greater_than32 u_offset_more_than_limit (.in1({f_address[31:5],5'b11111}), .in2({12'h0,CS_limit}), .gt_out(offset_more_than_limit));
+greater_than32 u_offset_more_than_limit (.in1({f_address_off[31:5],5'b11111}), .in2({12'h0,CS_limit}), .gt_out(offset_more_than_limit));
 
 and2$ u_ic_prot_exp (.out(ic_prot_exp), .in0(f_ren), .in1(offset_more_than_limit));
 
