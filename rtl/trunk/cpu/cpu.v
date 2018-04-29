@@ -220,7 +220,6 @@ wire [127:0]w_rseq_data;
 
 //OUTPUTS of SPECIAL ROM
 wire       w_rseq_end_bit;
-wire       w_rseq_V;
 wire       w_rseq_IDT_address_sel;
 wire       w_rseq_base_sel;
 wire [1:0] w_rseq_disp_sel;
@@ -304,6 +303,7 @@ wire       w_rseq_ld_flag_ZF;
 wire       w_rseq_ld_flag_SF;
 wire       w_rseq_ld_flag_DF;
 wire       w_rseq_ld_flag_OF;
+wire       w_rseq_V_ag;
 
 //Output latches AG -> RO
 wire [31:0]  r_ro_EIP_curr;
@@ -1060,7 +1060,7 @@ rseq_rom u_rseq_rom(
   .rseq_addr  (w_rseq_addr),
   .rseq_data  ({blah,
       w_rseq_end_bit,
-      w_rseq_V,
+      w_rseq_V_ag,
       w_rseq_IDT_address_sel,
       w_rseq_base_sel,
       w_rseq_disp_sel,
@@ -1230,6 +1230,7 @@ wire       w_mux_ag_ld_flag_ZF;
 wire       w_mux_ag_ld_flag_SF;
 wire       w_mux_ag_ld_flag_DF;
 wire       w_mux_ag_ld_flag_OF;
+wire       w_mux_V_ag;
 
 //MUXES between DE to AG latches and SPECIAL ROM
 mux_nbit_2x1 #1       u_w_mux_ag_base_sel                (.a0(r_ag_base_sel        ),     .a1(w_rseq_base_sel),           .sel(w_rseq_mux_sel), .out(w_mux_ag_base_sel));           
@@ -1314,6 +1315,7 @@ mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_ZF              (.a0(r_ag_ld_flag_ZF   
 mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_SF              (.a0(r_ag_ld_flag_SF      ),     .a1(w_rseq_ld_flag_SF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_SF));
 mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_DF              (.a0(r_ag_ld_flag_DF      ),     .a1(w_rseq_ld_flag_DF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_DF));
 mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_OF              (.a0(r_ag_ld_flag_OF      ),     .a1(w_rseq_ld_flag_OF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_OF));
+mux_nbit_2x1 #1       u_w_mux_V_ag                       (.a0(r_V_ag      ),              .a1(w_rseq_V_ag),               .sel(w_rseq_mux_sel), .out(w_V_ag));
 
 //Just getting passed to RO:
 register #32        u_r_ro_EIP_curr            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_EIP_curr),              .data_o(r_ro_EIP_curr));
@@ -1394,7 +1396,7 @@ register #2         u_r_ro_sr2_sel             (.clk(clk), .rst_n(rst_n), .set_n
 
 //AG dependency logic
 ag_dep_v_ld_logic u_ag_dep_v_ld_logic(
-  .V_ag               (r_V_ag),
+  .V_ag               (w_V_ag),
   .eip_change         (r_ag_eip_change),
   .in1                (r_ag_in1),
   .in2                (r_ag_in2),
@@ -2326,7 +2328,7 @@ intexp u_int_exp (
   .dc_exp            (w_dc_exp),
   .end_bit           (w_rseq_end_bit),
   .v_de              (r_V_de),
-  .v_ag              (r_V_ag),
+  .v_ag              (r_V_ag), //FIXME: Check in r_ or w_
   .v_ro              (r_V_ro),
   .v_ex              (r_V_ex),
   .v_wb              (r_V_wb),

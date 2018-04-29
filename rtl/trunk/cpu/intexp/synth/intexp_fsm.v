@@ -40,7 +40,7 @@ assign int_clear = int & (curr_st == DONE);
 assign rseq_mux_sel = curr_st[2] & curr_st[1];
 assign block_ic_ren = curr_st != IDLE;
 
-assign w_all_valids_zero = v_de | v_ag | v_ro | v_ex | v_wb | fifo_empty_bar;
+assign w_all_valids_zero = !(v_de | v_ag | v_ro | v_ex | v_wb | fifo_empty_bar);
 
 // fsm
 always @(posedge clk or negedge rst_n) begin
