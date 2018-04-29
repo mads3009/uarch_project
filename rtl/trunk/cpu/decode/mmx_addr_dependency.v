@@ -8,6 +8,7 @@ module mmx_addr_dependency(mm1_needed_in,
                                 reg_op,
                                 ld_mm_in,
                                 ret_op,
+                                eip_ch,
                                 ld_mm,
                                 mm1_needed,
                                 mm2_needed,
@@ -26,6 +27,7 @@ input       mod_rm_pr;
 input  [2:0]reg_op;
 input       ld_mm_in;
 input       ret_op;
+input       eip_ch;
 output      ld_mm;
 output      mm1_needed;
 output      mm2_needed;
@@ -48,6 +50,7 @@ dep_ld_mmx dep    (.mm1_needed_in(mm1_needed_in),
                    .sr2_rm(sr2_rm),
                    .mod(mod),
                    .ret_op(ret_op),
+                   .eip_ch(eip_ch),
                    .mod_rm_pr(mod_rm_pr),
                    .ld_mm_in(ld_mm_in),
                    .ld_mm(ld_mm),

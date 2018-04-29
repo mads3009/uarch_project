@@ -127,8 +127,9 @@ wire [31:0] sr1_bar;
 wire [31:0] sr1_comp;
 wire [31:0] w_comp_res;
 not32 u_sr1_inv(.in(sr1), .out(sr1_bar));
-cond_sum32_c u_sr1_bar( .A(sr1_bar), .B(32'b1), .CIN(1'd0), .S(sr1_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
-cond_sum32_c u_comp   ( .A(eax), .B(sr1_comp), .CIN(1'd0), .S(w_comp_res), .COUT(c32_comp), .c4(c4_comp), .c8(c8_comp), .c16(c16_comp));
+//cond_sum32_c u_sr1_bar( .A(sr1_bar), .B(32'b1), .CIN(1'd0), .S(sr1_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
+greater_than_for_af u_comp_pass(.in1(sr1[3:0]), .in2(eax[3:0]), .gt_out(c4_comp));
+cond_sum32_c u_comp   ( .A(eax), .B(sr1_bar), .CIN(1'd1), .S(w_comp_res), .COUT(c32_comp), .c4(/*unused*/), .c8(c8_comp), .c16(c16_comp));
 add_flags u_comp_flags(.A(eax), .B(sr1_comp), .s(w_comp_res), .c32(c32_comp), .c16(c16_comp), .c8(c8_comp), .c4(c4_comp), 
                        .flags(w_comp_flags), .alu1_op_size(alu1_op_size));
 
@@ -207,9 +208,11 @@ wire [31:0] w_cmps_res;
 wire [5:0]  w_cmps_flags;
 not32 u_mem_inv(.in(mem_out), .out(mem_out_bar));
 
-cond_sum32_c u_mem_out_comp(.A(mem_out_bar), .B(32'b1), .CIN(1'd0), .S(mem_out_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
-cond_sum32_c u_cmps_op     (.A(mem_out_latched), .B(mem_out_comp), .CIN(1'd0), .S(w_cmps_res), .COUT(c32_cmps), .c4(c4_cmps), .c8(c8_cmps), .c16(c16_cmps));
-add_flags u_cmps_flags     (.A(mem_out_latched), .B(mem_out_comp), .s(w_cmps_res), .c32(c32_cmps), .c16(c16_cmps), .c8(c8_cmps), .c4(c4_cmps), 
+//cond_sum32_c u_mem_out_comp(.A(mem_out_bar), .B(32'b1), .CIN(1'd0), .S(mem_out_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
+
+greater_than_for_af u_cmps (.in1(mem_out[3:0]), .in2(mem_out_latched[3:0]), .gt_out(c4_cmps));
+cond_sum32_c u_cmps_op     (.A(mem_out_latched), .B(mem_out_bar), .CIN(1'd1), .S(w_cmps_res), .COUT(c32_cmps), .c4(/*unused*/), .c8(c8_cmps), .c16(c16_cmps));
+add_flags u_cmps_flags     (.A(mem_out_latched), .B(mem_out_bar), .s(w_cmps_res), .c32(c32_cmps), .c16(c16_cmps), .c8(c8_cmps), .c4(c4_cmps), 
                             .flags(cmps_flags), .alu1_op_size(mem_rd_size));
 
 //ld_override mux

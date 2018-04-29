@@ -60,6 +60,7 @@
 ../../rtl/reuse/sub_designs/eq_checker.v
 ../../rtl/reuse/sub_designs/greater_than4_netlist.v
 ../../rtl/reuse/sub_designs/greater_than32_netlist.v
+../../rtl/reuse/sub_designs/greater_than_for_af_netlist.v
 
 ../../rtl/trunk/dma/dma_master_controller_fsm_netlist.v  
 ../../rtl/trunk/dma/dma_master_controller.v

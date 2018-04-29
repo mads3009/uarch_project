@@ -702,6 +702,7 @@ mmx_addr_dependency mmx_vals (.mm1_needed_in(control_signals[MM1_NEEDED]),
                               .reg_op(reg_op),
                               .ld_mm_in(control_signals[LD_MMX]),
                               .ret_op(control_signals[RET_OP]),
+                              .eip_ch(control_signals[EIP_CHANGE]),
                               .ld_mm(de_ld_mm),
                               .mm1_needed(de_mm1_needed),
                               .mm2_needed(de_mm2_needed),
@@ -837,7 +838,7 @@ mux32bit_16x1 mux_eip(.Y(de_EIP_next), .IN0(de_eip), .IN1(nxt_eip0), .IN2(nxt_ei
 //output direct assignments
 
 assign de_EIP_curr =  r_de_EIP_curr;
-assign de_CS_curr =  de_CS_curr;
+assign de_CS_curr =  r_de_CS_curr;
 assign de_esp_needed = control_signals[SR3_ESP];
 assign de_eax_needed = control_signals[SR3_EAX];
 assign de_ecx_needed = prefix_repne_pr;
