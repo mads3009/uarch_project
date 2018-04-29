@@ -5,17 +5,24 @@ import numpy as np
 
 res = sys.argv[1]
 name = sys.argv[2]
+if(len(sys.argv)==4):
+  typ = sys.argv[3]
+else:
+  typ='0'
 
-out = name.split(".s")[0] + ".o"
-outobj = name.split(".s")[0] + ".objdump"
-
-cmd = "gcc -m32 -c "+name+" -o "+out
-print(cmd)
-os.system(cmd)
-
-cmd = "objdump -d "+out+" > "+outobj
-print(cmd)
-os.system(cmd)
+if (typ=='0'):
+    out = name.split(".s")[0] + ".o"
+    outobj = name.split(".s")[0] + ".objdump"
+    
+    cmd = "gcc -m32 -c "+name+" -o "+out
+    print(cmd)
+    os.system(cmd)
+    
+    cmd = "objdump -d "+out+" > "+outobj
+    print(cmd)
+    os.system(cmd)
+else:
+    outobj = name
 
 size = 4096*8
 
