@@ -14,46 +14,50 @@ module intexp_fsm(clk, rst_n, iret_op, int, ic_exp, dc_exp, end_bit,
        v_ro, v_ex, v_wb, fifo_empty_bar;
   wire int_clear, block_ic_ren, rseq_mux_sel;
   wire [2:0] curr_st;
-  wire UNCONNECTED, UNCONNECTED0, UNCONNECTED1, n_0, n_1, n_2, n_3, n_5;
+  wire UNCONNECTED, UNCONNECTED0, UNCONNECTED1, n_0, n_2, n_3, n_4, n_5;
   wire n_6, n_7, n_8, n_9, n_10, n_11, n_12, n_13;
-  wire n_14, n_15, n_16, n_17, n_19, n_20, n_22, n_23;
-  wire n_24, n_25, n_26, n_27, n_28, n_29;
-  dff$ \curr_st_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_29),
+  wire n_14, n_15, n_17, n_19, n_20, n_21, n_22, n_23;
+  wire n_24, n_25, n_26, n_27, n_28, n_29, n_30;
+  dff$ \curr_st_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_30),
        .q (curr_st[0]), .qbar (UNCONNECTED));
-  dff$ \curr_st_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_28),
+  dff$ \curr_st_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_29),
        .q (curr_st[1]), .qbar (UNCONNECTED0));
-  dff$ \curr_st_reg[2] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_27),
+  nand3$ g689(.in0 (n_26), .in1 (n_25), .in2 (n_27), .out (n_30));
+  dff$ \curr_st_reg[2] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_28),
        .q (curr_st[2]), .qbar (UNCONNECTED1));
-  nand3$ g695(.in0 (n_25), .in1 (n_26), .in2 (n_24), .out (n_29));
-  nor3$ g696(.in0 (n_14), .in1 (n_23), .in2 (n_6), .out (n_28));
-  nand3$ g697(.in0 (n_17), .in1 (n_26), .in2 (n_9), .out (n_27));
-  nor2$ g698(.in0 (n_19), .in1 (n_12), .out (n_25));
-  or2$ g701(.in0 (n_22), .in1 (n_15), .out (n_24));
-  mux2$ g699(.s0 (n_22), .in0 (n_16), .in1 (n_20), .outb (n_23));
-  nand3$ g703(.in0 (n_11), .in1 (n_22), .in2 (curr_st[1]), .out (n_26));
-  and2$ g704(.in0 (int), .in1 (n_20), .out (int_clear));
-  nor3$ g700(.in0 (iret_op), .in1 (n_7), .in2 (block_ic_ren), .out
-       (n_19));
-  nand2$ g702(.in0 (n_22), .in1 (n_16), .out (n_17));
-  nor2$ g706(.in0 (n_20), .in1 (n_16), .out (n_15));
-  nor2$ g705(.in0 (iret_op), .in1 (block_ic_ren), .out (n_14));
-  nor2$ g709(.in0 (n_13), .in1 (curr_st[1]), .out (n_16));
-  nor2$ g712(.in0 (n_13), .in1 (n_10), .out (n_20));
-  nand3$ g707(.in0 (n_1), .in1 (n_2), .in2 (n_0), .out (n_22));
-  nor2$ g708(.in0 (n_3), .in1 (n_8), .out (n_12));
-  nand2$ g710(.in0 (n_11), .in1 (n_10), .out (block_ic_ren));
-  or2$ g711(.in0 (end_bit), .in1 (n_8), .out (n_9));
-  nor3$ g713(.in0 (ic_exp), .in1 (int), .in2 (dc_exp), .out (n_7));
-  nand2$ g714(.in0 (n_5), .in1 (curr_st[0]), .out (n_13));
-  nor2$ g715(.in0 (n_5), .in1 (curr_st[1]), .out (n_6));
-  inv1$ g718(.in (n_8), .out (rseq_mux_sel));
-  nor2$ g716(.in0 (end_bit), .in1 (curr_st[0]), .out (n_3));
-  nor2$ g717(.in0 (curr_st[2]), .in1 (curr_st[0]), .out (n_11));
-  nor2$ g720(.in0 (v_wb), .in1 (fifo_empty_bar), .out (n_2));
-  nor2$ g721(.in0 (v_de), .in1 (v_ag), .out (n_1));
-  nor2$ g722(.in0 (v_ro), .in1 (v_ex), .out (n_0));
-  nand2$ g719(.in0 (curr_st[2]), .in1 (curr_st[1]), .out (n_8));
-  inv1$ g724(.in (curr_st[2]), .out (n_5));
-  inv1$ g723(.in (curr_st[1]), .out (n_10));
+  nor3$ g690(.in0 (n_14), .in1 (n_24), .in2 (n_3), .out (n_29));
+  nand3$ g691(.in0 (n_22), .in1 (n_27), .in2 (n_7), .out (n_28));
+  nor2$ g692(.in0 (n_17), .in1 (n_10), .out (n_26));
+  nand2$ g695(.in0 (n_23), .in1 (n_20), .out (n_25));
+  mux2$ g693(.s0 (n_23), .in0 (n_19), .in1 (n_21), .outb (n_24));
+  nand4$ g696(.in0 (n_12), .in1 (n_13), .in2 (n_15), .in3 (n_21), .out
+       (n_22));
+  or2$ g700(.in0 (n_19), .in1 (n_21), .out (n_20));
+  and2$ g698(.in0 (int), .in1 (n_19), .out (int_clear));
+  nor3$ g694(.in0 (iret_op), .in1 (n_5), .in2 (block_ic_ren), .out
+       (n_17));
+  nand4$ g697(.in0 (n_9), .in1 (n_15), .in2 (n_4), .in3 (curr_st[1]),
+       .out (n_27));
+  nor2$ g699(.in0 (iret_op), .in1 (block_ic_ren), .out (n_14));
+  nand3$ g701(.in0 (n_13), .in1 (n_15), .in2 (n_12), .out (n_23));
+  nor2$ g703(.in0 (n_11), .in1 (curr_st[1]), .out (n_21));
+  nor2$ g706(.in0 (n_11), .in1 (n_8), .out (n_19));
+  nor2$ g702(.in0 (n_0), .in1 (n_6), .out (n_10));
+  nand2$ g704(.in0 (n_9), .in1 (n_8), .out (block_ic_ren));
+  or2$ g705(.in0 (end_bit), .in1 (n_6), .out (n_7));
+  nor3$ g707(.in0 (ic_exp), .in1 (int), .in2 (dc_exp), .out (n_5));
+  nor4$ g708(.in0 (v_ro), .in1 (v_ag), .in2 (v_de), .in3 (v_ex), .out
+       (n_4));
+  nand2$ g709(.in0 (n_2), .in1 (curr_st[0]), .out (n_11));
+  nor2$ g710(.in0 (n_2), .in1 (curr_st[1]), .out (n_3));
+  inv1$ g713(.in (n_6), .out (rseq_mux_sel));
+  nor2$ g711(.in0 (end_bit), .in1 (curr_st[0]), .out (n_0));
+  nor2$ g715(.in0 (v_wb), .in1 (fifo_empty_bar), .out (n_15));
+  nand2$ g714(.in0 (curr_st[2]), .in1 (curr_st[1]), .out (n_6));
+  nor2$ g716(.in0 (v_de), .in1 (v_ag), .out (n_13));
+  nor2$ g717(.in0 (v_ro), .in1 (v_ex), .out (n_12));
+  nor2$ g712(.in0 (curr_st[2]), .in1 (curr_st[0]), .out (n_9));
+  inv1$ g718(.in (curr_st[1]), .out (n_8));
+  inv1$ g719(.in (curr_st[2]), .out (n_2));
 endmodule
 
