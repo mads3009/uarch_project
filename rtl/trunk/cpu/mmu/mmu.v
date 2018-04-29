@@ -4,10 +4,10 @@
 /* Description: Handles cpu - main mem & IO interaction */
 /********************************************************/
 
-module mmu( clk, rst_n, ic_miss, ic_miss_addr, ic_data_fill, ic_miss_ack, dc_miss, dc_miss_addr, 
-            dc_data_fill, dc_miss_ack, io_access, io_rw, io_addr, io_wr_data, io_rd_data, 
-            io_ack, dc_evict, dc_evict_addr, dc_evict_data, ld_ro, m_cyc, m_we, m_strb, m_addr, 
-            m_data_o, m_ack, m_data_i);
+module mmu( clk, rst_n, ic_miss, ic_miss_addr, ic_data_fill, ic_miss_ack, ic_miss_ack_addr,
+            dc_miss, dc_miss_addr, dc_data_fill, dc_miss_ack, io_access, io_rw, io_addr, 
+            io_wr_data, io_rd_data, io_ack, dc_evict, dc_evict_addr, dc_evict_data, ld_ro, m_cyc, 
+            m_we, m_strb, m_addr, m_data_o, m_ack, m_data_i);
 
 localparam DC_LINE_W = 16*8; // 16 Bytes
 localparam IC_LINE_W = 32*8; // 32 Bytes
@@ -30,6 +30,7 @@ input                  ic_miss;
 input  [31:0]          ic_miss_addr;
 output [IC_LINE_W-1:0] ic_data_fill;
 output                 ic_miss_ack;
+output [31:0]          ic_miss_ack_addr;
 
 // MMU - data cache miss handling interface
 input                  dc_miss;
@@ -161,6 +162,9 @@ assign m_strb = 4'b1111;
 //////////////////////////////////////////////////
 
 // m_addr generation
+
+register #(.N(32)) u_ic_miss_ack_addr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(ic_miss_addr), .data_o(ic_miss_ack_addr), .ld(w_temp3));
+
 mux32bit_4x1 u_mux32bit_4x1_2(.Y(w_temp_addr), .IN0(r_dc_evict_addr), .IN1(dc_miss_addr), .IN2(ic_miss_addr), .IN3(w_temp_addr_inc), .S0(w_mux_sel0), .S1(w_mux_sel1));
 
 cond_sum32 u_cond_sum32(.A(r_temp_addr), .B(32'd4), .CIN(1'b0), .S(w_temp_addr_inc), .COUT(/*unused*/));

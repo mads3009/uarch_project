@@ -642,6 +642,7 @@ wire [15:0]  w_fe_CS_curr;
 //ICACHE to/from MMU
 wire          w_ic_miss;
 wire [31:0]   w_ic_miss_addr;
+wire [31:0]   w_ic_miss_ack_addr;
 wire          w_ic_miss_ack;
 wire [255:0]  w_ic_data_fill;
 
@@ -753,7 +754,8 @@ i_cache u_i_cache (
   .r_data       ({w_icache_upper_data,w_icache_lower_data}),
   .ic_hit       (w_ic_hit),
   .ic_miss      (w_ic_miss),
-  .ic_miss_addr (w_ic_miss_addr)
+  .ic_miss_addr (w_ic_miss_addr),
+  .ic_miss_ack_addr (w_ic_miss_ack_addr)
 );              
 
 //icache buf
@@ -1843,6 +1845,7 @@ mmu u_mmu(
   .rst_n(rst_n), 
   .ic_miss(w_ic_miss), 
   .ic_miss_addr(w_ic_miss_addr), 
+  .ic_miss_ack_addr(w_ic_miss_ack_addr), 
   .ic_data_fill(w_ic_data_fill), 
   .ic_miss_ack(w_ic_miss_ack), 
   .dc_miss(w_dc_miss), 

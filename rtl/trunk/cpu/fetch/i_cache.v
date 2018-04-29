@@ -7,7 +7,7 @@
 /* Author: Madhuri Gontala                              */
 /********************************************************/
 
-module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, ic_exp, r_data, ic_hit, ic_miss, ic_miss_addr);
+module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_miss_ack, ic_exp, r_data, ic_hit, ic_miss, ic_miss_addr, ic_miss_ack_addr);
     input         clk;
     input         rst_n;
     input         ren;
@@ -17,6 +17,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     input  [255:0]ic_fill_data;
     input         ic_miss_ack;
     input         ic_exp;
+    input  [31:0] ic_miss_ack_addr;
     
     output [255:0]r_data;
     output        ic_hit;
@@ -69,7 +70,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
         .tag (tag_in_cache),
         .tag_valid (tag_valid),
         .ic_miss_ack_bar (not_ic_miss_ack),
-        .wr_tag(phy_tag)
+        .wr_tag(ic_miss_ack_addr[14:9])
     );
 
 
