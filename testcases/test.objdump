@@ -1,5 +1,5 @@
 
-../testcases/test.o:     file format elf32-i386
+../../testcases/test.o:     file format elf32-i386
 
 
 Disassembly of section .text:

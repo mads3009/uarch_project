@@ -6,7 +6,7 @@
 /********************************************************/
 
 module intexp (clk, rst_n, iret_op, int, ic_exp, dc_exp, end_bit, v_de, v_ag, v_ro, 
-               v_ex, v_wb, fifo_empty_bar, ld_ro, dc_prot_exp, dc_page_fault, 
+               v_ex, v_wb, fifo_empty_bar, ld_ag, dc_prot_exp, dc_page_fault, 
                ic_prot_exp, ic_page_fault, eip_reg, cs_reg, eip_ro_reg, cs_ro_reg, idt_addr,
                int_clear, rseq_addr, eip_saved, cs_saved, block_ic_ren, rseq_mux_sel);
 
@@ -23,7 +23,7 @@ input         v_ro;
 input         v_ex;
 input         v_wb;
 input         fifo_empty_bar;
-input         ld_ro;
+input         ld_ag;
 input         dc_prot_exp;
 input         dc_page_fault;
 input         ic_prot_exp;
@@ -69,7 +69,7 @@ register #(.N(32+16)) u_cs_eip_saved_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1),
 assign rseq_addr = {w_curr_st[0],r_rseq_addr};
 
 and2$ u_and2_1(.out(w_curr_st_eq_rseq), .in0(w_curr_st[2]), .in1(w_curr_st[1]));
-and2$ u_and2_2(.out(w_ld_rseq_addr), .in0(ld_ro), .in1(w_curr_st_eq_rseq));
+and2$ u_and2_2(.out(w_ld_rseq_addr), .in0(ld_ag), .in1(w_curr_st_eq_rseq));
 
 register #(.N(2)) u_rseq_addr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_rseq_addr_inc), .data_o(r_rseq_addr), .ld(w_ld_rseq_addr));
 

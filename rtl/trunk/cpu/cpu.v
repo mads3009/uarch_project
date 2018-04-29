@@ -2333,7 +2333,7 @@ intexp u_int_exp (
   .v_ex              (r_V_ex),
   .v_wb              (r_V_wb),
   .fifo_empty_bar    (w_fifo_empty_bar),
-  .ld_ro             (w_ld_ro),
+  .ld_ag             (w_ld_ag),
   .dc_prot_exp       (w_dc_prot_exp),
   .dc_page_fault     (w_dc_page_fault),
   .ic_prot_exp       (w_ic_prot_exp),
