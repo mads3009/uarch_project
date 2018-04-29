@@ -915,9 +915,9 @@ de_dep_v_ld_logic u_de_dep_v_ld_logic(
   .eip_change         (w_de_eip_change),
   .ECX                (w_ro_ECX),
   .ZF                 (r_EFLAGS[ZF]),
-  .ag_dreg1           (w_mux_ag_dreg1),
-  .ag_dreg2           (w_mux_ag_dreg2),
-  .ag_dreg3           (w_mux_ag_dreg3),
+  .ag_dreg1           (r_ag_dreg1),
+  .ag_dreg2           (r_ag_dreg2),
+  .ag_dreg3           (r_ag_dreg3),
   .v_ag_ld_reg1       (w_v_ag_ld_reg1),
   .v_ag_ld_reg2       (w_v_ag_ld_reg2),
   .v_ag_ld_reg3       (w_v_ag_ld_reg3),
@@ -1397,16 +1397,16 @@ register #2         u_r_ro_sr2_sel             (.clk(clk), .rst_n(rst_n), .set_n
 //AG dependency logic
 ag_dep_v_ld_logic u_ag_dep_v_ld_logic(
   .V_ag               (w_V_ag),
-  .eip_change         (w_mux_ag_eip_change),
-  .in1                (w_mux_ag_in1),
-  .in2                (w_mux_ag_in2),
-  .in1_needed         (w_mux_ag_in1_needed),
-  .in2_needed         (w_mux_ag_in2_needed),
-  .seg1               (w_mux_ag_seg1),
-  .seg2               (w_mux_ag_seg2),
-  .seg1_needed        (w_mux_ag_seg1_needed),
-  .seg2_needed        (w_mux_ag_seg2_needed),
-  .esp_needed         (w_mux_ag_esp_needed),
+  .eip_change         (r_ag_eip_change),
+  .in1                (r_ag_in1),
+  .in2                (r_ag_in2),
+  .in1_needed         (r_ag_in1_needed),
+  .in2_needed         (r_ag_in2_needed),
+  .seg1               (r_ag_seg1),
+  .seg2               (r_ag_seg2),
+  .seg1_needed        (r_ag_seg1_needed),
+  .seg2_needed        (r_ag_seg2_needed),
+  .esp_needed         (r_ag_esp_needed),
   .ro_dreg1           (r_ro_dreg1),
   .ro_dreg2           (r_ro_dreg2),
   .ro_dreg3           (r_ro_dreg3),
@@ -1437,9 +1437,9 @@ ag_dep_v_ld_logic u_ag_dep_v_ld_logic(
   .mem_rd_busy        (w_mem_rd_busy),
   .dc_exp             (w_dc_exp),
 
-  .ld_reg1            (w_mux_ag_ld_reg1),
-  .ld_reg2            (w_mux_ag_ld_reg2),
-  .ld_reg3            (w_mux_ag_ld_reg3),
+  .ld_reg1            (r_ag_ld_reg1),
+  .ld_reg2            (r_ag_ld_reg2),
+  .ld_reg3            (r_ag_ld_reg3),
   .ld_flag_ZF         (r_ro_ld_flag_ZF),
   .v_ag_ld_reg1       (w_v_ag_ld_reg1),
   .v_ag_ld_reg2       (w_v_ag_ld_reg2),
@@ -1474,8 +1474,8 @@ regfile u_regfile (
   .wr_data1        (w_wb_wr_reg_data1),
   .wr_data2        (w_wb_wr_reg_data2),
   .wr_data3        (w_wb_wr_reg_data3),
-  .in1             (w_mux_ag_in1),
-  .in2             (w_mux_ag_in2),
+  .in1             (r_ag_in1),
+  .in2             (r_ag_in2),
   .in3             (r_ro_in3),
   .in4             (r_ro_in4),
   .r_reg_data1     (r_ag_reg_out1),
@@ -1510,8 +1510,8 @@ seg_regfile u_seg_regfile(
   .wr_en          (w_v_wb_ld_seg),
   .wr_reg         (r_wb_dseg),
   .wr_data        (w_wb_wr_seg_data),
-  .seg1           (w_mux_ag_seg1),
-  .seg2           (w_mux_ag_seg2),
+  .seg1           (r_ag_seg1),
+  .seg2           (r_ag_seg2),
   .seg3           (r_ro_seg3),
   .r_seg_data1    (r_ag_seg_data1),
   .r_seg_data2    (r_ag_seg_data2),
@@ -1559,9 +1559,9 @@ mux_nbit_2x1 u_w_ag_addr_base (.a0(32'h0), .a1(r_ag_reg_out1), .sel(w_mux_ag_bas
 
 //Addr size in bytes -1
 wire [31:0] w_ag_addr_end_pos_rd;
-mux_nbit_4x1 #32 u_w_ag_addr_end_pos_rd (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3(32'h7), .sel(w_mux_ag_mem_rd_size), .out(w_ag_addr_end_pos_rd));
+mux_nbit_4x1 #32 u_w_ag_addr_end_pos_rd (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3(32'h7), .sel(r_ag_mem_rd_size), .out(w_ag_addr_end_pos_rd));
 wire [31:0] w_ag_addr_end_pos_wr;
-mux_nbit_4x1 #32 u_w_ag_addr_end_pos_wr (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3(32'h7), .sel(w_mux_ag_mem_wr_size), .out(w_ag_addr_end_pos_wr));
+mux_nbit_4x1 #32 u_w_ag_addr_end_pos_wr (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3(32'h7), .sel(r_ag_mem_wr_size), .out(w_ag_addr_end_pos_wr));
 
 //addr1
 wire [31:0] w_ag_addr1;
