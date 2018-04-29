@@ -12,4 +12,5 @@ DVEfiles*
 ucli.key
 dve*
 *.o
+*.objdump
 hex_data*
