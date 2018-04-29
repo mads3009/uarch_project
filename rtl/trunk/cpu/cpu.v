@@ -1838,7 +1838,8 @@ dcache u_dcache (
   .dc_evict_addr(w_dc_evict_addr), 
   .dc_evict_data(w_dc_evict_data), 
   .dc_rd_exp(w_dc_rd_exp), 
-  .ld_ro(w_ld_ro)
+  .ld_ro(w_ld_ro),
+  .ro_IDT_and_ISR(r_ro_IDT_and_ISR)
   );
 
 //MMU

@@ -193,7 +193,7 @@ mux4$ mux_sf (.in0(eax[7]), .in1(w_al_6[7]), .in2(w_al_60[7]), .in3(w_al_66[7]),
 assign w_daa_flags[OF] = 1'b0;
 
 //DF Mux
-mux2$ df_mux(.outb(df_val_ex), .in0(df_val), .in1(sr2[10]), .s0(ISR));
+mux2$ df_mux(.outb(df_val_ex), .in0(df_val), .in1(sr1[10]), .s0(ISR));
 
 /***************************************/
 //Final Mux
