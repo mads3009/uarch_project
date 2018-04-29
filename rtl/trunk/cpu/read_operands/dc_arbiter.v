@@ -27,8 +27,8 @@ inv1$ u_inv1_1(.in(v_mem_read), .out(w_v_mem_read_bar));
 nor3$ u_nor3_1(.in0(w_v_mem_read_bar), .in1(mem_conflict), .in2(wr_fifo_to_be_full), .out(w_mux_in_ren));
 nor2$ u_nor2_1(.in0(w_mux_in_ren), .in1(wr_fifo_empty), .out(w_mux_in_wen));
 
-// w_retain_arb = (r_ren & !r_ld_ro) | (r_wen & !r_mem_wr_done)
-nand2$ u_nand2_1(.in0(r_ren), .in1(r_ld_ro_bar), .out(n_001));
+// w_retain_arb = (r_ren & !r_ld_ro & !mem_conflict) | (r_wen & !r_mem_wr_done)
+nand3$ u_nand2_1(.in0(r_ren), .in1(r_ld_ro_bar), .in2(~mem_conflict), .out(n_001));
 nand2$ u_nand2_2(.in0(r_wen), .in1(r_mem_wr_done_bar), .out(n_002));
 nand2$ u_nand2_3(.in0(n_001), .in1(n_002), .out(w_retain_arb));
 
