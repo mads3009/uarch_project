@@ -9,6 +9,7 @@ module fetch_fsm(
   input     ic_exp,
   input     dc_exp,
   input     de_br_stall,
+  input     ag_br_stall,
   input[1:0] ld_eip,
   output reg [1:0] f_ld_buf,
   output reg [2:0] f_curr_st,
@@ -154,7 +155,7 @@ module fetch_fsm(
       f_curr_st <= IDLE;
       f_address_sel <= 1'b0;
     end
-    else if(int | ic_exp | dc_exp | de_br_stall) begin
+    else if(int | ic_exp | dc_exp | de_br_stall | ag_br_stall) begin
       f_curr_st <= IDLE;
       f_address_sel <= 1'b0;
     end

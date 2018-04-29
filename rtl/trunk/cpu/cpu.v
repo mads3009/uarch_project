@@ -719,6 +719,7 @@ fetch_fsm u_fetch_fsm (
   .ic_exp   (w_ic_exp),
   .dc_exp   (w_dc_exp),
   .de_br_stall(w_de_br_stall),
+  .ag_br_stall(w_ag_br_stall),
   .ld_eip   (w_ld_eip),
   .f_ld_buf   (w_fe_ld_buf),
   .f_curr_st  (r_fe_curr_state),
