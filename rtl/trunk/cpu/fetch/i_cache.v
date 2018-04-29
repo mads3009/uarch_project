@@ -49,9 +49,12 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     and3$ u_ic_miss(.out(ic_miss), .in0(not_hit), .in1(ren), .in2(not_ic_exp));
     assign ic_miss_addr = {phy_tag,index,5'b0};
 
+    wire [3:0] index_muxed;
+    mux_nbit_2x1 u_index_muxed (.a0(index), .a1(ic_miss_ack_addr[8:5]), .sel(ic_miss_ack), .out(index_muxed));
+
     // FIXME
     wire [3:0] index_del;
-    assign #1 index_del = index;
+    assign #1 index_del = index_muxed;
     // FIXME END
 
     data_store ds(
