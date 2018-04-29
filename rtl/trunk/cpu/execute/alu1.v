@@ -124,13 +124,16 @@ add_flags u_add_flags(.A(sr1), .B(sr2), .s(w_add_res), .c32(c32_add), .c16(c16_a
  
 //COMP_PASS_SR1
 wire [31:0] sr1_bar;
-wire [31:0] sr1_comp;
+//wire [31:0] sr1_comp;
 wire [31:0] w_comp_res;
 not32 u_sr1_inv(.in(sr1), .out(sr1_bar));
 //cond_sum32_c u_sr1_bar( .A(sr1_bar), .B(32'b1), .CIN(1'd0), .S(sr1_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
 greater_than_for_af u_comp_pass(.in1(sr1[3:0]), .in2(eax[3:0]), .gt_out(c4_comp));
-cond_sum32_c u_comp   ( .A(eax), .B(sr1_bar), .CIN(1'd1), .S(w_comp_res), .COUT(c32_comp), .c4(/*unused*/), .c8(c8_comp), .c16(c16_comp));
-add_flags u_comp_flags(.A(eax), .B(sr1_comp), .s(w_comp_res), .c32(c32_comp), .c16(c16_comp), .c8(c8_comp), .c4(c4_comp), 
+greater_than_for_flags8 u_comp_cf8(.in1(sr1[7:0]), .in2(eax[7:0]), .gt_out(c8_comp));
+greater_than_for_flags16 u_comp_cf16(.in1(sr1[15:0]), .in2(eax[15:0]), .gt_out(c16_comp));
+greater_than_for_flags32 u_comp_cf32(.in1(sr1[31:0]), .in2(eax[31:0]), .gt_out(c32_comp));
+cond_sum32_c u_comp   ( .A(eax), .B(sr1_bar), .CIN(1'd1), .S(w_comp_res), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
+add_flags u_comp_flags(.A(eax), .B(sr1_bar), .s(w_comp_res), .c32(c32_comp), .c16(c16_comp), .c8(c8_comp), .c4(c4_comp), 
                        .flags(w_comp_flags), .alu1_op_size(alu1_op_size));
 
 //CMPS PTR CH
@@ -211,7 +214,10 @@ not32 u_mem_inv(.in(mem_out), .out(mem_out_bar));
 //cond_sum32_c u_mem_out_comp(.A(mem_out_bar), .B(32'b1), .CIN(1'd0), .S(mem_out_comp), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
 
 greater_than_for_af u_cmps (.in1(mem_out[3:0]), .in2(mem_out_latched[3:0]), .gt_out(c4_cmps));
-cond_sum32_c u_cmps_op     (.A(mem_out_latched), .B(mem_out_bar), .CIN(1'd1), .S(w_cmps_res), .COUT(c32_cmps), .c4(/*unused*/), .c8(c8_cmps), .c16(c16_cmps));
+greater_than_for_flags8 u_cmps_cf8(.in1(mem_out[7:0]), .in2(mem_out_latched[7:0]), .gt_out(c8_cmps));
+greater_than_for_flags16 u_cmps_cf16(.in1(mem_out[15:0]), .in2(mem_out_latched[15:0]), .gt_out(c16_cmps));
+greater_than_for_flags32 u_cmps_cf32(.in1(mem_out[31:0]), .in2(mem_out_latched[31:0]), .gt_out(c32_cmps));
+cond_sum32_c u_cmps_op     (.A(mem_out_latched), .B(mem_out_bar), .CIN(1'd1), .S(w_cmps_res), .COUT(/*unused*/), .c4(/*unused*/), .c8(/*unused*/), .c16(/*unused*/));
 add_flags u_cmps_flags     (.A(mem_out_latched), .B(mem_out_bar), .s(w_cmps_res), .c32(c32_cmps), .c16(c16_cmps), .c8(c8_cmps), .c4(c4_cmps), 
                             .flags(cmps_flags), .alu1_op_size(mem_rd_size));
 
