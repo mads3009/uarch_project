@@ -10,7 +10,7 @@ module dcache( clk, rst_n, v_mem_read,  mem_conflict, wr_fifo_empty, wr_fifo_to_
                mem_rd_size, mem_wr_size, mem_rd_addr, mem_wr_addr, mem_wr_data, mem_rd_data,
                mem_rd_ready, mem_wr_done,mem_rd_busy, mem_wr_busy, dc_miss, dc_miss_addr, 
                dc_data_fill, dc_miss_ack, io_access, io_rw, io_addr, io_wr_data, io_rd_data, 
-               io_ack, dc_evict, dc_evict_addr, dc_evict_data, dc_rd_exp, ld_ro);
+               io_ack, dc_evict, dc_evict_addr, dc_evict_data, dc_rd_exp, ld_ro, ro_IDT_and_ISR);
 
 localparam C_LINE_W = 16*8; // 16 Bytes
 
@@ -39,6 +39,7 @@ output                mem_wr_busy; // must not be used to stall pipeline
 input                 dc_rd_exp;
 input                 ld_ro;
 input                 mem_conflict;
+input                 ro_IDT_and_ISR;
 
 // MMU - data cache miss handling interface
 output                dc_miss;
@@ -160,7 +161,7 @@ dc_tag_store u_dc_tag_store(
 
 // TLB instantiation and dcache hit/miss checking
 
-assign w_phy_tag = {w_tlb_phy_pn[2:0],w_mem_rw_addr[11:9]};
+assign w_phy_tag = ren & ro_IDT_and_ISR ? w_mem_rw_addr[14:9] : {w_tlb_phy_pn[2:0],w_mem_rw_addr[11:9]};
 
 mux3$ u_mux3_1[20:0] (.outb({w_tlb_phy_pn, w_tlb_pcd}), .in0({w_tlb_phy_pn1, w_tlb_pcd1}), .in1({w_tlb_phy_pn2, w_tlb_pcd2}), .in2({w_tlb_phy_pn3, w_tlb_pcd3}), .s0(ren), .s1(r_access2));
 
