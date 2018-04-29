@@ -1,8 +1,0 @@
-010xxxxxxxx0000
-010xxxxxxxx0000
-111xxxxxxxx0000
-100xxxxxxxxxxxx
-010xxxxxxxx0000
-110xxxxxxxx0000
-100xxxxxxxxxxxx
-100xxxxxxxxxxxx
