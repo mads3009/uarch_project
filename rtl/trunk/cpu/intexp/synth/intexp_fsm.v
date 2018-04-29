@@ -3,11 +3,12 @@
 /* Module: Interrupt and exception fsm                  */
 /********************************************************/
 
-module intexp_fsm (clk, rst_n, iret_op, int, ic_exp, dc_exp, end_bit, v_de, v_ag, v_ro, 
+module intexp_fsm (clk, rst_n, ld_ag, iret_op, int, ic_exp, dc_exp, end_bit, v_de, v_ag, v_ro, 
                    v_ex, v_wb, fifo_empty_bar, int_clear, block_ic_ren, rseq_mux_sel, curr_st);
 
 input        clk;
 input        rst_n;
+input        ld_ag;
 input        iret_op;
 input        int;
 input        ic_exp;
@@ -73,13 +74,13 @@ always @(*) begin
       next_st = WAIT_IRET;
   end
   RSEQ1: begin
-    if(end_bit)
+    if(end_bit & ld_ag)
       next_st = DONE;
     else
       next_st = RSEQ1;
   end
   RSEQ2: begin
-    if(end_bit)
+    if(end_bit & ld_ag)
       next_st = DONE;
     else
       next_st = RSEQ2;

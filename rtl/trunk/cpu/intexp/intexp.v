@@ -71,7 +71,11 @@ assign rseq_addr = {w_curr_st[0],r_rseq_addr};
 and2$ u_and2_1(.out(w_curr_st_eq_rseq), .in0(w_curr_st[2]), .in1(w_curr_st[1]));
 and2$ u_and2_2(.out(w_ld_rseq_addr), .in0(ld_ag), .in1(w_curr_st_eq_rseq));
 
-register #(.N(2)) u_rseq_addr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_rseq_addr_inc), .data_o(r_rseq_addr), .ld(w_ld_rseq_addr));
+eq_checker3 u_eq_checker3(.in1(w_curr_st), .in2(3'd3), .eq_out(n20001));
+inv1$ u_inv1_g1(.out(n20002), .in(n20001));
+and2$ u_and2_g1(.out(n20003), .in0(n20002), .in1(rst_n));
+
+register #(.N(2)) u_rseq_addr_reg(.clk(clk), .rst_n(n20003), .set_n(1'b1), .data_i(w_rseq_addr_inc), .data_o(r_rseq_addr), .ld(w_ld_rseq_addr));
 
 adder2bit u_rseq_addr_adder(.a(r_rseq_addr), .b(2'd1), .sum(w_rseq_addr_inc));
 
@@ -79,6 +83,7 @@ adder2bit u_rseq_addr_adder(.a(r_rseq_addr), .b(2'd1), .sum(w_rseq_addr_inc));
 intexp_fsm u_int_exp(
   .clk(clk),
   .rst_n(rst_n),
+  .ld_ag(ld_ag),
   .int_clear(int_clear),
   .block_ic_ren(block_ic_ren),
   .rseq_mux_sel(rseq_mux_sel),

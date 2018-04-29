@@ -396,6 +396,7 @@ wire [31:0]  r_ro_addr2_offset_end_rd;
 wire [31:0]  r_ro_addr1_offset_end_wr;
 wire [31:0]  r_ro_addr2_offset_end_wr;
 wire         r_ro_ISR;
+wire         r_ro_IDT_and_ISR;
 
 //Output latches RO -> EX
 wire [2:0]   r_ex_dreg1;
@@ -1664,6 +1665,7 @@ register #32         u_r_ro_addr1_offset_end_wr   (.clk(clk), .rst_n(rst_n), .se
 register #32         u_r_ro_addr2_offset_end_wr   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_addr2_offset_end_wr),        .data_o(r_ro_addr2_offset_end_wr));
 register #1          u_r_ro_ISR                   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_ISR         ),            .data_o(r_ro_ISR         ));
 register #1          u_V_ro                       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_V_ro_next),                  .data_o(r_V_ro));
+register #1          u_r_ro_IDT_and_ISR           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(IDT_and_ISR),                  .data_o(r_ro_IDT_and_ISR));
 
 // ***************** READ OPERANDS STAGE ******************
 
