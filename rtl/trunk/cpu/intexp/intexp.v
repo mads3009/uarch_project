@@ -83,6 +83,7 @@ adder2bit u_rseq_addr_adder(.a(r_rseq_addr), .b(2'd1), .sum(w_rseq_addr_inc));
 intexp_fsm u_int_exp(
   .clk(clk),
   .rst_n(rst_n),
+  .ld_ag(ld_ag),
   .int_clear(int_clear),
   .block_ic_ren(block_ic_ren),
   .rseq_mux_sel(rseq_mux_sel),
