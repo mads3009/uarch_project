@@ -19,7 +19,7 @@ Disassembly of section .text:
       1e:	b8 ab 00 00 00       	mov    $0xab,%eax
       23:	66 c7 00 00 04       	movw   $0x400,(%eax)
       28:	bc ff 00 00 00       	mov    $0xff,%esp
-      2d:	9a 00 00 00 00 00 02 	lcall  $0x200,$0x0
+      2d:	ea 00 00 00 00 00 02 	ljmp   $0x200,$0x0
 
 00000034 <L3>:
       34:	ba b3 15 00 00       	mov    $0x15b3,%edx

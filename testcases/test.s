@@ -13,7 +13,7 @@ movl    $0xAB      , %eax
 movw    $0x400      , (%eax)
 
 movl $0xff, %esp 
-call $0x0200,$00000000
+jmp $0x0200,$00000000
 L3 : mov $5555, %edx
 
 .ORG 0x2000000
