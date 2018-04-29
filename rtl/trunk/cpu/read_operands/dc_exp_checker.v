@@ -106,10 +106,10 @@ nand3$ u_nand3_1(.in0(w_tlb_valid1), .in1(w_tlb_pr1), .in2(w_tlb_addr_valid1), .
 nand3$ u_nand3_2(.in0(w_tlb_valid2), .in1(w_tlb_pr2), .in2(w_tlb_addr_valid2), .out(w_tlb_wr_hit_bar));
 inv1$ u_inv1_4(.in(w_tlb_rw2), .out(w_tlb_wr_rw_bar));
 
-and2$ u_and2_1(.in0(w_tlb_rd_hit_bar), .in1(v_ro_mem_read), .out(w_dc_rd_page_fault));
-and2$ u_and2_2(.in0(w_tlb_wr_hit_bar), .in1(v_ro_ld_mem), .out(w_dc_wr_page_fault));
-nand2$ u_nand2_3(.in0(w_tlb_rd_hit_bar), .in1(v_ro_mem_read), .out(w_dc_rd_page_fault_bar));
-nand2$ u_nand2_4(.in0(w_tlb_wr_hit_bar), .in1(v_ro_ld_mem), .out(w_dc_wr_page_fault_bar));
+and3$ u_and2_1(.in0(w_tlb_rd_hit_bar), .in1(v_ro_mem_read), .in2(w_isr_bar), .out(w_dc_rd_page_fault));
+and3$ u_and2_2(.in0(w_tlb_wr_hit_bar), .in1(v_ro_ld_mem), .in2(w_isr_bar), .out(w_dc_wr_page_fault));
+nand3$ u_nand2_3(.in0(w_tlb_rd_hit_bar), .in1(v_ro_mem_read), .in2(w_isr_bar), .out(w_dc_rd_page_fault_bar));
+nand3$ u_nand2_4(.in0(w_tlb_wr_hit_bar), .in1(v_ro_ld_mem), .in2(w_isr_bar), .out(w_dc_wr_page_fault_bar));
 
 nand2$ u_nand2_5(.in0(w_dc_rd_page_fault_bar), .in1(w_dc_wr_page_fault_bar), .out(dc_page_fault));
 
