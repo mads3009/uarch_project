@@ -1784,6 +1784,13 @@ wire [31:0] w_fifo_wr_addr3_start;
 wire [31:0] w_fifo_wr_addr3_end;
 wire [1:0] w_fifo_rd_ptr;
 
+//cmps_flag
+wire w_cmps_flag_in1;
+wire w_cmps_flag_in2;
+wire w_cmps_flag_in;
+wire r_cmps_flag;
+wire r_cmps_flag_bar;
+
 // assign w_ro_mem_conflict = 1'b0;
 mem_conflict_gen u_w_ro_mem_conflict(
   .v_ro_mem_read            (w_v_ro_mem_read),
@@ -1840,7 +1847,9 @@ dcache u_dcache (
   .dc_evict_data(w_dc_evict_data), 
   .dc_rd_exp(w_dc_rd_exp), 
   .ld_ro(w_ld_ro),
-  .ro_IDT_and_ISR(r_ro_IDT_and_ISR)
+  .ro_IDT_and_ISR(r_ro_IDT_and_ISR),
+  .cmps_op(r_ro_cmps_op),
+  .cmps_flag_bar(r_cmps_flag_bar)
   );
 
 //MMU
@@ -2005,12 +2014,6 @@ mux_nbit_4x1 #64 u_w_ro_mm_sr1 (.a0(r_ro_mm_data1), .a1(w_ro_mem_rd_data), .a2({
 //MM_SR2
 mux_nbit_2x1 #64 u_w_ro_mm_sr2 (.a0(r_ro_mm_data2), .a1(w_ro_mem_rd_data), .sel(r_ro_mm_sr2_sel), .out(w_ro_mm_sr2));
 
-//cmps_flag
-wire w_cmps_flag_in1;
-wire w_cmps_flag_in2;
-wire w_cmps_flag_in;
-wire r_cmps_flag;
-wire r_cmps_flag_bar;
 
 and2$ u_w_cmps_flag_in1 (.out(w_cmps_flag_in1), .in0(w_ro_mem_rd_ready), .in1(r_ro_cmps_op));
 nand2$ u_w_cmps_flag_in2 (.out(w_cmps_flag_in2), .in0(w_ro_mem_rd_ready), .in1(w_ld_ro));      

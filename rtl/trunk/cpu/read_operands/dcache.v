@@ -10,7 +10,8 @@ module dcache( clk, rst_n, v_mem_read,  mem_conflict, wr_fifo_empty, wr_fifo_to_
                mem_rd_size, mem_wr_size, mem_rd_addr, mem_wr_addr, mem_wr_data, mem_rd_data,
                mem_rd_ready, mem_wr_done,mem_rd_busy, mem_wr_busy, dc_miss, dc_miss_addr, 
                dc_data_fill, dc_miss_ack, io_access, io_rw, io_addr, io_wr_data, io_rd_data, 
-               io_ack, dc_evict, dc_evict_addr, dc_evict_data, dc_rd_exp, ld_ro, ro_IDT_and_ISR);
+               io_ack, dc_evict, dc_evict_addr, dc_evict_data, dc_rd_exp, ld_ro, ro_IDT_and_ISR, 
+               cmps_op, cmps_flag_bar );
 
 localparam C_LINE_W = 16*8; // 16 Bytes
 
@@ -40,6 +41,8 @@ input                 dc_rd_exp;
 input                 ld_ro;
 input                 mem_conflict;
 input                 ro_IDT_and_ISR;
+input                 cmps_op;
+input                 cmps_flag_bar;
 
 // MMU - data cache miss handling interface
 output                dc_miss;
@@ -289,9 +292,12 @@ muxNbit_2x1 u_muxNbit_2x1_3(.IN0(w_mem_rw_addr_curr), .IN1(w_mem_rw_addr_next), 
 // Generate access2 signals for memory accesses which take 2 cycles to complete the access
 dff$ u_access2 (.r(rst_n), .s(1'b1), .clk(clk), .d(w_access2_muxout), .q (r_access2), .qbar (/*Unused*/));
 
-and2$ u_and2_2(.out(n_2), .in0(w_dc_rd_hit), .in1(ld_ro));
 and2$ u_and2_3(.out(n_0), .in0(w_dc_hit), .in1(w_access2));
-nor2$ u_nor2_1(.out(n_1), .in0(mem_wr_done), .in1(n_2));
+
+and3$ u_and3_g1(.out(n_22), .in0(w_dc_rd_hit), .in1(cmps_op), .in2(cmps_flag_bar));
+and2$ u_and2_2(.out(n_2), .in0(w_dc_rd_hit), .in1(ld_ro));
+nor3$ u_nor2_1(.out(n_1), .in0(mem_wr_done), .in1(n_2), .in2(n_22));
+
 mux2$ u_mux2_1(.outb(w_access2_muxout), .in0(n_0), .in1(n_1), .s0(r_access2));
 
 access2_combo_gen u_access2_combo_gen(.access2_combo(w_access2), .offset(w_mem_rw_addr[3:0]), .size(w_mem_rw_size));
