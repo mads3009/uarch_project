@@ -1,0 +1,361 @@
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  Apr 30 14:56 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+Registers change  EAX:00000000  ECX:00000000  EDX:00000000  EBX:00000000  ESP:00000000  EBP:00000000  ESI:00000000  EDI:00000000  
+Opcode= 0xba
+Reg1 strbs: 1111 (0)
+
+
+Registers change  EAX:00000000  ECX:00000000  EDX:00000a00  EBX:00000000  ESP:00000000  EBP:00000000  ESI:00000000  EDI:00000000  
+Opcode= 0x8e
+
+
+Opcode= 0xb8
+Reg1 strbs: 1111 (0)
+
+
+Registers change  EAX:00000b00  ECX:00000000  EDX:00000a00  EBX:00000000  ESP:00000000  EBP:00000000  ESI:00000000  EDI:00000000  
+Opcode= 0x8e
+
+
+Opcode= 0xbe
+Reg1 strbs: 1111 (0)
+
+
+Registers change  EAX:00000b00  ECX:00000000  EDX:00000a00  EBX:00000000  ESP:00000000  EBP:00000000  ESI:0000003d  EDI:00000000  
+Opcode= 0xbf
+Reg1 strbs: 1111 (1)
+
+
+Registers change  EAX:00000b00  ECX:00000000  EDX:00000a00  EBX:00000000  ESP:00000000  EBP:00000000  ESI:0000003d  EDI:0000004e  
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0xc7
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Registers change  EAX:00000b00  ECX:00000000  EDX:00000a00  EBX:00000000  ESP:00000000  EBP:00000000  ESI:00000045  EDI:0000004e  
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (0)
+
+
+Opcode= 0x83
+Reg1 strbs: 1111 (1)
+
+
+Registers change  EAX:00000b00  ECX:00000000  EDX:00000a00  EBX:00000000  ESP:00000000  EBP:00000000  ESI:00000045  EDI:00000056  
+Opcode= 0xfd
+
+
+Opcode= 0xb9
+Reg1 strbs: 1111 (1)
+
+
+Opcode= 0xa7
+Reg1 strbs:1111  (0) Reg2 strbs:1111 (1) Reg3 strbs:1111 (1)
+
+
+Opcode= 0xa7
+Reg1 strbs:1111  (0) Reg2 strbs:1111 (1) Reg3 strbs:1111 (1)
+
+
+Registers change  EAX:00000b00  ECX:00000005  EDX:00000a00  EBX:00000000  ESP:00000000  EBP:00000000  ESI:0000003d  EDI:0000004e  
+Opcode= 0xa7
+Reg1 strbs:1111  (0) Reg2 strbs:1111 (1) Reg3 strbs:1111 (1)
+
+
+$finish called from file "testbench.v", line 196.
+$finish at simulation time 16100.0 ns
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 16100000 ps
+CPU Time:      2.610 seconds;       Data structure size:  24.2Mb
+Mon Apr 30 14:56:42 2018

@@ -216,6 +216,86 @@ begin
   $vcdpluson();
 end 
 
+wire [3:0] ld_reg1_strb;
+wire [3:0] ld_reg2_strb;
+wire [3:0] ld_reg3_strb;
+wire [2:0] dreg1;
+wire [2:0] dreg2;
+wire [2:0] dreg3;
+wire [2:0] dmm;
+wire [2:0] dseg;
+
+assign V_wb = u_system.u_cpu.r_V_wb;
+assign ld_mm = u_system.u_cpu.w_v_wb_ld_mm;
+assign ld_reg1 = testbench.u_system.u_cpu.w_v_wb_ld_reg1;
+assign ld_reg2 = testbench.u_system.u_cpu.w_v_wb_ld_reg2;
+assign ld_reg3 = testbench.u_system.u_cpu.w_v_wb_ld_reg3;
+assign ld_reg1_strb = testbench.u_system.u_cpu.w_v_wb_ld_reg1_strb;
+assign ld_reg2_strb = testbench.u_system.u_cpu.w_v_wb_ld_reg2_strb;
+assign ld_reg3_strb = testbench.u_system.u_cpu.w_v_wb_ld_reg3_strb;
+assign ld_seg = testbench.u_system.u_cpu.w_v_wb_ld_seg;
+assign ld_CF = testbench.u_system.u_cpu.w_v_wb_ld_flag_CF;
+assign ld_ZF = testbench.u_system.u_cpu.w_v_wb_ld_flag_ZF;
+assign ld_OF = testbench.u_system.u_cpu.w_v_wb_ld_flag_OF;
+assign ld_SF = testbench.u_system.u_cpu.w_v_wb_ld_flag_SF;
+assign ld_PF = testbench.u_system.u_cpu.w_v_wb_ld_flag_PF;
+assign ld_AF = testbench.u_system.u_cpu.w_v_wb_ld_flag_AF;
+assign ld_DF = testbench.u_system.u_cpu.w_v_wb_ld_flag_DF;
+
+assign dreg1 = testbench.u_system.u_cpu.r_wb_dreg1;
+assign dreg2 = testbench.u_system.u_cpu.r_wb_dreg2;
+assign dreg3 = testbench.u_system.u_cpu.r_wb_dreg3;
+assign dmm = testbench.u_system.u_cpu.r_wb_dmm;
+assign dseg = testbench.u_system.u_cpu.r_wb_dseg;
+
+//Logging the test
+/*
+always @(u_system.EAX | u_system.ECX | u_system.EDX | u_system.EBX | u_system.ESP | u_system.EBP | u_system.ESI | u_system.EDI) begin
+  #1
+  $display("Registers change  EAX:%8h  ECX:%8h  EDX:%8h  EBX:%8h  ESP:%8h  EBP:%8h  ESI:%8h  EDI:%8h  ", u_system.EAX,  u_system.ECX,  u_system.EDX,  u_system.EBX,  u_system.ESP,  u_system.EBP,  u_system.ESI,  u_system.EDI); 
+end
+*/
+
+always @(posedge clk) begin
+ if(V_wb == 1'b1) begin
+    $display("Opcode= 0x%h",  u_system.u_cpu.r_wb_opcode);
+
+    //Printing registers
+    if(ld_reg1 == 1'b1 && ld_reg2 == 1'b1 && ld_reg3 == 1'b1)
+      $display("Reg1 strbs:%b  (%d) Reg2 strbs:%b (%d) Reg3 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg2_strb, dreg2, ld_reg3_strb, dreg3); 
+    else if(ld_reg1 == 1'b1 && ld_reg2 == 1'b1)
+      $display("Reg1 strbs:%b  (%d) Reg2 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg2_strb, dreg2); 
+    else if(ld_reg1 == 1'b1 && ld_reg3 == 1'b1)
+      $display("Reg1 strbs:%b  (%d) Reg3 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg3_strb, dreg3); 
+    else if(ld_reg2 == 1'b1 && ld_reg3 == 1'b1)
+      $display("Reg2 strbs:%b  (%d) Reg3 strbs:%b (%d)", ld_reg2_strb, dreg2, ld_reg3_strb, dreg3); 
+    else if(ld_reg1 == 1'b1)
+      $display("Reg1 strbs: %b (%d)", ld_reg1_strb, dreg1); 
+    else if(ld_reg2 == 1'b1)
+      $display("Reg2 strbs: %b (%d)", ld_reg2_strb, dreg2); 
+    else if(ld_reg3 == 1'b1)
+      $display("Reg3 strbs: %b (%d)", ld_reg3_strb, dreg3); 
+  
+    if(ld_reg1 || ld_reg2 || ld_reg3)
+      $display("Registers EAX:%8h  ECX:%8h  EDX:%8h  EBX:%8h  ESP:%8h  EBP:%8h  ESI:%8h  EDI:%8h  ", u_system.EAX,  u_system.ECX,  u_system.EDX,  u_system.EBX,  u_system.ESP,  u_system.EBP,  u_system.ESI,  u_system.EDI); 
+
+    //Printing EFLAGS
+    if(ld_CF || ld_PF || ld_AF || ld_ZF || ld_SF || ld_OF || ld_DF)
+    $display("Flags: (%b)  CF=%b  PF=%b  AF=%b  ZF=%b  SF=%b  OF=%b  DF=%b", {ld_CF,ld_PF,ld_AF,ld_ZF,ld_SF,ld_OF,ld_DF}, u_system.CF, u_system.PF, u_system.AF, u_system.ZF, u_system.SF, u_system.OF, u_system.DF);
+
+    //Printing MM
+    if(ld_mm)
+    $display("MMX regs: (%d)  MM0=%h  MM1=%h  MMX2=%h  MM3=%h  MM4=%h  MM5=%h  MM6=%h  MM7=%h  ", dmm, u_system.MM0, u_system.MM1, u_system.MM2, u_system.MM3, u_system.MM4, u_system.MM5, u_system.MM6, u_system.MM7 );
+
+    //Printing SEG
+    if(ld_seg)
+    $display("Segments: (%d)  ES=%h  CS=%h  SS=%h  DS=%h  FS=%h  GS=%h ", dseg, u_system.ES, u_system.CS, u_system.SS, u_system.DS, u_system.FS, u_system.GS);
+
+    $display("");
+  end
+end
+
+
 // Initialize i-cache and d-cache tag stores
 initial begin
   for (i=0;i<8;i=i+1)  begin
