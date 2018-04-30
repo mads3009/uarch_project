@@ -702,8 +702,8 @@ dff$  u_r_fe_ren(.r(rst_n),.s(1'b1),.clk(clk),.d(w_fe_ren_to_use),.q(r_fe_ren),.
 and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_fe_nextstate_01_11), .in1(w_fe_ren));
 
 //Logic for ld_de;
-and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_repne_stall), .in1(int));
 or2$ u_hlt_or_repne (.out(w_hlt_or_repne), .in0(w_hlt_stall), .in1(w_repne_stall));
+and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_hlt_or_repne), .in1(int));
 nor3$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de), .in2(w_de_dep_stall));
 or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(w_repne_and_int));
 

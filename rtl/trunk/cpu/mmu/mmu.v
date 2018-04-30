@@ -125,8 +125,8 @@ mmu_fsm u_mmu_fsm(
 register #(.N(32)) u_io_m_data_i_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(m_data_i), .data_o(r_io_m_data_i), .ld(w_curr_st_eq_IO_SEL));
 mux32bit_2x1 u_mux32bit_2x1_1(.Y(io_rd_data), .IN0(r_io_m_data_i), .IN1(m_data_i), .S0(w_curr_st_eq_IO_SEL));
 
-// io_ack = (io_access & m_ack) | w_curr_st_eq_IO_ACK_WAIT
-nand2$ u_nand2_1(.out(n_001), .in0(io_access), .in1(m_ack));
+// io_ack = (io_access & m_ack & w_curr_st_eq_IO_SEL) | w_curr_st_eq_IO_ACK_WAIT
+nand3$ u_nand2_1(.out(n_001), .in0(io_access), .in1(m_ack), .in2(w_curr_st_eq_IO_SEL));
 nand2$ u_nand2_2(.out(io_ack), .in0(n_001), .in1(w_curr_st_eq_IO_ACK_WAIT_bar));
 
 // i-cache miss handling
