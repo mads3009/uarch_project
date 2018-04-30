@@ -42,7 +42,7 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     eq_checker6 check_tag (.in1(tag_in_cache), .in2(phy_tag), .eq_out(tag_match));
 
     and2$ u_hit(.out(hit), .in0(tag_match), .in1(tag_valid));
-    inv1$ u_not_hit (.in(hit), .out(not_hit)); 
+    nand2$ u_not_hit(.out(not_hit), .in0(tag_match), .in1(tag_valid));
     
     //Outputs
     and4$ u_ic_hit (.out(ic_hit), .in0(hit), .in1(not_ic_miss_ack), .in2(ren), .in3(not_ic_exp));
