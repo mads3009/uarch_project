@@ -47,7 +47,12 @@ module de_dep_v_ld_logic(
   output     iret_op,
   output     stall_de,
   output     V_ag,
-  output     ld_ag
+  output     ld_ag,
+  input      ex_dep_stall ,
+  input      wb_mem_stall ,
+  input      ro_dep_stall ,
+  input      ro_cmps_stall,
+  input      mem_rd_busy  
 );
 
 wire w_repne_stop;
@@ -56,7 +61,7 @@ assign br_stall = eip_change & V_de;
 assign hlt_stall = hlt & V_de;
 assign iret_op = iret & V_de; 
 
-assign stall_de = stall_ag || ag_dep_stall;
+assign stall_de = ex_dep_stall || wb_mem_stall || ro_dep_stall || ro_cmps_stall || mem_rd_busy || ag_dep_stall;
 assign ld_ag = ~(stall_de) || dc_exp;
 
 assign V_ag = ~(hlt || iret || dep_stall || w_repne_stop || dc_exp) & V_de;

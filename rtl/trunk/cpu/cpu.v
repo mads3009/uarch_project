@@ -54,11 +54,9 @@ wire w_ld_ex;
 wire w_ld_wb;
 
 //Dependencies and stalls
-wire w_stall_fe;
 wire w_stall_de;
 wire w_stall_ag;
 wire w_stall_ro;
-wire w_stall_ex;
 wire w_de_dep_stall;
 wire w_hlt_stall;
 wire w_repne_stall;
@@ -1043,11 +1041,16 @@ de_dep_v_ld_logic u_de_dep_v_ld_logic(
   .br_stall           (w_de_br_stall),
   .stall_de           (w_stall_de),
   .V_ag               (w_V_ag_next),
-  .ld_ag              (w_ld_ag)
+  .ld_ag              (w_ld_ag),
+
+  .ex_dep_stall       (w_ex_dep_stall),
+  .wb_mem_stall       (w_wb_mem_stall),
+  .ro_dep_stall       (w_ro_dep_stall),
+  .ro_cmps_stall      (w_ro_cmps_stall),
+  .mem_rd_busy        (w_mem_rd_busy)
 );
 
 //Decode to AG latches
-
 register #32      u_r_ag_EIP_curr              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_de_EIP_curr),              .data_o(r_ag_EIP_curr));
 register #16      u_r_ag_CS_curr               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_de_CS_curr),               .data_o(r_ag_CS_curr));
 register #1       u_r_ag_base_sel              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ag), .data_i(w_de_base_sel),              .data_o(r_ag_base_sel));
@@ -1454,7 +1457,10 @@ ag_dep_v_ld_logic u_ag_dep_v_ld_logic(
   .br_stall           (w_ag_br_stall),
   .stall_ag           (w_stall_ag),
   .V_ro               (w_V_ro_next),
-  .ld_ro              (w_ld_ro)
+  .ld_ro              (w_ld_ro),
+
+  .ex_dep_stall       (w_ex_dep_stall),
+  .wb_mem_stall       (w_wb_mem_stall)
 );
 
 //Register file
@@ -2061,6 +2067,21 @@ register #1  u_V_ex                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld
 
 // ***************** EXECUTE STAGE ******************                          
 
+//EX generates these:
+wire [31:0] w_ex_alu_res1;
+wire [31:0] w_ex_alu_res2;
+wire [63:0] w_ex_alu_res3;
+wire  [5:0] w_ex_alu1_flags;
+wire  [5:0] w_ex_cmps_flags;
+wire        w_ex_df_val_ex;
+wire        w_ex_ld_flag_CF;
+wire        w_ex_ld_flag_PF;
+wire        w_ex_ld_flag_AF;
+wire        w_ex_ld_flag_ZF;
+wire        w_ex_ld_flag_SF;
+wire        w_ex_ld_flag_OF;
+
+`ifdef WR_LATCH 
 //Just getting passed to WB:
 register #3         u_r_wb_dreg1               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_dreg1),                 .data_o(r_wb_dreg1));
 register #3         u_r_wb_dreg2               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_dreg2),                 .data_o(r_wb_dreg2));
@@ -2098,20 +2119,75 @@ register #16        u_r_wb_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n
 register #8       u_r_wb_opcode                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_opcode),                .data_o(r_wb_opcode));
 register #32        u_r_wb_mem_wr_addr         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_mem_wr_addr),           .data_o(r_wb_mem_wr_addr));
 register #32        u_r_wb_mem_wr_addr_end     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(r_ex_mem_wr_addr_end),       .data_o(r_wb_mem_wr_addr_end));
+//Newly generated EX to WB signals latching
+register #32         u_r_wb_alu_res1            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res1  ),            .data_o(r_wb_alu_res1  ));
+register #32         u_r_wb_alu_res2            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res2  ),            .data_o(r_wb_alu_res2  ));
+register #64         u_r_wb_alu_res3            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res3  ),            .data_o(r_wb_alu_res3  ));
+register  #6         u_r_wb_alu1_flags          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu1_flags),            .data_o(r_wb_alu1_flags));
+register  #6         u_r_wb_cmps_flags          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_cmps_flags),            .data_o(r_wb_cmps_flags));
+register  #1         u_r_wb_df_val_ex           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_df_val_ex ),            .data_o(r_wb_df_val_ex ));
+register #1          u_r_wb_ld_flag_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_CF),            .data_o(r_wb_ld_flag_CF));
+register #1          u_r_wb_ld_flag_PF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_PF),            .data_o(r_wb_ld_flag_PF));
+register #1          u_r_wb_ld_flag_AF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_AF),            .data_o(r_wb_ld_flag_AF));
+register #1          u_r_wb_ld_flag_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_ZF),            .data_o(r_wb_ld_flag_ZF));
+register #1          u_r_wb_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_SF),            .data_o(r_wb_ld_flag_SF));
+register #1          u_r_wb_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_OF),            .data_o(r_wb_ld_flag_OF));
+register #1          u_V_wb                     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_V_wb_next),                .data_o(r_V_wb));
 
-//EX generates these:
-wire [31:0] w_ex_alu_res1;
-wire [31:0] w_ex_alu_res2;
-wire [63:0] w_ex_alu_res3;
-wire  [5:0] w_ex_alu1_flags;
-wire  [5:0] w_ex_cmps_flags;
-wire        w_ex_df_val_ex;
-wire        w_ex_ld_flag_CF;
-wire        w_ex_ld_flag_PF;
-wire        w_ex_ld_flag_AF;
-wire        w_ex_ld_flag_ZF;
-wire        w_ex_ld_flag_SF;
-wire        w_ex_ld_flag_OF;
+`else
+
+assign r_ex_dreg1=                 r_wb_dreg1;
+assign r_ex_dreg2=                 r_wb_dreg2;
+assign r_ex_dreg3=                 r_wb_dreg3;
+assign r_ex_ld_reg1=               r_wb_ld_reg1;
+assign r_ex_ld_reg2=               r_wb_ld_reg2;
+assign r_ex_ld_reg3=               r_wb_ld_reg3;
+assign r_ex_ld_reg1_strb=          r_wb_ld_reg1_strb;
+assign r_ex_ld_reg2_strb=          r_wb_ld_reg2_strb;
+assign r_ex_ld_reg3_strb=          r_wb_ld_reg3_strb;
+assign r_ex_reg8_sr1_HL_sel=       r_wb_reg8_sr1_HL_sel;
+assign r_ex_reg8_sr2_HL_sel=       r_wb_reg8_sr2_HL_sel;
+assign r_ex_ld_mm=                 r_wb_ld_mm;
+assign r_ex_dmm=                   r_wb_dmm;
+assign r_ex_ld_seg=                r_wb_ld_seg;
+assign r_ex_dseg=                  r_wb_dseg;
+assign r_ex_ld_mem=                r_wb_ld_mem;
+assign r_ex_mem_wr_size=           r_wb_mem_wr_size;
+assign r_ex_eip_change=            r_wb_eip_change;
+assign r_ex_cmps_op=               r_wb_cmps_op;
+assign r_ex_cxchg_op=              r_wb_cxchg_op;
+assign r_ex_pr_size_over=          r_wb_pr_size_over;
+assign r_ex_EIP_next=              r_wb_EIP_next;
+assign r_ex_CF_expected=           r_wb_CF_expected;
+assign r_ex_ZF_expected=           r_wb_ZF_expected;
+assign r_ex_cond_wr_CF=            r_wb_cond_wr_CF;
+assign r_ex_cond_wr_ZF=            r_wb_cond_wr_ZF;
+assign r_ex_wr_reg1_data_sel=      r_wb_wr_reg1_data_sel;
+assign r_ex_wr_reg2_data_sel=      r_wb_wr_reg2_data_sel;
+assign r_ex_wr_seg_data_sel=       r_wb_wr_seg_data_sel;
+assign r_ex_wr_eip_alu_res_sel=    r_wb_wr_eip_alu_res_sel;
+assign r_ex_wr_mem_data_sel=       r_wb_wr_mem_data_sel;
+assign r_ex_ld_flag_DF=            r_wb_ld_flag_DF;
+assign r_ex_ptr_CS=                r_wb_ptr_CS;
+assign r_ex_opcode=                r_wb_opcode;
+assign r_ex_mem_wr_addr=           r_wb_mem_wr_addr;
+assign r_ex_mem_wr_addr_end=       r_wb_mem_wr_addr_end;
+//Newly generated EX to WB signals latching
+assign w_ex_alu_res1  =            r_wb_alu_res1  ;
+assign w_ex_alu_res2  =            r_wb_alu_res2  ;
+assign w_ex_alu_res3  =            r_wb_alu_res3  ;
+assign w_ex_alu1_flags=            r_wb_alu1_flags;
+assign w_ex_cmps_flags=            r_wb_cmps_flags;
+assign w_ex_df_val_ex =            r_wb_df_val_ex ;
+assign w_ex_ld_flag_CF=            r_wb_ld_flag_CF;
+assign w_ex_ld_flag_PF=            r_wb_ld_flag_PF;
+assign w_ex_ld_flag_AF=            r_wb_ld_flag_AF;
+assign w_ex_ld_flag_ZF=            r_wb_ld_flag_ZF;
+assign w_ex_ld_flag_SF=            r_wb_ld_flag_SF;
+assign w_ex_ld_flag_OF=            r_wb_ld_flag_OF;
+assign w_V_wb_next=                r_V_wb;
+
+`endif
 
 alu1 u_alu1(
   .sr1                 (r_ex_sr1), 
@@ -2202,21 +2278,6 @@ ex_dep_v_ld_logic u_ex_dep_v_ld_logic(
 
 //Valid loads etc
 assign w_v_ex_ld_mem = r_V_ex & r_ex_ld_mem;
-
-//Newly generated EX to WB signals latching
-register #32         u_r_wb_alu_res1            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res1  ),            .data_o(r_wb_alu_res1  ));
-register #32         u_r_wb_alu_res2            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res2  ),            .data_o(r_wb_alu_res2  ));
-register #64         u_r_wb_alu_res3            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu_res3  ),            .data_o(r_wb_alu_res3  ));
-register  #6         u_r_wb_alu1_flags          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_alu1_flags),            .data_o(r_wb_alu1_flags));
-register  #6         u_r_wb_cmps_flags          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_cmps_flags),            .data_o(r_wb_cmps_flags));
-register  #1         u_r_wb_df_val_ex           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_df_val_ex ),            .data_o(r_wb_df_val_ex ));
-register #1          u_r_wb_ld_flag_CF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_CF),            .data_o(r_wb_ld_flag_CF));
-register #1          u_r_wb_ld_flag_PF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_PF),            .data_o(r_wb_ld_flag_PF));
-register #1          u_r_wb_ld_flag_AF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_AF),            .data_o(r_wb_ld_flag_AF));
-register #1          u_r_wb_ld_flag_ZF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_ZF),            .data_o(r_wb_ld_flag_ZF));
-register #1          u_r_wb_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_SF),            .data_o(r_wb_ld_flag_SF));
-register #1          u_r_wb_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_ex_ld_flag_OF),            .data_o(r_wb_ld_flag_OF));
-register #1          u_V_wb                     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_wb), .data_i(w_V_wb_next),                .data_o(r_V_wb));
 
 // ***************** WRITEBACK STAGE ******************
 

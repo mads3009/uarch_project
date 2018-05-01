@@ -53,7 +53,9 @@ module ag_dep_v_ld_logic(
   output     br_stall     ,
   output     stall_ag     ,
   output     V_ro         ,
-  output     ld_ro        
+  output     ld_ro      ,
+  input    ex_dep_stall,
+  input    wb_mem_stall
 );
 
 assign v_ag_ld_reg1 = ld_reg1 && V_ag;
@@ -63,7 +65,7 @@ assign v_ag_ld_flag_ZF = ld_flag_ZF && V_ag;
 
 assign br_stall = eip_change && V_ag;
 
-assign stall_ag = stall_ro || ro_dep_stall || ro_cmps_stall || mem_rd_busy;
+assign stall_ag = ex_dep_stall || wb_mem_stall || ro_dep_stall || ro_cmps_stall || mem_rd_busy;
 
 assign ld_ro = !stall_ag || dc_exp;
 
