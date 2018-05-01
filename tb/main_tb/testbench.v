@@ -255,7 +255,7 @@ always @(u_system.EAX,u_system.ECX,u_system.EDX,u_system.EBX,u_system.ESP,u_syst
   $display("Registers: EAX:%8h  ECX:%8h  EDX:%8h  EBX:%8h  ESP:%8h  EBP:%8h  ESI:%8h  EDI:%8h  ", u_system.EAX,  u_system.ECX,  u_system.EDX,  u_system.EBX,  u_system.ESP,  u_system.EBP,  u_system.ESI,  u_system.EDI); 
 end
 
-always @(ld_CF , ld_PF , ld_AF , ld_ZF , ld_SF , ld_OF , ld_DF) begin
+always @(u_system.CF, u_system.PF, u_system.AF, u_system.ZF, u_system.SF, u_system.OF, u_system.DF) begin
     $display("Flags: CF=%b  PF=%b  AF=%b  ZF=%b  SF=%b  OF=%b  DF=%b", u_system.CF, u_system.PF, u_system.AF, u_system.ZF, u_system.SF, u_system.OF, u_system.DF);
 end
 
@@ -270,7 +270,7 @@ genvar g;
 generate begin : get_dcache
   for (g=0; g<32; g=g+1) begin : dcache
     always @(u_system.dcache[g]) begin
-      $display("Dcache %d : %h",g,u_system.dcache[g]);
+      $display("%0t Dcache %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache[g]);
     end    
   end 
 end
@@ -280,7 +280,7 @@ endgenerate
 generate begin : get_icache
   for (g=0; g<16; g=g+1) begin : icache
     always @(u_system.icache[g]) begin
-      $display("Icache %d : %h %h %h %h",g, u_system.icache[g][32*8-1:24*8] , u_system.icache[g][24*8-1:16*8] , u_system.icache[g][16*8-1:8*8] , u_system.icache[g][8*8-1:0]);
+      $display("%0t Icache %d : %h %h %h %h",$time,g, u_system.icache[g][32*8-1:24*8] , u_system.icache[g][24*8-1:16*8] , u_system.icache[g][16*8-1:8*8] , u_system.icache[g][8*8-1:0]);
     end    
   end 
 end
@@ -290,65 +290,28 @@ endgenerate
 generate
   for (g=0; g < 1024; g=g+1) begin : mainmem
       always @(u_system.main_mem_page0[g])
-        $display("Frame0[%h] : %h",g,u_system.main_mem_page0[g]);
+        $display("%0t Frame0 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page0[g]);
       always @(u_system.main_mem_page1[g])
-        $display("Frame1[%h] : %h",g,u_system.main_mem_page1[g]);
-      always @(u_system.main_mem_page2[g])
-        $display("Frame2[%h] : %h",g,u_system.main_mem_page2[g]);
-      always @(u_system.main_mem_page3[g])
-        $display("Frame3[%h] : %h",g,u_system.main_mem_page3[g]);
-      always @(u_system.main_mem_page4[g])
-        $display("Frame4[%h] : %h",g,u_system.main_mem_page4[g]);
-      always @(u_system.main_mem_page5[g])
-        $display("Frame5[%h] : %h",g,u_system.main_mem_page5[g]);
-      always @(u_system.main_mem_page6[g])
-        $display("Frame6[%h] : %h",g,u_system.main_mem_page6[g]);
-      always @(u_system.main_mem_page7[g])
-        $display("Frame7[%h] : %h",g,u_system.main_mem_page7[g]);
+        $display("%0t Frame1 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page1[g]);
+      always @(u_system.main_mem_page2[g])     
+        $display("%0t Frame2 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page2[g]);
+      always @(u_system.main_mem_page3[g])    
+        $display("%0t Frame3 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page3[g]);
+      always @(u_system.main_mem_page4[g])    
+        $display("%0t Frame4 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page4[g]);
+      always @(u_system.main_mem_page5[g])    
+        $display("%0t Frame5 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page5[g]);
+      always @(u_system.main_mem_page6[g])    
+        $display("%0t Frame6 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page6[g]);
+      always @(u_system.main_mem_page7[g])     
+        $display("%0t Frame7 [0x%3h] : %h",$time,g<<2,u_system.main_mem_page7[g]);
     end
 endgenerate
 
 
-/*
-initial begin
-    $monitor("Dcache[ 0] : %h", u_system.dcache[ 0]);
-    $monitor("Dcache[ 1] : %h", u_system.dcache[ 1]);
-    $monitor("Dcache[ 2] : %h", u_system.dcache[ 2]);
-    $monitor("Dcache[ 3] : %h", u_system.dcache[ 3]);
-    $monitor("Dcache[ 4] : %h", u_system.dcache[ 4]);
-    $monitor("Dcache[ 5] : %h", u_system.dcache[ 5]);
-    $monitor("Dcache[ 6] : %h", u_system.dcache[ 6]);
-    $monitor("Dcache[ 7] : %h", u_system.dcache[ 7]);
-    $monitor("Dcache[ 8] : %h", u_system.dcache[ 8]);
-    $monitor("Dcache[ 9] : %h", u_system.dcache[ 9]);
-    $monitor("Dcache[10] : %h", u_system.dcache[10]);
-    $monitor("Dcache[11] : %h", u_system.dcache[11]);
-    $monitor("Dcache[12] : %h", u_system.dcache[12]);
-    $monitor("Dcache[13] : %h", u_system.dcache[13]);
-    $monitor("Dcache[14] : %h", u_system.dcache[14]);
-    $monitor("Dcache[15] : %h", u_system.dcache[15]);
-    $monitor("Dcache[16] : %h", u_system.dcache[16]);
-    $monitor("Dcache[17] : %h", u_system.dcache[17]);
-    $monitor("Dcache[18] : %h", u_system.dcache[18]);
-    $monitor("Dcache[19] : %h", u_system.dcache[19]);
-    $monitor("Dcache[20] : %h", u_system.dcache[20]);
-    $monitor("Dcache[21] : %h", u_system.dcache[21]);
-    $monitor("Dcache[22] : %h", u_system.dcache[22]);
-    $monitor("Dcache[23] : %h", u_system.dcache[23]);
-    $monitor("Dcache[24] : %h", u_system.dcache[24]);
-    $monitor("Dcache[25] : %h", u_system.dcache[25]);
-    $monitor("Dcache[26] : %h", u_system.dcache[26]);
-    $monitor("Dcache[27] : %h", u_system.dcache[27]);
-    $monitor("Dcache[28] : %h", u_system.dcache[28]);
-    $monitor("Dcache[29] : %h", u_system.dcache[29]);
-    $monitor("Dcache[30] : %h", u_system.dcache[30]);
-    $monitor("Dcache[31] : %h", u_system.dcache[31]);
-end                  
-*/
-                     
 always @(posedge clk) begin
  if(V_wb == 1'b1) begin
-    $display("\nOpcode= 0x%h",  u_system.u_cpu.r_wb_opcode);
+    $display("\n%0t Opcode= 0x%h",  $time, u_system.u_cpu.r_wb_opcode);
 
     //Printing registers
     if(ld_reg1 == 1'b1 && ld_reg2 == 1'b1 && ld_reg3 == 1'b1)

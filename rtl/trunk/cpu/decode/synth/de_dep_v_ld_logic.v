@@ -22,13 +22,6 @@ module de_dep_v_ld_logic(
   input      v_ro_ld_reg2   ,
   input      v_ro_ld_reg3   ,
   input      v_ro_ld_flag_ZF,
-  input [2:0]ex_dreg1       ,
-  input [2:0]ex_dreg2       ,
-  input [2:0]ex_dreg3       ,
-  input      v_ex_ld_reg1   ,
-  input      v_ex_ld_reg2   ,
-  input      v_ex_ld_reg3   ,
-  input      v_ex_ld_flag_ZF,
   input [2:0]wb_dreg1       ,
   input [2:0]wb_dreg2       ,
   input [2:0]wb_dreg3       ,
@@ -48,7 +41,6 @@ module de_dep_v_ld_logic(
   output     stall_de,
   output     V_ag,
   output     ld_ag,
-  input      ex_dep_stall ,
   input      wb_mem_stall ,
   input      ro_dep_stall ,
   input      ro_cmps_stall,
@@ -61,7 +53,7 @@ assign br_stall = eip_change & V_de;
 assign hlt_stall = hlt & V_de;
 assign iret_op = iret & V_de; 
 
-assign stall_de = ex_dep_stall || wb_mem_stall || ro_dep_stall || ro_cmps_stall || mem_rd_busy || ag_dep_stall;
+assign stall_de = wb_mem_stall || ro_dep_stall || ro_cmps_stall || mem_rd_busy || ag_dep_stall;
 assign ld_ag = ~(stall_de) || dc_exp;
 
 assign V_ag = ~(hlt || iret || dep_stall || w_repne_stop || dc_exp) & V_de;
@@ -92,13 +84,9 @@ assign dep_stall = (((v_ag_ld_reg1) && (ag_dreg1== 3'd1)) ||
                    ((v_ro_ld_reg1) && (ro_dreg1== 3'd1)) ||
                    ((v_ro_ld_reg2) && (ro_dreg2== 3'd1)) ||
                    ((v_ro_ld_reg3) && (ro_dreg3== 3'd1)) ||
-                   ((v_ex_ld_reg1) && (ex_dreg1== 3'd1)) ||
-                   ((v_ex_ld_reg2) && (ex_dreg2== 3'd1)) ||
-                   ((v_ex_ld_reg3) && (ex_dreg3== 3'd1)) ||
                    ((v_wb_ld_reg1) && (wb_dreg1== 3'd1)) ||
                    ((v_wb_ld_reg2) && (wb_dreg2== 3'd1)) ||
                    ((v_wb_ld_reg3) && (wb_dreg3== 3'd1)) ||
-                   ((v_ag_ld_flag_ZF || v_ro_ld_flag_ZF || v_ex_ld_flag_ZF 
-                          || v_wb_ld_flag_ZF) && r_repne_flag)) && V_de && repne;
+                   ((v_ag_ld_flag_ZF || v_ro_ld_flag_ZF || v_wb_ld_flag_ZF) && r_repne_flag)) && V_de && repne;
 
 endmodule

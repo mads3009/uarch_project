@@ -1,5 +1,4 @@
-module mem_conflict_gen(mem_conflict, v_ro_mem_read, ro_mem_rd_addr_start, ro_mem_rd_addr_end,
-                        v_ex_ld_mem, ex_mem_wr_addr_start, ex_mem_wr_addr_end, 
+module mem_conflict_gen(mem_conflict, v_ro_mem_read, ro_mem_rd_addr_start, ro_mem_rd_addr_end, 
                         v_wb_ld_mem, wb_mem_wr_addr_start, wb_mem_wr_addr_end,
                         fifo_wr_addr0_start, fifo_wr_addr0_end, fifo_wr_addr1_start,
                         fifo_wr_addr1_end, fifo_wr_addr2_start, fifo_wr_addr2_end,
@@ -8,10 +7,6 @@ module mem_conflict_gen(mem_conflict, v_ro_mem_read, ro_mem_rd_addr_start, ro_me
 input        v_ro_mem_read;
 input [31:0] ro_mem_rd_addr_start;
 input [31:0] ro_mem_rd_addr_end;
-
-input        v_ex_ld_mem;
-input [31:0] ex_mem_wr_addr_start;
-input [31:0] ex_mem_wr_addr_end;
 
 input        v_wb_ld_mem;
 input [31:0] wb_mem_wr_addr_start;
@@ -32,10 +27,7 @@ input [1:0]  fifo_rd_ptr;
 output       mem_conflict;
 
 reg [3:0] V_fifo_entry;
-assign mem_conflict = v_ro_mem_read && ( (v_ex_ld_mem && ((ro_mem_rd_addr_start>=ex_mem_wr_addr_start && ro_mem_rd_addr_start<=ex_mem_wr_addr_end) ||
-                                                         (ro_mem_rd_addr_end  >=ex_mem_wr_addr_start && ro_mem_rd_addr_end  <=ex_mem_wr_addr_end) ||
-                                                         (ro_mem_rd_addr_start<=ex_mem_wr_addr_start && ro_mem_rd_addr_end  >=ex_mem_wr_addr_end))) ||
-                                         (v_wb_ld_mem && ((ro_mem_rd_addr_start>=wb_mem_wr_addr_start && ro_mem_rd_addr_start<=wb_mem_wr_addr_end) ||
+assign mem_conflict = v_ro_mem_read && ( (v_wb_ld_mem && ((ro_mem_rd_addr_start>=wb_mem_wr_addr_start && ro_mem_rd_addr_start<=wb_mem_wr_addr_end) ||
                                                          (ro_mem_rd_addr_end  >=wb_mem_wr_addr_start && ro_mem_rd_addr_end  <=wb_mem_wr_addr_end) ||
                                                          (ro_mem_rd_addr_start<=wb_mem_wr_addr_start && ro_mem_rd_addr_end  >=wb_mem_wr_addr_end))) ||
                                          (V_fifo_entry[0] && ((ro_mem_rd_addr_start>=fifo_wr_addr0_start && ro_mem_rd_addr_start<=fifo_wr_addr0_end) ||

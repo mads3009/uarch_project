@@ -139,7 +139,6 @@
 ../../rtl/trunk/cpu/decode/de_dep_v_ld_logic_netlist.v
 ../../rtl/trunk/cpu/addr_gen/ag_dep_v_ld_logic_netlist.v
 ../../rtl/trunk/cpu/read_operands/ro_dep_v_ld_logic_netlist.v
-../../rtl/trunk/cpu/execute/ex_dep_v_ld_logic_netlist.v
 ../../rtl/trunk/cpu/writeback/writeback_loads_gen_netlist.v
 
 ../../rtl/trunk/cpu/cpu.v
