@@ -115,6 +115,18 @@ wire [15:0] r_ro_seg_data3;
 wire [255:0] r_de_ic_data_shifted;
 wire [31:0]  r_de_EIP_curr;
 wire [15:0]  r_de_CS_curr;
+wire [3:0]   r_de_pr_repne;    
+wire [3:0]   r_de_pr_cs_over;  
+wire [3:0]   r_de_pr_ss_over;  
+wire [3:0]   r_de_pr_ds_over;  
+wire [3:0]   r_de_pr_es_over;  
+wire [3:0]   r_de_pr_fs_over;  
+wire [3:0]   r_de_pr_gs_over;  
+wire [3:0]   r_de_pr_size_over;
+wire [3:0]   r_de_pr_0f;       
+wire [3:0]   r_de_pr_pos;      
+wire [2:0]   r_de_mux_sel;     
+
 
 //Output latches DE -> AG
 wire [31:0]r_ag_EIP_curr;
@@ -655,6 +667,9 @@ wire          w_fe_ren;
 wire          w_ic_hit;
 wire [127:0]  w_icache_lower_data;
 wire [127:0]  w_icache_upper_data;
+wire [127:0]  w_icache_lower_data_muxed;
+wire [127:0]  w_icache_upper_data_muxed;
+
 wire [127:0]  r_icache_lower_data;
 wire [127:0]  r_icache_upper_data;
 wire [255:0]  w_ic_data_shifted_00;
@@ -757,36 +772,72 @@ i_cache u_i_cache (
 );              
 
 //icache buf
-register #128 u_icache_lower_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[0]), .data_i(w_icache_lower_data), .data_o(r_icache_lower_data));
-register #128 u_icache_upper_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[1]), .data_i(w_icache_upper_data), .data_o(r_icache_upper_data));
+//register #128 u_icache_lower_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[0]), .data_i(w_icache_lower_data), .data_o(r_icache_lower_data));
+//register #128 u_icache_upper_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[1]), .data_i(w_icache_upper_data), .data_o(r_icache_upper_data));
 
 wire [31:0] w_EIP_to_use;
-mux_nbit_2x1 #32 u_w_EIP_to_use (.a0(r_EIP[31:0]), .a1(w_de_EIP_next[31:0]), .sel(r_V_de), .out(w_EIP_to_use));
+mux_nbit_2x1 #128 u_mux_icache_data0 (.a0(w_icache_lower_data), .a1(128'd0), .sel(w_ic_miss_ack), .out(w_icache_lower_data_muxed));
+mux_nbit_2x1 #128 u_mux_icache_data1 (.a0(w_icache_upper_data), .a1(128'd0), .sel(w_ic_miss_ack), .out(w_icache_upper_data_muxed));
 
 //4 shifters
-byte_rotate_right #32 u_ic_data_shifter_00(
-  .amt(w_EIP_to_use[4:0]),
-  .in({r_icache_upper_data, r_icache_lower_data}),
-  .out(w_ic_data_shifted_00)
-  );
-byte_rotate_right #32 u_ic_data_shifter_01(
-  .amt(w_EIP_to_use[4:0]),
-  .in({r_icache_upper_data, w_icache_lower_data}),
-  .out(w_ic_data_shifted_01)
-  );
-byte_rotate_right #32 u_ic_data_shifter_10(
-  .amt(w_EIP_to_use[4:0]),
-  .in({w_icache_upper_data, r_icache_lower_data}),
-  .out(w_ic_data_shifted_10)
-  );
-byte_rotate_right #32 u_ic_data_shifter_11(
-  .amt(w_EIP_to_use[4:0]),
-  .in({w_icache_upper_data, w_icache_lower_data}),
-  .out(w_ic_data_shifted_11)
-  );
+//byte_rotate_right #32 u_ic_data_shifter_00(
+//  .amt(w_EIP_to_use[4:0]),
+//  .in({r_icache_upper_data, r_icache_lower_data}),
+//  .out(w_ic_data_shifted_00)
+//  );
+//byte_rotate_right #32 u_ic_data_shifter_01(
+//  .amt(w_EIP_to_use[4:0]),
+//  .in({r_icache_upper_data, w_icache_lower_data}),
+//  .out(w_ic_data_shifted_01)
+//  );
+//byte_rotate_right #32 u_ic_data_shifter_10(
+//  .amt(w_EIP_to_use[4:0]),
+//  .in({w_icache_upper_data, r_icache_lower_data}),
+//  .out(w_ic_data_shifted_10)
+//  );
+//byte_rotate_right #32 u_ic_data_shifter_11(
+//  .amt(w_EIP_to_use[4:0]),
+//  .in({w_icache_upper_data, w_icache_lower_data}),
+//  .out(w_ic_data_shifted_11)
+//  );
 
 //Muxing between the shifters
-mux_nbit_4x1 #256 u_w_fe_ic_data_shifted(.a0(w_ic_data_shifted_00), .a1(w_ic_data_shifted_01), .a2(w_ic_data_shifted_10), .a3(w_ic_data_shifted_11), .sel(w_fe_ld_buf), .out(w_fe_ic_data_shifted));
+//mux_nbit_4x1 #256 u_w_fe_ic_data_shifted(.a0(w_ic_data_shifted_00), .a1(w_ic_data_shifted_01), .a2(w_ic_data_shifted_10), .a3(w_ic_data_shifted_11), .sel(w_fe_ld_buf), .out(w_fe_ic_data_shifted));
+
+mux_nbit_2x1 #32 u_w_EIP_to_use (.a0(r_EIP[31:0]), .a1(w_de_EIP_next[31:0]), .sel(r_V_de), .out(w_EIP_to_use));
+
+wire [3:0]  w_fe_pr_repne;
+wire [3:0]  w_fe_pr_cs_over;
+wire [3:0]  w_fe_pr_ss_over;
+wire [3:0]  w_fe_pr_ds_over;
+wire [3:0]  w_fe_pr_es_over;
+wire [3:0]  w_fe_pr_fs_over;
+wire [3:0]  w_fe_pr_gs_over;
+wire [3:0]  w_fe_pr_size_over;
+wire [3:0]  w_fe_pr_0f;
+wire [3:0]  w_fe_pr_pos;
+wire [2:0]  w_fe_mux_sel;
+
+ic_shifter_decode u_ic_shift_dec (.clk                        (clk),  
+                                  .rst_n                      (rst_n),  
+                                  .w_fe_ld_buf                (w_fe_ld_buf),  
+                                  .w_icache_lower_data        (w_icache_lower_data_muxed),  
+                                  .w_icache_upper_data        (w_icache_upper_data_muxed),  
+                                  .r_icache_lower_data        (r_icache_lower_data),  
+                                  .r_icache_upper_data        (r_icache_upper_data),  
+                                  .w_EIP_to_use               (w_EIP_to_use),  
+                                  .w_fe_ic_data_shifted       (w_fe_ic_data_shifted),  
+                                  .w_pr_repne                 (w_fe_pr_repne),  
+                                  .w_pr_cs_over               (w_fe_pr_cs_over),  
+                                  .w_pr_ss_over               (w_fe_pr_ss_over),  
+                                  .w_pr_ds_over               (w_fe_pr_ds_over),  
+                                  .w_pr_es_over               (w_fe_pr_es_over),  
+                                  .w_pr_fs_over               (w_fe_pr_fs_over),  
+                                  .w_pr_gs_over               (w_fe_pr_gs_over),  
+                                  .w_pr_size_over             (w_fe_pr_size_over),  
+                                  .w_pr_0f                    (w_fe_pr_0f),  
+                                  .w_pr_pos                   (w_fe_pr_pos),  
+                                  .w_mux_sel                  (w_fe_mux_sel));
 
 
 //Output of decode latches
@@ -794,6 +845,17 @@ register #256 u_de_ic_data_shifted (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(
 register  #32 u_de_EIP_curr        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_EIP_to_use        ), .data_o(r_de_EIP_curr       ));
 register  #16 u_de_CS_curr         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_CS_curr        ), .data_o(r_de_CS_curr        ));
 register   #1 u_V_de               (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_V_de_next         ), .data_o(r_V_de              ));
+register   #4 u_r_de_pr_repne      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_repne       ), .data_o(r_de_pr_repne       ));
+register   #4 u_r_de_pr_cs_over    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_cs_over     ), .data_o(r_de_pr_cs_over     ));
+register   #4 u_r_de_pr_ss_over    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_ss_over     ), .data_o(r_de_pr_ss_over     ));
+register   #4 u_r_de_pr_ds_over    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_ds_over     ), .data_o(r_de_pr_ds_over     ));
+register   #4 u_r_de_pr_es_over    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_es_over     ), .data_o(r_de_pr_es_over     ));
+register   #4 u_r_de_pr_fs_over    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_fs_over     ), .data_o(r_de_pr_fs_over     ));
+register   #4 u_r_de_pr_gs_over    (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_gs_over     ), .data_o(r_de_pr_gs_over     ));
+register   #4 u_r_de_pr_size_over  (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_size_over   ), .data_o(r_de_pr_size_over   ));
+register   #4 u_r_de_pr_0f         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_0f          ), .data_o(r_de_pr_0f          ));
+register   #4 u_r_de_pr_pos        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_pos         ), .data_o(r_de_pr_pos         ));
+register   #3 u_r_de_mux_sel       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_mux_sel        ), .data_o(r_de_mux_sel        ));
 
 // ***************** DECODE STAGE ******************
 //Output of Decode
@@ -894,6 +956,17 @@ wire w_de_iret;
 decode u_decode ( 
       .r_de_ic_data_shifted                       (r_de_ic_data_shifted), 
       .r_de_EIP_curr                              (r_de_EIP_curr), 
+      .r_de_pr_repne                              (r_de_pr_repne),     
+      .r_de_pr_cs_over                            (r_de_pr_cs_over),   
+      .r_de_pr_ss_over                            (r_de_pr_ss_over),   
+      .r_de_pr_ds_over                            (r_de_pr_ds_over),   
+      .r_de_pr_es_over                            (r_de_pr_es_over),   
+      .r_de_pr_fs_over                            (r_de_pr_fs_over),   
+      .r_de_pr_gs_over                            (r_de_pr_gs_over),   
+      .r_de_pr_size_over                          (r_de_pr_size_over),
+      .r_de_pr_0f                                 (r_de_pr_0f),        
+      .r_de_pr_pos                                (r_de_pr_pos),       
+      .r_de_mux_sel                               (r_de_mux_sel),      
       .r_de_CS_curr                               (r_de_CS_curr), 
       .de_EIP_curr                                (w_de_EIP_curr),
       .de_CS_curr                                 (w_de_CS_curr),

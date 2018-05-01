@@ -7,17 +7,21 @@ movw    %dx, %ss
 movw    %dx, %fs
 movl    $0xFF, %esp
 movl    %esp , %edx
-movl    $0x3, %fs:0x4(%edx)
+movl    $0x3, %fs:(%edx)
 
-
-call fib #result in %eax
 
 fib:
         
         movl    %esp , %edx
         movl %fs:0x4(%edx), %eax # get arg
-        addl $0xFFFFFFFF, %eax # if x<=1 fib(x)=x
-        jnbe endf
+        movl %eax, %esi # get arg
+        movl %esi, %edi
+        not %edi
+        jne temp
+        ret
+temp:
+        addl $0xFFFFFFFF, %esi # if x<=1 fib(x)=x
+        jne endf
         ret
 endf:
         pushl %ebx # save ebx
