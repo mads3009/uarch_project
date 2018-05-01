@@ -280,7 +280,7 @@ endgenerate
 generate begin : get_icache
   for (g=0; g<16; g=g+1) begin : icache
     always @(u_system.icache[g]) begin
-      $display("%0t Icache %d : %h %h %h %h",$time,g, u_system.icache[g][32*8-1:24*8] , u_system.icache[g][24*8-1:16*8] , u_system.icache[g][16*8-1:8*8] , u_system.icache[g][8*8-1:0]);
+      $display("%0t Icache %3d : %h %h %h %h",$time,g, u_system.icache[g][32*8-1:24*8] , u_system.icache[g][24*8-1:16*8] , u_system.icache[g][16*8-1:8*8] , u_system.icache[g][8*8-1:0]);
     end    
   end 
 end
@@ -308,26 +308,37 @@ generate
     end
 endgenerate
 
+//Interrupt and exceptions
+always @(u_system.u_cpu.int)
+  $display("%0t INT changed. Val=%b", $time, u_system.u_cpu.int);
 
+always @(posedge clk) begin
+  if(u_system.u_cpu.w_dc_exp)
+    $display("%0t DC EXCEPTION  dc_prot_exp=%b  dc_pg_fault=%b", $time, u_system.u_cpu.w_dc_prot_exp, u_system.u_cpu.w_dc_page_fault);
+  if(u_system.u_cpu.w_ic_exp)
+    $display("%0t IC EXCEPTION  ic_prot_exp=%b  ic_pg_fault=%b", $time, u_system.u_cpu.w_ic_prot_exp, u_system.u_cpu.w_ic_page_fault);
+end
+
+//For every opcode in WB
 always @(posedge clk) begin
  if(V_wb == 1'b1) begin
     $display("\n%0t Opcode= 0x%h",  $time, u_system.u_cpu.r_wb_opcode);
 
     //Printing registers
     if(ld_reg1 == 1'b1 && ld_reg2 == 1'b1 && ld_reg3 == 1'b1)
-      $display("Reg1 strbs:%b  (%d) Reg2 strbs:%b (%d) Reg3 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg2_strb, dreg2, ld_reg3_strb, dreg3); 
+      $display("Load Reg1 :%b  (%d) Reg2 strbs:%b (%d) Reg3 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg2_strb, dreg2, ld_reg3_strb, dreg3); 
     else if(ld_reg1 == 1'b1 && ld_reg2 == 1'b1)
-      $display("Reg1 strbs:%b  (%d) Reg2 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg2_strb, dreg2); 
+      $display("Load Reg1 :%b  (%d) Reg2 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg2_strb, dreg2); 
     else if(ld_reg1 == 1'b1 && ld_reg3 == 1'b1)
-      $display("Reg1 strbs:%b  (%d) Reg3 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg3_strb, dreg3); 
+      $display("Load Reg1 :%b  (%d) Reg3 strbs:%b (%d)", ld_reg1_strb, dreg1, ld_reg3_strb, dreg3); 
     else if(ld_reg2 == 1'b1 && ld_reg3 == 1'b1)
-      $display("Reg2 strbs:%b  (%d) Reg3 strbs:%b (%d)", ld_reg2_strb, dreg2, ld_reg3_strb, dreg3); 
+      $display("Load Reg2 :%b  (%d) Reg3 strbs:%b (%d)", ld_reg2_strb, dreg2, ld_reg3_strb, dreg3); 
     else if(ld_reg1 == 1'b1)
-      $display("Reg1 strbs: %b (%d)", ld_reg1_strb, dreg1); 
+      $display("Load Reg1 : %b (%d)", ld_reg1_strb, dreg1); 
     else if(ld_reg2 == 1'b1)
-      $display("Reg2 strbs: %b (%d)", ld_reg2_strb, dreg2); 
+      $display("Load Reg2 : %b (%d)", ld_reg2_strb, dreg2); 
     else if(ld_reg3 == 1'b1)
-      $display("Reg3 strbs: %b (%d)", ld_reg3_strb, dreg3); 
+      $display("Load Reg3 : %b (%d)", ld_reg3_strb, dreg3); 
  
     //Printing EFLAGS
     if(ld_CF || ld_PF || ld_AF || ld_ZF || ld_SF || ld_OF || ld_DF)
@@ -340,9 +351,14 @@ always @(posedge clk) begin
     //Printing SEG
     if(ld_seg)
     $display("Load Segments: (%d) ", dseg);
-    
+   
+    //Printing MEM 
     if(ld_mem)
     $display("Load Memory: (%h):%h size:%d", u_system.u_cpu.r_wb_mem_wr_addr, u_system.u_cpu.w_wb_mem_wr_data, u_system.u_cpu.r_wb_mem_wr_size);
+
+    //Printing EIP 
+    if(u_system.u_cpu.r_wb_eip_change)
+      #1 $display("Load EIP: actual_val=%h", u_system.u_cpu.r_EIP);
 
   end
 end
