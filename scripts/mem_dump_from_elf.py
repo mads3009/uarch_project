@@ -22,7 +22,7 @@ size = 256;
 for i in range(0,8):
   f_data = open("hex_data"+str(i)+".txt", "w")
   for j in range(0,16*size):
-    f_data.write("00\n")
+    f_data.write("xx\n")
   f_data.close()
 
 f_data = open("hex_data0.txt", "w")
@@ -103,5 +103,5 @@ for cnt in range(0,len(content)):
 
 print("lines=%d"%lines)
 for i in range(lines,size*16):
-  f_data.write("00\n")
+  f_data.write("xx\n")
 

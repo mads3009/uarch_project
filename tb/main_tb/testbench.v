@@ -193,6 +193,7 @@ initial begin
 
   #16000;
 
+  $display("");
   $finish;
 end
 
@@ -227,6 +228,7 @@ wire [2:0] dseg;
 
 assign V_wb = u_system.u_cpu.r_V_wb;
 assign ld_mm = u_system.u_cpu.w_v_wb_ld_mm;
+assign ld_mem = u_system.u_cpu.w_v_wb_ld_mem;
 assign ld_reg1 = testbench.u_system.u_cpu.w_v_wb_ld_reg1;
 assign ld_reg2 = testbench.u_system.u_cpu.w_v_wb_ld_reg2;
 assign ld_reg3 = testbench.u_system.u_cpu.w_v_wb_ld_reg3;
@@ -249,16 +251,104 @@ assign dmm = testbench.u_system.u_cpu.r_wb_dmm;
 assign dseg = testbench.u_system.u_cpu.r_wb_dseg;
 
 //Logging the test
-/*
-always @(u_system.EAX | u_system.ECX | u_system.EDX | u_system.EBX | u_system.ESP | u_system.EBP | u_system.ESI | u_system.EDI) begin
-  #1
-  $display("Registers change  EAX:%8h  ECX:%8h  EDX:%8h  EBX:%8h  ESP:%8h  EBP:%8h  ESI:%8h  EDI:%8h  ", u_system.EAX,  u_system.ECX,  u_system.EDX,  u_system.EBX,  u_system.ESP,  u_system.EBP,  u_system.ESI,  u_system.EDI); 
+always @(u_system.EAX,u_system.ECX,u_system.EDX,u_system.EBX,u_system.ESP,u_system.EBP,u_system.ESI,u_system.EDI) begin
+  $display("Registers: EAX:%8h  ECX:%8h  EDX:%8h  EBX:%8h  ESP:%8h  EBP:%8h  ESI:%8h  EDI:%8h  ", u_system.EAX,  u_system.ECX,  u_system.EDX,  u_system.EBX,  u_system.ESP,  u_system.EBP,  u_system.ESI,  u_system.EDI); 
 end
-*/
 
+always @(ld_CF , ld_PF , ld_AF , ld_ZF , ld_SF , ld_OF , ld_DF) begin
+    $display("Flags: CF=%b  PF=%b  AF=%b  ZF=%b  SF=%b  OF=%b  DF=%b", u_system.CF, u_system.PF, u_system.AF, u_system.ZF, u_system.SF, u_system.OF, u_system.DF);
+end
+
+always @(u_system.MM0 , u_system.MM1 , u_system.MM2 , u_system.MM3 , u_system.MM4 , u_system.MM5 , u_system.MM6 , u_system.MM7)
+    $display("MMX regs: MM0=%h  MM1=%h  MMX2=%h  MM3=%h  MM4=%h  MM5=%h  MM6=%h  MM7=%h  ",u_system.MM0, u_system.MM1, u_system.MM2, u_system.MM3, u_system.MM4, u_system.MM5, u_system.MM6, u_system.MM7 );
+
+always @(u_system.ES , u_system.CS , u_system.SS , u_system.DS , u_system.FS ,u_system.GS)
+    $display("Segments: ES=%h  CS=%h  SS=%h  DS=%h  FS=%h  GS=%h ", u_system.ES, u_system.CS, u_system.SS, u_system.DS, u_system.FS, u_system.GS);
+
+//DCACHE
+genvar g;
+generate begin : get_dcache
+  for (g=0; g<32; g=g+1) begin : dcache
+    always @(u_system.dcache[g]) begin
+      $display("Dcache %d : %h",g,u_system.dcache[g]);
+    end    
+  end 
+end
+endgenerate
+
+//ICACHE
+generate begin : get_icache
+  for (g=0; g<16; g=g+1) begin : icache
+    always @(u_system.icache[g]) begin
+      $display("Icache %d : %h %h %h %h",g, u_system.icache[g][32*8-1:24*8] , u_system.icache[g][24*8-1:16*8] , u_system.icache[g][16*8-1:8*8] , u_system.icache[g][8*8-1:0]);
+    end    
+  end 
+end
+endgenerate
+
+//Main memory
+generate
+  for (g=0; g < 1024; g=g+1) begin : mainmem
+      always @(u_system.main_mem_page0[g])
+        $display("Frame0[%h] : %h",g,u_system.main_mem_page0[g]);
+      always @(u_system.main_mem_page1[g])
+        $display("Frame1[%h] : %h",g,u_system.main_mem_page1[g]);
+      always @(u_system.main_mem_page2[g])
+        $display("Frame2[%h] : %h",g,u_system.main_mem_page2[g]);
+      always @(u_system.main_mem_page3[g])
+        $display("Frame3[%h] : %h",g,u_system.main_mem_page3[g]);
+      always @(u_system.main_mem_page4[g])
+        $display("Frame4[%h] : %h",g,u_system.main_mem_page4[g]);
+      always @(u_system.main_mem_page5[g])
+        $display("Frame5[%h] : %h",g,u_system.main_mem_page5[g]);
+      always @(u_system.main_mem_page6[g])
+        $display("Frame6[%h] : %h",g,u_system.main_mem_page6[g]);
+      always @(u_system.main_mem_page7[g])
+        $display("Frame7[%h] : %h",g,u_system.main_mem_page7[g]);
+    end
+endgenerate
+
+
+/*
+initial begin
+    $monitor("Dcache[ 0] : %h", u_system.dcache[ 0]);
+    $monitor("Dcache[ 1] : %h", u_system.dcache[ 1]);
+    $monitor("Dcache[ 2] : %h", u_system.dcache[ 2]);
+    $monitor("Dcache[ 3] : %h", u_system.dcache[ 3]);
+    $monitor("Dcache[ 4] : %h", u_system.dcache[ 4]);
+    $monitor("Dcache[ 5] : %h", u_system.dcache[ 5]);
+    $monitor("Dcache[ 6] : %h", u_system.dcache[ 6]);
+    $monitor("Dcache[ 7] : %h", u_system.dcache[ 7]);
+    $monitor("Dcache[ 8] : %h", u_system.dcache[ 8]);
+    $monitor("Dcache[ 9] : %h", u_system.dcache[ 9]);
+    $monitor("Dcache[10] : %h", u_system.dcache[10]);
+    $monitor("Dcache[11] : %h", u_system.dcache[11]);
+    $monitor("Dcache[12] : %h", u_system.dcache[12]);
+    $monitor("Dcache[13] : %h", u_system.dcache[13]);
+    $monitor("Dcache[14] : %h", u_system.dcache[14]);
+    $monitor("Dcache[15] : %h", u_system.dcache[15]);
+    $monitor("Dcache[16] : %h", u_system.dcache[16]);
+    $monitor("Dcache[17] : %h", u_system.dcache[17]);
+    $monitor("Dcache[18] : %h", u_system.dcache[18]);
+    $monitor("Dcache[19] : %h", u_system.dcache[19]);
+    $monitor("Dcache[20] : %h", u_system.dcache[20]);
+    $monitor("Dcache[21] : %h", u_system.dcache[21]);
+    $monitor("Dcache[22] : %h", u_system.dcache[22]);
+    $monitor("Dcache[23] : %h", u_system.dcache[23]);
+    $monitor("Dcache[24] : %h", u_system.dcache[24]);
+    $monitor("Dcache[25] : %h", u_system.dcache[25]);
+    $monitor("Dcache[26] : %h", u_system.dcache[26]);
+    $monitor("Dcache[27] : %h", u_system.dcache[27]);
+    $monitor("Dcache[28] : %h", u_system.dcache[28]);
+    $monitor("Dcache[29] : %h", u_system.dcache[29]);
+    $monitor("Dcache[30] : %h", u_system.dcache[30]);
+    $monitor("Dcache[31] : %h", u_system.dcache[31]);
+end                  
+*/
+                     
 always @(posedge clk) begin
  if(V_wb == 1'b1) begin
-    $display("Opcode= 0x%h",  u_system.u_cpu.r_wb_opcode);
+    $display("\nOpcode= 0x%h",  u_system.u_cpu.r_wb_opcode);
 
     //Printing registers
     if(ld_reg1 == 1'b1 && ld_reg2 == 1'b1 && ld_reg3 == 1'b1)
@@ -275,23 +365,22 @@ always @(posedge clk) begin
       $display("Reg2 strbs: %b (%d)", ld_reg2_strb, dreg2); 
     else if(ld_reg3 == 1'b1)
       $display("Reg3 strbs: %b (%d)", ld_reg3_strb, dreg3); 
-  
-    if(ld_reg1 || ld_reg2 || ld_reg3)
-      $display("Registers EAX:%8h  ECX:%8h  EDX:%8h  EBX:%8h  ESP:%8h  EBP:%8h  ESI:%8h  EDI:%8h  ", u_system.EAX,  u_system.ECX,  u_system.EDX,  u_system.EBX,  u_system.ESP,  u_system.EBP,  u_system.ESI,  u_system.EDI); 
-
+ 
     //Printing EFLAGS
     if(ld_CF || ld_PF || ld_AF || ld_ZF || ld_SF || ld_OF || ld_DF)
-    $display("Flags: (%b)  CF=%b  PF=%b  AF=%b  ZF=%b  SF=%b  OF=%b  DF=%b", {ld_CF,ld_PF,ld_AF,ld_ZF,ld_SF,ld_OF,ld_DF}, u_system.CF, u_system.PF, u_system.AF, u_system.ZF, u_system.SF, u_system.OF, u_system.DF);
+    $display("Load Flags: (%b) ", {ld_CF,ld_PF,ld_AF,ld_ZF,ld_SF,ld_OF,ld_DF});
 
     //Printing MM
     if(ld_mm)
-    $display("MMX regs: (%d)  MM0=%h  MM1=%h  MMX2=%h  MM3=%h  MM4=%h  MM5=%h  MM6=%h  MM7=%h  ", dmm, u_system.MM0, u_system.MM1, u_system.MM2, u_system.MM3, u_system.MM4, u_system.MM5, u_system.MM6, u_system.MM7 );
+    $display("Load MMX regs: (%d) ", dmm);
 
     //Printing SEG
     if(ld_seg)
-    $display("Segments: (%d)  ES=%h  CS=%h  SS=%h  DS=%h  FS=%h  GS=%h ", dseg, u_system.ES, u_system.CS, u_system.SS, u_system.DS, u_system.FS, u_system.GS);
+    $display("Load Segments: (%d) ", dseg);
+    
+    if(ld_mem)
+    $display("Load Memory: (%h):%h size:%d", u_system.u_cpu.r_wb_mem_wr_addr, u_system.u_cpu.w_wb_mem_wr_data, u_system.u_cpu.r_wb_mem_wr_size);
 
-    $display("");
   end
 end
 
