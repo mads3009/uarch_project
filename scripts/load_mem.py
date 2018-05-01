@@ -10,7 +10,7 @@ size = 4096
 
 data = np.empty((8*4096,), dtype=object)
 for i in range(0,8*size): 
-    data[i]="00"
+    data[i]="xx"
 
 def zero_extend(value):
     zeros = '0' * (8-len(value))
