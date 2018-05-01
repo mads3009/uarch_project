@@ -688,7 +688,8 @@ kogge_stone #32 u_EIP_reg_plus32 ( .a(r_EIP), .b(32'h20), .cin(1'b0), .out(w_EIP
 
 //fetch_address
 mux_nbit_2x1 #32 u_fe_address_off(  .a0(r_EIP), .a1(w_EIP_plus_32), .sel(w_fe_address_sel), .out(w_fe_address_off));
-cond_sum32  u_fe_address ( .A(w_fe_address_off), .B({r_CS,16'h0}), .CIN(1'b0), .S(w_fe_address), .COUT(/*Unused*/) );
+cond_sum16  u_fe_address ( .A(w_fe_address_off[31:16]), .B(r_CS), .CIN(1'b0), .S(w_fe_address[31:16]), .COUT(/*Unused*/) );
+assign w_fe_address[15:0] = w_fe_address_off[15:0];
 
 //Logic for fe_ren
 //fe_ren = !(stall_de || xx_br_stall || repne_stall || hlt_stall || dc_exp || int || de_iret_op || block_ren)
