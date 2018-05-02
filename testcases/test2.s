@@ -24,4 +24,22 @@ addw %si, %di
 addw (%ebx), %bp
 
 andb $0x99, %ah
+addb $0xFF, %al
+cmovc %ax, %di
+cmpxchgw %sp, (%ebx)
+
+incb (%ebx)
+incw (%ebx,%ecx)
+incl %eax
+
+movb (%ebx), %dh
+movw (%ebx), %bp
+
+movb %cl, (%ebx)
+movw %bp, (%ebx)
+
+movw (%ebx,%ecx), %gs
+movw %gs, %es:(%ebx)
+
+
 hlt
