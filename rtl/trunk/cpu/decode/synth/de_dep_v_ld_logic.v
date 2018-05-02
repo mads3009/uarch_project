@@ -32,6 +32,7 @@ module de_dep_v_ld_logic(
   input      stall_ag,
   input      ag_dep_stall,
   input      dc_exp,         
+  input      int,
 
   output     hlt_stall,
   output     repne_stall,
@@ -65,8 +66,8 @@ wire w_repne_flag_regin;
 wire r_repne_flag;
 
 assign w_v_repne = repne && V_de;
-assign w_repne_in0 = (|ECX) & w_v_repne;
-assign w_repne_in1 = (|ECX) & ~(ZF);
+assign w_repne_in0 = (|ECX) & w_v_repne & ~int;
+assign w_repne_in1 = (|ECX) & ~(ZF) & ~int;
 
 assign w_repne_flag_regin = r_repne_flag ? w_repne_in1 : w_repne_in0;
 

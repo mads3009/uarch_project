@@ -28,6 +28,4 @@ hlt
 .ORG 0x0c000030
 addl    $0x8, %edi
 iret
-addl    $0x1, %edi
-hlt
 
