@@ -64,7 +64,7 @@ module addr_ch_logic(clk, rst_n, addr, addr_ch);
   inv1$ g473(.in (addr[6]), .out (n_1));
 endmodule
 
-module counter_CNT_LMT4_1(clk, rst_n, cond, done);
+module counter_CNT_LMT5(clk, rst_n, cond, done);
   input clk, rst_n, cond;
   output done;
   wire clk, rst_n, cond;
@@ -72,22 +72,22 @@ module counter_CNT_LMT4_1(clk, rst_n, cond, done);
   wire [2:0] count;
   wire UNCONNECTED9, UNCONNECTED10, UNCONNECTED11, n_1, n_2, n_3, n_4,
        n_5;
-  wire n_6, n_7, n_11;
-  and3$ g32(.in0 (n_11), .in1 (n_7), .in2 (count[2]), .out (done));
-  inv1$ g33(.in (count[0]), .out (n_11));
-  inv1$ g34(.in (count[1]), .out (n_7));
-  dff$ \count_reg[2] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_6), .q
+  wire n_6, n_7, n_8;
+  and3$ g32(.in0 (count[2]), .in1 (n_8), .in2 (count[0]), .out (done));
+  inv1$ g33(.in (count[1]), .out (n_8));
+  dff$ \count_reg[2] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_7), .q
        (count[2]), .qbar (UNCONNECTED9));
-  dff$ \count_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_5), .q
+  dff$ \count_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_6), .q
        (count[1]), .qbar (UNCONNECTED10));
-  and2$ g47(.in0 (n_4), .in1 (cond), .out (n_6));
-  and2$ g48(.in0 (n_3), .in1 (cond), .out (n_5));
-  xnor2$ g49(.in0 (count[2]), .in1 (n_1), .out (n_4));
-  dff$ \count_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_2), .q
+  and2$ g49(.in0 (n_5), .in1 (cond), .out (n_7));
+  and2$ g50(.in0 (n_4), .in1 (cond), .out (n_6));
+  xnor2$ g51(.in0 (n_2), .in1 (count[2]), .out (n_5));
+  dff$ \count_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_3), .q
        (count[0]), .qbar (UNCONNECTED11));
-  xor2$ g51(.in0 (count[0]), .in1 (count[1]), .out (n_3));
-  and2$ g52(.in0 (n_11), .in1 (cond), .out (n_2));
-  or2$ g53(.in0 (n_11), .in1 (n_7), .out (n_1));
+  xor2$ g53(.in0 (count[0]), .in1 (count[1]), .out (n_4));
+  and2$ g54(.in0 (n_1), .in1 (cond), .out (n_3));
+  or2$ g55(.in0 (n_1), .in1 (n_8), .out (n_2));
+  inv1$ g56(.in (count[0]), .out (n_1));
 endmodule
 
 module counter_CNT_LMT3(clk, rst_n, cond, done);
@@ -234,7 +234,7 @@ module mem_fsm(clk, rst_n, cyc, we, addr, ack, ce, oe, wr, rd);
        UNCONNECTED_HIER_Z4, addr[14:5], UNCONNECTED_HIER_Z3,
        UNCONNECTED_HIER_Z2, UNCONNECTED_HIER_Z1, UNCONNECTED_HIER_Z0,
        UNCONNECTED_HIER_Z}), .addr_ch (w_addr_ch));
-  counter_CNT_LMT4_1 u_rd_done_gen(.clk (clk), .rst_n (rst_n), .cond
+  counter_CNT_LMT5 u_rd_done_gen(.clk (clk), .rst_n (rst_n), .cond
        (n_3), .done (w_rd_done));
   counter_CNT_LMT3 u_start_gen(.clk (clk), .rst_n (rst_n), .cond
        (n_78), .done (w_start));
@@ -244,11 +244,11 @@ module mem_fsm(clk, rst_n, cyc, we, addr, ack, ce, oe, wr, rd);
        .cond (n_5), .done (w_wr_wait_2n_done));
   counter_CNT_LMT2_1 u_wr_wait_n_done_gen(.clk (clk), .rst_n (rst_n),
        .cond (n_60), .done (w_wr_wait_n_done));
-  inv1$ g598(.in (n_113), .out (n_60));
-  inv1$ g599(.in (n_67), .out (n_5));
+  inv1$ g601(.in (n_113), .out (n_60));
+  inv1$ g598(.in (n_67), .out (n_5));
   inv1$ g597(.in (w_cyc_574), .out (ce));
   inv1$ g600(.in (n_66), .out (n_3));
-  inv1$ g601(.in (n_70), .out (n_2));
+  inv1$ g599(.in (n_70), .out (n_2));
   nor2$ g1404(.in0 (n_55), .in1 (n_51), .out (ack));
   nand3$ g1405(.in0 (n_46), .in1 (n_54), .in2 (n_43), .out (n_55));
   nor4$ g1406(.in0 (n_27), .in1 (n_45), .in2 (n_53), .in3 (n_71), .out

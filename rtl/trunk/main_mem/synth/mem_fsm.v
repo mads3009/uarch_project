@@ -59,7 +59,7 @@ counter #(.CNT_LMT(N_CYC-1)) u_wr_wait_n_done_gen (.clk(clk), .rst_n(rst_n), .co
 counter #(.CNT_LMT(2*N_CYC-2)) u_wr_wait_2n_done_gen (.clk(clk), .rst_n(rst_n), .cond(curr_st == WR_WAIT_2N), .done(w_wr_wait_2n_done));
 
 // w_rd_done generation
-counter #(.CNT_LMT(N_CYC+1)) u_rd_done_gen (.clk(clk), .rst_n(rst_n), .cond(curr_st == RD_EN), .done(w_rd_done));
+counter #(.CNT_LMT(N_CYC+2)) u_rd_done_gen (.clk(clk), .rst_n(rst_n), .cond(curr_st == RD_EN), .done(w_rd_done));
 
 // mem_fsm
 
