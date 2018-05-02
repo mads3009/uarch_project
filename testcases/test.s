@@ -1,41 +1,28 @@
-.ORG 0X0000
-
+.ORG   0x00000000
 movl    $0xa00, %edx
 movw    %dx, %ds
-movl    $0xc00, %edx
-movw    %dx, %ss
-movw    %dx, %fs
-movl    $0xFF, %esp
-movl    %esp , %edx
-movl    $0x3, %fs:(%edx)
+movl    $0xb00, %eax
+movw    %ax, %es
 
+movl    $0x3D      , %esi
+movl    $0x4E      , %edi
 
-fib:
-        
-        movl    %esp , %edx
-        movl %fs:0x4(%edx), %eax # get arg
-        movl %eax, %esi # get arg
-        movl %esi, %edi
-        not %edi
-        jne temp
-        ret
-temp:
-        addl $0xFFFFFFFF, %esi # if x<=1 fib(x)=x
-        jne endf
-        ret
-endf:
-        pushl %ebx # save ebx
-        addl $0xFFFFFFFF,%eax # eax=n-1
-        pushl %eax # set arg
-        call fib # res in eax
-        mov %eax, %ebx # ebx=fib(n-1)
-        movl    %esp , %edx
-        addl $0xFFFFFFFF, %fs:(%edx) # arg -= 1
-        call fib # res in eax
-        addl $4, %esp # free arg
-        addl %ebx, %eax #fib(n)=fib(n-1)+fib(n-2)
-        popl %ebx # restore ebx
- 
-        
+movl    $0x98767Ff3, (%esi)
+movl    $0x98cd9876, %es:(%edi)
 
-hlt 
+movl    $0x14547FF3, 0x4(%esi)
+movl    $0x12349876, %es:0x4(%edi)
+
+movl    $0x14547FF3, 0x8(%esi)
+movl    $0x12349876, %es:0x8(%edi)
+
+addl $0x8, %esi
+addl $0x8, %edi
+std
+movl    $0x7       , %ecx
+repne cmpsl
+
+hlt
+
+movl    $0x98767FF3, (%esi)
+movl    $0x98CD9876, %es:(%edi)

@@ -218,6 +218,7 @@ wire       r_ag_ld_flag_DF;
 wire       r_ag_ld_flag_OF;
 wire [15:0]r_ag_ptr_CS;
 wire  [7:0]r_ag_opcode;
+wire  [7:0]w_ag_opcode;
 
 //Special ROM signals
 wire        w_rseq_mux_sel;
@@ -407,6 +408,7 @@ wire         r_ro_ISR;
 wire         r_ro_IDT_and_ISR;
 
 //Output latches RO -> EX
+wire [31:0]  r_ex_EIP_curr;
 wire [2:0]   r_ex_dreg1;
 wire [2:0]   r_ex_dreg2;
 wire [2:0]   r_ex_dreg3;
@@ -1388,6 +1390,7 @@ mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_SF              (.a0(r_ag_ld_flag_SF   
 mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_DF              (.a0(r_ag_ld_flag_DF      ),     .a1(w_rseq_ld_flag_DF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_DF));
 mux_nbit_2x1 #1       u_w_mux_ag_ld_flag_OF              (.a0(r_ag_ld_flag_OF      ),     .a1(w_rseq_ld_flag_OF),         .sel(w_rseq_mux_sel), .out(w_mux_ag_ld_flag_OF));
 mux_nbit_2x1 #1       u_w_mux_V_ag                       (.a0(r_V_ag      ),              .a1(w_rseq_V_ag),               .sel(w_rseq_mux_sel), .out(w_V_ag));
+mux_nbit_2x1 #8       u_w_mux_ag_opcode                  (.a0(r_ag_opcode    ),           .a1(8'hAA),                     .sel(w_rseq_mux_sel), .out(w_ag_opcode));
 
 //Just getting passed to RO:
 register #32        u_r_ro_EIP_curr            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_EIP_curr),              .data_o(r_ro_EIP_curr));
@@ -1460,7 +1463,7 @@ register #1         u_r_ro_ld_flag_SF          (.clk(clk), .rst_n(rst_n), .set_n
 register #1         u_r_ro_ld_flag_DF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_DF),            .data_o(r_ro_ld_flag_DF));
 register #1         u_r_ro_ld_flag_OF          (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_ld_flag_OF),            .data_o(r_ro_ld_flag_OF));
 register #16        u_r_ro_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_ptr_CS),                    .data_o(r_ro_ptr_CS));
-register #8         u_r_ro_opcode              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(r_ag_opcode),                .data_o(r_ro_opcode));
+register #8         u_r_ro_opcode              (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_opcode),                    .data_o(r_ro_opcode));
 register #2         u_r_ro_imm_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_imm_sel),               .data_o(r_ro_imm_sel));
 register #1         u_r_ro_EIP_EFLAGS_sel      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_EIP_EFLAGS_sel),        .data_o(r_ro_EIP_EFLAGS_sel));
 register #2         u_r_ro_sr1_sel             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_mux_ag_sr1_sel),               .data_o(r_ro_sr1_sel));
@@ -1784,6 +1787,7 @@ register #16        u_r_ex_ptr_CS              (.clk(clk), .rst_n(rst_n), .set_n
 register #8       u_r_ex_opcode                (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_opcode),                .data_o(r_ex_opcode));
 register #32        u_r_ex_ESP                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ESP         ),          .data_o(r_ex_ESP         ));
 register #1         u_r_ex_ISR                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_ISR         ),          .data_o(r_ex_ISR         ));
+register #32        u_r_ex_EIP_curr            (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(r_ro_EIP_curr),              .data_o(r_ex_EIP_curr));
 
 //Internal signals:
 wire [31:0] w_ro_mem_rd_addr;
