@@ -19,7 +19,7 @@ movl    $0x12349876, %es:0x8(%edi)
 addl $0x8, %esi
 addl $0x8, %edi
 std
-movl    $0x7       , %ecx
+movl    $0x3       , %ecx
 repne cmpsl
 
 hlt

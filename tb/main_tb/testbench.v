@@ -201,7 +201,7 @@ end
 // Clock generation
 /////////////////////////////////////
 
-always #(9/2) clk <= ~clk;
+always #(9.2/2) clk <= ~clk;
 
 //Instantiate the system
 system u_system(
@@ -265,26 +265,36 @@ always @(u_system.MM0 , u_system.MM1 , u_system.MM2 , u_system.MM3 , u_system.MM
 always @(u_system.ES , u_system.CS , u_system.SS , u_system.DS , u_system.FS ,u_system.GS)
     $display("Segments: ES=%h  CS=%h  SS=%h  DS=%h  FS=%h  GS=%h ", u_system.ES, u_system.CS, u_system.SS, u_system.DS, u_system.FS, u_system.GS);
 
+`ifndef NO_DEBUG
+always @(posedge u_system.u_cpu.w_dc_evict) begin
+  @(posedge clk)
+  if(u_system.u_cpu.w_dc_evict)
+    $display("EVICT dcache line with phy addr= 0x%h  Index=%h  Frame=%h", u_system.u_cpu.w_dc_evict_addr, u_system.u_cpu.w_dc_evict_addr[8:4], u_system.u_cpu.w_dc_evict_addr[14:12]);
+end
+`endif
+
 //DCACHE
 genvar g;
 generate begin : get_dcache
   for (g=0; g<32; g=g+1) begin : dcache
     always @(u_system.dcache[g]) begin
-      $display("%0t Dcache %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache[g]);
+      $display("%0t DCACHE %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache[g]);
     end    
   end 
 end
 endgenerate
 
+`ifndef NO_DEBUG
 //ICACHE
 generate begin : get_icache
   for (g=0; g<16; g=g+1) begin : icache
     always @(u_system.icache[g]) begin
-      $display("%0t Icache %3d : %h %h %h %h",$time,g, u_system.icache[g][32*8-1:24*8] , u_system.icache[g][24*8-1:16*8] , u_system.icache[g][16*8-1:8*8] , u_system.icache[g][8*8-1:0]);
+      $display("%0t ICACHE %3d : %h %h %h %h",$time,g, u_system.icache[g][32*8-1:24*8] , u_system.icache[g][24*8-1:16*8] , u_system.icache[g][16*8-1:8*8] , u_system.icache[g][8*8-1:0]);
     end    
   end 
 end
 endgenerate
+`endif
 
 //Main memory
 generate
@@ -319,10 +329,11 @@ always @(posedge clk) begin
     $display("%0t IC EXCEPTION  ic_prot_exp=%b  ic_pg_fault=%b", $time, u_system.u_cpu.w_ic_prot_exp, u_system.u_cpu.w_ic_page_fault);
 end
 
+`ifndef NO_DEBUG
 //For every opcode in WB
 always @(posedge clk) begin
  if(V_wb == 1'b1) begin
-    $display("\n%0t Opcode= 0x%h",  $time, u_system.u_cpu.r_wb_opcode);
+    $display("\n%0t Opcode= 0x%h  PC:0x%h",  $time, u_system.u_cpu.r_wb_opcode, u_system.u_cpu.r_ex_EIP_curr);
 
     //Printing registers
     if(ld_reg1 == 1'b1 && ld_reg2 == 1'b1 && ld_reg3 == 1'b1)
@@ -362,7 +373,7 @@ always @(posedge clk) begin
 
   end
 end
-
+`endif
 
 // Initialize i-cache and d-cache tag stores
 initial begin
