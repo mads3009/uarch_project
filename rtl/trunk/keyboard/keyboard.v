@@ -57,7 +57,7 @@ mux32bit_2x1 u_mux32bit_2x1(.Y(s_data_o), .IN0(pol_stat), .IN1(key_val), .S0(s_a
 
 initial begin
   forever begin
-     repeat (10) begin
+     repeat (1000) begin
        @(posedge clk);
      end
      pol_stat = 32'd1;

@@ -10,7 +10,7 @@ movw $1234, %dx
 L1 : movw $200, %dx
 
 movl    $0xAB      , %eax
-movl    $0x00000400      , (%eax)
+movl    $0x400      , (%eax)
 
 movl $0xff, %esp 
 call (%eax)

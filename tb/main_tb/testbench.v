@@ -201,7 +201,7 @@ end
 // Clock generation
 /////////////////////////////////////
 
-always #5 clk <= ~clk;
+always #(8/2) clk <= ~clk;
 
 //Instantiate the system
 system u_system(

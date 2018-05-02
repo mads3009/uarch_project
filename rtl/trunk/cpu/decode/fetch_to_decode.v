@@ -11,7 +11,7 @@ module fetch_to_decode (de_lower_16bytes,
                         w_pr_pos,
                         w_mux_sel);
 
-input [127:0] de_lower_16bytes;
+input  [31:0] de_lower_16bytes;
 output [3:0]  w_pr_repne;
 output [3:0]  w_pr_cs_over;
 output [3:0]  w_pr_ss_over;

@@ -23,9 +23,11 @@
 ../../rtl/reuse/sub_designs/mux_4x1.v
 ../../rtl/reuse/sub_designs/mux_8x1.v
 ../../rtl/reuse/sub_designs/mux_16x1.v
+../../rtl/reuse/sub_designs/mux_32x1.v
 ../../rtl/reuse/sub_designs/demux_1x16.v
 ../../rtl/reuse/sub_designs/mux_nbit_4x1.v
 ../../rtl/reuse/sub_designs/mux_nbit_8x1.v
+../../rtl/reuse/sub_designs/mux_nbit_32x1.v
 ../../rtl/reuse/sub_designs/mux_nbit_8x1_mulsel.v
 ../../rtl/reuse/sub_designs/ram_nB_8w.v
 
@@ -82,6 +84,7 @@
 ../../rtl/trunk/cpu/fetch/i_cache.v
 ../../rtl/trunk/cpu/fetch/fetch_TLB_lookup.v
 ../../rtl/trunk/cpu/fetch/fetch_fsm_netlist.v
+../../rtl/trunk/cpu/fetch/ic_shifter_decode.v
 
 ../../rtl/trunk/cpu/decode/register_addr_dependency.v
 ../../rtl/trunk/cpu/decode/segment_addr_dependency.v
@@ -91,6 +94,7 @@
 ../../rtl/trunk/cpu/decode/dependency_seg_netlist.v
 ../../rtl/trunk/cpu/decode/rom_value_select.v
 ../../rtl/trunk/cpu/decode/decode.v
+../../rtl/trunk/cpu/decode/fetch_to_decode.v
 
 ../../rtl/trunk/cpu/regfile/regfile.v
 ../../rtl/trunk/cpu/regfile/mmx_regfile.v
