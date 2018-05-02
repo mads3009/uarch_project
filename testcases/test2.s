@@ -4,25 +4,13 @@ movw    %dx, %ds
 movl    $0xb00, %eax
 movw    %ax, %es
 
-movl    $0x3D      , %esi
-movl    $0x4E      , %edi
+movl    $0xCD, %ebx
+movl    $0x2, %ecx
+movl $0x1234ABCD, (%ebx)
 
-movl    $0x98767Ff3, (%esi)
-movl    $0x98cd9876, %es:(%edi)
-
-movl    $0x14547FF3, 0x4(%esi)
-movl    $0x12349876, %es:0x4(%edi)
-
-movl    $0x14547FF3, 0x8(%esi)
-movl    $0x12349876, %es:0x8(%edi)
-
-addl $0x8, %esi
-addl $0x8, %edi
-std
-movl    $0x7       , %ecx
-repne cmpsl
-
+addb $0x8, %ah
+addb $0x8, %al
+addb $0xFF, (%ebx)
+addb %al, (%ebx)
+addb (%ebx,%ecx), %ah
 hlt
-
-movl    $0x98767FF3, (%esi)
-movl    $0x98CD9876, %es:(%edi)
