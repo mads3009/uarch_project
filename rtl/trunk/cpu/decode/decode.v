@@ -16,9 +16,10 @@ module decode (r_de_ic_data_shifted,
                r_de_pr_fs_over  ,
                r_de_pr_gs_over  ,
                r_de_pr_size_over,
-               r_de_pr_0f       ,
-               r_de_pr_pos      ,
-               r_de_mux_sel     ,
+               r_de_pr_0f ,
+               r_de_pr_pos ,
+               r_de_mux_sel,
+               r_de_ic_byte_valids,
                de_EIP_curr,
                de_CS_curr,
                de_base_sel,
@@ -110,7 +111,8 @@ module decode (r_de_ic_data_shifted,
                de_hlt,
                de_iret,
                de_ptr_CS,
-               de_opcode);
+               de_opcode,
+               de_ic_exp);
 
 input [255:0]r_de_ic_data_shifted;
 input [31:0] r_de_EIP_curr;
@@ -126,6 +128,7 @@ input [3:0]  r_de_pr_size_over;
 input [3:0]  r_de_pr_0f;          
 input [3:0]  r_de_pr_pos;         
 input [2:0]  r_de_mux_sel;        
+input [31:0] r_de_ic_byte_valids;        
 
 output [31:0]de_EIP_curr;
 output [15:0]de_CS_curr;
@@ -219,6 +222,7 @@ output       de_hlt;
 output       de_iret;
 output [15:0]de_ptr_CS;
 output [7:0] de_opcode;
+output       de_ic_exp;
 
 wire [127:0] de_lower_16bytes;
 wire [127:0] de_upper_16bytes;
@@ -448,17 +452,25 @@ wire [127:0] w_oprom_out;
 
 wire [31:0] w_modrom_out;
 wire [3:0]  de_eip_len;
-assign w_pr_repne       =r_de_pr_repne;       
-assign w_pr_cs_over     =r_de_pr_cs_over;
-assign w_pr_ss_over     =r_de_pr_ss_over;
-assign w_pr_ds_over     =r_de_pr_ds_over;
-assign w_pr_es_over     =r_de_pr_es_over;
-assign w_pr_fs_over     =r_de_pr_fs_over;
-assign w_pr_gs_over     =r_de_pr_gs_over;
-assign w_pr_size_over   =r_de_pr_size_over; 
-assign w_pr_0f          =r_de_pr_0f;          
-assign w_pr_pos         =r_de_pr_pos;         
+assign w_pr_repne    =r_de_pr_repne;       
+assign w_pr_cs_over  =r_de_pr_cs_over;
+assign w_pr_ss_over  =r_de_pr_ss_over;
+assign w_pr_ds_over  =r_de_pr_ds_over;
+assign w_pr_es_over  =r_de_pr_es_over;
+assign w_pr_fs_over  =r_de_pr_fs_over;
+assign w_pr_gs_over  =r_de_pr_gs_over;
+assign w_pr_size_over=r_de_pr_size_over; 
+assign w_pr_0f       =r_de_pr_0f;          
+assign w_pr_pos      =r_de_pr_pos;         
 assign w_mux_sel = r_de_mux_sel; 
+
+//Exception generation
+
+mux_16x1 exp_mux0 (.a(r_de_ic_byte_valids[15:0]) , .sel({1'd0,w_mux_sel}), .out(exp0));
+mux_16x1 exp_mux1 (.a({r_de_ic_byte_valids[14:0],1'd1}) , .sel(de_eip_len), .out(exp1));
+nand2$ exp_gen(.in0(exp0), .in1(exp1), .out(de_ic_exp));
+
+
 //Prefix Comparison
 genvar i;
 //generate
