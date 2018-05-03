@@ -3,17 +3,17 @@
 
 // Verification Directory fv/fetch_fsm 
 
-module fetch_fsm(clk, rst_n, de_p, eip_4, ic_hit, r_V_de, int, ic_exp,
-     dc_exp, de_br_stall, ag_br_stall, ld_eip, f_ld_buf, f_curr_st,
-     f_next_st, f_address_sel, f_nextstate_01_11);
-  input clk, rst_n, de_p, eip_4, ic_hit, r_V_de, int, ic_exp, dc_exp,
-       de_br_stall, ag_br_stall;
+module fetch_fsm(clk, rst_n, de_p, eip_4, ic_hit, r_V_de, int,
+     fe_ic_exp, de_ic_exp, dc_exp, de_br_stall, ag_br_stall, ld_eip,
+     f_ld_buf, f_curr_st, f_next_st, f_address_sel, f_nextstate_01_11);
+  input clk, rst_n, de_p, eip_4, ic_hit, r_V_de, int, fe_ic_exp,
+       de_ic_exp, dc_exp, de_br_stall, ag_br_stall;
   input [1:0] ld_eip;
   output [1:0] f_ld_buf;
   output [2:0] f_curr_st, f_next_st;
   output f_address_sel, f_nextstate_01_11;
-  wire clk, rst_n, de_p, eip_4, ic_hit, r_V_de, int, ic_exp, dc_exp,
-       de_br_stall, ag_br_stall;
+  wire clk, rst_n, de_p, eip_4, ic_hit, r_V_de, int, fe_ic_exp,
+       de_ic_exp, dc_exp, de_br_stall, ag_br_stall;
   wire [1:0] ld_eip;
   wire [1:0] f_ld_buf;
   wire [2:0] f_curr_st, f_next_st;
@@ -23,104 +23,100 @@ module fetch_fsm(clk, rst_n, de_p, eip_4, ic_hit, r_V_de, int, ic_exp,
   wire n_4, n_5, n_6, n_7, n_8, n_9, n_10, n_11;
   wire n_12, n_13, n_14, n_15, n_16, n_17, n_18, n_19;
   wire n_20, n_21, n_22, n_23, n_24, n_25, n_26, n_27;
-  wire n_28, n_29, n_30, n_31, n_32, n_33, n_34, n_35;
-  wire n_36, n_37, n_38, n_39, n_40, n_41, n_42, n_43;
-  wire n_44, n_45, n_46, n_47, n_48, n_49, n_50, n_51;
-  wire n_52, n_53, n_55, n_57, n_58, n_59, n_60, n_62;
-  wire n_63, n_64, n_65, n_66, n_67, n_68, n_70, n_74;
-  dff$ \f_curr_st_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_74),
+  wire n_28, n_29, n_30, n_31, n_32, n_33, n_34, n_36;
+  wire n_37, n_38, n_39, n_40, n_41, n_42, n_43, n_44;
+  wire n_45, n_46, n_47, n_48, n_49, n_50, n_52, n_53;
+  wire n_55, n_56, n_57, n_59, n_60, n_62, n_63, n_64;
+  wire n_66, n_68, n_69, n_71, n_73;
+  dff$ \f_curr_st_reg[1] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_73),
        .q (f_curr_st[1]), .qbar (UNCONNECTED));
-  and2$ g4879(.in0 (f_next_st[1]), .in1 (n_63), .out (n_74));
-  dff$ f_address_sel_reg(.r (rst_n), .s (1'b1), .clk (clk), .d (n_70),
+  dff$ f_address_sel_reg(.r (rst_n), .s (1'b1), .clk (clk), .d (n_68),
        .q (f_address_sel), .qbar (UNCONNECTED0));
-  dff$ \f_curr_st_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_64),
+  dff$ \f_curr_st_reg[0] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_71),
        .q (f_curr_st[0]), .qbar (UNCONNECTED1));
+  and2$ g5377(.in0 (f_next_st[1]), .in1 (n_69), .out (n_73));
   dff$ \f_curr_st_reg[2] (.r (rst_n), .s (1'b1), .clk (clk), .d (n_66),
        .q (f_curr_st[2]), .qbar (UNCONNECTED2));
-  nor2$ g4886(.in0 (n_60), .in1 (n_43), .out (n_70));
-  nor2$ g4889(.in0 (n_68), .in1 (n_67), .out (f_next_st[0]));
-  nand3$ g4882(.in0 (n_58), .in1 (n_62), .in2 (n_55), .out
+  nand3$ g5380(.in0 (n_43), .in1 (n_60), .in2 (n_30), .out
        (f_next_st[1]));
-  nor2$ g4888(.in0 (n_65), .in1 (n_19), .out (n_66));
-  and4$ g4885(.in0 (n_63), .in1 (n_62), .in2 (n_48), .in3 (n_59), .out
-       (n_64));
-  inv1$ g4895(.in (n_65), .out (f_next_st[2]));
-  nor2$ g4887(.in0 (n_57), .in1 (n_37), .out (n_60));
-  nand3$ g4900(.in0 (n_59), .in1 (n_33), .in2 (n_41), .out (n_68));
-  and3$ g4890(.in0 (n_52), .in1 (n_25), .in2 (n_50), .out (n_58));
-  nand4$ g4896(.in0 (n_46), .in1 (n_28), .in2 (n_45), .in3 (n_42), .out
-       (n_65));
-  nor2$ g4902(.in0 (n_51), .in1 (n_23), .out (n_59));
-  nor2$ g4891(.in0 (n_49), .in1 (n_31), .out (n_57));
-  nand3$ g4909(.in0 (n_17), .in1 (n_55), .in2 (n_53), .out
-       (f_ld_buf[1]));
-  nand3$ g4892(.in0 (n_44), .in1 (n_40), .in2 (n_53), .out
+  and2$ g5381(.in0 (f_next_st[0]), .in1 (n_69), .out (n_71));
+  nor2$ g5382(.in0 (n_64), .in1 (n_41), .out (n_68));
+  nor3$ g5379(.in0 (n_59), .in1 (n_62), .in2 (n_63), .out
+       (f_nextstate_01_11));
+  and2$ g5384(.in0 (f_next_st[2]), .in1 (n_69), .out (n_66));
+  nor2$ g5383(.in0 (n_57), .in1 (n_46), .out (n_64));
+  nor3$ g5385(.in0 (n_59), .in1 (n_63), .in2 (n_45), .out
+       (f_next_st[0]));
+  inv1$ g5386(.in (n_62), .out (f_next_st[2]));
+  nor2$ g5390(.in0 (n_59), .in1 (n_56), .out (n_60));
+  nand3$ g5391(.in0 (n_49), .in1 (n_36), .in2 (n_53), .out
        (f_ld_buf[0]));
-  inv1$ g4916(.in (n_51), .out (n_52));
-  mux2$ g4899(.s0 (ic_hit), .in0 (n_36), .in1 (n_15), .outb (n_50));
-  inv1$ g4893(.in (n_67), .out (n_62));
-  nor2$ g4897(.in0 (n_47), .in1 (n_29), .out (n_49));
-  nor3$ g4922(.in0 (ld_eip[0]), .in1 (ld_eip[1]), .in2 (n_24), .out
-       (n_51));
-  nor2$ g4905(.in0 (n_34), .in1 (n_30), .out (n_48));
-  nor2$ g4894(.in0 (n_39), .in1 (n_47), .out (n_67));
-  nor2$ g4907(.in0 (n_21), .in1 (n_32), .out (n_46));
-  nand3$ g4901(.in0 (n_27), .in1 (n_38), .in2 (r_V_de), .out (n_45));
-  nand2$ g4904(.in0 (ic_hit), .in1 (n_35), .out (n_44));
-  nand3$ g4908(.in0 (n_42), .in1 (n_63), .in2 (n_41), .out (n_43));
-  nand4$ g4913(.in0 (r_V_de), .in1 (de_p), .in2 (ic_hit), .in3 (n_26),
-       .out (n_40));
-  nand3$ g4898(.in0 (n_38), .in1 (n_37), .in2 (r_V_de), .out (n_39));
-  inv1$ g4915(.in (n_35), .out (n_36));
-  inv1$ g4917(.in (n_33), .out (n_34));
-  or2$ g4919(.in0 (n_31), .in1 (n_30), .out (n_32));
-  nand2$ g4903(.in0 (n_38), .in1 (r_V_de), .out (n_29));
-  nand4$ g4906(.in0 (de_p), .in1 (r_V_de), .in2 (n_27), .in3 (n_26),
-       .out (n_28));
-  nand4$ g4911(.in0 (r_V_de), .in1 (ic_hit), .in2 (n_0), .in3 (n_14),
-       .out (n_55));
-  nand2$ g4920(.in0 (n_22), .in1 (n_20), .out (n_35));
-  nand2$ g4921(.in0 (n_7), .in1 (n_26), .out (n_25));
-  nand2$ g4923(.in0 (n_6), .in1 (n_18), .out (n_33));
-  inv1$ g4926(.in (n_31), .out (n_24));
-  nor2$ g4910(.in0 (ic_hit), .in1 (n_22), .out (n_23));
-  nor2$ g4912(.in0 (de_p), .in1 (n_13), .out (n_38));
-  nor2$ g4914(.in0 (ic_hit), .in1 (n_20), .out (n_21));
-  inv1$ g4918(.in (n_19), .out (n_63));
-  inv1$ g4925(.in (n_18), .out (n_53));
-  nor2$ g4930(.in0 (n_12), .in1 (f_curr_st[2]), .out (n_31));
-  nand2$ g4932(.in0 (ic_hit), .in1 (n_16), .out (n_17));
-  nand2$ g4935(.in0 (n_27), .in1 (n_16), .out (n_42));
-  nand2$ g4924(.in0 (n_8), .in1 (n_3), .out (n_19));
-  nor2$ g4927(.in0 (n_15), .in1 (f_curr_st[0]), .out (n_18));
-  nand2$ g4928(.in0 (n_11), .in1 (f_curr_st[2]), .out (n_22));
-  and2$ g4929(.in0 (n_5), .in1 (f_curr_st[2]), .out (n_26));
-  inv1$ g4934(.in (n_13), .out (n_14));
-  inv1$ g4933(.in (n_30), .out (n_41));
-  inv1$ g4948(.in (n_15), .out (n_16));
-  nor3$ g4936(.in0 (f_curr_st[0]), .in1 (n_9), .in2 (f_curr_st[1]),
-       .out (n_30));
-  or2$ g4931(.in0 (n_4), .in1 (f_curr_st[2]), .out (n_20));
-  nor3$ g4937(.in0 (n_2), .in1 (n_27), .in2 (1'b0), .out (n_47));
-  nand3$ g4940(.in0 (f_curr_st[0]), .in1 (n_10), .in2 (f_curr_st[2]),
-       .out (n_13));
-  inv1$ g4941(.in (n_11), .out (n_12));
-  nand2$ g4949(.in0 (n_10), .in1 (n_9), .out (n_15));
-  nor3$ g4938(.in0 (int), .in1 (de_br_stall), .in2 (ag_br_stall), .out
-       (n_8));
-  nand3$ g4939(.in0 (de_p), .in1 (ic_hit), .in2 (r_V_de), .out (n_7));
-  nor2$ g4942(.in0 (n_10), .in1 (f_curr_st[0]), .out (n_11));
-  nand2$ g4943(.in0 (n_1), .in1 (ic_hit), .out (n_6));
-  inv1$ g4944(.in (n_4), .out (n_5));
-  nand2$ g4945(.in0 (f_curr_st[0]), .in1 (f_curr_st[1]), .out (n_4));
-  nor2$ g4947(.in0 (ld_eip[1]), .in1 (ld_eip[0]), .out (n_37));
-  nor2$ g4946(.in0 (ic_exp), .in1 (dc_exp), .out (n_3));
-  inv1$ g4950(.in (f_curr_st[2]), .out (n_9));
-  inv1$ g4953(.in (r_V_de), .out (n_2));
-  inv1$ g4954(.in (ic_hit), .out (n_27));
-  inv1$ g4952(.in (eip_4), .out (n_1));
-  inv1$ g4955(.in (de_p), .out (n_0));
-  inv1$ g4951(.in (f_curr_st[1]), .out (n_10));
-  nor2$ g2(.in0 (n_65), .in1 (n_68), .out (f_nextstate_01_11));
+  nand2$ g5387(.in0 (n_50), .in1 (n_47), .out (n_62));
+  nor2$ g5388(.in0 (n_52), .in1 (n_26), .out (n_57));
+  nand2$ g5394(.in0 (n_42), .in1 (n_55), .out (n_56));
+  nand3$ g5393(.in0 (n_18), .in1 (n_37), .in2 (n_53), .out
+       (f_ld_buf[1]));
+  nand3$ g5398(.in0 (n_25), .in1 (n_34), .in2 (n_40), .out (n_63));
+  nor2$ g5392(.in0 (n_7), .in1 (n_33), .out (n_52));
+  nand4$ g5399(.in0 (n_14), .in1 (n_48), .in2 (n_21), .in3 (r_V_de),
+       .out (n_50));
+  or2$ g5402(.in0 (n_48), .in1 (n_39), .out (n_49));
+  nor3$ g5395(.in0 (n_31), .in1 (n_23), .in2 (n_13), .out (n_47));
+  and4$ g5397(.in0 (n_32), .in1 (n_46), .in2 (n_48), .in3 (r_V_de),
+       .out (n_59));
+  nand2$ g5400(.in0 (n_44), .in1 (n_55), .out (n_45));
+  nor2$ g5401(.in0 (n_28), .in1 (n_17), .out (n_43));
+  nand2$ g5403(.in0 (n_48), .in1 (n_38), .out (n_42));
+  nand3$ g5405(.in0 (n_24), .in1 (n_69), .in2 (n_40), .out (n_41));
+  inv1$ g5413(.in (n_38), .out (n_39));
+  nand3$ g5414(.in0 (n_7), .in1 (n_0), .in2 (n_20), .out (n_37));
+  nand3$ g5411(.in0 (n_7), .in1 (n_11), .in2 (n_29), .out (n_36));
+  nand2$ g5419(.in0 (n_48), .in1 (n_16), .out (n_34));
+  nand2$ g5404(.in0 (n_32), .in1 (r_V_de), .out (n_33));
+  nor3$ g5410(.in0 (fe_ic_exp), .in1 (ic_hit), .in2 (n_27), .out
+       (n_31));
+  nand2$ g5412(.in0 (n_12), .in1 (n_29), .out (n_30));
+  nor4$ g5415(.in0 (de_p), .in1 (n_6), .in2 (n_48), .in3 (n_19), .out
+       (n_28));
+  nand2$ g5416(.in0 (n_27), .in1 (n_15), .out (n_38));
+  nand2$ g5418(.in0 (n_46), .in1 (n_26), .out (n_55));
+  nand2$ g5420(.in0 (eip_4), .in1 (n_22), .out (n_25));
+  inv1$ g5426(.in (n_23), .out (n_24));
+  nand2$ g5406(.in0 (n_48), .in1 (n_22), .out (n_44));
+  or2$ g5407(.in0 (de_p), .in1 (n_20), .out (n_21));
+  nor2$ g5417(.in0 (de_p), .in1 (n_19), .out (n_32));
+  nor3$ g5421(.in0 (de_ic_exp), .in1 (n_1), .in2 (dc_exp), .out (n_69));
+  inv1$ g5422(.in (n_22), .out (n_53));
+  inv1$ g5423(.in (n_17), .out (n_18));
+  inv1$ g5425(.in (n_15), .out (n_16));
+  nor3$ g5432(.in0 (fe_ic_exp), .in1 (ic_hit), .in2 (n_9), .out (n_23));
+  nand2$ g5408(.in0 (de_p), .in1 (n_10), .out (n_14));
+  mux2$ g5409(.s0 (f_curr_st[2]), .in0 (n_8), .in1 (n_3), .outb (n_13));
+  nand2$ g5438(.in0 (n_11), .in1 (n_7), .out (n_12));
+  inv1$ g5424(.in (n_10), .out (n_29));
+  nor2$ g5427(.in0 (n_9), .in1 (f_curr_st[0]), .out (n_22));
+  nor2$ g5428(.in0 (n_48), .in1 (n_9), .out (n_17));
+  and2$ g5430(.in0 (n_8), .in1 (n_4), .out (n_26));
+  nand2$ g5431(.in0 (n_8), .in1 (f_curr_st[2]), .out (n_15));
+  inv1$ g5433(.in (n_19), .out (n_20));
+  nand3$ g5439(.in0 (f_curr_st[2]), .in1 (n_2), .in2 (f_curr_st[0]),
+       .out (n_19));
+  nand2$ g5429(.in0 (n_5), .in1 (f_curr_st[2]), .out (n_10));
+  nand2$ g5434(.in0 (n_5), .in1 (n_4), .out (n_27));
+  nand2$ g5435(.in0 (n_3), .in1 (f_curr_st[2]), .out (n_40));
+  nand2$ g5442(.in0 (n_4), .in1 (n_2), .out (n_9));
+  inv1$ g5444(.in (n_48), .out (n_7));
+  or3$ g5437(.in0 (int), .in1 (de_br_stall), .in2 (ag_br_stall), .out
+       (n_1));
+  nor2$ g5440(.in0 (n_6), .in1 (de_p), .out (n_0));
+  nor2$ g5441(.in0 (n_2), .in1 (f_curr_st[0]), .out (n_8));
+  nor2$ g5445(.in0 (ic_hit), .in1 (fe_ic_exp), .out (n_48));
+  nor2$ g5443(.in0 (f_curr_st[0]), .in1 (f_curr_st[1]), .out (n_3));
+  nor2$ g5446(.in0 (ld_eip[1]), .in1 (ld_eip[0]), .out (n_46));
+  and2$ g5447(.in0 (f_curr_st[0]), .in1 (f_curr_st[1]), .out (n_5));
+  and2$ g5448(.in0 (de_p), .in1 (r_V_de), .out (n_11));
+  inv1$ g5450(.in (f_curr_st[2]), .out (n_4));
+  inv1$ g5449(.in (f_curr_st[1]), .out (n_2));
+  inv1$ g5451(.in (r_V_de), .out (n_6));
 endmodule
 

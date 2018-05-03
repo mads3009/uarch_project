@@ -325,8 +325,10 @@ always @(u_system.u_cpu.int)
 always @(posedge clk) begin
   if(u_system.u_cpu.w_dc_exp)
     $display("%0t DC EXCEPTION  dc_prot_exp=%b  dc_pg_fault=%b", $time, u_system.u_cpu.w_dc_prot_exp, u_system.u_cpu.w_dc_page_fault);
-  if(u_system.u_cpu.w_ic_exp)
-    $display("%0t IC EXCEPTION  ic_prot_exp=%b  ic_pg_fault=%b", $time, u_system.u_cpu.w_ic_prot_exp, u_system.u_cpu.w_ic_page_fault);
+  if(u_system.u_cpu.w_de_ic_exp & u_system.u_cpu.r_V_de)
+    $display("%0t DE IC EXCEPTION  de_ic_prot_exp=%b  de_ic_pg_fault=%b", $time, u_system.u_cpu.w_de_ic_prot_exp, u_system.u_cpu.w_de_ic_page_fault);
+  if(u_system.u_cpu.w_fe_ic_exp)
+    $display("%0t FE IC EXCEPTION  fe_ic_prot_exp=%b  fe_ic_pg_fault=%b", $time, u_system.u_cpu.w_fe_ic_prot_exp, u_system.u_cpu.w_fe_ic_page_fault);
 end
 
 `ifndef NO_DEBUG

@@ -1,8 +1,9 @@
-module shift_right_rotate #(parameter WIDTH=32) (amt, in, out);
+module shift_right_rotate (amt, in, out);
 
 // Paramters
+parameter WIDTH=32;
+parameter N=8;
 parameter AMT_W = $clog2(WIDTH);
-parameter N=8; //for byte
 
 // Input and Output ports
 input  [AMT_W-1:0] amt;
@@ -24,10 +25,10 @@ end
 for (j=1; j <= AMT_W; j=j+1) begin : gen_row
   for (i=0; i < WIDTH; i=i+1) begin : gen_col
     if( i < (WIDTH - WIDTH/(2**j)) ) begin : lower
-      mux_nbit_2x1 #N u_mux0(.out(inter[j][N*i+7 : N*i]), .a0(inter[j-1][N*i+7 : N*i]), .a1(inter[j-1][N*(i+WIDTH/(2**j))+7 : N*(i+WIDTH/(2**j))]), .sel(amt[AMT_W-j]));
+      mux_nbit_2x1 #N u_mux0(.out(inter[j][N*i+N-1 : N*i]), .a0(inter[j-1][N*i+N-1 : N*i]), .a1(inter[j-1][N*(i+WIDTH/(2**j))+N-1 : N*(i+WIDTH/(2**j))]), .sel(amt[AMT_W-j]));
     end
     else begin : upper
-      mux_nbit_2x1 #N u_mux1(.out(inter[j][N*i+7 : N*i]), .a0(inter[j-1][N*i+7 : N*i]), .a1(inter[j-1][N*(i-WIDTH/(2**j))+7 : N*(i-WIDTH/(2**j))]), .sel(amt[AMT_W-j]));
+      mux_nbit_2x1 #N u_mux1(.out(inter[j][N*i+N-1 : N*i]), .a0(inter[j-1][N*i+N-1 : N*i]), .a1(inter[j-1][N*(i-WIDTH/(2**j))+N-1 : N*(i-WIDTH/(2**j))]), .sel(amt[AMT_W-j]));
     end
   end
 end

@@ -97,9 +97,13 @@ wire [31:0] w_fifo_mem_wr_addr_end;
 
 //Interrupts and Exceptions
 wire w_dc_exp;
-wire w_ic_exp;
-wire w_ic_prot_exp;
-wire w_ic_page_fault;
+wire w_fe_ic_exp;
+wire w_de_ic_exp;
+wire w_v_de_ic_exp;
+wire w_fe_ic_prot_exp;
+wire w_fe_ic_page_fault;
+wire w_de_ic_prot_exp;
+wire w_de_ic_page_fault;
 wire w_block_ic_ren;
 wire [31:0] w_IDT_address;
 
@@ -126,6 +130,7 @@ wire [3:0]   r_de_pr_size_over;
 wire [3:0]   r_de_pr_0f;       
 wire [3:0]   r_de_pr_pos;      
 wire [2:0]   r_de_mux_sel;     
+wire [31:0]  r_de_ic_byte_valids;
 
 
 //Output latches DE -> AG
@@ -640,6 +645,7 @@ EIP_reg u_EIP_reg (
   .w_wb_flag_CF              (r_EFLAGS[CF]),
   .r_wb_ZF_expected          (r_wb_ZF_expected),
   .r_wb_CF_expected          (r_wb_CF_expected),
+  .w_de_ic_exp               (w_de_ic_exp),
 
   .r_EIP                     (r_EIP),
   .ld_eip                    (w_ld_eip)
@@ -671,6 +677,9 @@ wire [127:0]  w_icache_lower_data;
 wire [127:0]  w_icache_upper_data;
 wire [127:0]  w_icache_lower_data_muxed;
 wire [127:0]  w_icache_upper_data_muxed;
+
+wire [31:0]   w_icache_byte_valids;
+wire [31:0]   r_icache_byte_valids;
 
 wire [127:0]  r_icache_lower_data;
 wire [127:0]  r_icache_upper_data;
@@ -730,7 +739,8 @@ fetch_fsm u_fetch_fsm (
   .ic_hit   (w_ic_hit),
   .r_V_de   (r_V_de),
   .int      (int),
-  .ic_exp   (w_ic_exp),
+  .fe_ic_exp   (w_fe_ic_exp),
+  .de_ic_exp   (w_v_de_ic_exp),
   .dc_exp   (w_dc_exp),
   .de_br_stall(w_de_br_stall),
   .ag_br_stall(w_ag_br_stall),
@@ -750,11 +760,14 @@ fetch_TLB_lookup u_fe_tlb_lookup(
   .f_address    (w_fe_address),  
   .f_address_off(w_fe_address_off),  
   .f_PFN        (w_fe_PFN),
-  .ic_prot_exp  (w_ic_prot_exp),
-  .ic_page_fault(w_ic_page_fault)
+  .ic_prot_exp  (w_fe_ic_prot_exp),
+  .ic_page_fault(w_fe_ic_page_fault)
 );
 
-or2$ u_ic_exp(.out(w_ic_exp), .in0(w_ic_prot_exp), .in1(w_ic_page_fault));
+and2$ u_w_v_de_ic_exp (.out(w_v_de_ic_exp), .in0(w_de_ic_exp), .in1(r_V_de));
+or2$ u_ic_exp(.out(w_fe_ic_exp), .in0(w_fe_ic_prot_exp), .in1(w_fe_ic_page_fault));
+and3$ u_w_de_ic_prot_exp (.out(w_de_ic_prot_exp), .in0(w_fe_ic_prot_exp), .in1(w_de_ic_exp), .in2(r_V_de));
+and3$ u_w_de_ic_page_fault (.out(w_de_ic_page_fault), .in0(w_fe_ic_page_fault), .in1(w_de_ic_exp), .in2(r_V_de));
 
 //Instruction cache
 i_cache u_i_cache (
@@ -766,7 +779,7 @@ i_cache u_i_cache (
   .tag_11_9     (w_fe_address_off[11:9]),
   .ic_fill_data (w_ic_data_fill),
   .ic_miss_ack  (w_ic_miss_ack),
-  .ic_exp       (w_ic_exp),
+  .ic_exp       (w_fe_ic_exp),
   .r_data       ({w_icache_upper_data,w_icache_lower_data}),
   .ic_hit       (w_ic_hit),
   .ic_miss      (w_ic_miss),
@@ -778,9 +791,34 @@ i_cache u_i_cache (
 //register #128 u_icache_lower_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[0]), .data_i(w_icache_lower_data), .data_o(r_icache_lower_data));
 //register #128 u_icache_upper_data(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_fe_ld_buf[1]), .data_i(w_icache_upper_data), .data_o(r_icache_upper_data));
 
+wire w_ic_miss_ack_or_exp;
+or2$ u_w_ic_miss_ack_or_exp (.out(w_ic_miss_ack_or_exp), .in0(w_ic_miss_ack), .in1(w_fe_ic_exp));
+
 wire [31:0] w_EIP_to_use;
-mux_nbit_2x1 #128 u_mux_icache_data0 (.a0(w_icache_lower_data), .a1(128'd0), .sel(w_ic_miss_ack), .out(w_icache_lower_data_muxed));
-mux_nbit_2x1 #128 u_mux_icache_data1 (.a0(w_icache_upper_data), .a1(128'd0), .sel(w_ic_miss_ack), .out(w_icache_upper_data_muxed));
+mux_nbit_2x1 #128 u_mux_icache_data0 (.a0(w_icache_lower_data), .a1(128'd0), .sel(w_ic_miss_ack_or_exp), .out(w_icache_lower_data_muxed));
+mux_nbit_2x1 #128 u_mux_icache_data1 (.a0(w_icache_upper_data), .a1(128'd0), .sel(w_ic_miss_ack_or_exp), .out(w_icache_upper_data_muxed));
+
+//icache_data_valids 0 if no exp, 1 if exp
+mux_nbit_2x1 #32 u_icache_data_valids (.a0(32'hffffffff), .a1(32'h0), .sel(w_fe_ic_exp), .out(w_icache_byte_valids));
+
+//4 shifters for r_icache_byte_valids
+wire [31:0] w_icache_byte_valids_00;
+wire [31:0] w_icache_byte_valids_01;
+wire [31:0] w_icache_byte_valids_10;
+wire [31:0] w_icache_byte_valids_11;
+wire [31:0] w_icache_byte_valids_shifted;
+
+register #16 u_r_icache_byte_valids1 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_icache_byte_valids[31:16]), .data_o(r_icache_byte_valids[31:16]), .ld(w_fe_ld_buf[1]));
+register #16 u_r_icache_byte_valids0 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_icache_byte_valids[15:0]), .data_o(r_icache_byte_valids[15:0]), .ld(w_fe_ld_buf[0]));
+
+shift_right_rotate #(.N(1)) u_w_icache_byte_valids_00 (.amt(w_EIP_to_use[4:0]), .in({r_icache_byte_valids[31:16],r_icache_byte_valids[15:0]}), .out(w_icache_byte_valids_00));
+shift_right_rotate #(.N(1)) u_w_icache_byte_valids_01 (.amt(w_EIP_to_use[4:0]), .in({r_icache_byte_valids[31:16],w_icache_byte_valids[15:0]}), .out(w_icache_byte_valids_01));
+shift_right_rotate #(.N(1)) u_w_icache_byte_valids_10 (.amt(w_EIP_to_use[4:0]), .in({w_icache_byte_valids[31:16],r_icache_byte_valids[15:0]}), .out(w_icache_byte_valids_10));
+shift_right_rotate #(.N(1)) u_w_icache_byte_valids_11 (.amt(w_EIP_to_use[4:0]), .in({w_icache_byte_valids[31:16],w_icache_byte_valids[15:0]}), .out(w_icache_byte_valids_11));
+
+//Muxing between the byte valids
+mux_nbit_4x1 #32 u_w_(.a0(w_icache_byte_valids_00), .a1(w_icache_byte_valids_01), .a2(w_icache_byte_valids_10), .a3(w_icache_byte_valids_11), .sel(w_fe_ld_buf), .out(w_icache_byte_valids_shifted));
+
 
 //4 shifters
 //byte_rotate_right #32 u_ic_data_shifter_00(
@@ -859,6 +897,7 @@ register   #4 u_r_de_pr_size_over  (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(
 register   #4 u_r_de_pr_0f         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_0f          ), .data_o(r_de_pr_0f          ));
 register   #4 u_r_de_pr_pos        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_pos         ), .data_o(r_de_pr_pos         ));
 register   #3 u_r_de_mux_sel       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_mux_sel        ), .data_o(r_de_mux_sel        ));
+register  #32 u_r_de_ic_byte_valids       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_icache_byte_valids_shifted), .data_o(r_de_ic_byte_valids));
 
 // ***************** DECODE STAGE ******************
 //Output of Decode
@@ -1062,7 +1101,10 @@ decode u_decode (
       .de_hlt                                     (w_de_hlt),
       .de_iret                                    (w_de_iret),
       .de_ptr_CS                                  (w_de_ptr_CS),
-      .de_opcode                                  (w_de_opcode));
+      .de_opcode                                  (w_de_opcode),
+      .de_ic_exp                                  (w_de_ic_exp),
+      .r_de_ic_byte_valids                        (r_de_ic_byte_valids)
+);
 
 //Decode dep,V,ld logic
 
@@ -2346,7 +2388,7 @@ intexp u_int_exp (
   .rst_n             (rst_n),
   .iret_op           (w_de_iret_op),
   .int               (int),
-  .ic_exp            (w_ic_exp),
+  .ic_exp            (w_v_de_ic_exp),
   .dc_exp            (w_dc_exp),
   .end_bit           (w_rseq_end_bit),
   .v_de              (r_V_de),
@@ -2358,8 +2400,8 @@ intexp u_int_exp (
   .ld_ag             (w_ld_ag),
   .dc_prot_exp       (w_dc_prot_exp),
   .dc_page_fault     (w_dc_page_fault),
-  .ic_prot_exp       (w_ic_prot_exp),
-  .ic_page_fault     (w_ic_page_fault),
+  .ic_prot_exp       (w_de_ic_prot_exp),
+  .ic_page_fault     (w_de_ic_page_fault),
   .eip_reg           (r_EIP),
   .cs_reg            (r_CS),
   .eip_ro_reg        (r_ro_EIP_curr),

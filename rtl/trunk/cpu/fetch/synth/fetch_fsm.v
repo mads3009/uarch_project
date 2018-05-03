@@ -6,7 +6,8 @@ module fetch_fsm(
   input     ic_hit,
   input     r_V_de,
   input     int,
-  input     ic_exp,
+  input     fe_ic_exp,
+  input     de_ic_exp,
   input     dc_exp,
   input     de_br_stall,
   input     ag_br_stall,
@@ -28,15 +29,17 @@ module fetch_fsm(
 
   reg next_f_address_sel;
 
+  assign ic_hit_or_exp = ic_hit || fe_ic_exp;
+
   always @(*) begin
     case(f_curr_st)
     IDLE : begin
-      if(eip_4 && ic_hit) begin
+      if(eip_4 && ic_hit_or_exp) begin
         f_next_st <= STATE_10;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b11;
       end
-      else if (ic_hit) begin
+      else if (ic_hit_or_exp) begin
         f_next_st <= STATE_11;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b11;
@@ -49,7 +52,7 @@ module fetch_fsm(
     end
 
     STATE_10 : begin
-      if(ic_hit) begin
+      if(ic_hit_or_exp) begin
         f_next_st <= STATE_01;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b01;
@@ -62,7 +65,7 @@ module fetch_fsm(
     end
 
     STATE_01 : begin
-      if(~de_p && ic_hit && r_V_de) begin
+      if(~de_p && ic_hit_or_exp && r_V_de) begin
         f_next_st <= STATE_11;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b10;
@@ -85,7 +88,7 @@ module fetch_fsm(
     end
 
     STATE_11 : begin
-      if(de_p && ic_hit & r_V_de) begin
+      if(de_p && ic_hit_or_exp & r_V_de) begin
         f_next_st <= STATE_01;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b01;
@@ -103,7 +106,7 @@ module fetch_fsm(
     end
 
     FE_STALL_11 : begin
-      if(ic_hit) begin
+      if(ic_hit_or_exp) begin
         f_next_st <= STATE_01;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b01;
@@ -116,7 +119,7 @@ module fetch_fsm(
     end
 
     FE_STALL_01 : begin
-      if(ic_hit) begin
+      if(ic_hit_or_exp) begin
         f_next_st <= STATE_11;
         next_f_address_sel = 1'b1;
         f_ld_buf <= 2'b10;
@@ -155,7 +158,7 @@ module fetch_fsm(
       f_curr_st <= IDLE;
       f_address_sel <= 1'b0;
     end
-    else if(int | ic_exp | dc_exp | de_br_stall | ag_br_stall) begin
+    else if(int | de_ic_exp | dc_exp | de_br_stall | ag_br_stall) begin
       f_curr_st <= IDLE;
       f_address_sel <= 1'b0;
     end

@@ -18,6 +18,7 @@ module EIP_reg (
   input w_wb_flag_CF,
   input r_wb_ZF_expected,
   input r_wb_CF_expected,
+  input w_de_ic_exp,
   
   output [31:0] r_EIP,
   output [1:0] ld_eip
@@ -43,7 +44,8 @@ or2$ u_w_wb_ZF_met (.out(w_wb_ZF_met), .in0(w_wb_ZF_as_expected), .in1(w_not_con
 inv1$ u_not_br_stall (.in(w_de_br_stall), .out(w_not_de_br_stall));
 and2$ u_CF_ZF_x (.in0(w_wb_CF_met), .in1(w_wb_ZF_met), .out(w_mux_x_sel));
 and2$ u_w_EIP_sel1 (.out(w_EIP_sel[1]), .in0(r_V_wb), .in1(r_wb_eip_change));
-and3$ u_w_EIP_sel0 (.out(w_EIP_sel[0]), .in0(r_V_de), .in1(w_not_stall_fe), .in2(w_not_de_br_stall));
+inv1$ u_w_de_not_ic_exp (.out(w_de_not_ic_exp), .in(w_de_ic_exp));
+and4$ u_w_EIP_sel0 (.out(w_EIP_sel[0]), .in0(r_V_de), .in1(w_not_stall_fe), .in2(w_not_de_br_stall), .in3(w_de_not_ic_exp));
 
 wire [31:0] w_eip_alu_res_temp;
 wire [31:0] w_eip_alu_res;
