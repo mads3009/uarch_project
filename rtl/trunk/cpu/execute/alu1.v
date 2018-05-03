@@ -74,9 +74,14 @@ wire [31:0] w_sar_res8;
 wire [32:0] w_sar_res_cf32;
 wire [32:0] w_sar_res_cf16;
 wire [32:0] w_sar_res_cf8;
+wire [31:0] sr1_8;
+wire [31:0] sr1_16;
+assign sr1_8 =  {sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7:0]};
+assign sr1_16 = {sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15:0]};
+
 bit_shift_right_flgs u_right32(.amt(sr2[4:0]), .sin(sr1[31]), .in(sr1), .out(w_sar_res32), .out_cf(w_sar_res_cf32), .sr2_count_0(ld_override32));
-bit_shift_right_flgs u_right16(.amt(sr2[4:0]), .sin(sr1[15]), .in({16'd0,sr1[15:0]}), .out(w_sar_res16), .out_cf(w_sar_res_cf16), .sr2_count_0(/*unused*/));
-bit_shift_right_flgs u_right8(.amt(sr2[4:0]), .sin(sr1[7]), .in({24'd0,sr1[7:0]}), .out(w_sar_res8), .out_cf(w_sar_res_cf8), .sr2_count_0(/*unused*/));
+bit_shift_right_flgs u_right16(.amt(sr2[4:0]), .sin(sr1[15]), .in(sr1_16), .out(w_sar_res16), .out_cf(w_sar_res_cf16), .sr2_count_0(/*unused*/));
+bit_shift_right_flgs u_right8(.amt(sr2[4:0]), .sin(sr1[7]), .in(sr1_8), .out(w_sar_res8), .out_cf(w_sar_res_cf8), .sr2_count_0(/*unused*/));
 mux_nbit_4x1 #32 mux_sar_res (.a0(w_sar_res8), .a1(w_sar_res16), .a2(w_sar_res32), .a3(32'b0), .sel(alu1_op_size), .out(w_sar_res));
 mux_nbit_4x1 #33 mux_sar_res_cf (.a0(w_sar_res_cf8), .a1(w_sar_res_cf16), .a2(w_sar_res_cf32), .a3(33'b0), .sel(alu1_op_size), .out(w_sar_res_cf));
 sar_flags u_sar_flgs(.in(w_sar_res_cf), .flags(w_sar_flags), .alu1_op_size(alu1_op_size));
