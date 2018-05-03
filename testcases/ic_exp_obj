@@ -1,0 +1,19 @@
+
+../testcases/ic_exp.o:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+       0:	ba 00 0a 00 00       	mov    $0xa00,%edx
+       5:	8e da                	mov    %edx,%ds
+       7:	bc 00 03 00 00       	mov    $0x300,%esp
+       c:	bf 00 04 00 00       	mov    $0x400,%edi
+      11:	8e d7                	mov    %edi,%ss
+      13:	ea 00 00 00 00 00 03 	ljmp   $0x300,$0x0
+      1a:	f4                   	hlt
+      50:	f4 f4 66 83                   	hlt    
+      54:	c3 ff f4 00                   	hlt    
+	...
+ 200006e:	00 00                	add    %dh,%ah
+ 2000070:	52 00 00 00           	add    %dh,%ah
