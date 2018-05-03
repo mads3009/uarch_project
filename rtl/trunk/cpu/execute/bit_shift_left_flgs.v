@@ -71,9 +71,9 @@ assign flag8[CF]  = in[8];
 assign flag16[CF] = in[16];
 assign flag32[CF] = in[32];
 
-xnor2$ u_xor0(.out(flag8[OF]), .in0(in[8]), .in1(in[7]));
-xnor2$ u_xor1(.out(flag16[OF]), .in0(in[16]), .in1(in[15]));
-xnor2$ u_xor2(.out(flag32[OF]), .in0(in[32]), .in1(in[31]));
+xor2$ u_xor0(.out(flag8[OF]), .in0(in[8]), .in1(in[7]));
+xor2$ u_xor1(.out(flag16[OF]), .in0(in[16]), .in1(in[15]));
+xor2$ u_xor2(.out(flag32[OF]), .in0(in[32]), .in1(in[31]));
 
 assign flag8[SF]  = in[7];
 assign flag16[SF] = in[15];
