@@ -252,7 +252,7 @@ assign dseg = testbench.u_system.u_cpu.r_wb_dseg;
 
 //Forcing EIP
 initial begin
-  force u_system.u_cpu.r_EIP = 32'hfce;
+  force u_system.u_cpu.r_EIP = 32'h0;
   wait (rst_n);
   @(posedge clk)
   release u_system.u_cpu.r_EIP;
