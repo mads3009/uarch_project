@@ -34,3 +34,4 @@ visualize -new_window; visualize -min_length 4 -window {}; visualize -violation 
 include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
 include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
 include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+restore -jdb /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl

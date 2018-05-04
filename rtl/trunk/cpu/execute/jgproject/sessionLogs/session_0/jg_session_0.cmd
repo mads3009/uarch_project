@@ -80,3 +80,25 @@ include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/e
 visualize -new_window; visualize -min_length 5 -window {}; visualize -violation -property <embedded>::alu3_top.u_alu3_props.assert_alu_res3_chk -bg
 include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
 include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+visualize -violation -property <embedded>::alu1_top.u_alu1_props.assert_alu_res1_chk -new_window
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+visualize -violation -property <embedded>::alu1_top.u_alu1_props.assert_df_val_ex_chk -new_window
+visualize -violation -property <embedded>::alu1_top.u_alu1_props.assert_df_val_ex_chk -new_window
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+visualize -violation -property <embedded>::alu1_top.u_alu1_props.assert_alu1_flags_chk -new_window
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+visualize -violation -property <embedded>::alu1_top.u_alu1_props.assert_alu_res1_chk -new_window
+visualize -violation -property <embedded>::alu1_top.u_alu1_props.assert_alu_res1_chk -new_window
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
+visualize -violation -property <embedded>::alu1_top.u_alu1_props.assert_alu_res1_chk -new_window
+include /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl
