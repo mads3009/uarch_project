@@ -726,9 +726,10 @@ and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_fe_nextstate_01_11), .in1(w_fe_re
 
 //Logic for ld_de;
 or2$ u_hlt_or_repne (.out(w_hlt_or_repne), .in0(w_hlt_stall), .in1(w_repne_stall));
-and2$ u_w_repne_and_int (.out(w_repne_and_int), .in0(w_hlt_or_repne), .in1(int));
+or2$ u_hlt_or_repneflag (.out(w_hlt_or_repneflag), .in0(w_hlt_stall), .in1(r_repne_flag));
+and2$ u_w_repne_and_int (.out(w_int_and_hlt_or_repne), .in0(w_hlt_or_repneflag), .in1(int));
 nor3$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de), .in2(w_de_dep_stall));
-or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(int));
+or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(w_int_and_hlt_or_repne));
 
 //Fetch FSM
 fetch_fsm u_fetch_fsm (
@@ -1154,6 +1155,7 @@ de_dep_v_ld_logic u_de_dep_v_ld_logic(
   .stall_de           (w_stall_de),
   .V_ag               (w_V_ag_next),
   .ld_ag              (w_ld_ag),
+  .r_repne_flag       (r_repne_flag),
 
   .wb_mem_stall       (w_wb_mem_stall),
   .ro_dep_stall       (w_ro_dep_stall),

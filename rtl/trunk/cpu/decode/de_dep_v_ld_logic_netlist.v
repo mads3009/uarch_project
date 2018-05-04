@@ -10,8 +10,8 @@ module de_dep_v_ld_logic(clk, rst_n, V_de, repne, hlt, iret,
      v_ro_ld_flag_ZF, wb_dreg1, wb_dreg2, wb_dreg3, v_wb_ld_reg1,
      v_wb_ld_reg2, v_wb_ld_reg3, v_wb_ld_flag_ZF, stall_ag,
      ag_dep_stall, dc_exp, int, hlt_stall, repne_stall, dep_stall,
-     br_stall, iret_op, stall_de, V_ag, ld_ag, wb_mem_stall,
-     ro_dep_stall, ro_cmps_stall, mem_rd_busy, de_ic_exp);
+     br_stall, iret_op, stall_de, V_ag, ld_ag, r_repne_flag,
+     wb_mem_stall, ro_dep_stall, ro_cmps_stall, mem_rd_busy, de_ic_exp);
   input clk, rst_n, V_de, repne, hlt, iret, eip_change, ZF,
        v_ag_ld_reg1, v_ag_ld_reg2, v_ag_ld_reg3, v_ag_ld_flag_ZF,
        v_ro_ld_reg1, v_ro_ld_reg2, v_ro_ld_reg3, v_ro_ld_flag_ZF,
@@ -22,7 +22,7 @@ module de_dep_v_ld_logic(clk, rst_n, V_de, repne, hlt, iret,
   input [2:0] ag_dreg1, ag_dreg2, ag_dreg3, ro_dreg1, ro_dreg2,
        ro_dreg3, wb_dreg1, wb_dreg2, wb_dreg3;
   output hlt_stall, repne_stall, dep_stall, br_stall, iret_op,
-       stall_de, V_ag, ld_ag;
+       stall_de, V_ag, ld_ag, r_repne_flag;
   wire clk, rst_n, V_de, repne, hlt, iret, eip_change, ZF,
        v_ag_ld_reg1, v_ag_ld_reg2, v_ag_ld_reg3, v_ag_ld_flag_ZF,
        v_ro_ld_reg1, v_ro_ld_reg2, v_ro_ld_reg3, v_ro_ld_flag_ZF,
@@ -33,7 +33,7 @@ module de_dep_v_ld_logic(clk, rst_n, V_de, repne, hlt, iret,
   wire [2:0] ag_dreg1, ag_dreg2, ag_dreg3, ro_dreg1, ro_dreg2,
        ro_dreg3, wb_dreg1, wb_dreg2, wb_dreg3;
   wire hlt_stall, repne_stall, dep_stall, br_stall, iret_op, stall_de,
-       V_ag, ld_ag;
+       V_ag, ld_ag, r_repne_flag;
   wire UNCONNECTED, n_1, n_2, n_3, n_4, n_5, n_6, n_7;
   wire n_8, n_12, n_13, n_14, n_15, n_16, n_17, n_18;
   wire n_19, n_20, n_21, n_22, n_23, n_24, n_25, n_26;
@@ -43,7 +43,7 @@ module de_dep_v_ld_logic(clk, rst_n, V_de, repne, hlt, iret,
   wire n_51, n_52, n_53, n_54, n_55, n_56, n_57, n_58;
   wire n_59, n_62, n_63, n_64, n_65, n_66, n_67, n_68;
   wire n_69, n_70, n_71, n_72, n_73, n_74, n_75, n_76;
-  wire n_78, r_repne_flag;
+  wire n_78;
   nor2$ g10644(.in0 (n_78), .in1 (dep_stall), .out (V_ag));
   nor2$ g10647(.in0 (n_76), .in1 (n_31), .out (dep_stall));
   nor2$ g10648(.in0 (n_75), .in1 (n_74), .out (n_78));
