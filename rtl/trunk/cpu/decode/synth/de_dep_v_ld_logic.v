@@ -42,6 +42,7 @@ module de_dep_v_ld_logic(
   output     stall_de,
   output     V_ag,
   output     ld_ag,
+  output     r_repne_flag,
   input      wb_mem_stall ,
   input      ro_dep_stall ,
   input      ro_cmps_stall,
@@ -64,7 +65,6 @@ assign V_ag = ~(hlt || iret || dep_stall || w_repne_stop || dc_exp) & V_de &(!de
 wire w_repne_in0;
 wire w_repne_in1;
 wire w_repne_flag_regin;
-wire r_repne_flag;
 
 assign w_v_repne = repne && V_de;
 assign w_repne_in0 = (|ECX) & w_v_repne & ~int;
