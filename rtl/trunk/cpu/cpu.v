@@ -2362,7 +2362,7 @@ writeback_loads_gen u_writeback_loads_gen (
 );
 
 //wb_mem_stall
-and2$ u_w_wb_mem_stall (.in0(r_V_wb), .in1(w_fifo_full), .out(w_wb_mem_stall)); 
+and2$ u_w_wb_mem_stall (.in0(w_v_wb_ld_mem), .in1(w_fifo_full), .out(w_wb_mem_stall)); 
 
 //Wr FIFO
 wr_fifo u_wr_fifo(
