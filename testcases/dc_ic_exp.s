@@ -10,7 +10,7 @@ movl $0xdeaddead, %ecx
 hlt
 iret
 		
-.ORG 0x00000FD6
+.ORG 0x00000FAF
 movl    $0x300, %esp			
 movl    $0x400, %edi      
 movw    %di, %ss          
@@ -20,6 +20,14 @@ movl    $0x03b7, %ebx
 movl    $0x10, %ebp       
 salw	  $0x8, %ax         
 
+movl    $1000, %eax
+movl    $1000, %eax
+movl    $1000, %eax
+movl    $1000, %eax
+movl    $1000, %eax
+movl    $1000, %eax
+movl    $1000, %eax
+movl    $1000, %eax
 movw    $0x0a09, %es:0x8(%ebx, %ebp, 4)  
 inc     %eax
 addl    $0x1, %eax

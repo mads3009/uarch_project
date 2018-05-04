@@ -251,8 +251,13 @@ assign dmm = testbench.u_system.u_cpu.r_wb_dmm;
 assign dseg = testbench.u_system.u_cpu.r_wb_dseg;
 
 //Forcing EIP
+reg [31:0] force_EIP;
 initial begin
-  force u_system.u_cpu.r_EIP = 32'h0;
+  if(!$value$plusargs("EIP=%h",force_EIP))
+    force u_system.u_cpu.r_EIP = 32'h00;
+  else
+    force u_system.u_cpu.r_EIP = force_EIP;
+    
   wait (rst_n);
   @(posedge clk)
   release u_system.u_cpu.r_EIP;
