@@ -9468,3 +9468,4 @@ SUMMARY
 	       - undetermined : 0
 	       - unprocessed  : 0
 	       - error        : 0
+[<embedded>] % restore -jdb /home/ecelrc/students/gsivaraman/microarch/uarch_project/rtl/trunk/cpu/execute/lab4.tcl

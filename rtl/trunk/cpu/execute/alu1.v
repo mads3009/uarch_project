@@ -76,7 +76,7 @@ wire [32:0] w_sar_res_cf16;
 wire [32:0] w_sar_res_cf8;
 wire [31:0] sr1_8;
 wire [31:0] sr1_16;
-assign sr1_8 =  {sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7:0]};
+assign sr1_8 =  {sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7],sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7],sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7], sr1[7:0]};
 assign sr1_16 = {sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15], sr1[15:0]};
 
 bit_shift_right_flgs u_right32(.amt(sr2[4:0]), .sin(sr1[31]), .in(sr1), .out(w_sar_res32), .out_cf(w_sar_res_cf32), .sr2_count_0(ld_override32));

@@ -114,395 +114,114 @@ always @(posedge clk, posedge rst) begin
 //or
     4'b0000: begin
       alu_res1   = sr1 | sr2;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end
       alu1_flags[CF] = 1'b0; 
       alu1_flags[PF] = ~^alu_res1[7:0]; 
       alu1_flags[AF] = 1'b0; 
       alu1_flags[ZF] = ~|alu_res1; 
       alu1_flags[SF] = alu_res1[31]; 
       alu1_flags[OF] = 1'b0; 
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
-    end
+          end
 //and    
     4'b0001: begin
       alu_res1   = sr1 & sr2;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end
       alu1_flags[CF] = 1'b0; 
       alu1_flags[PF] = ~^alu_res1[7:0]; 
       alu1_flags[AF] = 1'b0; 
       alu1_flags[ZF] = ~|alu_res1; 
       alu1_flags[SF] = alu_res1[31]; 
       alu1_flags[OF] = 1'b0;
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val;  
   
     end
 //sal         
     4'b0010: begin
       alu_res1       = sr1 << sr2[4:0];
       alu_res1_33    = sr1 << sr2[4:0];
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] = alu_res1_33[32]; 
       alu1_flags[PF] = ~^alu_res1[7:0]; 
       alu1_flags[AF] = 1'b0; 
       alu1_flags[ZF] = ~|alu_res1; 
       alu1_flags[SF] = alu_res1[31]; 
-      alu1_flags[OF] = (alu_res1[31] == alu1_flags[CF]) ? 1'b1 : 1'b0 ; 
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
+      alu1_flags[OF] = (alu_res1[31] == alu1_flags[CF]) ? 1'b0 : 1'b1 ; 
+
      end
 //sar
     4'b0011: begin
-      alu_res1       = sr1 >> sr2[4:0];
-      alu_res1_33    = {sr1,1'b0} >> sr2[4:0];
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
+      alu_res1       = $signed(sr1) >>> $signed(sr2[4:0]);
+      alu_res1_33    = {sr1,1'b0} >>> sr2[4:0];
       alu1_flags[CF] = alu_res1_33[0]; 
       alu1_flags[PF] = ~^alu_res1[7:0]; 
       alu1_flags[AF] = 1'b0; 
       alu1_flags[ZF] = ~|alu_res1; 
       alu1_flags[SF] = alu_res1[31]; 
       alu1_flags[OF] = 1'b0 ; 
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
-
      end
 
     4'b0100: begin
       alu_res1       = sr1 ;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] =sr1[0]; 
       alu1_flags[PF] =sr1[2]; 
       alu1_flags[AF] =sr1[4]; 
       alu1_flags[ZF] =sr1[6]; 
       alu1_flags[SF] =sr1[7]; 
       alu1_flags[OF] =sr1[11];
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val;  
- 
     end
 
     4'b0101: begin
       alu_res1       = sr2 ;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] =sr1[0]; 
       alu1_flags[PF] =sr1[2]; 
       alu1_flags[AF] =sr1[4]; 
       alu1_flags[ZF] =sr1[6]; 
       alu1_flags[SF] =sr1[7]; 
       alu1_flags[OF] =sr1[11];
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
- 
  
     end
    
     4'b0110: begin
       alu_res1       = 32'd0 ;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] =sr1[0]; 
       alu1_flags[PF] =sr1[2]; 
       alu1_flags[AF] =sr1[4]; 
       alu1_flags[ZF] =sr1[6]; 
       alu1_flags[SF] =sr1[7]; 
       alu1_flags[OF] =sr1[11]; 
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
+
     end
  
     4'b0111: begin
       alu_res1       = ~sr1 ;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] =sr1[0]; 
       alu1_flags[PF] =sr1[2]; 
       alu1_flags[AF] =sr1[4]; 
       alu1_flags[ZF] =sr1[6]; 
       alu1_flags[SF] =sr1[7]; 
       alu1_flags[OF] =sr1[11]; 
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
-
     end
 
     4'b1000: begin
       alu_res1       = sr1 + 32'd1 ;
       alu_res1_33    = {1'b0,sr1} + 33'd1 ;
       alu_res_af    =  {1'b0,sr1[3:0]} + 5'd1;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] = alu_res1_33[32]; 
       alu1_flags[PF] = ~^alu_res1[7:0]; 
       alu1_flags[AF] = alu_res_af[4]; 
       alu1_flags[ZF] = ~|alu_res1; 
       alu1_flags[SF] = alu_res1[31]; 
       alu1_flags[OF] = ( (sr1[31] == 1'b0)&(sr1[31] != alu_res1[31]) ) ? 1'b1 : 1'b0; 
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val;  
- 
+
     end
 
     4'b1001: begin
       alu_res1       = sr1 + sr2 ;
       alu_res1_33    = sr1 + sr2 ;
       alu_res_af    =  sr1[3:0] + sr2[3:0];
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] = alu_res1_33[32]; 
       alu1_flags[PF] = ~^alu_res1[7:0]; 
       alu1_flags[AF] = alu_res_af[4]; 
       alu1_flags[ZF] = ~|alu_res1; 
       alu1_flags[SF] = alu_res1[31]; 
       alu1_flags[OF] = ( (sr1[31] == sr2[31])&(sr1[31] != alu_res1[31]) ) ? 1'b1 : 1'b0;  
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
+
     end
 
     4'b1010: begin
@@ -514,82 +233,26 @@ always @(posedge clk, posedge rst) begin
       begin
         alu_res1 = sr1 - 32'd4;
       end
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[CF] = 6'd0; 
       alu1_flags[PF] = 6'd0; 
       alu1_flags[AF] = 6'd0; 
       alu1_flags[ZF] = 6'd0; 
       alu1_flags[SF] = 6'd0; 
       alu1_flags[OF] = 6'd0; 
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
 
     end
 
 
     4'b1011: begin
       alu_res1      = sr1 ;
-      alu_res1_33   = {1'b0,eax} + {1'b0, ~sr1} + 33'd1 ;
-      alu_res_af    = {1'b0,eax[3:0]} + {1'b0, ~sr1[3:0]} + 5'd1;
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
-      alu1_flags[CF] = alu_res1_33[32]; 
+      alu_res1_33   = {1'b0,eax} - {1'b0,sr1} ;
+      alu1_flags[CF] = (eax < sr1)? 1'b1: 1'b0; 
       alu1_flags[PF] = ~^alu_res1_33[7:0]; 
-      alu1_flags[AF] = alu_res_af[4]; 
+      alu1_flags[AF] = (eax[3:0]<sr1[3:0]) ? 1'b1 : 1'b0; 
       alu1_flags[ZF] = ~|(alu_res1_33[31:0]); 
       alu1_flags[SF] = alu_res1_33[31]; 
       alu1_flags[OF] = ( (eax[31] == (!sr1[31]))&(eax[31] != alu_res1_33[31]) ) ? 1'b1 : 1'b0;  
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
+
     end
 
     4'b1100: begin
@@ -617,43 +280,41 @@ always @(posedge clk, posedge rst) begin
         alu_res1       = alu_res1;
         alu1_flags[CF] = 1'b0;
       end
-    
-      if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
-      begin
-        ld_flag_CF = 6'd0;
-        ld_flag_PF = 6'd0;
-        ld_flag_AF = 6'd0;
-        ld_flag_ZF = 6'd0;
-        ld_flag_SF = 6'd0;
-        ld_flag_OF = 6'd0;
-      end
-      else
-      begin
-        ld_flag_CF = ld_flag_CF_in;
-        ld_flag_PF = ld_flag_PF_in;
-        ld_flag_AF = ld_flag_AF_in;
-        ld_flag_ZF = ld_flag_ZF_in;
-        ld_flag_SF = ld_flag_SF_in;
-        ld_flag_OF = ld_flag_OF_in;
-      end      
       alu1_flags[PF] = ~^alu_res1[7:0]; 
       alu1_flags[ZF] = ~|alu_res1[7:0]; 
       alu1_flags[SF] = alu_res1[7]; 
       alu1_flags[OF] =  1'b0;  
-      cmps_res       = mem_out_latched - mem_out;  
-      cmps_res_33    = {1'b0,mem_out_latched} + {1'b0, ~mem_out} + 33'd1;  
-      cmps_res_af    = {1'b0,mem_out_latched[3:0]} + {1'b0, ~mem_out[3:0]} +5'd1;
-      cmps_flags[CF] = cmps_res_33[32]; 
-      cmps_flags[PF] = ~^cmps_res[7:0]; 
-      cmps_flags[AF] = cmps_res_af[4]; 
-      cmps_flags[ZF] = ~|cmps_res; 
-      cmps_flags[SF] = cmps_res[31]; 
-      cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
-      df_val_ex      = ISR ? sr2[10] : df_val; 
- 
+
     end
-  
    endcase
+   
+   if ( (alu1_op[3:1] == 3'b001) & (sr2[4:0] ==5'd0))
+   begin
+     ld_flag_CF = 6'd0;
+     ld_flag_PF = 6'd0;
+     ld_flag_AF = 6'd0;
+     ld_flag_ZF = 6'd0;
+     ld_flag_SF = 6'd0;
+     ld_flag_OF = 6'd0;
+   end
+   else
+   begin
+     ld_flag_CF = ld_flag_CF_in;
+     ld_flag_PF = ld_flag_PF_in;
+     ld_flag_AF = ld_flag_AF_in;
+     ld_flag_ZF = ld_flag_ZF_in;
+     ld_flag_SF = ld_flag_SF_in;
+     ld_flag_OF = ld_flag_OF_in;
+   end
+   cmps_res       = mem_out_latched - mem_out;  
+   cmps_flags[CF] = (mem_out_latched < mem_out)? 1'b1: 1'b0; 
+   cmps_flags[PF] = ~^cmps_res[7:0]; 
+   cmps_flags[AF] =  ((mem_out_latched[3:0])< (mem_out[3:0])) ? 1'b1 : 1'b0; 
+   cmps_flags[ZF] = ~|cmps_res; 
+   cmps_flags[SF] = cmps_res[31]; 
+   cmps_flags[OF] = ( (mem_out_latched[31] == (!mem_out[31]))&(mem_out_latched[31] != cmps_res[31]) ) ? 1'b1 : 1'b0;  
+   df_val_ex      = ISR ? sr1[10] : df_val; 
+
    end
   end
 
