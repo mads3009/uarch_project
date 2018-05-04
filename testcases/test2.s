@@ -3,43 +3,37 @@ movl    $0xa00, %edx
 movw    %dx, %ds
 movl    $0xb00, %eax
 movw    %ax, %es
+movl    $0x300, %esp
+movl    $0x400, %edi
+movw    %di, %ss
 
-movl    $0xCD, %ebx
-movl    $0x2, %ecx
-movl $0x1234ABCD, (%ebx)
-movl $0xDEADBEEF, %es:(%ebx)
+movl $0x0200, %ebx
+movl $0x020, %ecx
 
-addb $0x8, %ah
-addb $0x8, %al
-addb $0xFF, (%ebx)
-addb %al, (%ebx)
-addb (%ebx,%ecx), %ah
+movl $0xDEADBEEF, (%ebx,%ecx,0x8)
+cmpxchgb %dh, (%ebx,%ecx,0x8)
 
-addw $0xABCD, %ax
-addw $0x1234, (%ebx,%ecx)
-addw $0x1234, %si
-addw $0xFF, %si
-addw %si, %es:(%ebx,%ecx)
-addw %si, %di
-addw (%ebx), %bp
+movl $0xFFFFFFFF, %eax
+cmpxchgw %ax, (%ebx,%ecx,0x8)
 
-andb $0x99, %ah
-addb $0xFF, %al
-cmovc %ax, %di
-cmpxchgw %sp, (%ebx)
+movl $0xFFFFFFFF, %eax
+cmpxchgl %eax, (%ebx,%ecx,0x8)
 
-incb (%ebx)
-incw (%ebx,%ecx)
-incl %eax
+movl $0xDEADBEEF, %eax 
+movl $0xDEADBEEF, (%ebx,%ecx,0x8)
+cmpxchgb %dh, (%ebx,%ecx,0x8)
 
-movb (%ebx), %dh
-movw (%ebx), %bp
+movl $0xDEADBEEF, (%ebx,%ecx,0x8)
+cmpxchgb %ah, (%ebx,%ecx,0x8)
 
-movb %cl, (%ebx)
-movw %bp, (%ebx)
+movl $0xDEADBEEF, (%ebx,%ecx,0x8)
+cmpxchgw %ax, (%ebx,%ecx,0x8)
 
-movw (%ebx,%ecx), %gs
-movw %gs, %es:(%ebx)
-
-
+cmpxchgl %edx, (%ebx,%ecx,0x8)
+ 
 hlt
+
+//ds 0d00
+//es 0c00
+//fs 0b00
+//gs 0a00

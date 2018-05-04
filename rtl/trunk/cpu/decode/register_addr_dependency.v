@@ -189,8 +189,9 @@ mux4bit_2x1 mux_ld1reg_2 (.Y(w_ld1_2), .IN0(w_ld1_1), .IN1(4'b1111), .s0(reg_rw_
 mux4bit_2x1 mux_ld1reg_3 (.Y(ld_reg1_strb), .IN0(4'b0000), .IN1(w_ld1_2), .s0(ld_r1));
 or4$ or_ldreg1(.out(ld_reg1), .in0(ld_reg1_strb[0]), .in1(ld_reg1_strb[1]), .in2(ld_reg1_strb[2]), .in3(ld_reg1_strb[3]));
 
-
-mux4bit_2x1 mux_ld2reg_0 (.Y(w_ld2_0), .IN0(4'b0001), .IN1(4'b0010), .s0(in4_reg8_msb));
+inv1$ u_not_cxchg(.in(cxchg_op), .out(not_cxchg_op));
+and2$ u_ld2reg_0(.in0(in4_reg8_msb), .in1(not_cxchg_op), .out(ld2reg_0_sel));
+mux4bit_2x1 mux_ld2reg_0 (.Y(w_ld2_0), .IN0(4'b0001), .IN1(4'b0010), .s0(ld2reg_0_sel));
 mux4bit_2x1 mux_ld2reg_1 (.Y(w_ld2_1), .IN0(w_ld2_0), .IN1(4'b0011), .s0(reg_rw_size[0]));
 mux4bit_2x1 mux_ld2reg_2 (.Y(w_ld2_2), .IN0(w_ld2_1), .IN1(4'b1111), .s0(reg_rw_size[1]));
 mux4bit_2x1 mux_ld2reg_3 (.Y(w_ld2_3), .IN0(4'b0000), .IN1(w_ld2_2), .s0(ld_r2));
