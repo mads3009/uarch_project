@@ -1,5 +1,8 @@
 .ORG   0x00000000
 
+movl $0xffffff7e, %eax
+notl %eax
+
 movl    $0xa00, %edx
 movw    %dx, %ds
 movl    $0xb00, %eax
