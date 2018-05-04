@@ -27,8 +27,18 @@ sarw $0x1, (%eax)
 sarw $0x4, 0x4(%eax)
 
 salw %cl, %ebx
+sarw $0x1, %ebx
 salw $0x0, %ebx
-salw $0x20, %ebx
+salw $20, %ebx
+
+sarl %cl, 4(%eax)
+sarl $1, 4(%eax)
+sarl $5, (%eax)
+
+sall $0, 4(%eax)
+sall $5, 4(%eax)
+movl  $0x01234567, (%eax)
+sall $29, (%eax)
 
 mov $0xdeaddead, %eax
 

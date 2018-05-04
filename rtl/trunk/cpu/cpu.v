@@ -764,10 +764,11 @@ fetch_TLB_lookup u_fe_tlb_lookup(
   .ic_page_fault(w_fe_ic_page_fault)
 );
 
-and2$ u_w_v_de_ic_exp (.out(w_v_de_ic_exp), .in0(w_de_ic_exp), .in1(r_V_de));
 or2$ u_ic_exp(.out(w_fe_ic_exp), .in0(w_fe_ic_prot_exp), .in1(w_fe_ic_page_fault));
-and3$ u_w_de_ic_prot_exp (.out(w_de_ic_prot_exp), .in0(w_fe_ic_prot_exp), .in1(w_de_ic_exp), .in2(r_V_de));
-and3$ u_w_de_ic_page_fault (.out(w_de_ic_page_fault), .in0(w_fe_ic_page_fault), .in1(w_de_ic_exp), .in2(r_V_de));
+
+and2$ u_w_v_de_ic_exp (.out(w_v_de_ic_exp), .in0(w_de_ic_exp), .in1(r_V_de));
+and3$ u_w_de_ic_prot_exp (.out(w_de_ic_prot_exp), .in0(r_de_ic_prot_exp_sent), .in1(w_de_ic_exp), .in2(r_V_de));
+and3$ u_w_de_ic_page_fault (.out(w_de_ic_page_fault), .in0(r_de_ic_page_fault_sent), .in1(w_de_ic_exp), .in2(r_V_de));
 
 //Instruction cache
 i_cache u_i_cache (
@@ -898,6 +899,8 @@ register   #4 u_r_de_pr_0f         (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(
 register   #4 u_r_de_pr_pos        (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_pr_pos         ), .data_o(r_de_pr_pos         ));
 register   #3 u_r_de_mux_sel       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_mux_sel        ), .data_o(r_de_mux_sel        ));
 register  #32 u_r_de_ic_byte_valids       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_icache_byte_valids_shifted), .data_o(r_de_ic_byte_valids));
+register   #1 u_r_de_ic_prot_exp_sent       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_ic_prot_exp        ), .data_o(r_de_ic_prot_exp_sent    ));
+register   #1 u_r_de_ic_page_fault_sent       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_de), .data_i(w_fe_ic_page_fault        ), .data_o(r_de_ic_page_fault_sent    ));
 
 // ***************** DECODE STAGE ******************
 //Output of Decode
@@ -1156,7 +1159,8 @@ de_dep_v_ld_logic u_de_dep_v_ld_logic(
   .ro_dep_stall       (w_ro_dep_stall),
   .ro_cmps_stall      (w_ro_cmps_stall),
   .mem_rd_busy        (w_mem_rd_busy),
-  .int                (int)
+  .int                (int),
+  .de_ic_exp          (w_de_ic_exp)
 );
 
 //Decode to AG latches

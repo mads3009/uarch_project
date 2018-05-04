@@ -250,6 +250,14 @@ assign dreg3 = testbench.u_system.u_cpu.r_wb_dreg3;
 assign dmm = testbench.u_system.u_cpu.r_wb_dmm;
 assign dseg = testbench.u_system.u_cpu.r_wb_dseg;
 
+//Forcing EIP
+initial begin
+  force u_system.u_cpu.r_EIP = 32'hfce;
+  wait (rst_n);
+  @(posedge clk)
+  release u_system.u_cpu.r_EIP;
+end
+
 //Logging the test
 always @(u_system.EAX,u_system.ECX,u_system.EDX,u_system.EBX,u_system.ESP,u_system.EBP,u_system.ESI,u_system.EDI) begin
   $display("Registers: EAX:%8h  ECX:%8h  EDX:%8h  EBX:%8h  ESP:%8h  EBP:%8h  ESI:%8h  EDI:%8h  ", u_system.EAX,  u_system.ECX,  u_system.EDX,  u_system.EBX,  u_system.ESP,  u_system.EBP,  u_system.ESI,  u_system.EDI); 
@@ -324,11 +332,11 @@ always @(u_system.u_cpu.int)
 
 always @(posedge clk) begin
   if(u_system.u_cpu.w_dc_exp)
-    $display("%0t DC EXCEPTION  dc_prot_exp=%b  dc_pg_fault=%b", $time, u_system.u_cpu.w_dc_prot_exp, u_system.u_cpu.w_dc_page_fault);
+    $display("%0t DC EXCEPTION  EIP:0x%h  dc_prot_exp=%b  dc_pg_fault=%b", $time, u_system.u_cpu.r_ro_EIP_curr, u_system.u_cpu.w_dc_prot_exp, u_system.u_cpu.w_dc_page_fault);
   if(u_system.u_cpu.w_de_ic_exp & u_system.u_cpu.r_V_de)
-    $display("%0t DE IC EXCEPTION  de_ic_prot_exp=%b  de_ic_pg_fault=%b", $time, u_system.u_cpu.w_de_ic_prot_exp, u_system.u_cpu.w_de_ic_page_fault);
-  if(u_system.u_cpu.w_fe_ic_exp)
-    $display("%0t FE IC EXCEPTION  fe_ic_prot_exp=%b  fe_ic_pg_fault=%b", $time, u_system.u_cpu.w_fe_ic_prot_exp, u_system.u_cpu.w_fe_ic_page_fault);
+    $display("%0t DE IC EXCEPTION  EIP:0x%h de_ic_prot_exp=%b  de_ic_pg_fault=%b", $time, u_system.u_cpu.r_EIP, u_system.u_cpu.w_de_ic_prot_exp, u_system.u_cpu.w_de_ic_page_fault);
+  //if(u_system.u_cpu.w_fe_ic_exp)
+  //  $display("%0t FE IC EXCEPTION  fe_ic_prot_exp=%b  fe_ic_pg_fault=%b", $time, u_system.u_cpu.w_fe_ic_prot_exp, u_system.u_cpu.w_fe_ic_page_fault);
 end
 
 `ifndef NO_DEBUG
