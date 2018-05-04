@@ -2287,8 +2287,12 @@ mux_nbit_2x1 u_w_wb_wr_reg_data1_temp (.a0(r_wb_alu_res1), .a1(r_wb_alu_res2), .
 mux_nbit_2x1 u_w_wb_wr_reg_data1      (.a0(w_wb_wr_reg_data1_temp), .a1({w_wb_wr_reg_data1_temp[23:0],8'h0}), .sel(r_wb_reg8_sr1_HL_sel), .out(w_wb_wr_reg_data1));
 
 wire [31:0] w_wb_wr_reg_data2_temp;
+wire w_wb_reg8_sr2_HL_sel_not_cxchg;
+inv1$ u_not_cmpxchg (.out(w_wb_not_cxchg_op), .in(r_wb_cxchg_op));
+and2$ u_w_wb_reg8_sr2_HL_sel_not_cxchg (.out(w_wb_reg8_sr2_HL_sel_not_cxchg), .in0(w_wb_not_cxchg_op), .in1(r_wb_reg8_sr2_HL_sel));
+
 mux_nbit_2x1 u_w_wb_wr_reg_data2_temp (.a0(r_wb_alu_res2), .a1(r_wb_alu_res2), .sel(r_wb_wr_reg2_data_sel), .out(w_wb_wr_reg_data2_temp));
-mux_nbit_2x1 u_w_wb_wr_reg_data2      (.a0(w_wb_wr_reg_data2_temp), .a1({w_wb_wr_reg_data2_temp[23:0],8'h0}), .sel(r_wb_reg8_sr2_HL_sel), .out(w_wb_wr_reg_data2));
+mux_nbit_2x1 u_w_wb_wr_reg_data2      (.a0(w_wb_wr_reg_data2_temp), .a1({w_wb_wr_reg_data2_temp[23:0],8'h0}), .sel(w_wb_reg8_sr2_HL_sel_not_cxchg), .out(w_wb_wr_reg_data2));
 
 assign w_wb_wr_reg_data3 = r_wb_alu_res3[31:0];
 

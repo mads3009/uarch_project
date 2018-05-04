@@ -273,7 +273,8 @@ always @(u_system.CF, u_system.PF, u_system.AF, u_system.ZF, u_system.SF, u_syst
 end
 
 always @(u_system.MM0 , u_system.MM1 , u_system.MM2 , u_system.MM3 , u_system.MM4 , u_system.MM5 , u_system.MM6 , u_system.MM7)
-    $display("MMX regs: MM0=%h  MM1=%h  MMX2=%h  MM3=%h  MM4=%h  MM5=%h  MM6=%h  MM7=%h  ",u_system.MM0, u_system.MM1, u_system.MM2, u_system.MM3, u_system.MM4, u_system.MM5, u_system.MM6, u_system.MM7 );
+    $display("MMX regs: MM0=%h %h  MM1=%h %h  MMX2=%h %h MM3=%h %h MM4=%h %h MM5=%h %h MM6=%h %h MM7=%h %h ",
+            u_system.MM0[63:32], u_system.MM0[31:0], u_system.MM1[63:32], u_system.MM1[31:0], u_system.MM2[63:32], u_system.MM2[31:0], u_system.MM3[63:32], u_system.MM3[31:0], u_system.MM4[63:32], u_system.MM4[31:0], u_system.MM5[63:32], u_system.MM5[31:0], u_system.MM6[63:32], u_system.MM6[31:0], u_system.MM7[63:32], u_system.MM7[31:0] );
 
 always @(u_system.ES , u_system.CS , u_system.SS , u_system.DS , u_system.FS ,u_system.GS)
     $display("Segments: ES=%h  CS=%h  SS=%h  DS=%h  FS=%h  GS=%h ", u_system.ES, u_system.CS, u_system.SS, u_system.DS, u_system.FS, u_system.GS);
@@ -291,7 +292,8 @@ genvar g;
 generate begin : get_dcache
   for (g=0; g<32; g=g+1) begin : dcache
     always @(u_system.dcache[g]) begin
-      $display("%0t DCACHE %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache[g]);
+      $display("%0t DCACHE %3d : Addr=%h Size=%h: %h %h %h %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, 
+            u_system.dcache[g][63:48], u_system.dcache[g][47:32], u_system.dcache[g][31:16], u_system.dcache[g][15:0],);
     end    
   end 
 end
