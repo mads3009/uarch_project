@@ -13,14 +13,15 @@ movl    $0xAB      , %eax
 movl    $0x400      , (%eax)
 
 movl $0xff, %esp 
-call (%eax)
+call $0x0200,$00000000
 mov $5555, %edx
 hlt
 
-.ORG 0x400
+.ORG 0x2000000
 L2: mov $3569, %ebx
-ret $0x6543
+retf
 hlt
 
-.ORG 0x2000000
-call $0x0200,$00000000
+//.ORG 0x400
+//call *(%eax)
+//ret $0x6543
