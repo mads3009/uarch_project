@@ -71,7 +71,7 @@ wire w_repne_flag_regin;
 
 assign w_v_repne = repne && V_de;
 assign w_repne_in0 = (|ECX) & w_v_repne & ~int_latched & ~dc_exp_latched;
-assign w_repne_in1 = (|ECX) & ~(ZF) & ~int_latched;
+assign w_repne_in1 = (|ECX) & ~(ZF) & ~int_latched & ~dc_exp_latched;
 
 assign w_repne_flag_regin = r_repne_flag ? w_repne_in1 : w_repne_in0;
 
