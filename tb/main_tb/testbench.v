@@ -270,6 +270,7 @@ initial begin
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[1] = 44'h0200000002e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[2] = 44'h0400000005e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = 44'h0b00000004e;
+  //u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = 44'h0400100004e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[4] = 44'h0c00000007e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[5] = 44'h0a00000005e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[6] = 44'h8000000000f;
