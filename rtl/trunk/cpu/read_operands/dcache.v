@@ -197,7 +197,14 @@ tlb u_tlb(
   .tlb_valid3(/*Unused*/),
   .tlb_pr3(/*Unused*/),
   .tlb_rw3(/*Unused*/),
-  .tlb_pcd3(w_tlb_pcd3)
+  .tlb_pcd3(w_tlb_pcd3),
+  .tlb_addr4(/*Unused*/),
+  .tlb_phy_pn4(/*Unused*/),
+  .tlb_vpn4(/*Unused*/),
+  .tlb_valid4(/*Unused*/),
+  .tlb_pr4(/*Unused*/),
+  .tlb_rw4(/*Unused*/),
+  .tlb_pcd4(/*Unused*/)
   );
 
 tlb_addr_gen u_tlb_addr_gen_wr(
