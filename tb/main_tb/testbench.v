@@ -41,7 +41,7 @@ end
 // Clock generation
 /////////////////////////////////////
 
-always #(12/2) clk <= ~clk;
+always #(11.5/2) clk <= ~clk;
 
 //Instantiate the system
 system u_system(
@@ -129,7 +129,7 @@ end
 always @(posedge u_system.u_cpu.u_dcache.mem_rd_ready) begin
   @(posedge clk)
   if(u_system.u_cpu.u_dcache.mem_rd_ready)
-      $display("%0t MEM_READ : Addr=%h Size=%h: %h %h %h %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.u_cpu.u_dcache.mem_rd_data[63:48],u_system.u_cpu.u_dcache.mem_rd_data[47:32],u_system.u_cpu.u_dcache.mem_rd_data[31:16],u_system.u_cpu.u_dcache.mem_rd_data[15:0]);
+      $display("%0t MEM_READ done : Addr=%h Size=%h: %h %h %h %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.u_cpu.u_dcache.mem_rd_data[63:48],u_system.u_cpu.u_dcache.mem_rd_data[47:32],u_system.u_cpu.u_dcache.mem_rd_data[31:16],u_system.u_cpu.u_dcache.mem_rd_data[15:0]);
 end
 
 `endif
@@ -139,30 +139,32 @@ genvar g;
 generate begin : get_dcache
   for (g=0; g<16; g=g+1) begin : dcache2
     always @(u_system.dcache_way2[g]) begin
-      $display("%0t DCACHE_way2 %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache_way2[g]);
+      $display("%0t DCACHE_way2 : Addr=%h Size=%h: Index=%2d %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, g, u_system.dcache_way2[g]);
     end    
   end 
   for (g=0; g<16; g=g+1) begin : dcache1
     always @(u_system.dcache_way1[g]) begin
-      $display("%0t DCACHE_way1 %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache_way1[g]);
+      $display("%0t DCACHE_way1 : Addr=%h Size=%h: Index=%2d %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, g, u_system.dcache_way1[g]);
     end    
   end 
 end
 endgenerate
 
+`ifndef NO_DEBUG
 generate begin : get_dtag
   for (g=0; g<16; g=g+1) begin : dtag1
     always @(u_system.dc_ts_way1[g]) begin
-      $display("%0t DTAG_1 %3d : Addr=%h : %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.dc_ts_way1[g]);
+      $display("%0t DTAG_1 : Addr=%h : REN=%b Index=%2d  %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.ren, g, u_system.dc_ts_way1[g]);
     end    
   end 
   for (g=0; g<16; g=g+1) begin : dtag2
     always @(u_system.dc_ts_way2[g]) begin
-      $display("%0t DTAG_2 %3d : Addr=%h : %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.dc_ts_way2[g]);
+      $display("%0t DTAG_2 : Addr=%h : REN=%b Index=%2d  %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.ren, g, u_system.dc_ts_way1[g]);
     end    
   end 
 end
 endgenerate
+`endif
 
 `ifndef NO_DEBUG
 //ICACHE
