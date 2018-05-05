@@ -725,11 +725,16 @@ dff$  u_r_fe_ren(.r(rst_n),.s(1'b1),.clk(clk),.d(w_fe_ren_to_use),.q(r_fe_ren),.
 and2$ u_w_V_de_next (.out(w_V_de_next), .in0(w_fe_nextstate_01_11), .in1(w_fe_ren));
 
 //Logic for ld_de;
-or2$ u_hlt_or_repne (.out(w_hlt_or_repne), .in0(w_hlt_stall), .in1(w_repne_stall));
 or2$ u_hlt_or_repneflag (.out(w_hlt_or_repneflag), .in0(w_hlt_stall), .in1(r_repne_flag));
 and2$ u_w_repne_and_int (.out(w_int_and_hlt_or_repne), .in0(w_hlt_or_repneflag), .in1(int));
-nor3$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_hlt_or_repne), .in1(w_stall_de), .in2(w_de_dep_stall));
-or3$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_dc_exp), .in2(w_int_and_hlt_or_repne));
+or2$ u_int_or_exp (.out(w_rel_int_or_exp), .in0(w_int_and_hlt_or_repne), .in1(w_dc_exp));
+
+or3$ u_w_or_hlt_repne_memwr (.out(w_or_hlt_repne_memwr), .in0(w_hlt_stall), .in1(w_repne_stall), .in2(w_wb_mem_stall));
+or3$ u_w_or_de_ag_cmps_stall (.out(w_or_de_ag_cmps_stall), .in0(w_de_dep_stall), .in1(w_ag_dep_stall), .in2(w_ro_cmps_stall));
+or3$ u_w_or_all_but_memrd (.out(w_or_all_but_memrd), .in0(w_or_hlt_repne_memwr), .in1(w_or_de_ag_cmps_stall), .in2(w_ro_dep_stall));
+nor2$ u_not_stall_fe (.out(w_not_stall_fe), .in0(w_or_all_but_memrd), .in1(w_mem_rd_busy));
+
+or2$ u_ld_de (.out(w_ld_de), .in0(w_not_stall_fe), .in1(w_rel_int_or_exp));
 
 //Fetch FSM
 fetch_fsm u_fetch_fsm (
