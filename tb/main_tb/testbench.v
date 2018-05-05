@@ -31,7 +31,7 @@ initial begin
   #100;
   rst_n = 1'b1;
 
-  #16000;
+  #20000;
 
   $display("");
   $finish;

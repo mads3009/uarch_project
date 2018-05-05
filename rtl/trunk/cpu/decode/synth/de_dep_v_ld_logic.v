@@ -61,14 +61,16 @@ assign ld_ag = ~(stall_de) || dc_exp;
 
 assign V_ag = ~(hlt || iret || dep_stall || w_repne_stop || dc_exp) & V_de &(!de_ic_exp);
 
+dff$  u_int(.r(rst_n),.s(1'b1),.clk(clk),.d(int),.q(int_latched),.qbar(/*Unused*/));
+
 //REPNE
 wire w_repne_in0;
 wire w_repne_in1;
 wire w_repne_flag_regin;
 
 assign w_v_repne = repne && V_de;
-assign w_repne_in0 = (|ECX) & w_v_repne & ~int;
-assign w_repne_in1 = (|ECX) & ~(ZF) & ~int;
+assign w_repne_in0 = (|ECX) & w_v_repne & ~int_latched;
+assign w_repne_in1 = (|ECX) & ~(ZF) & ~int_latched;
 
 assign w_repne_flag_regin = r_repne_flag ? w_repne_in1 : w_repne_in0;
 

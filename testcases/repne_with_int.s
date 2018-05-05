@@ -25,7 +25,7 @@ movl    $0xa00, %eax
 movw    %ax, %ds
 
 movl    $0x3d      , %esi
-movl    $0x6E      , %edi
+movl    $0x4e      , %edi
 
 movl    $80       , %ecx
 
@@ -38,7 +38,7 @@ L1 :    movl    $0x99767Ff3, (%esi)
         jne L1
 
 movl    $0x3d      , %esi
-movl    $0x6E      , %edi
+movl    $0x4e      , %edi
 
 //IDTR
 movl    $0x200, %eax
