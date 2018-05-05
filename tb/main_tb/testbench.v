@@ -41,7 +41,7 @@ end
 // Clock generation
 /////////////////////////////////////
 
-always #(9.4/2) clk <= ~clk;
+always #(10/2) clk <= ~clk;
 
 //Instantiate the system
 system u_system(
@@ -251,7 +251,7 @@ initial begin
   u_system.u_cpu.TLB[0] = 44'h0000000000c;
   u_system.u_cpu.TLB[1] = 44'h0200000002e;
   u_system.u_cpu.TLB[2] = 44'h0400000005e;
-  u_system.u_cpu.TLB[3] = 44'h0400100004e;
+  u_system.u_cpu.TLB[3] = 44'h0b00000004e;
   u_system.u_cpu.TLB[4] = 44'h0c00000007e;
   u_system.u_cpu.TLB[5] = 44'h0a00000005e;
   u_system.u_cpu.TLB[6] = 44'h8000000000f;
@@ -260,7 +260,7 @@ initial begin
   u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[0] = 44'h0000000000c;
   u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[1] = 44'h0200000002e;
   u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[2] = 44'h0400000005e;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[3] = 44'h0400100004e;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[3] = 44'h0b00000004e;
   u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[4] = 44'h0c00000007e;
   u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[5] = 44'h0a00000005e;
   u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[6] = 44'h8000000000f;
@@ -269,7 +269,7 @@ initial begin
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[0] = 44'h0000000000c;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[1] = 44'h0200000002e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[2] = 44'h0400000005e;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = 44'h0400100004e;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = 44'h0b00000004e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[4] = 44'h0c00000007e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[5] = 44'h0a00000005e;
   u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[6] = 44'h8000000000f;
