@@ -4,8 +4,9 @@
 /* Description: Generates the 16-byte write data and mask*/
 /*********************************************************/
 
-module dc_wr_data_gen( mem_wr_size, addr_offset, mem_wr_data, access2_reg,
-                       dc_data_fill, dc_miss_ack, dc_wr_hit, dc_wr_data, dc_wr_mask);
+module dc_wr_data_gen( mem_wr_size, addr_offset, mem_wr_data, access2_reg, dc_data_fill,
+                       dc_miss_ack, dc_wr_hit, dc_wr_data, dc_wr_mask_way2, dc_wr_mask_way1,
+                       evict_way2_reg, evict_way1_reg, tag_eq2, tag_eq1);
 
 localparam C_LINE_W = 16*8; // 16 Bytes
 
@@ -16,16 +17,21 @@ input                 access2_reg;
 input  [C_LINE_W-1:0] dc_data_fill;
 input                 dc_miss_ack;
 input                 dc_wr_hit;
+input                 tag_eq2;
+input                 tag_eq1;
+input                 evict_way2_reg;
+input                 evict_way1_reg;
 
 output [C_LINE_W-1:0] dc_wr_data;
-output [15:0]         dc_wr_mask;
+output [15:0]         dc_wr_mask_way2;
+output [15:0]         dc_wr_mask_way1;
 
 // Internal variables
 wire [3:0]          w_addr_offset_bar;
 wire [3:0]          w_addr_offset_com;
-wire [15:0]         w_temp1, w_temp2, w_temp3, w_temp4, w_temp5;
+wire [15:0]         w_temp1, w_temp2, w_temp3, w_temp4, w_temp5_way2, w_temp5_way1;
 wire [C_LINE_W-1:0] w_data_temp;
-wire                w_dc_wr_hit_bar;
+wire                w_dc_wr_hit_bar, w_tag_eq2_bar, w_tag_eq1_bar;
 
 // Generate dc_wr_data and dc_wr_mask
 
@@ -41,9 +47,13 @@ bit_shift_right #(.WIDTH(16)) u_mask_srl(.amt(w_addr_offset_com), .sin(1'b1), .i
 
 mux2_16$ u_mux2_16_1(.Y(w_temp4),.IN0(w_temp2),.IN1(w_temp3),.S0(access2_reg));
 inv1$ u_inv1_2(.in(dc_wr_hit), .out(w_dc_wr_hit_bar));
-or2$ u_or2_1[15:0] (.out(w_temp5[15:0]), .in0(w_temp4[15:0]), .in1(w_dc_wr_hit_bar));
+inv1$ u_inv1_3(.in(tag_eq2), .out(w_tag_eq2_bar));
+inv1$ u_inv1_4(.in(tag_eq1), .out(w_tag_eq1_bar));
+or3$ u_or3_1[15:0] (.out(w_temp5_way2[15:0]), .in0(w_temp4[15:0]), .in1(w_dc_wr_hit_bar), .in2(w_tag_eq2_bar));
+or3$ u_or3_2[15:0] (.out(w_temp5_way1[15:0]), .in0(w_temp4[15:0]), .in1(w_dc_wr_hit_bar), .in2(w_tag_eq1_bar));
 
-mux2_16$ u_mux2_16_2(.Y(dc_wr_mask), .IN0(w_temp5),.IN1(16'h00_00),.S0(dc_miss_ack));
+mux2_16$ u_mux2_16_2(.Y(dc_wr_mask_way2), .IN0(w_temp5_way2),.IN1({16{evict_way1_reg}}),.S0(dc_miss_ack));
+mux2_16$ u_mux2_16_3(.Y(dc_wr_mask_way1), .IN0(w_temp5_way1),.IN1({16{evict_way2_reg}}),.S0(dc_miss_ack));
 
 // Compute dc_wr_data
 

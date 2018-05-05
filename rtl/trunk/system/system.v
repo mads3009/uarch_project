@@ -420,20 +420,80 @@ assign DF = u_cpu.r_EFLAGS[sys_DF];
 assign OF = u_cpu.r_EFLAGS[sys_OF];
 
 //DCACHE
-wire [16*8-1:0] dcache[31:0];
+wire [16*8-1:0] dcache_way2[15:0];
 generate
-  for (k=0; k < 4; k=k+1) begin : d_row
-    for (j=0; j < 16; j=j+1) begin : d_col
-      assign dcache[k*8+0][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[0];
-      assign dcache[k*8+1][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[1];
-      assign dcache[k*8+2][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[2];
-      assign dcache[k*8+3][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[3];
-      assign dcache[k*8+4][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[4];
-      assign dcache[k*8+5][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[5];
-      assign dcache[k*8+6][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[6];
-      assign dcache[k*8+7][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w$.mem[7];
+  for (k=0; k < 2; k=k+1) begin : d_row2
+    for (j=0; j < 16; j=j+1) begin : d_col2
+      assign dcache_way2[k*8+0][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[0];
+      assign dcache_way2[k*8+1][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[1];
+      assign dcache_way2[k*8+2][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[2];
+      assign dcache_way2[k*8+3][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[3];
+      assign dcache_way2[k*8+4][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[4];
+      assign dcache_way2[k*8+5][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[5];
+      assign dcache_way2[k*8+6][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[6];
+      assign dcache_way2[k*8+7][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[7];
     end
   end
+endgenerate
+
+wire [16*8-1:0] dcache_way1[15:0];
+generate
+  for (k=0; k < 2; k=k+1) begin : d_row1
+    for (j=0; j < 16; j=j+1) begin : d_col1
+      assign dcache_way1[k*8+0][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[0];
+      assign dcache_way1[k*8+1][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[1];
+      assign dcache_way1[k*8+2][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[2];
+      assign dcache_way1[k*8+3][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[3];
+      assign dcache_way1[k*8+4][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[4];
+      assign dcache_way1[k*8+5][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[5];
+      assign dcache_way1[k*8+6][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[6];
+      assign dcache_way1[k*8+7][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_data_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[7];
+    end
+  end
+endgenerate
+
+wire [15:0] dc_tag_way1[15:0];
+
+generate
+  for (k=0; k < 2; k=k+1) begin : ts_gen1
+    for (j=0; j < 2; j=j+1) begin : d_col1
+      assign dc_tag_way1[k*8+0][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[0];
+      assign dc_tag_way1[k*8+1][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[1];
+      assign dc_tag_way1[k*8+2][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[2];
+      assign dc_tag_way1[k*8+3][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[3];
+      assign dc_tag_way1[k*8+4][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[4];
+      assign dc_tag_way1[k*8+5][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[5];
+      assign dc_tag_way1[k*8+6][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[6];
+      assign dc_tag_way1[k*8+7][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way1.mem[7];
+    end
+  end
+endgenerate
+
+wire [15:0] dc_tag_way2[15:0];
+
+generate
+  for (k=0; k < 2; k=k+1) begin : ts_gen2
+    for (j=0; j < 2; j=j+1) begin : d_col1
+      assign dc_tag_way2[k*8+0][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[0];
+      assign dc_tag_way2[k*8+1][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[1];
+      assign dc_tag_way2[k*8+2][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[2];
+      assign dc_tag_way2[k*8+3][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[3];
+      assign dc_tag_way2[k*8+4][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[4];
+      assign dc_tag_way2[k*8+5][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[5];
+      assign dc_tag_way2[k*8+6][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[6];
+      assign dc_tag_way2[k*8+7][8*j+7:8*j] =   u_cpu.u_dcache.u_dc_tag_store.row_gen[k].col_gen[j].u_ram8b8w_way2.mem[7];
+    end
+  end
+endgenerate
+
+wire [15:0] dc_ts_way1[15:0];
+wire [15:0] dc_ts_way2[15:0];
+
+generate
+    for (j=0; j < 16; j=j+1) begin : tag_store_gen
+      assign dc_ts_way1[j] = {1'd0, dc_tag_way1[j][9:3], 5'd0, dc_tag_way1[j][2:0]};
+      assign dc_ts_way2[j] = {1'd0, dc_tag_way2[j][9:3], 5'd0, dc_tag_way2[j][2:0]};
+    end
 endgenerate
 
 //ICACHE

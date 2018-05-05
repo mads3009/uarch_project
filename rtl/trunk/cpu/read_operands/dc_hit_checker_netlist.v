@@ -3,72 +3,103 @@
 
 // Verification Directory fv/dc_hit_checker 
 
-module dc_hit_checker(phy_tag, ts_tag, ts_valid, ts_dirty, tlb_pcd,
-     ren, wen, v_mem_read, dc_miss_ack, access2_reg, access2_combo,
-     dc_rd_exp, io_ack, io_access, mem_rd_ready, mem_wr_done,
-     mem_rd_busy, mem_wr_busy, dc_miss, dc_evict, dc_hit, dc_rd_hit,
-     dc_wr_hit);
-  input [5:0] phy_tag, ts_tag;
-  input ts_valid, ts_dirty, tlb_pcd, ren, wen, v_mem_read, dc_miss_ack,
-       access2_reg, access2_combo, dc_rd_exp, io_ack, io_access;
-  output mem_rd_ready, mem_wr_done, mem_rd_busy, mem_wr_busy, dc_miss,
-       dc_evict, dc_hit, dc_rd_hit, dc_wr_hit;
-  wire [5:0] phy_tag, ts_tag;
-  wire ts_valid, ts_dirty, tlb_pcd, ren, wen, v_mem_read, dc_miss_ack,
-       access2_reg, access2_combo, dc_rd_exp, io_ack, io_access;
-  wire mem_rd_ready, mem_wr_done, mem_rd_busy, mem_wr_busy, dc_miss,
-       dc_evict, dc_hit, dc_rd_hit, dc_wr_hit;
-  wire n_0, n_1, n_2, n_3, n_5, n_7, n_8, n_9;
-  wire n_10, n_11, n_12, n_14, n_15, n_16, n_17, n_18;
-  wire n_19, n_20, n_21, n_22, n_23, n_24, n_25, n_26;
-  wire n_27, n_28, n_29, n_30, n_64, n_67, w_tag_eq;
-  eq_checker6 u_eq_checker6(.in1 (phy_tag), .in2 (ts_tag), .eq_out
-       (w_tag_eq));
-  nand2$ g1831(.in0 (n_28), .in1 (n_14), .out (mem_wr_done));
-  nand2$ g1832(.in0 (n_29), .in1 (n_14), .out (mem_rd_ready));
-  nand2$ g1833(.in0 (n_26), .in1 (n_25), .out (dc_hit));
-  nor4$ g1834(.in0 (n_20), .in1 (n_22), .in2 (n_18), .in3 (io_access),
-       .out (n_30));
-  nand4$ g1835(.in0 (n_21), .in1 (n_17), .in2 (n_23), .in3 (n_8), .out
-       (n_29));
-  nand4$ g1836(.in0 (n_11), .in1 (n_17), .in2 (n_23), .in3 (n_8), .out
-       (n_28));
-  nor3$ g1837(.in0 (n_25), .in1 (n_18), .in2 (io_access), .out (n_27));
-  nor4$ g1838(.in0 (n_9), .in1 (n_19), .in2 (n_24), .in3 (tlb_pcd),
-       .out (dc_evict));
-  nand2$ g1839(.in0 (n_23), .in1 (n_21), .out (n_26));
-  nor2$ g1840(.in0 (n_22), .in1 (n_20), .out (dc_rd_hit));
-  inv1$ g1841(.in (n_25), .out (dc_wr_hit));
-  nand4$ g1842(.in0 (w_tag_eq), .in1 (wen), .in2 (n_12), .in3
-       (ts_valid), .out (n_25));
-  nor3$ g1843(.in0 (n_9), .in1 (n_24), .in2 (tlb_pcd), .out (dc_miss));
-  nand2$ g1844(.in0 (n_16), .in1 (n_15), .out (n_24));
-  nor3$ g1845(.in0 (tlb_pcd), .in1 (n_2), .in2 (dc_miss_ack), .out
-       (n_23));
-  nand3$ g1846(.in0 (n_3), .in1 (n_0), .in2 (ts_valid), .out (n_22));
-  nor2$ g1847(.in0 (n_10), .in1 (dc_rd_exp), .out (n_21));
-  nand3$ g1848(.in0 (ren), .in1 (n_5), .in2 (w_tag_eq), .out (n_20));
-  nand3$ g1849(.in0 (ts_valid), .in1 (n_3), .in2 (ts_dirty), .out
-       (n_19));
-  nor2$ g1850(.in0 (n_1), .in1 (access2_reg), .out (n_18));
-  nand2$ g1851(.in0 (n_7), .in1 (access2_combo), .out (n_17));
-  nand2$ g1852(.in0 (ren), .in1 (dc_rd_exp), .out (n_16));
-  nand2$ g1853(.in0 (ts_valid), .in1 (w_tag_eq), .out (n_15));
-  nand2$ g1855(.in0 (io_ack), .in1 (io_access), .out (n_14));
-  nor2$ g1856(.in0 (tlb_pcd), .in1 (dc_miss_ack), .out (n_12));
-  and2$ g1857(.in0 (wen), .in1 (w_tag_eq), .out (n_11));
-  nand2$ g1858(.in0 (ren), .in1 (w_tag_eq), .out (n_10));
-  nor2$ g1859(.in0 (ren), .in1 (wen), .out (n_9));
-  inv1$ g1860(.in (io_access), .out (n_8));
-  inv1$ g1861(.in (access2_reg), .out (n_7));
-  inv1$ g1863(.in (dc_rd_exp), .out (n_5));
-  inv1$ g1865(.in (dc_miss_ack), .out (n_3));
-  inv1$ g1866(.in (ts_valid), .out (n_2));
-  inv1$ g1867(.in (access2_combo), .out (n_1));
-  inv1$ g1868(.in (tlb_pcd), .out (n_0));
-  nor2$ g2(.in0 (n_64), .in1 (n_30), .out (mem_rd_busy));
-  nand2$ g3(.in0 (v_mem_read), .in1 (n_14), .out (n_64));
-  nor2$ g1870(.in0 (n_67), .in1 (n_27), .out (mem_wr_busy));
-  nand2$ g1871(.in0 (wen), .in1 (n_14), .out (n_67));
+module eq_checker_WIDTH7(in1, in2, eq_out);
+  input [6:0] in1, in2;
+  output eq_out;
+  wire [6:0] in1, in2;
+  wire eq_out;
+  wire n_0, n_1, n_2, n_3, n_4, n_5, n_6, n_7;
+  wire n_8;
+  nor2$ g514(.in0 (n_7), .in1 (n_8), .out (eq_out));
+  nand3$ g515(.in0 (n_4), .in1 (n_1), .in2 (n_0), .out (n_8));
+  nand4$ g516(.in0 (n_6), .in1 (n_2), .in2 (n_3), .in3 (n_5), .out
+       (n_7));
+  xnor2$ g517(.in0 (in1[1]), .in1 (in2[1]), .out (n_6));
+  xnor2$ g518(.in0 (in1[0]), .in1 (in2[0]), .out (n_5));
+  xnor2$ g519(.in0 (in1[6]), .in1 (in2[6]), .out (n_4));
+  xnor2$ g520(.in0 (in1[3]), .in1 (in2[3]), .out (n_3));
+  xnor2$ g521(.in0 (in1[2]), .in1 (in2[2]), .out (n_2));
+  xnor2$ g522(.in0 (in1[5]), .in1 (in2[5]), .out (n_1));
+  xnor2$ g523(.in0 (in1[4]), .in1 (in2[4]), .out (n_0));
+endmodule
+
+module eq_checker_WIDTH7_1(in1, in2, eq_out);
+  input [6:0] in1, in2;
+  output eq_out;
+  wire [6:0] in1, in2;
+  wire eq_out;
+  wire n_0, n_1, n_2, n_3, n_4, n_5, n_6, n_7;
+  wire n_8;
+  nor2$ g514(.in0 (n_7), .in1 (n_8), .out (eq_out));
+  nand3$ g515(.in0 (n_4), .in1 (n_1), .in2 (n_0), .out (n_8));
+  nand4$ g516(.in0 (n_6), .in1 (n_2), .in2 (n_3), .in3 (n_5), .out
+       (n_7));
+  xnor2$ g517(.in0 (in1[1]), .in1 (in2[1]), .out (n_6));
+  xnor2$ g518(.in0 (in1[0]), .in1 (in2[0]), .out (n_5));
+  xnor2$ g519(.in0 (in1[6]), .in1 (in2[6]), .out (n_4));
+  xnor2$ g520(.in0 (in1[3]), .in1 (in2[3]), .out (n_3));
+  xnor2$ g521(.in0 (in1[2]), .in1 (in2[2]), .out (n_2));
+  xnor2$ g522(.in0 (in1[5]), .in1 (in2[5]), .out (n_1));
+  xnor2$ g523(.in0 (in1[4]), .in1 (in2[4]), .out (n_0));
+endmodule
+
+module dc_hit_checker(phy_tag, ts_tag2, ts_valid2, ts_tag1, ts_valid1,
+     tag_eq2, tag_eq1, tlb_pcd, ren, wen, v_mem_read, dc_miss_ack,
+     access2_reg, access2_combo, dc_rd_exp, io_ack, io_access,
+     mem_rd_ready, mem_wr_done, mem_rd_busy, mem_wr_busy, dc_miss,
+     dc_hit, dc_rd_hit, dc_wr_hit);
+  input [6:0] phy_tag, ts_tag2, ts_tag1;
+  input ts_valid2, ts_valid1, tlb_pcd, ren, wen, v_mem_read,
+       dc_miss_ack, access2_reg, access2_combo, dc_rd_exp, io_ack,
+       io_access;
+  output tag_eq2, tag_eq1, mem_rd_ready, mem_wr_done, mem_rd_busy,
+       mem_wr_busy, dc_miss, dc_hit, dc_rd_hit, dc_wr_hit;
+  wire [6:0] phy_tag, ts_tag2, ts_tag1;
+  wire ts_valid2, ts_valid1, tlb_pcd, ren, wen, v_mem_read,
+       dc_miss_ack, access2_reg, access2_combo, dc_rd_exp, io_ack,
+       io_access;
+  wire tag_eq2, tag_eq1, mem_rd_ready, mem_wr_done, mem_rd_busy,
+       mem_wr_busy, dc_miss, dc_hit, dc_rd_hit, dc_wr_hit;
+  wire n_0, n_1, n_2, n_3, n_4, n_5, n_6, n_7;
+  wire n_8, n_9, n_10, n_11, n_12, n_13, n_14, n_15;
+  wire n_16, n_17, n_18, n_19, n_20, n_21;
+  eq_checker_WIDTH7 u_eq_checker2(.in1 (phy_tag), .in2 (ts_tag2),
+       .eq_out (tag_eq2));
+  eq_checker_WIDTH7_1 u_eq_checker3(.in1 (phy_tag), .in2 (ts_tag1),
+       .eq_out (tag_eq1));
+  and3$ g1579(.in0 (n_6), .in1 (n_21), .in2 (v_mem_read), .out
+       (mem_rd_busy));
+  and3$ g1580(.in0 (n_6), .in1 (n_20), .in2 (wen), .out (mem_wr_busy));
+  nand2$ g1581(.in0 (n_21), .in1 (n_6), .out (mem_rd_ready));
+  nand2$ g1582(.in0 (n_20), .in1 (n_6), .out (mem_wr_done));
+  nand4$ g1583(.in0 (n_14), .in1 (n_11), .in2 (n_15), .in3 (n_7), .out
+       (n_21));
+  nand2$ g1584(.in0 (n_18), .in1 (n_19), .out (dc_hit));
+  nand4$ g1585(.in0 (n_14), .in1 (n_11), .in2 (n_13), .in3 (n_7), .out
+       (n_20));
+  nor2$ g1586(.in0 (n_16), .in1 (n_17), .out (dc_miss));
+  inv1$ g1587(.in (n_19), .out (dc_rd_hit));
+  nand3$ g1588(.in0 (n_11), .in1 (n_15), .in2 (n_7), .out (n_19));
+  inv1$ g1589(.in (n_18), .out (dc_wr_hit));
+  nand3$ g1590(.in0 (n_11), .in1 (n_13), .in2 (n_7), .out (n_18));
+  or2$ g1591(.in0 (n_12), .in1 (tlb_pcd), .out (n_17));
+  nor2$ g1592(.in0 (n_10), .in1 (n_5), .out (n_16));
+  nor2$ g1593(.in0 (n_5), .in1 (n_8), .out (n_15));
+  nor2$ g1594(.in0 (n_9), .in1 (io_access), .out (n_14));
+  nor2$ g1595(.in0 (n_5), .in1 (n_1), .out (n_13));
+  mux2$ g1596(.s0 (ren), .in0 (n_1), .in1 (dc_rd_exp), .outb (n_12));
+  mux2$ g1597(.s0 (tag_eq2), .in0 (n_2), .in1 (n_0), .outb (n_10));
+  mux2$ g1598(.s0 (tag_eq2), .in0 (ts_valid1), .in1 (ts_valid2), .outb
+       (n_11));
+  nor2$ g1599(.in0 (n_4), .in1 (access2_reg), .out (n_9));
+  nand2$ g1600(.in0 (n_3), .in1 (ren), .out (n_8));
+  nor2$ g1601(.in0 (tlb_pcd), .in1 (dc_miss_ack), .out (n_7));
+  nand2$ g1602(.in0 (io_ack), .in1 (io_access), .out (n_6));
+  nor2$ g1603(.in0 (tag_eq2), .in1 (tag_eq1), .out (n_5));
+  inv1$ g1604(.in (access2_combo), .out (n_4));
+  inv1$ g1605(.in (dc_rd_exp), .out (n_3));
+  inv1$ g1606(.in (ts_valid1), .out (n_2));
+  inv1$ g1607(.in (wen), .out (n_1));
+  inv1$ g1608(.in (ts_valid2), .out (n_0));
 endmodule
 

@@ -4,15 +4,17 @@
 /* Description: Generates busy, hit and miss signals    */
 /********************************************************/
 
-module dc_hit_checker( phy_tag, ts_tag, ts_valid, ts_dirty, tlb_pcd, ren, wen, v_mem_read, 
+module dc_hit_checker( phy_tag, ts_tag2, ts_valid2, ts_tag1, ts_valid1,
+                       tag_eq2, tag_eq1, tlb_pcd, ren, wen, v_mem_read, 
                        dc_miss_ack, access2_reg, access2_combo, dc_rd_exp, io_ack, io_access, 
-                       mem_rd_ready, mem_wr_done, mem_rd_busy, mem_wr_busy, dc_miss, dc_evict, 
+                       mem_rd_ready, mem_wr_done, mem_rd_busy, mem_wr_busy, dc_miss,
                        dc_hit, dc_rd_hit, dc_wr_hit);
 
-input  [5:0] phy_tag;
-input  [5:0] ts_tag;
-input        ts_valid;
-input        ts_dirty;
+input  [6:0] phy_tag;
+input  [6:0] ts_tag2;
+input        ts_valid2;
+input  [6:0] ts_tag1;
+input        ts_valid1;
 input        tlb_pcd;
 input        ren;
 input        wen;
@@ -29,19 +31,27 @@ output       mem_wr_done;
 output       mem_rd_busy;
 output       mem_wr_busy;
 output       dc_miss;
-output       dc_evict;
 output       dc_hit;
 output       dc_rd_hit;
 output       dc_wr_hit;
+output       tag_eq2;
+output       tag_eq1;
+// output       dc_evict;
 
 // Internal Variables
 wire w_tag_eq, w_tlb_pcd_bar, w_dc_miss_ack_bar, w_dc_rd_exp_bar;
+
+wire  [6:0] ts_tag;
+wire        ts_valid;
 
 inv1$ u_inv1_1(.in(tlb_pcd), .out(w_tlb_pcd_bar));
 inv1$ u_inv1_2(.in(dc_miss_ack), .out(w_dc_miss_ack_bar));
 inv1$ u_inv1_3(.in(dc_rd_exp), .out(w_dc_rd_exp_bar));
 
-eq_checker6 u_eq_checker6(.in1(phy_tag), .in2(ts_tag), .eq_out(w_tag_eq));
+eq_checker #(.WIDTH(7)) u_eq_checker2(.in1(phy_tag), .in2(ts_tag2), .eq_out(tag_eq2));
+eq_checker #(.WIDTH(7)) u_eq_checker3(.in1(phy_tag), .in2(ts_tag1), .eq_out(tag_eq1));
+
+mux2$ u_mux2$_g1[8:0] (.in0({tag_eq1, ts_tag1, ts_valid1}), .in1({tag_eq2, ts_tag2, ts_valid2}), .s0(tag_eq2), .outb({w_tag_eq, ts_tag, ts_valid}));
 
 // dc_rd_hit = !tlb_pcd & !dc_miss_ack & !dc_rd_exp & ts_valid & ren & w_tag_eq
 and3$ u_and3_1(.in0(w_tlb_pcd_bar), .in1(w_dc_miss_ack_bar), .in2(ts_valid), .out(n_001));
@@ -63,8 +73,10 @@ and3$ u_and3_5(.in0(w_tlb_pcd_bar), .in1(n_901), .in2(n_005), .out(n_006));
 nand2$ u_nand2_2(.in0(w_tag_eq), .in1(ts_valid), .out(n_007));
 and2$ u_and2_3(.in0(n_006), .in1(n_007), .out(dc_miss));
 
+/*
 // dc_evict = dc_miss & ts_valid & ts_dirty & !dc_miss_ack
 and4$ u_and3_6(.in0(dc_miss), .in1(ts_valid), .in2(ts_dirty), .in3(w_dc_miss_ack_bar), .out(dc_evict));
+*/
 
 // mem_rd_ready, mem_wr_done, mem_rd_busy & mem_wr_busy generation
 inv1$ u_inv1_4(.out(w_access2_combo_bar), .in(access2_combo));

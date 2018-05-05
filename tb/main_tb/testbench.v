@@ -41,7 +41,7 @@ end
 // Clock generation
 /////////////////////////////////////
 
-always #(10/2) clk <= ~clk;
+always #(12/2) clk <= ~clk;
 
 //Instantiate the system
 system u_system(
@@ -125,15 +125,40 @@ always @(posedge u_system.u_cpu.w_dc_evict) begin
   if(u_system.u_cpu.w_dc_evict)
     $display("EVICT dcache line with phy addr= 0x%h  Index=%h  Frame=%h", u_system.u_cpu.w_dc_evict_addr, u_system.u_cpu.w_dc_evict_addr[8:4], u_system.u_cpu.w_dc_evict_addr[14:12]);
 end
+
+always @(posedge u_system.u_cpu.u_dcache.mem_rd_ready) begin
+  @(posedge clk)
+  if(u_system.u_cpu.u_dcache.mem_rd_ready)
+      $display("%0t MEM_READ : Addr=%h Size=%h: %h %h %h %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.u_cpu.u_dcache.mem_rd_data[63:48],u_system.u_cpu.u_dcache.mem_rd_data[47:32],u_system.u_cpu.u_dcache.mem_rd_data[31:16],u_system.u_cpu.u_dcache.mem_rd_data[15:0]);
+end
+
 `endif
 
 //DCACHE
 genvar g;
 generate begin : get_dcache
-  for (g=0; g<32; g=g+1) begin : dcache
-    always @(u_system.dcache[g]) begin
-      $display("%0t DCACHE %3d : Addr=%h Size=%h: %h %h %h %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, 
-            u_system.dcache[g][127:96], u_system.dcache[g][95:64], u_system.dcache[g][63:32], u_system.dcache[g][31:0],);
+  for (g=0; g<16; g=g+1) begin : dcache2
+    always @(u_system.dcache_way2[g]) begin
+      $display("%0t DCACHE_way2 %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache_way2[g]);
+    end    
+  end 
+  for (g=0; g<16; g=g+1) begin : dcache1
+    always @(u_system.dcache_way1[g]) begin
+      $display("%0t DCACHE_way1 %3d : Addr=%h Size=%h: %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.dcache_way1[g]);
+    end    
+  end 
+end
+endgenerate
+
+generate begin : get_dtag
+  for (g=0; g<16; g=g+1) begin : dtag1
+    always @(u_system.dc_ts_way1[g]) begin
+      $display("%0t DTAG_1 %3d : Addr=%h : %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.dc_ts_way1[g]);
+    end    
+  end 
+  for (g=0; g<16; g=g+1) begin : dtag2
+    always @(u_system.dc_ts_way2[g]) begin
+      $display("%0t DTAG_2 %3d : Addr=%h : %h",$time, g, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.dc_ts_way2[g]);
     end    
   end 
 end
@@ -239,10 +264,14 @@ initial begin
     u_system.u_cpu.u_i_cache.ts.ts_upper.mem[i] = 8'h00;
   end
   for (i=0;i<8;i=i+1)  begin
-    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].u_ram8b8w$.mem[i] = 8'h00;
-    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].u_ram8b8w$.mem[i] = 8'h00;
-    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[2].u_ram8b8w$.mem[i] = 8'h00;
-    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[3].u_ram8b8w$.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].col_gen[0].u_ram8b8w_way2.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].col_gen[1].u_ram8b8w_way2.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].col_gen[0].u_ram8b8w_way2.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].col_gen[1].u_ram8b8w_way2.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].col_gen[0].u_ram8b8w_way1.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[0].col_gen[1].u_ram8b8w_way1.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].col_gen[0].u_ram8b8w_way1.mem[i] = 8'h00;
+    u_system.u_cpu.u_dcache.u_dc_tag_store.row_gen[1].col_gen[1].u_ram8b8w_way1.mem[i] = 8'h00;
   end
 end
 

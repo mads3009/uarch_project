@@ -62,21 +62,28 @@ output [31:0]         io_wr_data;
 input  [31:0]         io_rd_data;
 input                 io_ack;
 
-
 // Internal variables
-wire [15:0]         w_dc_wr_mask;
+wire [15:0]         w_dc_wr_mask_way2, w_dc_wr_mask_way1;
+wire                w_evict_way2, w_evict_way1, r_evict_way2, r_evict_way1;
 wire [C_LINE_W-1:0] w_dc_wr_data;
-wire [C_LINE_W-1:0] w_dc_rd_data;
+wire [C_LINE_W-1:0] w_dc_rd_data_way2, w_dc_rd_data_way1;
 wire [31:0]         w_mem_rw_addr_curr, w_mem_rw_addr_next, w_mem_rw_addr;
 wire [1:0]          w_mem_rw_size;
 
 wire                w_dc_rd_hit, w_dc_wr_hit;
 wire                r_access2, w_access2, w_access2_muxout;
-wire [5:0]          w_phy_tag;
-wire [5:0]          w_ts_tag;
-wire                w_ts_valid, w_ts_dirty;
-wire [7:0]          w_ts_data_in;
+wire [6:0]          w_phy_tag;
+wire [6:0]          w_ts_tag2;
+wire                w_ts_valid2, w_ts_dirty2, w_ts_lru2;
+wire [6:0]          w_ts_tag1;
+wire                w_ts_valid1, w_ts_dirty1, w_ts_lru1;
+wire [6:0]          r_ts_tag2;
+wire                r_ts_valid2, r_ts_dirty2, r_ts_lru2;
+wire [6:0]          r_ts_tag1;
+wire                r_ts_valid1, r_ts_dirty1, r_ts_lru1;
+wire [15:0]         w_ts_data_in_way2, w_ts_data_in_way1;
 wire                w_ts_wr_enb;
+wire                w_tag_eq2, w_tag_eq1, w_tag_eq2_bar, w_tag_eq1_bar;
 
 wire [19:0]         w_tlb_pn0,w_tlb_pn1,w_tlb_pn2,w_tlb_pn3,w_tlb_pn4,w_tlb_pn5,w_tlb_pn6,w_tlb_pn7;
 wire [2:0]          w_tlb_addr;
@@ -94,9 +101,7 @@ wire                w_tlb_pcd3;
 
 // Assign statements
 
-assign dc_miss_addr = {17'd0, w_phy_tag,w_mem_rw_addr[8:4],4'd0};
-assign dc_evict_addr = {17'd0, w_ts_tag,w_mem_rw_addr[8:4],4'd0};
-assign dc_evict_data = w_dc_rd_data;
+assign dc_miss_addr = {17'd0, w_phy_tag,w_mem_rw_addr[7:4],4'd0};
 
 // io_access = w_tlb_pcd & (ren | wen) & !(dc_rd_exp & ren)
 nand2$ u_nand2_1(.out(n_801), .in0(dc_rd_exp), .in1(ren));
@@ -117,14 +122,21 @@ dc_wr_data_gen u_dc_wr_data_gen(
   .dc_miss_ack(dc_miss_ack),
   .dc_data_fill(dc_data_fill),
   .dc_wr_data(w_dc_wr_data),
-  .dc_wr_mask(w_dc_wr_mask)
+  .evict_way2_reg(r_evict_way2),
+  .evict_way1_reg(r_evict_way1),
+  .dc_wr_mask_way2(w_dc_wr_mask_way2),
+  .dc_wr_mask_way1(w_dc_wr_mask_way1),
+  .tag_eq2(w_tag_eq2),
+  .tag_eq1(w_tag_eq1)
   );
 
 // Generate mem_rd_data
 mem_rd_data_gen u_mem_rd_data_gen(
   .clk(clk),
   .rst_n(rst_n),
-  .dc_rd_data(w_dc_rd_data),
+  .dc_rd_data_way2(w_dc_rd_data_way2),
+  .dc_rd_data_way1(w_dc_rd_data_way1),
+  .tag_eq2(w_tag_eq2),
   .addr_offset(mem_rd_addr[3:0]),
   .access2_reg(r_access2),
   .dc_read_hit(w_dc_rd_hit),
@@ -136,35 +148,67 @@ mem_rd_data_gen u_mem_rd_data_gen(
   );
 
 // FIXME
-wire [4:0] index_del;
-assign #1 index_del = w_mem_rw_addr[8:4];
+wire [3:0] index_del;
+assign #0.6 index_del = w_mem_rw_addr[7:4];
 // FIXME END
 
 // D-cache data store
 dc_data_store u_dc_data_store(
   .clk(clk),
+  .rst_n(rst_n),
   .index(index_del),
-  .dc_wr_mask(w_dc_wr_mask),
+  .dc_wr_mask_way2(w_dc_wr_mask_way2),
+  .dc_wr_mask_way1(w_dc_wr_mask_way1),
   .dc_write_data(w_dc_wr_data),
-  .dc_read_data(w_dc_rd_data)
+  .dc_read_data_way2(w_dc_rd_data_way2),
+  .dc_read_data_way1(w_dc_rd_data_way1)
   );
 
 // D-cache tag store
-muxNbit_2x1 #(.N(8)) u_muxNbit_2x1_0 (.IN0({w_phy_tag,1'b1, 1'b1}), .IN1({w_phy_tag,1'b1, 1'b0}), .S0(dc_miss_ack), .Y(w_ts_data_in));
 
-nor2$ u_nor2(.out(w_ts_wr_enb), .in0(w_dc_wr_hit), .in1(dc_miss_ack));
+inv1$ u_inv1_g1(.in(w_tag_eq2), .out(w_tag_eq2_bar));
+inv1$ u_inv1_g2(.in(w_tag_eq1), .out(w_tag_eq1_bar));
+
+wire clk_bar_del, clk_del;
+
+assign #1 clk_bar_del = ~clk;
+assign #1.7 clk_del = clk;
+
+dff$ u_tag_store_sample_reg[19:0] (.clk(clk_bar_del), .r(rst_n), .s(1'b1), .d({w_ts_tag2, w_ts_valid2, w_ts_dirty2, w_ts_lru2, w_ts_tag1, w_ts_valid1, w_ts_dirty1, w_ts_lru1}), .q({r_ts_tag2, r_ts_valid2, r_ts_dirty2, r_ts_lru2, r_ts_tag1, r_ts_valid1, r_ts_dirty1, r_ts_lru1}), .qbar(/*Unused*/));
+
+dff$ u_evict_sample_reg[1:0] (.clk(clk_del), .r(rst_n), .s(1'b1), .d({w_evict_way2, w_evict_way1}), .q({r_evict_way2, r_evict_way1}), .qbar(/*Unused*/));
+
+wire [15:0] w_ts_data_in_way2_temp1, w_ts_data_in_way1_temp1;
+
+muxNbit_2x1 #(.N(16)) u_muxNbit_m2 (.IN0({6'd0,r_ts_tag2, r_ts_valid2, r_ts_dirty2, 1'b0}), .IN1({6'd0, w_phy_tag,1'b1, 1'b0, 1'b1}), .S0(r_evict_way2), .Y(w_ts_data_in_way2_temp1));
+
+muxNbit_2x1 #(.N(16)) u_muxNbit_m1 (.IN0({6'd0,r_ts_tag1, r_ts_valid1, r_ts_dirty1, 1'b0}), .IN1({6'd0, w_phy_tag,1'b1, 1'b0, 1'b1}), .S0(r_evict_way1), .Y(w_ts_data_in_way1_temp1));
+
+or2$ u_or2_g1(.in0(r_ts_dirty2), .in1(wen), .out(w_new_dirty2));
+or2$ u_or2_g2(.in0(r_ts_dirty1), .in1(wen), .out(w_new_dirty1));
+
+muxNbit_2x1 #(.N(16)) u_muxNbit_m4 (.IN0({6'd0, r_ts_tag2, r_ts_valid2, w_new_dirty2, w_tag_eq2}), .IN1(w_ts_data_in_way2_temp1), .S0(dc_miss_ack), .Y(w_ts_data_in_way2));
+
+muxNbit_2x1 #(.N(16)) u_muxNbit_m3 (.IN0({6'd0, r_ts_tag1, r_ts_valid1, w_new_dirty1, w_tag_eq1}), .IN1(w_ts_data_in_way1_temp1), .S0(dc_miss_ack), .Y(w_ts_data_in_way1));
+
+nor3$ u_nor3_g1(.out(w_ts_wr_enb), .in0(w_dc_wr_hit), .in1(dc_miss_ack), .in2(w_dc_rd_hit));
+
+wire [5:0] blah2, blah1;
 
 dc_tag_store u_dc_tag_store(
   .clk(clk),
+  .rst_n(rst_n),
   .index(index_del),
   .wr(w_ts_wr_enb),
-  .data_in(w_ts_data_in),
-  .data_out({w_ts_tag, w_ts_valid, w_ts_dirty})
+  .data_in_way2(w_ts_data_in_way2),
+  .data_in_way1(w_ts_data_in_way1),
+  .data_out_way2({blah2, w_ts_tag2, w_ts_valid2, w_ts_dirty2, w_ts_lru2}),
+  .data_out_way1({blah1, w_ts_tag1, w_ts_valid1, w_ts_dirty1, w_ts_lru1})
   );
 
 // TLB instantiation and dcache hit/miss checking
 
-assign w_phy_tag = ren & ro_IDT_and_ISR ? w_mem_rw_addr[14:9] : {w_tlb_phy_pn[2:0],w_mem_rw_addr[11:9]};
+assign w_phy_tag = ren & ro_IDT_and_ISR ? w_mem_rw_addr[14:8] : {w_tlb_phy_pn[2:0],w_mem_rw_addr[11:8]};
 
 mux3$ u_mux3_1[20:0] (.outb({w_tlb_phy_pn, w_tlb_pcd}), .in0({w_tlb_phy_pn1, w_tlb_pcd1}), .in1({w_tlb_phy_pn2, w_tlb_pcd2}), .in2({w_tlb_phy_pn3, w_tlb_pcd3}), .s0(ren), .s1(r_access2));
 
@@ -252,9 +296,10 @@ tlb_addr_gen u_tlb_addr_gen_rw(
 
 dc_hit_checker u_dc_hit_checker(
   .phy_tag(w_phy_tag),
-  .ts_tag(w_ts_tag),
-  .ts_valid(w_ts_valid),
-  .ts_dirty(w_ts_dirty),
+  .ts_tag2(w_ts_tag2),
+  .ts_valid2(w_ts_valid2),
+  .ts_tag1(w_ts_tag1),
+  .ts_valid1(w_ts_valid1),
   .tlb_pcd(w_tlb_pcd),
   .ren(ren),
   .wen(wen),
@@ -273,7 +318,36 @@ dc_hit_checker u_dc_hit_checker(
   .dc_hit(w_dc_hit),
   .dc_rd_hit(w_dc_rd_hit),
   .dc_wr_hit(w_dc_wr_hit),
-  .dc_evict(dc_evict)
+  .tag_eq2(w_tag_eq2),
+  .tag_eq1(w_tag_eq1)
+  );
+
+/*
+// When cache was direct mapped
+assign dc_evict_addr = {17'd0, w_ts_tag,w_mem_rw_addr[7:4],4'd0};
+assign dc_evict_data = w_dc_rd_data;
+dc_evict = dc_miss & ts_valid & ts_dirty & !dc_miss_ack; // dc_hit_checker snippet
+*/
+
+dc_evict_gen u_dc_evict_gen(
+  .dc_evict(dc_evict),
+  .dc_evict_addr(dc_evict_addr),
+  .dc_evict_data(dc_evict_data),
+  .dc_miss_ack(dc_miss_ack),
+  .dc_miss(dc_miss),
+  .ts_tag2(w_ts_tag2),
+  .ts_valid2(w_ts_valid2),
+  .ts_dirty2(w_ts_dirty2),
+  .ts_lru2(w_ts_lru2),
+  .ts_tag1(w_ts_tag1),
+  .ts_valid1(w_ts_valid1),
+  .ts_dirty1(w_ts_dirty1),
+  .ts_lru1(w_ts_lru1),
+  .mem_rw_addr(w_mem_rw_addr),
+  .dc_rd_data_way2(w_dc_rd_data_way2),
+  .dc_rd_data_way1(w_dc_rd_data_way1),
+  .evict_way2(w_evict_way2),
+  .evict_way1(w_evict_way1)
   );
 
 // Arbitrate between read and write requests

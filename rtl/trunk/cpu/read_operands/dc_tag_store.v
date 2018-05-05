@@ -7,25 +7,34 @@
 
 module dc_tag_store (
   clk,
+  rst_n,
   index,
   wr,
-  data_in,
-  data_out
+  data_in_way2,
+  data_in_way1,
+  data_out_way2,
+  data_out_way1
   );
 
-input        clk;
-input  [4:0] index;
-input        wr;
-input  [7:0] data_in;
-output [7:0] data_out;
+input         clk;
+input         rst_n;
+input  [3:0]  index;
+input         wr;
+input  [15:0] data_in_way2;
+input  [15:0] data_in_way1;
+output [15:0] data_out_way2;
+output [15:0] data_out_way1;
 
 // Internal Variables
-wire [7:0]  w_rd_data[3:0];
-wire [3:0]  w_row_sel_bar;
-wire        w_array_wr_mask[3:0];
+wire [15:0]   w_rd_data_way2[1:0];
+wire [15:0]   w_rd_data_way1[1:0];
+wire [3:0]    w_row_sel_bar;
+wire          w_array_wr_mask[1:0];
 
 // RAM array
-decoder2_4$ u_decoder2_4_1(.SEL(index[4:3]),.Y(/*Unused*/),.YBAR(w_row_sel_bar));
+assign w_row_sel_bar[0] = index[3];
+// assign w_row_sel_bar[1] = ~index[3];
+inv1$ u_inv1_1(.in(index[3]), .out(w_row_sel_bar[1]));
 
 // Delayed clock
 // FIXME
@@ -39,15 +48,21 @@ buffer$ u_buffer_4(.out(w_clk_004), .in(w_clk_003));
 buffer$ u_buffer_5(.out(w_clk_005), .in(w_clk_004));
 buffer$ u_buffer_6(.out(w_clk_del), .in(w_clk_005));
 */
-genvar j;
+
+genvar j,i;
 generate
-  for(j=0; j < 4; j=j+1) begin: row_gen
-    or4$ u_or4_1 (.out(w_array_wr_mask[j]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(wr), .in3(w_clk_del));
-    ram8b8w$ u_ram8b8w$ (.A(index[2:0]),.DIN(data_in),.OE(1'b0),.WR(w_array_wr_mask[j]), .DOUT(w_rd_data[j][7:0]));
+  for(j=0; j < 2; j=j+1) begin: row_gen
+      or4$ u_or4_way2 (.out(w_array_wr_mask[j]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(wr), .in3(w_clk_del));
+    for(i=0; i < 2; i=i+1) begin: col_gen
+      ram8b8w$ u_ram8b8w_way2 (.A(index[2:0]),.DIN(data_in_way2[8*i+7 -: 8]),.OE(1'b0),.WR(w_array_wr_mask[j]|~rst_n), .DOUT(w_rd_data_way2[j][8*i+7 -: 8]));
+
+      ram8b8w$ u_ram8b8w_way1 (.A(index[2:0]),.DIN(data_in_way1[8*i+7 -: 8]),.OE(1'b0),.WR(w_array_wr_mask[j]|~rst_n), .DOUT(w_rd_data_way1[j][8*i+7 -: 8]));
+    end
   end
 endgenerate
 
-mux4$ u_mux4_1[7:0] (.outb(data_out[7:0]), .in0(w_rd_data[0][7:0]), .in1(w_rd_data[1][7:0]), .in2(w_rd_data[2][7:0]), .in3(w_rd_data[3][7:0]), .s0(index[3]), .s1(index[4]));
+mux2$ u_mux2_way2[15:0] (.outb(data_out_way2[15:0]), .in0(w_rd_data_way2[0][15:0]), .in1(w_rd_data_way2[1][15:0]), .s0(index[3]));
+mux2$ u_mux2_way1[15:0] (.outb(data_out_way1[15:0]), .in0(w_rd_data_way1[0][15:0]), .in1(w_rd_data_way1[1][15:0]), .s0(index[3]));
 
 endmodule
 

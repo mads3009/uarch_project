@@ -128,6 +128,8 @@
 ../../rtl/trunk/cpu/read_operands/tlb.v
 ../../rtl/trunk/cpu/read_operands/dc_exp_checker.v
 ../../rtl/trunk/cpu/read_operands/mem_conflict_gen_netlist.v
+../../rtl/trunk/cpu/read_operands/evict_combo_netlist.v
+../../rtl/trunk/cpu/read_operands/dc_evict_gen.v
 
 ../../rtl/trunk/cpu/mmu/mmu_fsm_netlist.v
 ../../rtl/trunk/cpu/mmu/mmu.v
