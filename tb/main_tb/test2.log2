@@ -1,24 +1,45 @@
 Chronologic VCS simulator copyright 1991-2015
 Contains Synopsys proprietary information.
-Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  May  4 16:18 2018
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  May  4 16:42 2018
 VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
 0.0 ns Frame0 [0x000] : 000a00ba
 0.0 ns Frame0 [0x020] : 00000020
-0.0 ns Frame0 [0x040] : xxf4cb04
+0.0 ns Frame0 [0x040] : efb8cb04
+0.0 ns Frame0 [0x060] : deadbeef
+0.0 ns Frame0 [0x080] : 83deadbe
 0.0 ns Frame0 [0x004] : b8da8e00
 0.0 ns Frame0 [0x024] : efcb04c7
+0.0 ns Frame0 [0x044] : c7deadbe
+0.0 ns Frame0 [0x064] : 04b10f66
+0.0 ns Frame0 [0x084] : 420f01c4
 0.0 ns Frame0 [0x008] : 00000b00
 0.0 ns Frame0 [0x028] : 0fdeadbe
+0.0 ns Frame0 [0x048] : beefcb04
+0.0 ns Frame0 [0x068] : 14b10fcb
+0.0 ns Frame0 [0x088] : 0481cb3c
 0.0 ns Frame0 [0x00c] : 00bcc08e
 0.0 ns Frame0 [0x02c] : b8cb34b0
+0.0 ns Frame0 [0x04c] : b00fdead
+0.0 ns Frame0 [0x06c] : 420f66cb
+0.0 ns Frame0 [0x08c] : addeadcb
 0.0 ns Frame0 [0x010] : bf000003
 0.0 ns Frame0 [0x030] : ffffffff
+0.0 ns Frame0 [0x050] : 04c7cb14
+0.0 ns Frame0 [0x070] : ad05cb3c
+0.0 ns Frame0 [0x090] : 3c420fde
 0.0 ns Frame0 [0x014] : 00000400
 0.0 ns Frame0 [0x034] : 04b10f66
+0.0 ns Frame0 [0x054] : adbeefcb
+0.0 ns Frame0 [0x074] : 66deadde
+0.0 ns Frame0 [0x094] : xxxxf4cb
 0.0 ns Frame0 [0x018] : 00bbd78e
 0.0 ns Frame0 [0x038] : ffffb8cb
+0.0 ns Frame0 [0x058] : 24b00fde
+0.0 ns Frame0 [0x078] : cb3c420f
 0.0 ns Frame0 [0x01c] : b9000002
 0.0 ns Frame0 [0x03c] : b10fffff
+0.0 ns Frame0 [0x05c] : cb04c7cb
+0.0 ns Frame0 [0x07c] : efcb04c7
 Flags: CF=0  PF=0  AF=0  ZF=0  SF=0  OF=0  DF=0
 Segments: ES=0000  CS=0000  SS=0000  DS=0000  FS=0000  GS=0000 
 MMX regs: MM0=00000000 00000000  MM1=00000000 00000000  MMX2=00000000 00000000 MM3=00000000 00000000 MM4=00000000 00000000 MM5=00000000 00000000 MM6=00000000 00000000 MM7=00000000 00000000 
@@ -65,7 +86,7 @@ Registers: EAX:00000b00  ECX:00000020  EDX:00000a00  EBX:00000200  ESP:00000300 
 
 545.0 ns Opcode= 0xc7  PC:0x00000024
 Load Memory: (0a000300):00000000deadbeef size:2
-674.0 ns ICACHE   2 : xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxf4cb04
+674.0 ns ICACHE   2 : cb04c7cb24b00fde adbeefcb04c7cb14 b00fdeadbeefcb04 c7deadbeefb8cb04
 797.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx dead beef 
 
 818.0 ns Opcode= 0xb0  PC:0x0000002b
@@ -93,9 +114,90 @@ Load Reg2 : 1111 (0)
 Load Flags: (1111110) 
 Registers: EAX:deadbeef  ECX:00000020  EDX:00000a00  EBX:00000200  ESP:00000300  EBP:00000000  ESI:00000000  EDI:00000400  
 
+893.0 ns Opcode= 0xb8  PC:0x00000042
+Load Reg1 : 1111 (0)
+
+902.0 ns Opcode= 0xc7  PC:0x00000047
+Load Memory: (0a000300):00000000deadbeef size:2
+910.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx xxxx xxxx 
+910.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx dead beef 
+
+931.0 ns Opcode= 0xb0  PC:0x0000004e
+Load Flags: (1111110) 
+Load Memory: (0a000300):0000000000000a00 size:0
+Flags: CF=0  PF=1  AF=0  ZF=1  SF=0  OF=0  DF=0
+938.0 ns DCACHE  16 : Addr=0a000300 Size=0: xxxx xxxx dead bexx 
+938.0 ns DCACHE  16 : Addr=0a000300 Size=0: xxxx xxxx dead be00 
+1013.0 ns ICACHE   3 : efcb04c7cb3c420f 66deaddead05cb3c 420f66cb14b10fcb 04b10f66deadbeef
+
+1062.0 ns Opcode= 0xc7  PC:0x00000052
+Load Memory: (0a000300):00000000deadbeef size:2
+1069.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx xxxx xxxx 
+1069.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx dead beef 
+
+1090.0 ns Opcode= 0xb0  PC:0x00000059
+Load Flags: (1111110) 
+Load Memory: (0a000300):0000000000deadbe size:0
+1098.0 ns DCACHE  16 : Addr=0a000300 Size=0: xxxx xxxx dead bexx 
+1098.0 ns DCACHE  16 : Addr=0a000300 Size=0: xxxx xxxx dead bebe 
+
+1100.0 ns Opcode= 0xc7  PC:0x0000005d
+Load Memory: (0a000300):00000000deadbeef size:2
+1107.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx xxxx xxxx 
+1107.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx dead beef 
+
+1128.0 ns Opcode= 0xb1  PC:0x00000064
+Load Flags: (1111110) 
+Load Memory: (0a000300):00000000deadbeef size:1
+1135.0 ns DCACHE  16 : Addr=0a000300 Size=1: xxxx xxxx dead xxxx 
+1135.0 ns DCACHE  16 : Addr=0a000300 Size=1: xxxx xxxx dead beef 
+
+1156.0 ns Opcode= 0xb1  PC:0x00000069
+Load Flags: (1111110) 
+Load Memory: (0a000300):0000000000000a00 size:2
+1163.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx xxxx xxxx 
+1163.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx 0000 0a00 
+
+1184.0 ns Opcode= 0x42  PC:0x0000006d
+1248.0 ns ICACHE   4 : xxxxxxxxxxxxxxxx xxxxf4cb3c420fde addeadcb0481cb3c 420f01c483deadbe
+
+1297.0 ns Opcode= 0x05  PC:0x00000072
+Load Reg1 : 1111 (0)
+Load Flags: (1111110) 
+Flags: CF=1  PF=1  AF=1  ZF=0  SF=1  OF=0  DF=0
+Registers: EAX:bd5b9d9c  ECX:00000020  EDX:00000a00  EBX:00000200  ESP:00000300  EBP:00000000  ESI:00000000  EDI:00000400  
+
+1307.0 ns Opcode= 0x42  PC:0x00000077
+Load Reg1 : 0011 (7)
+Registers: EAX:bd5b9d9c  ECX:00000020  EDX:00000a00  EBX:00000200  ESP:00000300  EBP:00000000  ESI:00000000  EDI:00000a00  
+
+1316.0 ns Opcode= 0xc7  PC:0x0000007c
+Load Memory: (0a000300):00000000deadbeef size:2
+1323.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx xxxx xxxx 
+1323.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx dead beef 
+
+1335.0 ns Opcode= 0x83  PC:0x00000083
+Load Reg1 : 1111 (4)
+Load Flags: (1111110) 
+Flags: CF=0  PF=0  AF=0  ZF=0  SF=0  OF=0  DF=0
+Registers: EAX:bd5b9d9c  ECX:00000020  EDX:00000a00  EBX:00000200  ESP:00000301  EBP:00000000  ESI:00000000  EDI:00000a00  
+
+1344.0 ns Opcode= 0x42  PC:0x00000086
+
+1354.0 ns Opcode= 0x81  PC:0x0000008a
+Load Flags: (1111110) 
+Load Memory: (0a000300):00000000bd5b9d9c size:2
+Flags: CF=1  PF=1  AF=1  ZF=0  SF=1  OF=0  DF=0
+1361.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx xxxx xxxx 
+1361.0 ns DCACHE  16 : Addr=0a000300 Size=2: xxxx xxxx bd5b 9d9c 
+
+1513.0 ns Opcode= 0x42  PC:0x00000091
+Load Reg1 : 1111 (7)
+Registers: EAX:bd5b9d9c  ECX:00000020  EDX:00000a00  EBX:00000200  ESP:00000301  EBP:00000000  ESI:00000000  EDI:bd5b9d9c  
+
 $finish called from file "testbench.v", line 197.
 $finish at simulation time 16100.0 ns
            V C S   S i m u l a t i o n   R e p o r t 
 Time: 16100000 ps
-CPU Time:      5.070 seconds;       Data structure size:  40.2Mb
-Fri May  4 16:18:09 2018
+CPU Time:      5.580 seconds;       Data structure size:  40.2Mb
+Fri May  4 16:42:57 2018
