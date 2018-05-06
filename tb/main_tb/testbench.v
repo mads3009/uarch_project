@@ -159,7 +159,7 @@ generate begin : get_dtag
   end 
   for (g=0; g<16; g=g+1) begin : dtag2
     always @(u_system.dc_ts_way2[g]) begin
-      $display("%0t DTAG_2 : Addr=%h : REN=%b Index=%2d  %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.ren, g, u_system.dc_ts_way1[g]);
+      $display("%0t DTAG_2 : Addr=%h : REN=%b Index=%2d  %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.ren, g, u_system.dc_ts_way2[g]);
     end    
   end 
 end

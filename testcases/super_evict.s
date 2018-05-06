@@ -10,9 +10,9 @@ movl    $0x3d      , %esi
 movl    $0x40e      , %edi
 
 movl    $40, %ecx
-l1:     movl    $0x98767Ff3, (%esi,%ecx)
-        movl    $0x12cd9876, %es:(%esi,%ecx)
-        movl    $0x637fd6a8, %fs:(%esi,%ecx)
+l1:     movl    $0x11111111, (%esi,%ecx)
+        movl    $0x22222222, %es:(%esi,%ecx)
+        movl    $0x33333333, %fs:(%esi,%ecx)
         addl    (%esi, %ecx), %ebx
         addl    %ebx, %es:(%esi,%ecx) 
         addl    %fs:(%esi,%ecx), %edx 
