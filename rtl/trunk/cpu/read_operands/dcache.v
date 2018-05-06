@@ -184,8 +184,11 @@ muxNbit_2x1 #(.N(16)) u_muxNbit_m2 (.IN0({6'd0,r_ts_tag2, r_ts_valid2, r_ts_dirt
 
 muxNbit_2x1 #(.N(16)) u_muxNbit_m1 (.IN0({6'd0,r_ts_tag1, r_ts_valid1, r_ts_dirty1, 1'b0}), .IN1({6'd0, w_phy_tag,1'b1, 1'b0, 1'b1}), .S0(r_evict_way1), .Y(w_ts_data_in_way1_temp1));
 
-or2$ u_or2_g1(.in0(r_ts_dirty2), .in1(wen), .out(w_new_dirty2));
-or2$ u_or2_g2(.in0(r_ts_dirty1), .in1(wen), .out(w_new_dirty1));
+or2$ u_or2_g1(.in0(r_ts_dirty2), .in1(wen), .out(n801));
+mux2$ u_mux2_g101(.in0(r_ts_dirty2), .in1(n801), .outb(w_new_dirty2), .s0(w_tag_eq2));
+
+or2$ u_or2_g2(.in0(r_ts_dirty1), .in1(wen), .out(n802));
+mux2$ u_mux2_g102(.in0(r_ts_dirty1), .in1(n802), .outb(w_new_dirty1), .s0(w_tag_eq1));
 
 muxNbit_2x1 #(.N(16)) u_muxNbit_m4 (.IN0({6'd0, r_ts_tag2, r_ts_valid2, w_new_dirty2, w_tag_eq2}), .IN1(w_ts_data_in_way2_temp1), .S0(dc_miss_ack), .Y(w_ts_data_in_way2));
 
