@@ -129,7 +129,7 @@ end
 always @(posedge u_system.u_cpu.u_dcache.mem_rd_ready) begin
   @(posedge clk)
   if(u_system.u_cpu.u_dcache.mem_rd_ready)
-      $display("%0t MEM_READ done : Addr=%h Size=%h: %h %h %h %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.u_cpu.u_dcache.mem_rd_data[63:48],u_system.u_cpu.u_dcache.mem_rd_data[47:32],u_system.u_cpu.u_dcache.mem_rd_data[31:16],u_system.u_cpu.u_dcache.mem_rd_data[15:0]);
+      $display("%0t MEM_READ_done : Addr=%h Size=%h: %h %h %h %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, u_system.u_cpu.u_dcache.mem_rd_data[63:48],u_system.u_cpu.u_dcache.mem_rd_data[47:32],u_system.u_cpu.u_dcache.mem_rd_data[31:16],u_system.u_cpu.u_dcache.mem_rd_data[15:0]);
 end
 
 `endif
