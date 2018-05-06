@@ -1,9 +1,9 @@
 .ORG   0x00000000
 movl    $0xa00, %edx
 movw    %dx, %ds
-movl    $0xc00, %eax
-movw    %ax, %es
 movl    $0xb00, %eax
+movw    %ax, %es
+movl    $0xc00, %eax
 movw    %ax, %fs
 
 movl    $0x3d      , %esi

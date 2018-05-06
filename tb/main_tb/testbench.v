@@ -139,12 +139,14 @@ genvar g;
 generate begin : get_dcache
   for (g=0; g<16; g=g+1) begin : dcache2
     always @(u_system.dcache_way2[g]) begin
-      $display("%0t DCACHE_way2 : Addr=%h Size=%h: Index=%2d %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, g, u_system.dcache_way2[g]);
+      $display("%0t DCACHE_way2 : Addr=%h Size=%h: Index=%2d %h %h %h %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, g, u_system.dcache_way2[g][127:96], 
+          u_system.dcache_way2[g][95:64], u_system.dcache_way2[g][63:32], u_system.dcache_way2[g][31:0]);
     end    
   end 
   for (g=0; g<16; g=g+1) begin : dcache1
     always @(u_system.dcache_way1[g]) begin
-      $display("%0t DCACHE_way1 : Addr=%h Size=%h: Index=%2d %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, g, u_system.dcache_way1[g]);
+      $display("%0t DCACHE_way1 : Addr=%h Size=%h: Index=%2d %h %h %h %h",$time, u_system.u_cpu.u_dcache.w_mem_rw_addr_curr, u_system.u_cpu.u_dcache.w_mem_rw_size, g, u_system.dcache_way1[g][127:96],
+          u_system.dcache_way1[g][95:64], u_system.dcache_way1[g][63:32], u_system.dcache_way1[g][31:0]);
     end    
   end 
 end
@@ -249,7 +251,7 @@ always @(posedge clk) begin
    
     //Printing MEM 
     if(ld_mem)
-    $display("Load Memory: (%h):%h size:%d", u_system.u_cpu.r_wb_mem_wr_addr, u_system.u_cpu.w_wb_mem_wr_data, u_system.u_cpu.r_wb_mem_wr_size);
+    $display("Load Memory: Addr(%h) Size:%d : %h %h", u_system.u_cpu.r_wb_mem_wr_addr, u_system.u_cpu.r_wb_mem_wr_size, u_system.u_cpu.w_wb_mem_wr_data[63:32], u_system.u_cpu.w_wb_mem_wr_data[31:0]);
 
     //Printing EIP 
     if(u_system.u_cpu.r_wb_eip_change)
