@@ -824,8 +824,11 @@ rom_value_select rom_vals ( .sr1_sel_reg(control_signals[SR1_SEL_REG_BH:SR1_SEL_
 
 eq_checker3 u_ebp (.in1(de_in1), .in2(3'b101), .eq_out(in1_ebp));
 eq_checker3 u_esp (.in1(de_in1), .in2(3'b100), .eq_out(in1_esp));
+xor2$ u_mod_diff (.out(mod_diff), .in0(mod[0]), .in1(mod[1]));
+and2$ u_ebp_and_mod (.out(in1_ebp_and_mod), .in0(in1_ebp), .in1(mod_diff));
+
 and2$ u_esp_and_sib (.out(in1_esp_and_sib), .in0(in1_esp), .in1(de_SIB_pr));
-or2$ u_cond (.out(cond_seg), .in0(in1_ebp), .in1(in1_esp_and_sib));
+or2$ u_cond (.out(cond_seg), .in0(in1_ebp_and_mod), .in1(in1_esp_and_sib));
 
 mux_nbit_2x1 #3 u_seg1 (.out(de_seg1), .a0(de_seg1_temp), .a1(3'b010), .sel(cond_seg));
 
