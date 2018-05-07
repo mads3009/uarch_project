@@ -312,7 +312,7 @@ initial begin
   u_system.u_cpu.CS_limit = 20'h04fff;
   u_system.u_cpu.DS_limit = 20'h011ff;
   u_system.u_cpu.SS_limit = 20'h04000;
-  u_system.u_cpu.ES_limit = 20'h003ff;
+  u_system.u_cpu.ES_limit = 20'h00419;
   u_system.u_cpu.FS_limit = 20'h003ff;
   u_system.u_cpu.GS_limit = 20'h007ff;
 
