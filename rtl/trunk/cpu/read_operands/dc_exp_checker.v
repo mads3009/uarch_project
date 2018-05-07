@@ -177,11 +177,11 @@ greater_than32 u_greater_than32_1(.in1(rd_addr_offset_end), .in2(seg_rd_limit), 
 greater_than32 u_greater_than32_2(.in1(wr_addr_offset_end), .in2(seg_wr_limit), .gt_out(w_wr_limit_cross));
 
 and3$ u_and3_1(.in0(w_rd_limit_cross), .in1(v_ro_mem_read), .in2(w_isr_bar), .out(w_dc_rd_prot_exp));
-nand4$ u_nand3_3(.in0(w_rd_limit_cross), .in1(v_ro_mem_read), .in2(w_isr_bar), .in3(w_tlb_addr_valid1), .out(w_dc_rd_prot_exp_bar));
+nand3$ u_nand3_3(.in0(w_rd_limit_cross), .in1(v_ro_mem_read), .in2(w_isr_bar), .out(w_dc_rd_prot_exp_bar));
 
 nor3$ u_nor2_1(.in0(w_tlb_wr_rw_bar), .in1(w_wr_limit_cross), .in2(w_tlb_wr_end_rw_bar), .out(n_001));
-nor4$ u_or3_1(.in0(n_001), .in1(w_v_ro_ld_mem_bar), .in2(isr), .in3(w_tlb_addr_valid2_bar), .out(w_dc_wr_prot_exp_start));
-nor4$ u_or3_111(.in0(n_001), .in1(w_v_ro_ld_mem_bar), .in2(isr), .in3(w_tlb_addr_valid4_bar), .out(w_dc_wr_prot_exp_end));
+nor3$ u_or3_1(.in0(n_001), .in1(w_v_ro_ld_mem_bar), .in2(isr), .out(w_dc_wr_prot_exp_start));
+nor3$ u_or3_111(.in0(n_001), .in1(w_v_ro_ld_mem_bar), .in2(isr), .out(w_dc_wr_prot_exp_end));
 nand2$ u_ (.out(w_dc_wr_prot_exp_bar), .in0(w_dc_wr_prot_exp_start), .in1(w_dc_wr_prot_exp_end));
 
 //dc prot exp, dc page fault

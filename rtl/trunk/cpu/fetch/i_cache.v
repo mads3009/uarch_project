@@ -54,9 +54,9 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
 
     // FIXME
     wire [3:0] index_del,index_del0;
-    //assign #1 index_del = index_muxed;
-    bufferH256$ u_buff0[3:0] (.out(index_del0), .in(index_muxed)); 
-    bufferH256$ u_buff1[3:0] (.out(index_del), .in(index_del0)); 
+    assign #1 index_del = index_muxed;
+    //bufferH256$ u_buff0[3:0] (.out(index_del0), .in(index_muxed)); 
+    //bufferH256$ u_buff1[3:0] (.out(index_del), .in(index_del0)); 
     // FIXME END
 
     data_store ds(
