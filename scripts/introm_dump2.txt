@@ -1,8 +1,8 @@
-010xxxxxx000010
-010xxxxxx000010
-111xxxxxx000000
+010xxxxxxxx0000
+010xxxxxxxx0000
+111xxxxxxxx0000
 100xxxxxxxxxxxx
-010xxxxxx000010
-110xxxxxx000010
+010xxxxxxxx0000
+110xxxxxxxx0000
 100xxxxxxxxxxxx
 100xxxxxxxxxxxx
