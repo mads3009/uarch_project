@@ -171,7 +171,7 @@ inv1$ u_inv1_g2(.in(w_tag_eq1), .out(w_tag_eq1_bar));
 
 wire clk_bar_del, clk_del;
 
-assign #1 clk_bar_del = ~clk;
+assign #1.2 clk_bar_del = ~clk;
 assign #1.7 clk_del = clk;
 
 dff$ u_tag_store_sample_reg[19:0] (.clk(clk_bar_del), .r(rst_n), .s(1'b1), .d({w_ts_tag2, w_ts_valid2, w_ts_dirty2, w_ts_lru2, w_ts_tag1, w_ts_valid1, w_ts_dirty1, w_ts_lru1}), .q({r_ts_tag2, r_ts_valid2, r_ts_dirty2, r_ts_lru2, r_ts_tag1, r_ts_valid1, r_ts_dirty1, r_ts_lru1}), .qbar(/*Unused*/));
