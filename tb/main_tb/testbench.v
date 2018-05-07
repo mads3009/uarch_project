@@ -282,40 +282,65 @@ initial begin
   end
 end
 
+localparam TLB_PG0 = 44'h0000000000c;
+localparam TLB_PG1 = 44'h0200000002e;
+localparam TLB_PG2 = 44'h0400000005e;
+localparam TLB_PG3 = 44'h0b00000004e;
+localparam TLB_PG4 = 44'h0b00100007e;
+localparam TLB_PG5 = 44'h0a00000005e;
+localparam TLB_PG6 = 44'h8000000000f;
+localparam TLB_PG7 = 44'hC000000000f;
 // Initialize TLB and segment limit registers
 initial begin
-  u_system.u_cpu.TLB[0] = 44'h0000000000c;
-  u_system.u_cpu.TLB[1] = 44'h0200000002e;
-  u_system.u_cpu.TLB[2] = 44'h0400000005e;
-  u_system.u_cpu.TLB[3] = 44'h0b00000004e;
-  u_system.u_cpu.TLB[4] = 44'h0c00000007e;
-  u_system.u_cpu.TLB[5] = 44'h0a00000005e;
-  u_system.u_cpu.TLB[6] = 44'h8000000000f;
-  u_system.u_cpu.TLB[7] = 44'hC000000000f;
+  u_system.u_cpu.TLB[0] =TLB_PG0 
+  u_system.u_cpu.TLB[1] =TLB_PG1 
+  u_system.u_cpu.TLB[2] =TLB_PG2 
+  u_system.u_cpu.TLB[3] =TLB_PG3 
+  u_system.u_cpu.TLB[4] =TLB_PG4 
+  u_system.u_cpu.TLB[5] =TLB_PG5 
+  u_system.u_cpu.TLB[6] =TLB_PG6 
+  u_system.u_cpu.TLB[7] =TLB_PG7 
   
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[0] = 44'h0000000000c;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[1] = 44'h0200000002e;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[2] = 44'h0400000005e;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[3] = 44'h0b00000004e;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[4] = 44'h0c00000007e;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[5] = 44'h0a00000005e;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[6] = 44'h8000000000f;
-  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[7] = 44'hC000000000f;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[0] = TLB_PG0;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[1] = TLB_PG1;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[2] = TLB_PG2;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[3] = TLB_PG3;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[4] = TLB_PG4;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[5] = TLB_PG5;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[6] = TLB_PG6;
+  u_system.u_cpu.u_dcache.u_tlb.r_tlb_mem[7] = TLB_PG7;
 
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[0] = 44'h0000000000c;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[1] = 44'h0200000002e;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[2] = 44'h0400000005e;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = 44'h0b00000004e;
-  //u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = 44'h0400100004e;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[4] = 44'h0c00000007e;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[5] = 44'h0a00000005e;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[6] = 44'h8000000000f;
-  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[7] = 44'hC000000000f;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[0] = TLB_PG0;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[1] = TLB_PG1;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[2] = TLB_PG2;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[3] = TLB_PG3;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[4] = TLB_PG4;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[5] = TLB_PG5;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[6] = TLB_PG6;
+  u_system.u_cpu.u_dc_exp_checker.u_tlb.r_tlb_mem[7] = TLB_PG7;
+
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[0] = TLB_PG0;
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[1] = TLB_PG1;
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[2] = TLB_PG2;
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[3] = TLB_PG3;
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[4] = TLB_PG4;
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[5] = TLB_PG5;
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[6] = TLB_PG6;
+  u_system.u_cpu.u_dcache.u_tlb1.r_tlb_mem[7] = TLB_PG7;
+
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[0] = TLB_PG0;
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[1] = TLB_PG1;
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[2] = TLB_PG2;
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[3] = TLB_PG3;
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[4] = TLB_PG4;
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[5] = TLB_PG5;
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[6] = TLB_PG6;
+  u_system.u_cpu.u_dcache.u_tlb2.r_tlb_mem[7] = TLB_PG7;
 
   u_system.u_cpu.CS_limit = 20'h04fff;
   u_system.u_cpu.DS_limit = 20'h011ff;
   u_system.u_cpu.SS_limit = 20'h04000;
-  u_system.u_cpu.ES_limit = 20'h00419;
+  u_system.u_cpu.ES_limit = 20'h003ff;
   u_system.u_cpu.FS_limit = 20'h003ff;
   u_system.u_cpu.GS_limit = 20'h007ff;
 
