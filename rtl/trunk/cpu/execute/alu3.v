@@ -66,7 +66,11 @@ mux_nbit_2x1 #16 mux_sw3 (.a0(msb_sat3), .a1(w_res[63:48]), .sel(of3), .out(w_pa
 
 //ECX dec
 wire [31:0] w_ecx_res; 
+wire [63:0] mux3_out; 
+wire [63:0] shuf_cs_eip; 
 cond_sum32 ecx_dec ( .A(ecx), .B(32'hFFFFFFFF), .CIN(1'b0), .S(w_ecx_res), .COUT(/*unused*/));
+assign shuf_cs_eip = {mm1[47:32], mm1[31:16], mm1[63:48], mm1[15:0]};
+mux_nbit_2x1 #64 mux3 (.a0({32'd0,w_ecx_res}), .a1(shuf_cs_eip), .sel(alu3_op[0]), .out(mux3_out));
 
 
 //MUXes
@@ -77,7 +81,7 @@ mux_nbit_2x1 #64 mux0 (.a0(mm1), .a1(mm2), .sel(alu3_op[0]), .out(mux0_out));
 mux_nbit_2x1 #64 mux1 (.a0(mux0_out), .a1(w_pshufw_res), .sel(alu3_op[1]), .out(mux1_out));
 mux_nbit_2x1 #64 mux2 (.a0(mux1_out), .a1(w_paddw_res), .sel(alu3_op[2]), .out(mux2_out));
 
-mux_nbit_4x1 #64 mux_res  (.a0(w_paddd_res), .a1(w_paddsw_res), .a2(mux2_out), .a3({32'd0,w_ecx_res}), .sel(alu3_op[4:3]), .out(alu_res3));
+mux_nbit_4x1 #64 mux_res  (.a0(w_paddd_res), .a1(w_paddsw_res), .a2(mux2_out), .a3(mux3_out), .sel(alu3_op[4:3]), .out(alu_res3));
 
 endmodule
 

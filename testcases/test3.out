@@ -75,8 +75,8 @@
 0x200f: 00 00 00 00	// 
 0x2013: 00 00 00 00	// 
 0x2017: 00 00 00 00	// 
-0x2068: 01 00 00 00	// 		.long 0x02000001		// CS=0x0200, EIP=0x01 (protection fault routine address)
-0x206c: 00 02 00 00	// 		.long 0x00000000  							       
+0x2068: 01 00 00 02	// 		.long 0x02000001		// CS=0x0200, EIP=0x01 (protection fault routine address)
+0x206c: 00 00 00 00	// 		.long 0x00000000  							       
 0x2070: 00 00 00 02	// 		.long 0x02000000		// CS=0x0200, EIP=0x00 (page fault routine address)
 0x2074: 00 00 00 00	// 		.long 0x00000000  
 
@@ -91,4 +91,5 @@
 0x500c: 09 0A 0B 0C	// 		.long 0x0c0b0a09
 0x5010: 0D 0E 0F 10	// 		.long 0x100f0e0d
 0x5014: 11 12 13 14	// 		.long 0x14131211
+
 
