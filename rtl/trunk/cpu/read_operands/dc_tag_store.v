@@ -39,7 +39,7 @@ inv1$ u_inv1_1(.in(index[3]), .out(w_row_sel_bar[1]));
 // Delayed clock
 // FIXME
 wire w_clk_del;
-assign #2 w_clk_del = clk;
+assign #3 w_clk_del = clk;
 /*
 buffer$ u_buffer_1(.out(w_clk_001), .in(clk));
 buffer$ u_buffer_2(.out(w_clk_002), .in(w_clk_001));

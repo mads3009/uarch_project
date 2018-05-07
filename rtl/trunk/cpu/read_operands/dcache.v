@@ -173,7 +173,7 @@ inv1$ u_inv1_g2(.in(w_tag_eq1), .out(w_tag_eq1_bar));
 
 wire clk_bar_del, clk_del;
 
-assign #1.2 clk_bar_del = ~clk;
+assign #2.2 clk_bar_del = ~clk;
 //bufferHInv64$ u_c1 (.out(clk1), .in(clk));
 //bufferH16$ u_c2 (.out(clk2), .in(clk1));
 //bufferH1024$ u_c3 (.out(clk_bar_del), .in(clk2));
