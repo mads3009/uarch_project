@@ -53,8 +53,10 @@ module i_cache(clk, rst_n, ren, index, tag_14_12, tag_11_9, ic_fill_data, ic_mis
     mux_nbit_2x1 #4 u_index_muxed (.a0(index), .a1(ic_miss_ack_addr[8:5]), .sel(ic_miss_ack), .out(index_muxed));
 
     // FIXME
-    wire [3:0] index_del;
-    assign #1 index_del = index_muxed;
+    wire [3:0] index_del,index_del0;
+    //assign #1 index_del = index_muxed;
+    bufferH256$ u_buff0[3:0] (.out(index_del0), .in(index_muxed)); 
+    bufferH256$ u_buff1[3:0] (.out(index_del), .in(index_del0)); 
     // FIXME END
 
     data_store ds(

@@ -149,7 +149,9 @@ mem_rd_data_gen u_mem_rd_data_gen(
 
 // FIXME
 wire [3:0] index_del;
-assign #0.6 index_del = w_mem_rw_addr[7:4];
+//assign #0.6 index_del = w_mem_rw_addr[7:4];
+bufferH1024$ u_buff0[3:0] (.out(index_del), .in(w_mem_rw_addr[7:4]));
+
 // FIXME END
 
 // D-cache data store
@@ -171,8 +173,15 @@ inv1$ u_inv1_g2(.in(w_tag_eq1), .out(w_tag_eq1_bar));
 
 wire clk_bar_del, clk_del;
 
-assign #1.2 clk_bar_del = ~clk;
-assign #1.7 clk_del = clk;
+//assign #1.2 clk_bar_del = ~clk;
+bufferHInv64$ u_c1 (.out(clk1), .in(clk));
+bufferH16$ u_c2 (.out(clk2), .in(clk1));
+bufferH1024$ u_c3 (.out(clk_bar_del), .in(clk2));
+
+//assign #1.7 clk_del = clk;
+bufferH1024$ u_c11 (.out(clk11), .in(clk));
+bufferH1024$ u_c12 (.out(clk12), .in(clk11));
+bufferH1024$ u_c13 (.out(clk_del), .in(clk12));
 
 dff$ u_tag_store_sample_reg[19:0] (.clk(clk_bar_del), .r(rst_n), .s(1'b1), .d({w_ts_tag2, w_ts_valid2, w_ts_dirty2, w_ts_lru2, w_ts_tag1, w_ts_valid1, w_ts_dirty1, w_ts_lru1}), .q({r_ts_tag2, r_ts_valid2, r_ts_dirty2, r_ts_lru2, r_ts_tag1, r_ts_valid1, r_ts_dirty1, r_ts_lru1}), .qbar(/*Unused*/));
 
