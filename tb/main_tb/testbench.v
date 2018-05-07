@@ -83,7 +83,10 @@ assign ld_SF = testbench.u_system.u_cpu.w_v_wb_ld_flag_SF;
 assign ld_PF = testbench.u_system.u_cpu.w_v_wb_ld_flag_PF;
 assign ld_AF = testbench.u_system.u_cpu.w_v_wb_ld_flag_AF;
 assign ld_DF = testbench.u_system.u_cpu.w_v_wb_ld_flag_DF;
-
+initial begin
+$disable_warnings("timing",u_system.u_cpu.u_dcache.u_evict_sample_reg[0]);
+$disable_warnings("timing",u_system.u_cpu.u_dcache.u_evict_sample_reg[1]);
+end
 assign dreg1 = testbench.u_system.u_cpu.r_wb_dreg1;
 assign dreg2 = testbench.u_system.u_cpu.r_wb_dreg2;
 assign dreg3 = testbench.u_system.u_cpu.r_wb_dreg3;
@@ -312,7 +315,7 @@ initial begin
   u_system.u_cpu.CS_limit = 20'h04fff;
   u_system.u_cpu.DS_limit = 20'h011ff;
   u_system.u_cpu.SS_limit = 20'h04000;
-  u_system.u_cpu.ES_limit = 20'h003ff;
+  u_system.u_cpu.ES_limit = 20'h00419;
   u_system.u_cpu.FS_limit = 20'h003ff;
   u_system.u_cpu.GS_limit = 20'h007ff;
 
