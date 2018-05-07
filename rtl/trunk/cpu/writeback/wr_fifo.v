@@ -8,7 +8,7 @@
 module wr_fifo(clk, rst_n, fifo_empty, fifo_full, fifo_empty_bar, fifo_full_bar, 
                fifo_cnt, wr, wr_data, rd, rd_data, fifo_wr_addr0_start , fifo_wr_addr0_end   , fifo_wr_addr1_start , fifo_wr_addr1_end   , fifo_wr_addr2_start , fifo_wr_addr2_end   , fifo_wr_addr3_start , fifo_wr_addr3_end   , fifo_rd_ptr);
 
-parameter DATA_W = 8*8+32+32+2;
+parameter DATA_W = 8*8+32+32+2+15+15;
 
 input               clk;
 input               rst_n;
@@ -21,14 +21,14 @@ output              fifo_full;
 output              fifo_empty_bar;
 output              fifo_full_bar;
 output [2:0]        fifo_cnt;
-output [31:0]       fifo_wr_addr0_start ;
-output [31:0]       fifo_wr_addr0_end   ;
-output [31:0]       fifo_wr_addr1_start ;
-output [31:0]       fifo_wr_addr1_end   ;
-output [31:0]       fifo_wr_addr2_start ;
-output [31:0]       fifo_wr_addr2_end   ;
-output [31:0]       fifo_wr_addr3_start ;
-output [31:0]       fifo_wr_addr3_end   ;
+output [14:0]       fifo_wr_addr0_start ;
+output [14:0]       fifo_wr_addr0_end   ;
+output [14:0]       fifo_wr_addr1_start ;
+output [14:0]       fifo_wr_addr1_end   ;
+output [14:0]       fifo_wr_addr2_start ;
+output [14:0]       fifo_wr_addr2_end   ;
+output [14:0]       fifo_wr_addr3_start ;
+output [14:0]       fifo_wr_addr3_end   ;
 output [1:0]        fifo_rd_ptr   ;
 
 // Internal Variables
@@ -44,14 +44,14 @@ wire [3:0]        w_wr_ptr_eq;
 
 //To memconflict checker
 assign fifo_rd_ptr = r_rd_ptr;
-assign fifo_wr_addr0_start = r_mem[0][95:64];
-assign fifo_wr_addr0_end =   r_mem[0][127:96];
-assign fifo_wr_addr1_start = r_mem[1][95:64];
-assign fifo_wr_addr1_end =   r_mem[1][127:96];
-assign fifo_wr_addr2_start = r_mem[2][95:64];
-assign fifo_wr_addr2_end =   r_mem[2][127:96];
-assign fifo_wr_addr3_start = r_mem[3][95:64];
-assign fifo_wr_addr3_end =   r_mem[3][127:96];
+assign fifo_wr_addr0_start = r_mem[0][78:64];
+assign fifo_wr_addr0_end =   r_mem[0][93:79];
+assign fifo_wr_addr1_start = r_mem[1][78:64];
+assign fifo_wr_addr1_end =   r_mem[1][93:79];
+assign fifo_wr_addr2_start = r_mem[2][78:64];
+assign fifo_wr_addr2_end =   r_mem[2][93:79];
+assign fifo_wr_addr3_start = r_mem[3][78:64];
+assign fifo_wr_addr3_end =   r_mem[3][93:79];
 
 // rd_ptr update
 register #(.N(2)) u_rd_ptr_reg(.clk(clk), .rst_n(rst_n), .set_n(1'b1), .data_i(w_rd_ptr_inc), .data_o(r_rd_ptr), .ld(w_ld_rd_ptr));

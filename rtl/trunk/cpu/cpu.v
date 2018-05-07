@@ -94,6 +94,7 @@ wire w_fifo_empty;
 wire [2:0] w_fifo_cnt;
 wire w_fifo_to_be_full;
 wire [31:0] w_fifo_mem_wr_addr_end;
+wire [14:0] w_fifo_mem_wr_phy_addr_end;
 
 //Interrupts and Exceptions
 wire w_dc_exp;
@@ -615,6 +616,28 @@ wire       w_mux_ag_ld_flag_SF;
 wire       w_mux_ag_ld_flag_DF;
 wire       w_mux_ag_ld_flag_OF;
 wire       w_mux_V_ag;
+
+
+//NEW PHY ADDRESSES ADDITION
+wire [14:0] r_ro_phy_addr1       ;
+wire [14:0] r_ro_phy_addr2       ;
+wire [14:0] r_ro_phy_addr1_end_rd;
+wire [14:0] r_ro_phy_addr2_end_rd;
+wire [14:0] r_ro_phy_addr1_end_wr;
+wire [14:0] r_ro_phy_addr2_end_wr;
+
+wire [14:0] w_ro_mem_rd_phy_addr;
+wire [14:0] w_ro_mem_rd_phy_addr_end;
+wire [14:0] w_ro_mem_wr_phy_addr;
+wire [14:0] w_ro_mem_wr_phy_addr_end;
+
+wire [14:0] r_wb_mem_wr_phy_addr;
+wire [14:0] r_wb_mem_wr_phy_addr_end;
+
+wire [31:0] w_ag_addr1_end_rd;
+wire [31:0] w_ag_addr1_end_wr;
+wire [31:0] w_ag_addr2_end_rd;
+wire [31:0] w_ag_addr2_end_wr;
 
 // ***************** FETCH STAGE ******************
 
@@ -1685,13 +1708,203 @@ mux_nbit_4x1 #32 u_w_ag_addr_end_pos_rd (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3
 wire [31:0] w_ag_addr_end_pos_wr;
 mux_nbit_4x1 #32 u_w_ag_addr_end_pos_wr (.a0(32'h0), .a1(32'h1), .a2(32'h3), .a3(32'h7), .sel(w_mux_ag_mem_wr_size), .out(w_ag_addr_end_pos_wr));
 
-//addr1
+
 wire [31:0] w_ag_addr1;
+wire [31:0] w_ag_addr2;
+
+wire [2:0] w_tlb_addr1;
+wire [2:0] w_tlb_addr1_rdend;
+wire [2:0] w_tlb_addr1_wrend;
+
+wire [19:0] w_tlb_phy_pn1;
+wire [19:0] w_tlb_phy_pn1_rdend;
+wire [19:0] w_tlb_phy_pn1_wrend;
+
+wire [2:0] w_tlb_addr2;
+wire [2:0] w_tlb_addr2_rdend;
+wire [2:0] w_tlb_addr2_wrend;
+
+wire [19:0] w_tlb_phy_pn2;
+wire [19:0] w_tlb_phy_pn2_rdend;
+wire [19:0] w_tlb_phy_pn2_wrend;
+
+wire [19:0] w_tlb_pn0;
+wire [19:0] w_tlb_pn1;
+wire [19:0] w_tlb_pn2;
+wire [19:0] w_tlb_pn3;
+wire [19:0] w_tlb_pn4;
+wire [19:0] w_tlb_pn5;
+wire [19:0] w_tlb_pn6;
+wire [19:0] w_tlb_pn7;
+
+//TLB addition to AG stage
+//TLB addition to AG stage
+tlb u_tlb1(
+  .tlb_pn0(),
+  .tlb_pn1(),
+  .tlb_pn2(),
+  .tlb_pn3(),
+  .tlb_pn4(),
+  .tlb_pn5(),
+  .tlb_pn6(),
+  .tlb_pn7(),
+  .tlb_addr1(w_tlb_addr1),
+  .tlb_phy_pn1(w_tlb_phy_pn1),
+  .tlb_vpn1(/*Unused*/),
+  .tlb_valid1(/*Unused*/),
+  .tlb_pr1(/*Unused*/),
+  .tlb_rw1(/*Unused*/),
+  .tlb_pcd1(/*Unused*/),
+  .tlb_addr2(w_tlb_addr1_rdend),
+  .tlb_phy_pn2(w_tlb_phy_pn1_rdend),
+  .tlb_vpn2(/*Unused*/),
+  .tlb_valid2(/*Unused*/),
+  .tlb_pr2(/*Unused*/),
+  .tlb_rw2(/*Unused*/),
+  .tlb_pcd2(/*Unused*/),
+  .tlb_addr3(w_tlb_addr1_wrend),
+  .tlb_phy_pn3(w_tlb_phy_pn1_wrend),
+  .tlb_vpn3(/*Unused*/),
+  .tlb_valid3(/*Unused*/),
+  .tlb_pr3(/*Unused*/),
+  .tlb_rw3(/*Unused*/),
+  .tlb_pcd3(),
+  .tlb_addr4(/*Unused*/),
+  .tlb_phy_pn4(/*Unused*/),
+  .tlb_vpn4(/*Unused*/),
+  .tlb_valid4(/*Unused*/),
+  .tlb_pr4(/*Unused*/),
+  .tlb_rw4(/*Unused*/),
+  .tlb_pcd4(/*Unused*/)
+  );
+
+tlb u_tlb2(
+  .tlb_pn0(w_tlb_pn0),
+  .tlb_pn1(w_tlb_pn1),
+  .tlb_pn2(w_tlb_pn2),
+  .tlb_pn3(w_tlb_pn3),
+  .tlb_pn4(w_tlb_pn4),
+  .tlb_pn5(w_tlb_pn5),
+  .tlb_pn6(w_tlb_pn6),
+  .tlb_pn7(w_tlb_pn7),
+  .tlb_addr1(w_tlb_addr2),
+  .tlb_phy_pn1(w_tlb_phy_pn2),
+  .tlb_vpn1(/*Unused*/),
+  .tlb_valid1(/*Unused*/),
+  .tlb_pr1(/*Unused*/),
+  .tlb_rw1(/*Unused*/),
+  .tlb_pcd1(/*Unused*/),
+  .tlb_addr2(w_tlb_addr2),
+  .tlb_phy_pn2(w_tlb_phy_pn2_rdend),
+  .tlb_vpn2(/*Unused*/),
+  .tlb_valid2(/*Unused*/),
+  .tlb_pr2(/*Unused*/),
+  .tlb_rw2(/*Unused*/),
+  .tlb_pcd2(/*Unused*/),
+  .tlb_addr3(w_tlb_addr2),
+  .tlb_phy_pn3(w_tlb_phy_pn2_wrend),
+  .tlb_vpn3(/*Unused*/),
+  .tlb_valid3(/*Unused*/),
+  .tlb_pr3(/*Unused*/),
+  .tlb_rw3(/*Unused*/),
+  .tlb_pcd3(),
+  .tlb_addr4(/*Unused*/),
+  .tlb_phy_pn4(/*Unused*/),
+  .tlb_vpn4(/*Unused*/),
+  .tlb_valid4(/*Unused*/),
+  .tlb_pr4(/*Unused*/),
+  .tlb_rw4(/*Unused*/),
+  .tlb_pcd4(/*Unused*/)
+  );
+
+tlb_addr_gen u_tlb_addr_gen_addr1(
+  .mem_rw_addr_vpn(w_ag_addr1[31:12]),
+  .tlb_pn0(w_tlb_pn0),
+  .tlb_pn1(w_tlb_pn1),
+  .tlb_pn2(w_tlb_pn2),
+  .tlb_pn3(w_tlb_pn3),
+  .tlb_pn4(w_tlb_pn4),
+  .tlb_pn5(w_tlb_pn5),
+  .tlb_pn6(w_tlb_pn6),
+  .tlb_pn7(w_tlb_pn7),
+  .tlb_addr(w_tlb_addr1),
+  .tlb_addr_valid(/*Unused*/)
+  );
+
+tlb_addr_gen u_tlb_addr_gen_addr1_rd(
+  .mem_rw_addr_vpn(w_ag_addr1_end_rd[31:12]),
+  .tlb_pn0(w_tlb_pn0),
+  .tlb_pn1(w_tlb_pn1),
+  .tlb_pn2(w_tlb_pn2),
+  .tlb_pn3(w_tlb_pn3),
+  .tlb_pn4(w_tlb_pn4),
+  .tlb_pn5(w_tlb_pn5),
+  .tlb_pn6(w_tlb_pn6),
+  .tlb_pn7(w_tlb_pn7),
+  .tlb_addr(w_tlb_addr1_rdend),
+  .tlb_addr_valid(/*Unused*/)
+  );
+
+tlb_addr_gen u_tlb_addr_gen_addr1_wr(
+  .mem_rw_addr_vpn(w_ag_addr1_end_wr[31:12]),
+  .tlb_pn0(w_tlb_pn0),
+  .tlb_pn1(w_tlb_pn1),
+  .tlb_pn2(w_tlb_pn2),
+  .tlb_pn3(w_tlb_pn3),
+  .tlb_pn4(w_tlb_pn4),
+  .tlb_pn5(w_tlb_pn5),
+  .tlb_pn6(w_tlb_pn6),
+  .tlb_pn7(w_tlb_pn7),
+  .tlb_addr(w_tlb_addr1_wrend),
+  .tlb_addr_valid(/*Unused*/)
+  );
+
+tlb_addr_gen u_tlb_addr_gen_addr2(
+  .mem_rw_addr_vpn(w_ag_addr2[31:12]),
+  .tlb_pn0(w_tlb_pn0),
+  .tlb_pn1(w_tlb_pn1),
+  .tlb_pn2(w_tlb_pn2),
+  .tlb_pn3(w_tlb_pn3),
+  .tlb_pn4(w_tlb_pn4),
+  .tlb_pn5(w_tlb_pn5),
+  .tlb_pn6(w_tlb_pn6),
+  .tlb_pn7(w_tlb_pn7),
+  .tlb_addr(w_tlb_addr2),
+  .tlb_addr_valid(/*Unused*/)
+  );
+
+tlb_addr_gen u_tlb_addr_gen_addr2_rd(
+  .mem_rw_addr_vpn(w_ag_addr2_end_rd[31:12]),
+  .tlb_pn0(w_tlb_pn0),
+  .tlb_pn1(w_tlb_pn1),
+  .tlb_pn2(w_tlb_pn2),
+  .tlb_pn3(w_tlb_pn3),
+  .tlb_pn4(w_tlb_pn4),
+  .tlb_pn5(w_tlb_pn5),
+  .tlb_pn6(w_tlb_pn6),
+  .tlb_pn7(w_tlb_pn7),
+  .tlb_addr(w_tlb_addr2_rdend),
+  .tlb_addr_valid(/*Unused*/)
+  );
+
+tlb_addr_gen u_tlb_addr_gen_addr2_wr(
+  .mem_rw_addr_vpn(w_ag_addr2_end_wr[31:12]),
+  .tlb_pn0(w_tlb_pn0),
+  .tlb_pn1(w_tlb_pn1),
+  .tlb_pn2(w_tlb_pn2),
+  .tlb_pn3(w_tlb_pn3),
+  .tlb_pn4(w_tlb_pn4),
+  .tlb_pn5(w_tlb_pn5),
+  .tlb_pn6(w_tlb_pn6),
+  .tlb_pn7(w_tlb_pn7),
+  .tlb_addr(w_tlb_addr2_wrend),
+  .tlb_addr_valid(/*Unused*/)
+  );
+
+//addr1
 wallace_abc_adder u_w_ag_addr1( .A(w_ag_disp_add_seg), .B(w_ag_addr_base), .C(w_ag_scaled_index_muxed), .CIN(1'b0), .S(w_ag_addr1) ); 
 
-wire [31:0] w_ag_addr1_end_rd;
 cond_sum32 u_w_ag_addr1_end_rd  ( .A(w_ag_addr1), .B(w_ag_addr_end_pos_rd), .CIN(1'd0), .S(w_ag_addr1_end_rd), .COUT(/*unused*/)); 
-wire [31:0] w_ag_addr1_end_wr;
 cond_sum32 u_w_ag_addr1_end_wr  ( .A(w_ag_addr1), .B(w_ag_addr_end_pos_wr), .CIN(1'd0), .S(w_ag_addr1_end_wr), .COUT(/*unused*/)); 
 
 //reg2 and ESP muxed
@@ -1708,12 +1921,9 @@ assign w_ag_ISR = w_rseq_mux_sel;
 
 //addr2
 wire [31:0] w_ag_addr2_temp;
-wire [31:0] w_ag_addr2;
 wallace_abc_adder u_w_ag_addr2_temp ( .A(w_ag_reg2_ESP_muxed), .B({r_ag_seg_data2,16'h0}), .C(w_ag_stack_off), .CIN(1'b0), .S(w_ag_addr2_temp) ); 
 
-wire [31:0] w_ag_addr2_end_rd;
 cond_sum32 u_w_ag_addr2_end_rd  ( .A(w_ag_addr2), .B(w_ag_addr_end_pos_rd), .CIN(1'd0), .S(w_ag_addr2_end_rd), .COUT(/*unused*/)); 
-wire [31:0] w_ag_addr2_end_wr;
 cond_sum32 u_w_ag_addr2_end_wr  ( .A(w_ag_addr2), .B(w_ag_addr_end_pos_wr), .CIN(1'd0), .S(w_ag_addr2_end_wr), .COUT(/*unused*/)); 
 
 wire IDT_and_ISR;
@@ -1785,6 +1995,13 @@ register #32         u_r_ro_addr2_offset_end_wr   (.clk(clk), .rst_n(rst_n), .se
 register #1          u_r_ro_ISR                   (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_ag_ISR         ),            .data_o(r_ro_ISR         ));
 register #1          u_V_ro                       (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(w_V_ro_next),                  .data_o(r_V_ro));
 register #1          u_r_ro_IDT_and_ISR           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(IDT_and_ISR),                  .data_o(r_ro_IDT_and_ISR));
+
+register #15         u_r_ro_phy_addr1             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1[2:0],w_ag_addr1[11:0]}),                   .data_o(r_ro_phy_addr1       ));
+register #15         u_r_ro_phy_addr2             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1_rdend[2:0],w_ag_addr2[11:0]}),            .data_o(r_ro_phy_addr2       ));
+register #15         u_r_ro_phy_addr1_end_rd      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1_wrend[2:0],w_ag_addr1_end_rd[11:0]}),     .data_o(r_ro_phy_addr1_end_rd));
+register #15         u_r_ro_phy_addr2_end_rd      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2[2:0],w_ag_addr2_end_rd[11:0]}),            .data_o(r_ro_phy_addr2_end_rd));
+register #15         u_r_ro_phy_addr1_end_wr      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2_rdend[2:0],w_ag_addr1_end_wr[11:0]}),      .data_o(r_ro_phy_addr1_end_wr));
+register #15         u_r_ro_phy_addr2_end_wr      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2_wrend[2:0],w_ag_addr2_end_wr[11:0]}),      .data_o(r_ro_phy_addr2_end_wr));
 
 // ***************** READ OPERANDS STAGE ******************
 
@@ -1873,6 +2090,7 @@ wire [31:0]  w_ro_mem_rd_addr_end;
 
 //DCACHE
 wire [31:0] w_fifo_mem_wr_addr;
+wire [14:0] w_fifo_mem_wr_phy_addr;
 wire [1:0] w_fifo_mem_wr_size;
 wire [63:0] w_fifo_mem_wr_data;
 wire w_ro_mem_conflict;
@@ -1893,14 +2111,14 @@ wire [31:0] w_dc_evict_addr;
 wire [127:0] w_dc_evict_data;
 
 //mem_conflict
-wire [31:0] w_fifo_wr_addr0_start;
-wire [31:0] w_fifo_wr_addr0_end;
-wire [31:0] w_fifo_wr_addr1_start;
-wire [31:0] w_fifo_wr_addr1_end;
-wire [31:0] w_fifo_wr_addr2_start;
-wire [31:0] w_fifo_wr_addr2_end;
-wire [31:0] w_fifo_wr_addr3_start;
-wire [31:0] w_fifo_wr_addr3_end;
+wire [14:0] w_fifo_wr_paddr0_start;
+wire [14:0] w_fifo_wr_paddr0_end;
+wire [14:0] w_fifo_wr_paddr1_start;
+wire [14:0] w_fifo_wr_paddr1_end;
+wire [14:0] w_fifo_wr_paddr2_start;
+wire [14:0] w_fifo_wr_paddr2_end;
+wire [14:0] w_fifo_wr_paddr3_start;
+wire [14:0] w_fifo_wr_paddr3_end;
 wire [1:0] w_fifo_rd_ptr;
 
 //cmps_flag
@@ -1913,19 +2131,19 @@ wire r_cmps_flag_bar;
 // assign w_ro_mem_conflict = 1'b0;
 mem_conflict_gen u_w_ro_mem_conflict(
   .v_ro_mem_read            (w_v_ro_mem_read),
-  .ro_mem_rd_addr_start     (w_ro_mem_rd_addr),
-  .ro_mem_rd_addr_end       (w_ro_mem_rd_addr_end),
+  .ro_mem_rd_addr_start     (w_ro_mem_rd_phy_addr),
+  .ro_mem_rd_addr_end       (w_ro_mem_rd_phy_addr_end),
   .v_wb_ld_mem              (w_v_wb_ld_mem),
-  .wb_mem_wr_addr_start     (r_wb_mem_wr_addr),
-  .wb_mem_wr_addr_end       (r_wb_mem_wr_addr_end),
-  .fifo_wr_addr0_start      (w_fifo_wr_addr0_start),
-  .fifo_wr_addr0_end        (w_fifo_wr_addr0_end),
-  .fifo_wr_addr1_start      (w_fifo_wr_addr1_start),
-  .fifo_wr_addr1_end        (w_fifo_wr_addr1_end),
-  .fifo_wr_addr2_start      (w_fifo_wr_addr2_start),
-  .fifo_wr_addr2_end        (w_fifo_wr_addr2_end),
-  .fifo_wr_addr3_start      (w_fifo_wr_addr3_start),
-  .fifo_wr_addr3_end        (w_fifo_wr_addr3_end),
+  .wb_mem_wr_addr_start     (r_wb_mem_wr_phy_addr),
+  .wb_mem_wr_addr_end       (r_wb_mem_wr_phy_addr_end),
+  .fifo_wr_addr0_start      (w_fifo_wr_paddr0_start),
+  .fifo_wr_addr0_end        (w_fifo_wr_paddr0_end),
+  .fifo_wr_addr1_start      (w_fifo_wr_paddr1_start),
+  .fifo_wr_addr1_end        (w_fifo_wr_paddr1_end),
+  .fifo_wr_addr2_start      (w_fifo_wr_paddr2_start),
+  .fifo_wr_addr2_end        (w_fifo_wr_paddr2_end),
+  .fifo_wr_addr3_start      (w_fifo_wr_paddr3_start),
+  .fifo_wr_addr3_end        (w_fifo_wr_paddr3_end),
   .fifo_cnt                 (w_fifo_cnt),
   .fifo_rd_ptr              (w_fifo_rd_ptr),
   .mem_conflict             (w_ro_mem_conflict)
@@ -2142,6 +2360,9 @@ mux_nbit_2x1 #20 u_w_ro_seg_wr_limit (.a0(r_ro_seg1_limit), .a1(r_ro_seg2_limit)
 mux_nbit_2x1 u_w_ro_wr_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offset), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_wr_addr_offset));
 mux_nbit_2x1 u_w_ro_wr_addr_offset_end (.a0(r_ro_addr1_offset_end_wr), .a1(r_ro_addr2_offset_end_wr), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_wr_addr_offset_end));
 
+mux_nbit_2x1 #15 u_w_ro_mem_wr_paddr     (.a0(r_ro_phy_addr1), .a1(r_ro_phy_addr2), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_mem_wr_phy_addr));
+mux_nbit_2x1 #15 u_w_ro_mem_wr_paddr_end (.a0(r_ro_phy_addr1_end_wr), .a1(r_ro_phy_addr2_end_wr), .sel(r_ro_wr_mem_addr_sel), .out(w_ro_mem_wr_phy_addr_end));
+
 //mem rd addr/limit/offset
 mux2$ u_w_ro_rd_mem_addr_sel (.outb(w_ro_rd_mem_addr_sel), .in0(r_ro_mem_rd_addr_sel), .in1(r_cmps_flag), .s0(r_ro_cmps_op));
 
@@ -2150,6 +2371,9 @@ mux_nbit_2x1 u_w_ro_mem_rd_addr_end (.a0(r_ro_addr1_end_rd), .a1(r_ro_addr2_end_
 mux_nbit_2x1 #20 u_w_ro_seg_rd_limit (.a0(r_ro_seg1_limit), .a1(r_ro_seg2_limit), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_seg_rd_limit));
 mux_nbit_2x1 u_w_ro_rd_addr_offset (.a0(r_ro_addr1_offset), .a1(r_ro_addr2_offset), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_rd_addr_offset));
 mux_nbit_2x1 u_w_ro_rd_addr_offset_end (.a0(r_ro_addr1_offset_end_rd), .a1(r_ro_addr2_offset_end_rd), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_rd_addr_offset_end));
+
+mux_nbit_2x1 #15 u_w_ro_mem_rd_paddr     (.a0(r_ro_phy_addr1), .a1(r_ro_phy_addr2), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_phy_addr));
+mux_nbit_2x1 #15 u_w_ro_mem_rd_paddr_end (.a0(r_ro_phy_addr1_end_rd), .a1(r_ro_phy_addr2_end_rd), .sel(w_ro_rd_mem_addr_sel), .out(w_ro_mem_rd_phy_addr_end));
 
 //Newly generated RO to EX signals latching
 register #32 u_r_ex_ECX             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_ECX            ), .data_o(r_ex_ECX            ));
@@ -2164,6 +2388,8 @@ register #32 u_r_ex_mem_wr_addr     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld
 register #32 u_r_ex_mem_wr_addr_end (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_mem_wr_addr_end), .data_o(r_ex_mem_wr_addr_end));
 register #1  u_V_ex                 (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_V_ex_next),          .data_o(r_V_ex));
 
+register #15 u_r_ex_mem_wr_paddr     (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_mem_wr_phy_addr    ), .data_o(r_wb_mem_wr_phy_addr));
+register #15 u_r_ex_mem_wr_paddr_end (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ex), .data_i(w_ro_mem_wr_phy_addr_end), .data_o(r_wb_mem_wr_phy_addr_end));
 // ***************** EXECUTE STAGE ******************                          
 
 //EX generates these:
@@ -2381,21 +2607,21 @@ wr_fifo u_wr_fifo(
   .rst_n              (rst_n),
   .wr                 (w_v_wb_ld_mem),
   .rd                 (w_mem_wr_done),
-  .wr_data            ({r_wb_mem_wr_size, r_wb_mem_wr_addr_end, r_wb_mem_wr_addr, w_wb_mem_wr_data}),
-  .rd_data            ({w_fifo_mem_wr_size, w_fifo_mem_wr_addr_end, w_fifo_mem_wr_addr, w_fifo_mem_wr_data}),
+  .wr_data            ({r_wb_mem_wr_size, r_wb_mem_wr_addr_end, r_wb_mem_wr_addr, r_wb_mem_wr_phy_addr_end, r_wb_mem_wr_phy_addr, w_wb_mem_wr_data}),
+  .rd_data            ({w_fifo_mem_wr_size, w_fifo_mem_wr_addr_end, w_fifo_mem_wr_addr, w_fifo_mem_wr_phy_addr_end, w_fifo_mem_wr_phy_addr, w_fifo_mem_wr_data}),
   .fifo_empty         (w_fifo_empty),
   .fifo_full          (w_fifo_full),
   .fifo_empty_bar     (w_fifo_empty_bar),
   .fifo_full_bar      (w_fifo_full_bar),
   .fifo_cnt           (w_fifo_cnt),
-  .fifo_wr_addr0_start      (w_fifo_wr_addr0_start),
-  .fifo_wr_addr0_end        (w_fifo_wr_addr0_end),
-  .fifo_wr_addr1_start      (w_fifo_wr_addr1_start),
-  .fifo_wr_addr1_end        (w_fifo_wr_addr1_end),
-  .fifo_wr_addr2_start      (w_fifo_wr_addr2_start),
-  .fifo_wr_addr2_end        (w_fifo_wr_addr2_end),
-  .fifo_wr_addr3_start      (w_fifo_wr_addr3_start),
-  .fifo_wr_addr3_end        (w_fifo_wr_addr3_end),
+  .fifo_wr_addr0_start      (w_fifo_wr_paddr0_start),
+  .fifo_wr_addr0_end        (w_fifo_wr_paddr0_end),
+  .fifo_wr_addr1_start      (w_fifo_wr_paddr1_start),
+  .fifo_wr_addr1_end        (w_fifo_wr_paddr1_end),
+  .fifo_wr_addr2_start      (w_fifo_wr_paddr2_start),
+  .fifo_wr_addr2_end        (w_fifo_wr_paddr2_end),
+  .fifo_wr_addr3_start      (w_fifo_wr_paddr3_start),
+  .fifo_wr_addr3_end        (w_fifo_wr_paddr3_end),
   .fifo_rd_ptr              (w_fifo_rd_ptr)
 );
 
