@@ -1997,10 +1997,10 @@ register #1          u_V_ro                       (.clk(clk), .rst_n(rst_n), .se
 register #1          u_r_ro_IDT_and_ISR           (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i(IDT_and_ISR),                  .data_o(r_ro_IDT_and_ISR));
 
 register #15         u_r_ro_phy_addr1             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1[2:0],w_ag_addr1[11:0]}),                   .data_o(r_ro_phy_addr1       ));
-register #15         u_r_ro_phy_addr2             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1_rdend[2:0],w_ag_addr2[11:0]}),            .data_o(r_ro_phy_addr2       ));
-register #15         u_r_ro_phy_addr1_end_rd      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1_wrend[2:0],w_ag_addr1_end_rd[11:0]}),     .data_o(r_ro_phy_addr1_end_rd));
-register #15         u_r_ro_phy_addr2_end_rd      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2[2:0],w_ag_addr2_end_rd[11:0]}),            .data_o(r_ro_phy_addr2_end_rd));
-register #15         u_r_ro_phy_addr1_end_wr      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2_rdend[2:0],w_ag_addr1_end_wr[11:0]}),      .data_o(r_ro_phy_addr1_end_wr));
+register #15         u_r_ro_phy_addr2             (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2[2:0],w_ag_addr2[11:0]}),            .data_o(r_ro_phy_addr2       ));
+register #15         u_r_ro_phy_addr1_end_rd      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1_rdend[2:0],w_ag_addr1_end_rd[11:0]}),     .data_o(r_ro_phy_addr1_end_rd));
+register #15         u_r_ro_phy_addr2_end_rd      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2_rdend[2:0],w_ag_addr2_end_rd[11:0]}),            .data_o(r_ro_phy_addr2_end_rd));
+register #15         u_r_ro_phy_addr1_end_wr      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn1_wrend[2:0],w_ag_addr1_end_wr[11:0]}),      .data_o(r_ro_phy_addr1_end_wr));
 register #15         u_r_ro_phy_addr2_end_wr      (.clk(clk), .rst_n(rst_n), .set_n(1'b1), .ld(w_ld_ro), .data_i({w_tlb_phy_pn2_wrend[2:0],w_ag_addr2_end_wr[11:0]}),      .data_o(r_ro_phy_addr2_end_wr));
 
 // ***************** READ OPERANDS STAGE ******************
