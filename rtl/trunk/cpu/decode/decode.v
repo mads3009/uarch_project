@@ -232,6 +232,7 @@ wire [7:0]  SIB;
 wire [15:0] ptr_cs;
 wire [31:0] ptr_eip;
 
+wire [2:0] de_seg1_temp;
 wire [127:0] control_signals;
 wire [15:0] ptr_cs_1;
 wire [31:0] imm;
@@ -771,7 +772,7 @@ segment_addr_dependency seg_vals (.cmps_op(control_signals[CMPS_OP]),
                                   .seg1_needed(de_seg1_needed),
                                   .seg2_needed(de_seg2_needed),
                                   .seg3_needed(de_seg3_needed),
-                                  .seg1(de_seg1),
+                                  .seg1(de_seg1_temp),
                                   .seg2(de_seg2),
                                   .seg3(de_seg3),
                                   .dseg(de_dseg),
@@ -818,6 +819,15 @@ rom_value_select rom_vals ( .sr1_sel_reg(control_signals[SR1_SEL_REG_BH:SR1_SEL_
                             .base_sel(de_base_sel),
                             .disp_sel(de_disp_sel),
                             .SIB_pr(de_SIB_pr));
+
+//Segment
+
+eq_checker3 u_ebp (.in1(de_in1), .in2(3'b101), .eq_out(in1_ebp));
+eq_checker3 u_esp (.in1(de_in1), .in2(3'b100), .eq_out(in1_esp));
+and2$ u_esp_and_sib (.out(in1_esp_and_sib), .in0(in1_esp), .in1(de_SIB_pr));
+or2$ u_cond (.out(cond_seg), .in0(in1_ebp), .in1(in1_esp_and_sib));
+
+mux_nbit_2x1 #3 u_seg1 (.out(de_seg1), .a0(de_seg1_temp), .a1(3'b010), .sel(cond_seg));
 
 //Read mem and Load Mem generation
 

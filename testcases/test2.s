@@ -3,47 +3,23 @@ movl    $0xa00, %edx
 movw    %dx, %ds
 movl    $0xb00, %eax
 movw    %ax, %es
+movl    $0xc00, %eax
+movw    %ax, %fs
 movl    $0x300, %esp
 movl    $0x400, %edi
 movw    %di, %ss
+movl    $0xCD, %ebx
 
-movl $0x0200, %ebx
-movl $0x020, %ecx
+movl    $0xDEADBEEF, (%ebx) 
+movl    $0x12345678, %es:(%ebx) 
+movl    $0xABCD9988, %fs:(%ebx) 
 
-movl $0xDEADBEEF, (%ebx,%ecx,0x8)
-cmpxchgb %dh, (%ebx,%ecx,0x8)
+movl    (%ebx), %esi 
+movl    %es:(%ebx), %edi 
+movl    %fs:(%ebx), %edx 
 
-movl $0xFFFFFFFF, %eax
-cmpxchgw %ax, (%ebx,%ecx,0x8)
-
-movl $0xFFFFFFFF, %eax
-cmpxchgl %eax, (%ebx,%ecx,0x8)
-
-movl $0xDEADBEEF, %eax 
-movl $0xDEADBEEF, (%ebx,%ecx,0x8)
-cmpxchgb %dl, (%ebx,%ecx,0x8)
-
-movl $0xDEADBEEF, (%ebx,%ecx,0x8)
-cmpxchgb %ah, (%ebx,%ecx,0x8)
-
-movl $0xDEADBEEF, (%ebx,%ecx,0x8)
-cmpxchgw %ax, (%ebx,%ecx,0x8)
-
-cmpxchgl %edx, (%ebx,%ecx,0x8)
-
-cmovcw (%ebx,%ecx,0x8), %di
-addl $0xDEADDEAD, %eax
-cmovcw (%ebx,%ecx,0x8), %di
-
-movl $0xDEADBEEF, (%ebx,%ecx,0x8)
-addl $0x1, %esp
-cmovcl (%ebx,%ecx,0x8), %edi
-addl $0xDEADDEAD, (%ebx,%ecx,0x8)
-cmovcl (%ebx,%ecx,0x8), %edi
- 
+movl    (%ebx), %esi 
+movl    %es:(%ebx), %edi 
+movl    %fs:(%ebx), %edx 
+addl    %esi, (%ebx) 
 hlt
-
-//ds 0d00
-//es 0c00
-//fs 0b00
-//gs 0a00

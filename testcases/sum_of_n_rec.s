@@ -1,5 +1,5 @@
 .ORG   0x00000000
-movl    $20, %eax
+movl    $30, %eax
 movl    $0xb00, %ecx
 movw    %cx, %ss
 
