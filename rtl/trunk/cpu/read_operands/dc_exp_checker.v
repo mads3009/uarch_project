@@ -163,8 +163,12 @@ nand3$ u_nand3_1(.in0(w_tlb_valid1), .in1(w_tlb_pr1), .in2(w_tlb_addr_valid1), .
 nand3$ u_nand3_2(.in0(w_tlb_valid2), .in1(w_tlb_pr2), .in2(w_tlb_addr_valid2), .out(w_tlb_wr_hit_bar));
 nand3$ u_nand3_12(.in0(w_tlb_valid3), .in1(w_tlb_pr3), .in2(w_tlb_addr_valid3), .out(w_tlb_rd_end_hit_bar));
 nand3$ u_nand3_22(.in0(w_tlb_valid4), .in1(w_tlb_pr4), .in2(w_tlb_addr_valid4), .out(w_tlb_wr_end_hit_bar));
-inv1$ u_inv1_4(.in(w_tlb_rw2), .out(w_tlb_wr_rw_bar));
-inv1$ u_inv1_42(.in(w_tlb_rw4), .out(w_tlb_wr_end_rw_bar));
+
+mux2$  u_mad1 (.outb(w_tlb_rw2_act), .in1(w_tlb_rw2), .in0(1'b1), .s0(w_tlb_addr_valid2));
+mux2$  u_mad2 (.outb(w_tlb_rw4_act), .in1(w_tlb_rw4), .in0(1'b1), .s0(w_tlb_addr_valid4));
+
+inv1$ u_inv1_4(.in(w_tlb_rw2_act), .out(w_tlb_wr_rw_bar));
+inv1$ u_inv1_42(.in(w_tlb_rw4_act), .out(w_tlb_wr_end_rw_bar));
 
 or2$ u_w_tlb_rd_hit_bar_actual (.out(w_tlb_rd_hit_bar_actual), .in0(w_tlb_rd_hit_bar), .in1(w_tlb_rd_end_hit_bar));
 or2$ u_w_tlb_wr_hit_bar_actual (.out(w_tlb_wr_hit_bar_actual), .in0(w_tlb_wr_hit_bar), .in1(w_tlb_wr_end_hit_bar));

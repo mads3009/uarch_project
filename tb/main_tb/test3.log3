@@ -1,0 +1,360 @@
+Chronologic VCS simulator copyright 1991-2015
+Contains Synopsys proprietary information.
+Compiler version K-2015.09-SP1_Full64; Runtime version K-2015.09-SP1_Full64;  May  9 16:43 2018
+VCD+ Writer K-2015.09-SP1_Full64 Copyright (c) 1991-2015 by Synopsys Inc.
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index=15  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index=15  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index=14  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index=14  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index=13  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index=13  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index=12  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index=12  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index=11  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index=11  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index=10  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index=10  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 9  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 9  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 8  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 8  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 7  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 7  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 6  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 6  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 5  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 5  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 4  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 4  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 3  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 3  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 2  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 2  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 1  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 1  0000
+0.0 ns DTAG_2 : Addr=xxxxxxxx : REN=x Index= 0  0000
+0.0 ns DTAG_1 : Addr=xxxxxxxx : REN=x Index= 0  0000
+0.0 ns Frame0 [0x000] : 000400bb
+0.0 ns Frame0 [0x020] : 21222324
+0.0 ns Frame0 [0x040] : 90909090
+0.0 ns Frame0 [0x004] : 0005b810
+0.0 ns Frame0 [0x024] : c18e0b8b
+0.0 ns Frame0 [0x044] : 00c39090
+0.0 ns Frame0 [0x008] : 20bc0000
+0.0 ns Frame0 [0x028] : 7089265e
+0.0 ns Frame0 [0x048] : 00000000
+0.0 ns Frame0 [0x00c] : 8e000000
+0.0 ns Frame0 [0x02c] : 58748b0c
+0.0 ns Frame0 [0x04c] : 00000000
+0.0 ns Frame0 [0x010] : fe60c0db
+0.0 ns Frame0 [0x030] : e8909002
+0.0 ns Frame0 [0x050] : 00000000
+0.0 ns Frame0 [0x014] : 04fa7503
+0.0 ns Frame0 [0x034] : 00000006
+0.0 ns Frame0 [0x054] : 00000000
+0.0 ns Frame0 [0x018] : ff508eff
+0.0 ns Frame0 [0x038] : f4909090
+0.0 ns Frame0 [0x058] : xx000000
+0.0 ns Frame0 [0x01c] : 6804fbc1
+0.0 ns Frame0 [0x03c] : 9090f4f4
+0.0 ns Frame2 [0x000] : 0006bbf4
+0.0 ns Frame2 [0x080] : 00000000
+0.0 ns Frame2 [0x004] : 00cf0000
+0.0 ns Frame2 [0x084] : 00000000
+0.0 ns Frame2 [0x008] : 00000000
+0.0 ns Frame2 [0x068] : 02000001
+0.0 ns Frame2 [0x088] : 00000000
+0.0 ns Frame2 [0x00c] : 00000000
+0.0 ns Frame2 [0x06c] : 00000000
+0.0 ns Frame2 [0x010] : 00000000
+0.0 ns Frame2 [0x070] : 02000000
+0.0 ns Frame2 [0x014] : 00000000
+0.0 ns Frame2 [0x074] : 00000000
+0.0 ns Frame2 [0x018] : xx000000
+0.0 ns Frame2 [0x078] : 00000000
+0.0 ns Frame2 [0x07c] : 00000000
+0.0 ns Frame5 [0x000] : 28030201
+0.0 ns Frame5 [0x004] : 0400040c
+0.0 ns Frame5 [0x008] : 08070605
+0.0 ns Frame5 [0x00c] : 0c0b0a09
+0.0 ns Frame5 [0x010] : 100f0e0d
+0.0 ns Frame5 [0x014] : 14131211
+Flags: CF=0  PF=0  AF=0  ZF=0  SF=0  OF=0  DF=0
+Segments: ES=0000  CS=0000  SS=0000  DS=0000  FS=0000  GS=0000 
+MMX regs: MM0 = 00000000 00000000  MM1 = 00000000 00000000  MM2 = 00000000 00000000 MM3 = 00000000 00000000 MM4 = 00000000 00000000 MM5 = 00000000 00000000 MM6 = 00000000 00000000 MM7 = 00000000 00000000 
+Registers: EAX:00000000  ECX:00000000  EDX:00000000  EBX:00000000  ESP:00000000  EBP:00000000  ESI:00000000  EDI:00000000  
+1.0 ns INT changed. Val=0
+291.0 ns ICACHE   0 : 6804fbc1ff508eff 04fa7503fe60c0db 8e00000020bc0000 0005b810000400bb
+
+354.0 ns Opcode= 0xbb  PC:0x00000000
+Load Reg1 : 1111 (3)
+Registers: EAX:00000000  ECX:00000000  EDX:00000000  EBX:10000400  ESP:00000000  EBP:00000000  ESI:00000000  EDI:00000000  
+
+366.0 ns Opcode= 0xb8  PC:0x00000005
+Load Reg1 : 1111 (0)
+Registers: EAX:00000005  ECX:00000000  EDX:00000000  EBX:10000400  ESP:00000000  EBP:00000000  ESI:00000000  EDI:00000000  
+
+378.0 ns Opcode= 0xbc  PC:0x0000000a
+Load Reg1 : 1111 (4)
+Registers: EAX:00000005  ECX:00000000  EDX:00000000  EBX:10000400  ESP:00000020  EBP:00000000  ESI:00000000  EDI:00000000  
+
+389.0 ns Opcode= 0x8e  PC:0x0000000f
+Load Segments: (3) 
+Segments: ES=0000  CS=0000  SS=0000  DS=0400  FS=0000  GS=0000 
+515.0 ns ICACHE   1 : 9090f4f4f4909090 00000006e8909002 58748b0c7089265e c18e0b8b21222324
+705.0 ns DCACHE_way1 : Addr=04000003 Size=0: Index= 0 0c0b0a09 08070605 0400040c 28030201
+706.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  Xx0X
+706.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  Xx0X
+706.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  0000
+706.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  5005
+717.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  Xx0X
+717.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  Xx0X
+717.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  0000
+717.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  5005
+720.0 ns MEM_READ_done : Addr=04000003 Size=0: 0706 0504 0004 0c28
+
+732.0 ns Opcode= 0xc0  PC:0x00000011
+Load Flags: (1101110) 
+Load Memory: Addr(04000003) Size:0 : 00000000 00206140
+Flags: CF=1  PF=0  AF=0  ZF=0  SF=0  OF=1  DF=0
+740.0 ns DCACHE_way1 : Addr=04000003 Size=0: Index= 0 0c0b0a09 08070605 0400040c xx030201
+740.0 ns DCACHE_way1 : Addr=04000003 Size=0: Index= 0 0c0b0a09 08070605 0400040c 40030201
+741.0 ns DTAG_2 : Addr=04000003 : REN=0 Index= 0  Xx0X
+741.0 ns DTAG_1 : Addr=04000003 : REN=0 Index= 0  Xx0X
+741.0 ns DTAG_2 : Addr=04000003 : REN=0 Index= 0  0000
+741.0 ns DTAG_1 : Addr=04000003 : REN=0 Index= 0  5007
+
+743.0 ns Opcode= 0x75  PC:0x00000015
+Load EIP: actual_val=00000011
+812.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  Xx0X
+812.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  Xx0X
+812.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  0000
+812.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  5007
+814.0 ns MEM_READ_done : Addr=04000003 Size=0: 0706 0504 0004 0c40
+
+826.0 ns Opcode= 0xc0  PC:0x00000011
+Load Flags: (1101110) 
+Load Memory: Addr(04000003) Size:0 : 00000000 00206200
+Flags: CF=0  PF=1  AF=0  ZF=1  SF=0  OF=0  DF=0
+834.0 ns DCACHE_way1 : Addr=04000003 Size=0: Index= 0 0c0b0a09 08070605 0400040c xx030201
+834.0 ns DCACHE_way1 : Addr=04000003 Size=0: Index= 0 0c0b0a09 08070605 0400040c 00030201
+835.0 ns DTAG_2 : Addr=04000003 : REN=0 Index= 0  Xx0X
+835.0 ns DTAG_1 : Addr=04000003 : REN=0 Index= 0  Xx0X
+835.0 ns DTAG_2 : Addr=04000003 : REN=0 Index= 0  0000
+835.0 ns DTAG_1 : Addr=04000003 : REN=0 Index= 0  5007
+
+838.0 ns Opcode= 0x75  PC:0x00000015
+Load EIP: actual_val=00000017
+
+920.0 ns Opcode= 0x04  PC:0x00000017
+Load Reg1 : 0001 (0)
+Load Flags: (1111110) 
+Flags: CF=1  PF=0  AF=1  ZF=0  SF=0  OF=0  DF=0
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:10000400  ESP:00000020  EBP:00000000  ESI:00000000  EDI:00000000  
+942.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  Xx0X
+942.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  Xx0X
+942.0 ns DTAG_2 : Addr=04000003 : REN=1 Index= 0  0000
+942.0 ns DTAG_1 : Addr=04000003 : REN=1 Index= 0  5007
+944.0 ns MEM_READ_done : Addr=04000003 Size=1: 0706 0504 0004 0c00
+
+956.0 ns Opcode= 0x8e  PC:0x00000019
+Load Segments: (2) 
+Segments: ES=0000  CS=0000  SS=0c00  DS=0400  FS=0000  GS=0000 
+
+968.0 ns Opcode= 0xc1  PC:0x0000001c
+Load Reg1 : 1111 (3)
+Load Flags: (1101110) 
+Flags: CF=0  PF=0  AF=1  ZF=0  SF=0  OF=0  DF=0
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:01000040  ESP:00000020  EBP:00000000  ESI:00000000  EDI:00000000  
+
+991.0 ns Opcode= 0x68  PC:0x0000001f
+Load Reg2 : 1111 (4)
+Load Memory: Addr(0c00001c) Size:2 : 00000000 21222324
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:01000040  ESP:0000001c  EBP:00000000  ESI:00000000  EDI:00000000  
+1003.0 ns DC EXCEPTION  EIP:0x00000024  dc_prot_exp=1  dc_pg_fault=1
+1176.0 ns ICACHE   2 : xxxxxxxxxx000000 0000000000000000 0000000000000000 00c3909090909090
+1319.0 ns DTAG_2 : Addr=0c00001c : REN=0 Index= 1  Xx0X
+1319.0 ns DTAG_1 : Addr=0c00001c : REN=0 Index= 1  Xx0X
+1319.0 ns DTAG_2 : Addr=0c00001c : REN=0 Index= 1  0000
+1319.0 ns DTAG_1 : Addr=0c00001c : REN=0 Index= 1  7005
+1330.0 ns DCACHE_way1 : Addr=0c00001c Size=2: Index= 1 21222324 xxxxxxxx xxxxxxxx xxxxxxxx
+1331.0 ns DTAG_2 : Addr=0c00001c : REN=0 Index= 1  Xx0X
+1331.0 ns DTAG_1 : Addr=0c00001c : REN=0 Index= 1  Xx0X
+1331.0 ns DTAG_2 : Addr=0c00001c : REN=0 Index= 1  0000
+1331.0 ns DTAG_1 : Addr=0c00001c : REN=0 Index= 1  7007
+
+1381.0 ns Opcode= 0xaa  PC:0x00000028
+Load Reg2 : 1111 (4)
+Load Memory: Addr(0c000018) Size:2 : 00000000 00000010
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:01000040  ESP:00000018  EBP:00000000  ESI:00000000  EDI:00000000  
+1389.0 ns DCACHE_way1 : Addr=0c000018 Size=2: Index= 1 21222324 00000010 xxxxxxxx xxxxxxxx
+1390.0 ns DTAG_2 : Addr=0c000018 : REN=0 Index= 1  Xx0X
+1390.0 ns DTAG_1 : Addr=0c000018 : REN=0 Index= 1  Xx0X
+1390.0 ns DTAG_2 : Addr=0c000018 : REN=0 Index= 1  0000
+1390.0 ns DTAG_1 : Addr=0c000018 : REN=0 Index= 1  7007
+
+1416.0 ns Opcode= 0xaa  PC:0x00000028
+Load Reg2 : 1111 (4)
+Load Memory: Addr(0c000010) Size:3 : 00000000 00000024
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:01000040  ESP:00000010  EBP:00000000  ESI:00000000  EDI:00000000  
+1554.0 ns DCACHE_way1 : Addr=00002068 Size=3: Index= 6 00000000 02000001 xxxxxxxx xxxxxxxx
+1555.0 ns DTAG_2 : Addr=00002068 : REN=1 Index= 6  Xx0X
+1555.0 ns DTAG_1 : Addr=00002068 : REN=1 Index= 6  Xx0X
+1555.0 ns DTAG_2 : Addr=00002068 : REN=1 Index= 6  0000
+1555.0 ns DTAG_1 : Addr=00002068 : REN=1 Index= 6  2005
+1567.0 ns DTAG_2 : Addr=00002068 : REN=1 Index= 6  Xx0X
+1567.0 ns DTAG_1 : Addr=00002068 : REN=1 Index= 6  Xx0X
+1567.0 ns DTAG_2 : Addr=00002068 : REN=1 Index= 6  0000
+1567.0 ns DTAG_1 : Addr=00002068 : REN=1 Index= 6  2005
+1569.0 ns MEM_READ_done : Addr=00002068 Size=3: 0000 0000 0200 0001
+1578.0 ns DCACHE_way1 : Addr=0c000010 Size=3: Index= 1 21222324 00000010 00000000 00000024
+1579.0 ns DTAG_2 : Addr=0c000010 : REN=0 Index= 1  Xx0X
+1579.0 ns DTAG_1 : Addr=0c000010 : REN=0 Index= 1  Xx0X
+1579.0 ns DTAG_2 : Addr=0c000010 : REN=0 Index= 1  0000
+1579.0 ns DTAG_1 : Addr=0c000010 : REN=0 Index= 1  7007
+
+1581.0 ns Opcode= 0xaa  PC:0x00000028
+Load Segments: (1) 
+Segments: ES=0000  CS=0200  SS=0c00  DS=0400  FS=0000  GS=0000 
+Load EIP: actual_val=00000001
+1790.0 ns ICACHE   0 : xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx xxxxxxxxxxxxxxxx
+1790.0 ns ICACHE   0 : xxxxxxxxxx000000 0000000000000000 0000000000000000 00cf00000006bbf4
+
+1853.0 ns Opcode= 0xbb  PC:0x00000001
+Load Reg1 : 1111 (3)
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:00000006  ESP:00000010  EBP:00000000  ESI:00000000  EDI:00000000  
+1886.0 ns DTAG_2 : Addr=0c000010 : REN=1 Index= 1  Xx0X
+1886.0 ns DTAG_1 : Addr=0c000010 : REN=1 Index= 1  Xx0X
+1886.0 ns DTAG_2 : Addr=0c000010 : REN=1 Index= 1  0000
+1886.0 ns DTAG_1 : Addr=0c000010 : REN=1 Index= 1  7007
+1888.0 ns MEM_READ_done : Addr=0c000010 Size=3: 0000 0000 0000 0024
+
+1900.0 ns Opcode= 0xaa  PC:0x00000007
+Load Reg2 : 1111 (4)
+Load Segments: (1) 
+Segments: ES=0000  CS=0000  SS=0c00  DS=0400  FS=0000  GS=0000 
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:00000006  ESP:00000018  EBP:00000000  ESI:00000000  EDI:00000000  
+Load EIP: actual_val=00000024
+1921.0 ns DTAG_2 : Addr=0c000018 : REN=1 Index= 1  Xx0X
+1921.0 ns DTAG_1 : Addr=0c000018 : REN=1 Index= 1  Xx0X
+1921.0 ns DTAG_2 : Addr=0c000018 : REN=1 Index= 1  0000
+1921.0 ns DTAG_1 : Addr=0c000018 : REN=1 Index= 1  7007
+1923.0 ns MEM_READ_done : Addr=0c000018 Size=2: 2122 2324 0000 0010
+
+1935.0 ns Opcode= 0xaa  PC:0x00000007
+Load Reg2 : 1111 (4)
+Load Flags: (1111111) 
+Registers: EAX:00000004  ECX:00000000  EDX:00000000  EBX:00000006  ESP:0000001c  EBP:00000000  ESI:00000000  EDI:00000000  
+1992.0 ns DTAG_2 : Addr=04000006 : REN=1 Index= 0  Xx0X
+1992.0 ns DTAG_1 : Addr=04000006 : REN=1 Index= 0  Xx0X
+1992.0 ns DTAG_2 : Addr=04000006 : REN=1 Index= 0  0000
+1992.0 ns DTAG_1 : Addr=04000006 : REN=1 Index= 0  5007
+1994.0 ns MEM_READ_done : Addr=04000006 Size=2: 0a09 0807 0605 0400
+
+2006.0 ns Opcode= 0x8b  PC:0x00000024
+Load Reg1 : 1111 (1)
+Registers: EAX:00000004  ECX:06050400  EDX:00000000  EBX:00000006  ESP:0000001c  EBP:00000000  ESI:00000000  EDI:00000000  
+2027.0 ns DTAG_2 : Addr=0c00001c : REN=1 Index= 1  Xx0X
+2027.0 ns DTAG_1 : Addr=0c00001c : REN=1 Index= 1  Xx0X
+2027.0 ns DTAG_2 : Addr=0c00001c : REN=1 Index= 1  0000
+2027.0 ns DTAG_1 : Addr=0c00001c : REN=1 Index= 1  7007
+2030.0 ns MEM_READ_done : Addr=0c00001c Size=2: 0000 0024 2122 2324
+
+2030.0 ns Opcode= 0x8e  PC:0x00000026
+Load Segments: (0) 
+Segments: ES=0400  CS=0000  SS=0c00  DS=0400  FS=0000  GS=0000 
+
+2041.0 ns Opcode= 0x5e  PC:0x00000028
+Load Reg1 :1111  (6) Reg2 strbs:1111 (4)
+Registers: EAX:00000004  ECX:06050400  EDX:00000000  EBX:00000006  ESP:00000020  EBP:00000000  ESI:21222324  EDI:00000000  
+
+2065.0 ns Opcode= 0x89  PC:0x00000029
+Load Memory: Addr(04000010) Size:2 : 00000000 21222324
+2215.0 ns DCACHE_way2 : Addr=04000010 Size=2: Index= 1 xxxxxxxx xxxxxxxx 14131211 100f0e0d
+2216.0 ns DTAG_2 : Addr=04000010 : REN=0 Index= 1  Xx0X
+2216.0 ns DTAG_1 : Addr=04000010 : REN=0 Index= 1  Xx0X
+2216.0 ns DTAG_2 : Addr=04000010 : REN=0 Index= 1  5005
+2216.0 ns DTAG_1 : Addr=04000010 : REN=0 Index= 1  7006
+2227.0 ns DCACHE_way2 : Addr=04000010 Size=2: Index= 1 xxxxxxxx xxxxxxxx 14131211 xxxxxxxx
+2227.0 ns DCACHE_way2 : Addr=04000010 Size=2: Index= 1 xxxxxxxx xxxxxxxx 14131211 21222324
+2228.0 ns DTAG_2 : Addr=04000010 : REN=0 Index= 1  Xx0X
+2228.0 ns DTAG_1 : Addr=04000010 : REN=0 Index= 1  Xx0X
+2228.0 ns DTAG_2 : Addr=04000010 : REN=0 Index= 1  5007
+2228.0 ns DTAG_1 : Addr=04000010 : REN=0 Index= 1  7006
+2240.0 ns DTAG_2 : Addr=04000012 : REN=1 Index= 1  Xx0X
+2240.0 ns DTAG_1 : Addr=04000012 : REN=1 Index= 1  Xx0X
+2240.0 ns DTAG_2 : Addr=04000012 : REN=1 Index= 1  5007
+2240.0 ns DTAG_1 : Addr=04000012 : REN=1 Index= 1  7006
+2242.0 ns MEM_READ_done : Addr=04000012 Size=2: xxxx 1413 1211 2122
+
+2254.0 ns Opcode= 0x8b  PC:0x0000002d
+Load Reg1 : 1111 (6)
+Registers: EAX:00000004  ECX:06050400  EDX:00000000  EBX:00000006  ESP:00000020  EBP:00000000  ESI:12112122  EDI:00000000  
+
+2266.0 ns Opcode= 0x90  PC:0x00000031
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2289.0 ns Opcode= 0x90  PC:0x00000032
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2301.0 ns Opcode= 0xe8  PC:0x00000033
+Load Reg2 : 1111 (4)
+Load Memory: Addr(0c00001c) Size:2 : 00000000 00000038
+Registers: EAX:00000004  ECX:06050400  EDX:00000000  EBX:00000006  ESP:0000001c  EBP:00000000  ESI:12112122  EDI:00000000  
+Load EIP: actual_val=0000003e
+2309.0 ns DCACHE_way1 : Addr=0c00001c Size=2: Index= 1 xxxxxxxx 00000010 00000000 00000024
+2309.0 ns DCACHE_way1 : Addr=0c00001c Size=2: Index= 1 00000038 00000010 00000000 00000024
+2310.0 ns DTAG_2 : Addr=0c00001c : REN=0 Index= 1  Xx0X
+2310.0 ns DTAG_1 : Addr=0c00001c : REN=0 Index= 1  Xx0X
+2310.0 ns DTAG_2 : Addr=0c00001c : REN=0 Index= 1  5006
+2310.0 ns DTAG_1 : Addr=0c00001c : REN=0 Index= 1  7007
+
+2384.0 ns Opcode= 0x90  PC:0x0000003e
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2407.0 ns Opcode= 0x90  PC:0x0000003f
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2431.0 ns Opcode= 0x90  PC:0x00000040
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2454.0 ns Opcode= 0x90  PC:0x00000041
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2478.0 ns Opcode= 0x90  PC:0x00000042
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2502.0 ns Opcode= 0x90  PC:0x00000043
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2525.0 ns Opcode= 0x90  PC:0x00000044
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+2546.0 ns DTAG_2 : Addr=0c00001c : REN=1 Index= 1  Xx0X
+2546.0 ns DTAG_1 : Addr=0c00001c : REN=1 Index= 1  Xx0X
+2546.0 ns DTAG_2 : Addr=0c00001c : REN=1 Index= 1  5006
+2546.0 ns DTAG_1 : Addr=0c00001c : REN=1 Index= 1  7007
+2549.0 ns MEM_READ_done : Addr=0c00001c Size=2: 0000 0024 0000 0038
+
+2549.0 ns Opcode= 0x90  PC:0x00000045
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2561.0 ns Opcode= 0xc3  PC:0x00000046
+Load Reg2 : 1111 (4)
+Registers: EAX:00000004  ECX:06050400  EDX:00000000  EBX:00000006  ESP:00000020  EBP:00000000  ESI:12112122  EDI:00000000  
+Load EIP: actual_val=00000038
+
+2643.0 ns Opcode= 0x90  PC:0x00000038
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2667.0 ns Opcode= 0x90  PC:0x00000039
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+2690.0 ns Opcode= 0x90  PC:0x0000003a
+Load Reg1 :1111  (0) Reg2 strbs:1111 (0)
+
+$finish called from file "testbench.v", line 37.
+$finish at simulation time 100100.0 ns
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 100100000 ps
+CPU Time:      6.270 seconds;       Data structure size:  41.4Mb
+Wed May  9 16:43:24 2018

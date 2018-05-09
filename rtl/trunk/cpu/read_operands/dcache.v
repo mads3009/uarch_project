@@ -220,7 +220,9 @@ dc_tag_store u_dc_tag_store(
 
 // TLB instantiation and dcache hit/miss checking
 
-assign w_phy_tag = ren & ro_IDT_and_ISR ? w_mem_rw_addr[14:8] : {w_tlb_phy_pn[2:0],w_mem_rw_addr[11:8]};
+and2$ u_ren_and_isr ( .in0(ren), .in1(ro_IDT_and_ISR), .out(ren_and_ro_IDT));
+mux_nbit_2x1 #7 u_w_phy_tag(.a0({w_tlb_phy_pn[2:0],w_mem_rw_addr[11:8]}), .a1(w_mem_rw_addr[14:8]), .out(w_phy_tag), .sel(ren_and_ro_IDT));
+//assign w_phy_tag = ren & ro_IDT_and_ISR ? w_mem_rw_addr[14:8] : {w_tlb_phy_pn[2:0],w_mem_rw_addr[11:8]};
 
 mux3$ u_mux3_1[20:0] (.outb({w_tlb_phy_pn, w_tlb_pcd}), .in0({w_tlb_phy_pn1, w_tlb_pcd1}), .in1({w_tlb_phy_pn2, w_tlb_pcd2}), .in2({w_tlb_phy_pn3, w_tlb_pcd3}), .s0(ren), .s1(r_access2));
 

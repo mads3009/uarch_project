@@ -47,11 +47,13 @@ genvar i,j;
 generate
   for(j=0; j < 2; j=j+1) begin: row_gen
     for(i=0; i < 16; i=i+1) begin: col_gen
-      or4$ u_or4_way2 (.out(w_array_wr_mask_way2[j][i]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(dc_wr_mask_way2[i]), .in3(w_clk_del));
-      ram8b8w$ u_ram8b8w_way2 (.A(index[2:0]),.DIN(dc_write_data[8*i+7 -: 8]),.OE(1'b0),.WR(w_array_wr_mask_way2[j][i]|~rst_n), .DOUT(w_rd_data_way2[j][8*i+7 -: 8]));
+      nor4$ u_or4_way2 (.out(w_array_wr_mask_way2[j][i]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(dc_wr_mask_way2[i]), .in3(w_clk_del));
+      nand2$ u_and_not_way2(.in0(w_array_wr_mask_way2[j][i]), .in1(rst_n), .out(wr_in_way2));
+      ram8b8w$ u_ram8b8w_way2 (.A(index[2:0]),.DIN(dc_write_data[8*i+7 -: 8]),.OE(1'b0),.WR(wr_in_way2), .DOUT(w_rd_data_way2[j][8*i+7 -: 8]));
 
-      or4$ u_or4_way1 (.out(w_array_wr_mask_way1[j][i]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(dc_wr_mask_way1[i]), .in3(w_clk_del));
-      ram8b8w$ u_ram8b8w_way1 (.A(index[2:0]),.DIN(dc_write_data[8*i+7 -: 8]),.OE(1'b0),.WR(w_array_wr_mask_way1[j][i]|~rst_n), .DOUT(w_rd_data_way1[j][8*i+7 -: 8]));
+      nor4$ u_or4_way1 (.out(w_array_wr_mask_way1[j][i]), .in0(clk), .in1(w_row_sel_bar[j]), .in2(dc_wr_mask_way1[i]), .in3(w_clk_del));
+      nand2$ u_and_not_way1(.in0(w_array_wr_mask_way1[j][i]), .in1(rst_n), .out(wr_in_way1));
+      ram8b8w$ u_ram8b8w_way1 (.A(index[2:0]),.DIN(dc_write_data[8*i+7 -: 8]),.OE(1'b0),.WR(wr_in_way1), .DOUT(w_rd_data_way1[j][8*i+7 -: 8]));
     end
   end
 endgenerate

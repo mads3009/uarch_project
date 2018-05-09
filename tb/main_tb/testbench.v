@@ -31,7 +31,7 @@ initial begin
   #100;
   rst_n = 1'b1;
 
-  #20000;
+  #100000;
 
   $display("");
   $finish;
@@ -84,8 +84,8 @@ assign ld_PF = testbench.u_system.u_cpu.w_v_wb_ld_flag_PF;
 assign ld_AF = testbench.u_system.u_cpu.w_v_wb_ld_flag_AF;
 assign ld_DF = testbench.u_system.u_cpu.w_v_wb_ld_flag_DF;
 initial begin
-$disable_warnings("timing",u_system.u_cpu.u_dcache.u_evict_sample_reg[0]);
-$disable_warnings("timing",u_system.u_cpu.u_dcache.u_evict_sample_reg[1]);
+$disable_warnings("timing",u_system.u_cpu.u_dcache.u_evict_sample_reg[0]); //Multicycle Path
+$disable_warnings("timing",u_system.u_cpu.u_dcache.u_evict_sample_reg[1]); //Multicycle Path
 end
 assign dreg1 = testbench.u_system.u_cpu.r_wb_dreg1;
 assign dreg2 = testbench.u_system.u_cpu.r_wb_dreg2;
